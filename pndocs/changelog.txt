@@ -1,0 +1,113 @@
+/**
+ * $Id$
+ *
+ * InterCom - an advanced private messaging solution for Zikula
+ * 
+ * License
+ * -------
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License (GPL)
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @author InterCom development team
+ * @link http://code.zikula.org/intercom/ Support and documentation
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ *
+ */
+
+********************************************************************************************
+* IMPORTANT NOTICE: To upgrade to InterCom 2.1 you need min. pnMessages 1.5, upgrades from *
+*                   older versions are NOT supported                                       *
+*                                                                                          *
+*                   You have to update to Zikula Core to Zikula 1.0.3 !!!                  *
+*                   Zikula 1.0.2 and older are not supported                               *
+********************************************************************************************
+
+Version history
+----------------------------------------------------------
+2.1 
+[+] Renamed to InterCom
+[+] added external ref to dutch language pack to svn
+for more information see http://code.zikula.org/intercom/query?status=closed&group=resolution&milestone=2.1 
+
+2.0 (not released)
+[0] Zikula 1.0-only version, .764 is not longer supported in 2.0, use 1.5 insteaad
+[+] added Ajax features
+[+] feature request [#15435] auto-welcome message for every new user
+[-] fixed several errors while refactoring the code, simplified some functions, removed obsolete code
+
+1.5
+[-] fixed "step2" bug
+
+1.5 RC3
+[-] bug #4485: preview function: output with out linefeeds - thanks to landseer
+[-] bug #4487: xhtml errors - thanks to landseer
+[-] bug #4494: Fehler im MSIE7
+[+] featurerequest #4483: Message if automatic response is enabled
+
+1.5 RC2
+[-] added missing pnVarPrepForStore in pnuserapi line 180, 199, 270 - thx to landseer
+[-] no message where displayed in inbox, outbox, archive if $messagesperpage is empty
+
+1.5 RC1
+[-] fixed failures in english translation - thanks to Luca Tettamanti (kronos)
+[-] added index to tables to solve problems with large numbers of messages - thanks to kundi
+[-] changed query in pnuserapi to solve problems with large numbers of messages - thanks to kundi and rigo
+[-] fixed bug under Zikula 1.0 - thanks to Mark West
+[-] bug #3193: Modules don't update the new amount of messages in inbox or total
+[-] bug #3776: Message data and time isnt correct
+[-] bug #3745: Spam Protection doesnt really work
+[-] bug #3692: email notification embedded links are wrong
+[-] bug #3137: Options
+[0] changed standard sorting
+[+] added spamprotection - thanks to kundi
+[+] tuned errormessage if recipient is not in db
+[+] changed behaviour if outboxlimit is reached
+[+] featurerequest #4347: Rename functions for better display under Zikula 1.0
+[+] featurerequest #3167: Messages to groups
+[+] replaced all extract($args) by $var = $args['args']
+[+] featurerequest #3744: send to multiple user function permission
+[+] added handbook for better documentation
+[+] featurerequest #4461: Ajax-Validation
+[+] featurerequest #4462: Pager
+[+] html possible in maintenance-message
+[+] featurerequest #3203: preview function
+
+1.0.1
+[-] upgrade bugs
+[-] HTML in messages not displayed
+
+1.0
+- first stable release
+
+1.0 RC1
+- first official test release
+- all bugs solved
+- all featurerequests solved
+
+0.3 - updated by Carsten Volmer aka herr.vorragend
+- Using Ajax-Window-PopUp (created by sven schomacker aka hilope)
+- in block-administration you can select the display-time for ajax-popup
+- the name of the block-template could be changed in block-administration
+- new images and icons
+- new XHTML-templates
+- additional block-templates "pnmessages_block_messages2.htm" with fewer details
+- fixed and updated language-files (eng+deu)
+- new style-sheets / design could now be changed in CSS instead of the templates
+- removed messages-icons
+- bbcode/bbsmile-integration without plugins (if hooked)
+- Feature-Request #2469 (user-profile-icons)
+- Feature-Request #3102 (mark answered mails)
+- bug #2470 solved (javascript-bugs)
+- bug #3106 solved
+- bug #3116 solved
+
+
+0.1 - initial CVS commit

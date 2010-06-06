@@ -1,0 +1,1190 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Zikula 1.2.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-06-05 20:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: pnadmin.php:132
+msgid "Error! Could not delete all messages."
+msgstr ""
+
+#: pnadmin.php:135
+msgid "Done! Deleted all messages."
+msgstr ""
+
+#: pnadmin.php:141
+msgid "Error! Could not empty inboxes."
+msgstr ""
+
+#: pnadmin.php:144
+msgid "Done! Emptied inboxes."
+msgstr ""
+
+#: pnadmin.php:150
+msgid "Error! Could not empty outboxes."
+msgstr ""
+
+#: pnadmin.php:153
+msgid "Done! Emptied outboxes."
+msgstr ""
+
+#: pnadmin.php:159
+msgid "Error! Could not empty archives."
+msgstr ""
+
+#: pnadmin.php:162
+msgid "Done! Emptied archives."
+msgstr ""
+
+#: pnadmin.php:168
+msgid "Error! Could not optimise tables."
+msgstr ""
+
+#: pnadmin.php:171
+msgid "Done! Optimised tables."
+msgstr ""
+
+#: pnadmin.php:177
+msgid "Error! Could not reset settings to default values."
+msgstr ""
+
+#: pnadmin.php:180
+msgid "Done! Reset settings to default values."
+msgstr ""
+
+#: pnadmin.php:186
+msgid "Error! Could not import messages from 'Messages' module."
+msgstr ""
+
+#: pnadmin.php:189
+msgid "Done! Imported messages from the 'Messages' module."
+msgstr ""
+
+#: pnajax.php:58 pnajax.php:112 pnajax.php:175 pnajax.php:227 pnajax.php:268
+#: pnajax.php:290 pnajax.php:312 pnajax.php:329 pnajax.php:363 pnajax.php:410
+#: pnajax.php:439 pnajax.php:504
+msgid "Sorry! You do not have authorisation for this module."
+msgstr ""
+
+#: pnajax.php:64 pnajax.php:233 pnajax.php:333 pnajax.php:370 pnajax.php:415
+#: pnajax.php:444 pnajax.php:510
+msgid ""
+"Error! The action you wanted to perform was not successful for some reason, "
+"maybe because of a problem with what you input. Please check and try again."
+msgstr ""
+
+#: pnajax.php:71 pnuserapi.php:524 pnuserapi.php:525 pnuserapi.php:766
+#: pnuserapi.php:767
+msgid "*Deleted user*"
+msgstr ""
+
+#: pnajax.php:124 pnajax.php:183
+msgid ""
+"Error! Could not find the subject line for the message. Please check your "
+"input and try again."
+msgstr ""
+
+#: pnajax.php:131 pnajax.php:190
+msgid ""
+"Error! Could not find the message text. Please check your input and try "
+"again."
+msgstr ""
+
+#: pnajax.php:461 pnajax.php:524
+msgid "Error! Could not load data."
+msgstr ""
+
+#: pnversion.php:32
+msgid ""
+"Provides a private messaging system with an individual mailbox for each "
+"user, incorporating integration with the user account panel and with various "
+"other modules and blocks."
+msgstr ""
+
+#: pnversion.php:33
+msgid "InterCom private messaging"
+msgstr ""
+
+#. ! module url must be different from displayname, even if just in casing
+#: pnversion.php:35
+msgid "intercom"
+msgstr ""
+
+#: pnuserapi.php:43
+msgid "Error! Could not send message."
+msgstr ""
+
+#: pnuserapi.php:185
+msgid "Re:"
+msgstr ""
+
+#: pnuserapi.php:237
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:188
+msgid "Done! Saved your settings changes."
+msgstr ""
+
+#: pnuserapi.php:278
+msgid "Error! Could not delete message."
+msgstr ""
+
+#: pnuserapi.php:319
+msgid "Error! Could not save message."
+msgstr ""
+
+#: pnblocks/messages.php:20
+msgid "Private messages block"
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:66
+msgid "Error! The inbox maximum capacity is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:74
+msgid "Error! The outbox maximum capacity is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:82
+msgid "Error! The archive maximum capacity is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:92
+msgid "Error! The number of messages to display per page is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:102
+msgid "Error! The subject line for notification e-mail message is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:126
+msgid "Error! The welcome message text is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:135
+msgid "Error! The sender for the welcome message is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:140
+msgid "Error! Could not find this user."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:148
+msgid "Error! The subject line for the welcome message is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:161
+msgid "Error! The maintenance notice text is missing."
+msgstr ""
+
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:172
+msgid "Error! The user information is missing."
+msgstr ""
+
+#: pnuser.php:187 pntemplates/intercom_user_indicators.htm:15
+#: pntemplates/intercom_block_messages3.htm:9
+#: pntemplates/intercom_user_navigation.htm:4
+#: pntemplates/intercom_block_messages.htm:13
+#: pntemplates/intercom_block_messages.htm:32
+#: pntemplates/intercom_ajax_getmessages.htm:12
+#: pntemplates/intercom_ajax_getmessages.htm:31
+#: pntemplates/intercom_block_messages2.htm:13
+msgid "Inbox"
+msgstr ""
+
+#: pnuser.php:274 pntemplates/intercom_user_indicators.htm:16
+#: pntemplates/intercom_user_navigation.htm:5
+msgid "Outbox"
+msgstr ""
+
+#: pnuser.php:344 pntemplates/intercom_user_indicators.htm:17
+#: pntemplates/intercom_user_navigation.htm:6
+msgid "Archive"
+msgstr ""
+
+#: pnuser.php:384 pnuser.php:446 pnuser.php:506 pnuser.php:562
+msgid "Error! Could not find message text. Please check and try again."
+msgstr ""
+
+#: pnuser.php:570
+msgid "Error! Message has no recipient. Do not try this again!"
+msgstr ""
+
+#: pnuser.php:589
+msgid "Send reply"
+msgstr ""
+
+#: pnuser.php:621
+msgid ""
+"Sorry! There are too many messages in your outbox. Please delete some "
+"messages in the outbox, so that you can send further messages."
+msgstr ""
+
+#: pnuser.php:637 pnuser.php:804
+msgid "Error! Unknown user."
+msgstr ""
+
+#: pnuser.php:705 pntemplates/intercom_block_messages3.htm:15
+#: pntemplates/intercom_block_messages3.htm:16
+#: pntemplates/intercom_user_navigation.htm:3
+#: pntemplates/intercom_block_messages.htm:33
+#: pntemplates/intercom_ajax_getmessages.htm:32
+#: pntemplates/intercom_block_messages2.htm:14
+msgid "New message"
+msgstr ""
+
+#: pnuser.php:763
+msgid ""
+"Error! You did not enter a recipient. Please enter an e-mail address for the "
+"recipient and try again."
+msgstr ""
+
+#: pnuser.php:767
+msgid ""
+"Error! Could not find the subject line. Please enter a subject line and try "
+"again."
+msgstr ""
+
+#: pnuser.php:770
+msgid ""
+"Error! Could not find the message text. Please enter message text and and "
+"try again."
+msgstr ""
+
+#: pnuser.php:825
+msgid "Spam alert"
+msgstr ""
+
+#: pnuser.php:826
+msgid "The user"
+msgstr ""
+
+#: pnuser.php:826
+msgid ""
+"tried to send too many private messages in too short a time. The private "
+"messaging system's spam prevention feature stopped the messages from being "
+"sent."
+msgstr ""
+
+#: pnuser.php:842
+msgid ""
+"Sorry! You have triggered the private messaging system's spam prevention "
+"feature by trying to send messages to too many users in too short a time."
+msgstr ""
+
+#: pnuser.php:853 pnuser.php:862
+msgid ""
+"Sorry! The recipient you entered has blocked the reception of messages from "
+"you. Unfortunately, your message will not be sent."
+msgstr ""
+
+#: pnuser.php:884 pnuser.php:1232
+msgid "Done! Message sent."
+msgstr ""
+
+#: pnuser.php:896
+msgid "Error! Unknown group."
+msgstr ""
+
+#: pnuser.php:1034
+msgid ""
+"Error! Could not delete the message. Please check the reason for this, "
+"resolve the problem and try again."
+msgstr ""
+
+#: pnuser.php:1037 pnuser.php:1234
+msgid "Done! Message deleted."
+msgstr ""
+
+#: pnuser.php:1066
+msgid ""
+"Sorry! There are too many messages in the archive. Please delete some "
+"messages from the archive, to enable archiving of further messages."
+msgstr ""
+
+#: pnuser.php:1081
+msgid ""
+"Error! Could not save your message. Please check the reason, resolve the "
+"problem and try again."
+msgstr ""
+
+#: pnuser.php:1084 pnuser.php:1233
+msgid "Done! Message archived."
+msgstr ""
+
+#: pnuser.php:1109
+msgid "Error! Could not log in."
+msgstr ""
+
+#: pnuser.php:1209
+msgid "Forward message"
+msgstr ""
+
+#: pnuser.php:1223
+msgid "Preparing the reply. Please be patient..."
+msgstr ""
+
+#: pnuser.php:1224
+msgid "Saving the reply. Please be patient..."
+msgstr ""
+
+#: pnuser.php:1225
+msgid "Preparing to forward the message. Please be patient..."
+msgstr ""
+
+#: pnuser.php:1226
+msgid "Forwarding the message. Please be patient..."
+msgstr ""
+
+#: pnuser.php:1227
+msgid "Archiving the message. Please be patient..."
+msgstr ""
+
+#: pnuser.php:1228
+msgid "Deleting the message. Please be patient..."
+msgstr ""
+
+#: pnuser.php:1229
+msgid "Error! Could not find a recipient e-mail address."
+msgstr ""
+
+#: pnuser.php:1230
+msgid "Error! Could not find a subject line for the message."
+msgstr ""
+
+#: pnuser.php:1231
+msgid "Error! Could not find any message text for the message."
+msgstr ""
+
+#: pnuser.php:1235
+msgid ""
+"Sorry! You cannot reply to the message from this user because the person's "
+"user account has been deleted."
+msgstr ""
+
+#: pnaccountapi.php:48
+msgid "Private messaging settings"
+msgstr ""
+
+#: pnaccountapi.php:51
+msgid "Private messaging mailbox"
+msgstr ""
+
+#: pnadminapi.php:36 pntemplates/intercom_admin_main.htm:4
+msgid "Statistics"
+msgstr ""
+
+#: pnadminapi.php:37 pntemplates/intercom_admin_tools.htm:4
+msgid "Utilities"
+msgstr ""
+
+#: pnadminapi.php:38 pntemplates/intercom_user_navigation.htm:8
+#: pntemplates/intercom_admin_modifyconfig.htm:4
+msgid "Settings"
+msgstr ""
+
+#: pnadminapi.php:146
+msgid "You have a new private message"
+msgstr ""
+
+#: pnadminapi.php:152
+msgid "Welcome to the private messaging system"
+msgstr ""
+
+#: pnadminapi.php:155
+msgid ""
+"Sorry! The private messaging system is currently off-line for maintenance. "
+"Please check again later, or contact the site administrator."
+msgstr ""
+
+#: pnadminapi.php:162
+msgid "Site admin"
+msgstr ""
+
+#: pnadminapi.php:163
+msgid "Welcome to the private messaging system on %sitename%"
+msgstr ""
+
+#: pnadminapi.php:164
+msgid "Hello!"
+msgstr ""
+
+#: pninit.php:80 pninit.php:228
+msgid "Error! Could not create table."
+msgstr ""
+
+#: pninit.php:97 pninit.php:272
+msgid "Error! Could not create the creation hook."
+msgstr ""
+
+#: pninit.php:194
+msgid "Error! Could not unregister hook"
+msgstr ""
+
+#: pninit.php:200 pninit.php:203
+msgid "Error! Could not drop table."
+msgstr ""
+
+#: pninit.php:320
+msgid "Error! Could not upgrade hook (smodule)"
+msgstr ""
+
+#: pninit.php:326
+msgid "Error! Could not upgrade hook (tmodule)"
+msgstr ""
+
+#: pntemplates/intercom_ajax_forward.htm:6 pntemplates/intercom_user_pm.htm:37
+msgid "Individual recipient(s)"
+msgstr ""
+
+#: pntemplates/intercom_ajax_forward.htm:10
+#: pntemplates/intercom_user_pm.htm:41
+msgid ""
+"Notice: To send a private message to multiple individual recipients, enter "
+"their user names separated by commas."
+msgstr ""
+
+#: pntemplates/intercom_ajax_forward.htm:23
+#: pntemplates/intercom_user_readpm.htm:40
+#: pntemplates/intercom_ajax_reply.htm:5
+#: pntemplates/intercom_user_previewpm.htm:20
+#: pntemplates/intercom_user_pm.htm:84
+#: pntemplates/intercom_admin_modifyconfig.htm:72
+msgid "Subject line"
+msgstr ""
+
+#: pntemplates/intercom_ajax_forward.htm:28
+#: pntemplates/intercom_user_readpm.htm:51
+#: pntemplates/intercom_ajax_reply.htm:10
+#: pntemplates/intercom_user_previewpm.htm:30
+#: pntemplates/intercom_user_pm.htm:90
+msgid "Message text"
+msgstr ""
+
+#: pntemplates/intercom_ajax_forward.htm:37
+#: pntemplates/intercom_ajax_reply.htm:19 pntemplates/intercom_user_pm.htm:101
+msgid "Disable HTML mark-up"
+msgstr ""
+
+#: pntemplates/intercom_ajax_forward.htm:55
+msgid "Forward message now"
+msgstr ""
+
+#: pntemplates/intercom_ajax_forward.htm:56
+#: pntemplates/intercom_user_prefs.htm:47
+#: pntemplates/intercom_ajax_reply.htm:38 pntemplates/intercom_user_pm.htm:128
+msgid "Cancel"
+msgstr ""
+
+#: pntemplates/intercom_user_view.htm:26
+msgid "You have activated the function 'automatic reply'."
+msgstr ""
+
+#: pntemplates/intercom_user_view.htm:27
+msgid ""
+"Please delete some of the messages in your inbox, you've reached the limit."
+msgstr ""
+
+#: pntemplates/intercom_user_view.htm:27
+msgid ""
+"New Messages will be displayed first after you have delete some of the old."
+msgstr ""
+
+#: pntemplates/intercom_user_view.htm:28
+msgid ""
+"There are too many message in the outbox. Please delete some messages in the "
+"outbox, so that you can send new messages."
+msgstr ""
+
+#: pntemplates/intercom_user_view.htm:29
+msgid ""
+"There are too many messages in the archive. Please delete some messages in "
+"the archive, so that you can again store messages there."
+msgstr ""
+
+#: pntemplates/intercom_user_view.htm:34
+#: pntemplates/intercom_block_messages.htm:27
+#: pntemplates/intercom_ajax_getmessages.htm:26
+msgid "You currently have no messages."
+msgstr ""
+
+#: pntemplates/intercom_user_view.htm:40
+msgid "Status"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:2
+msgid "Messaging settings"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:12
+msgid "E-mail notifications"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:14
+msgid "Receive notification of new private messages via e-mail"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:16
+#: pntemplates/intercom_user_prefs.htm:30
+msgid "No"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:17
+#: pntemplates/intercom_user_prefs.htm:31
+msgid "Yes"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:19
+msgid ""
+"Notice: Here you can specify whether or not you want to be notified via an e-"
+"mail message each time you receive a private message in your private "
+"messaging mailbox on the site."
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:26
+msgid "Automatic responses"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:28
+msgid "Send automatic responses"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:33
+msgid ""
+"Notice: Here you can specify whether or not you want an automatic response "
+"to be sent to the sender each time you receive a private message (possibly "
+"useful when you are on holiday, for instance)."
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:36
+msgid "Message content"
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:43
+msgid "Sorry! This feature has been disabled by the site administrator."
+msgstr ""
+
+#: pntemplates/intercom_user_prefs.htm:46
+#: pntemplates/intercom_user_readpm.htm:64
+#: pntemplates/intercom_user_viewinbox_messages.htm:92
+#: pntemplates/intercom_admin_modifyconfig.htm:155
+msgid "Save"
+msgstr ""
+
+#: pntemplates/intercom_user_emailnotification.htm:2
+msgid "You have a new private message from"
+msgstr ""
+
+#: pntemplates/intercom_user_emailnotification.htm:4
+msgid "Click on here to read the message:"
+msgstr ""
+
+#: pntemplates/intercom_user_emailnotification.htm:7
+msgid "Click on here to change your message notification setting:"
+msgstr ""
+
+#: pntemplates/intercom_block_messages3.htm:9
+msgid "Mail"
+msgstr ""
+
+#: pntemplates/intercom_block_messages3.htm:15
+msgid "New mail"
+msgstr ""
+
+#: pntemplates/intercom_block_messages3.htm:16
+msgid "Members list"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:2
+msgid "Received message"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:18
+#: pntemplates/intercom_block_messages.htm:23
+#: pntemplates/intercom_user_viewinbox_messages.htm:25
+#: pntemplates/intercom_admin_modifyconfig.htm:76
+#: pntemplates/intercom_user_viewarchive_messages.htm:18
+#: pntemplates/intercom_ajax_getmessages.htm:22
+msgid "Sender"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:20
+msgid "Recipient"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:26
+#: pntemplates/intercom_user_viewinbox_messages.htm:78
+#: pntemplates/intercom_user_viewarchive_messages.htm:58
+msgid "Add buddy"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:32
+#: pntemplates/intercom_user_previewpm.htm:24
+#: pntemplates/intercom_user_viewinbox_messages.htm:17
+#: pntemplates/intercom_user_viewoutbox_messages.htm:17
+#: pntemplates/intercom_user_viewarchive_messages.htm:10
+msgid "Date"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:62
+#: pntemplates/intercom_user_viewinbox_messages.htm:90
+msgid "Reply"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:63
+#: pntemplates/intercom_user_viewinbox_messages.htm:91
+msgid "Forward"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:66
+#: pntemplates/intercom_user_viewinbox_messages.htm:93
+#: pntemplates/intercom_user_viewoutbox_messages.htm:76
+#: pntemplates/intercom_user_viewarchive_messages.htm:70
+msgid "Print"
+msgstr ""
+
+#: pntemplates/intercom_user_readpm.htm:67
+#: pntemplates/intercom_user_viewinbox_messages.htm:94
+#: pntemplates/intercom_user_viewoutbox_messages.htm:77
+#: pntemplates/intercom_user_viewarchive_messages.htm:71
+msgid "Delete"
+msgstr ""
+
+#: pntemplates/intercom_init_delete_final.htm:4
+#: pntemplates/intercom_init_delete.htm:4
+msgid "InterCom de-installation"
+msgstr ""
+
+#: pntemplates/intercom_init_delete_final.htm:6
+msgid "Thank you for having used InterCom private messaging."
+msgstr ""
+
+#: pntemplates/intercom_init_delete_final.htm:8
+msgid "Continue de-installation procedure"
+msgstr ""
+
+#: pntemplates/intercom_init_delete_final.htm:8
+msgid "Continue erasing procedure"
+msgstr ""
+
+#: pntemplates/intercom_ajax_reply.htm:37 pntemplates/intercom_user_pm.htm:126
+msgid "Send now"
+msgstr ""
+
+#: pntemplates/intercom_user_previewpm.htm:5
+msgid "Message preview"
+msgstr ""
+
+#: pntemplates/intercom_user_previewpm.htm:8
+#: pntemplates/intercom_user_viewoutbox_messages.htm:25
+msgid "Recipient(s)"
+msgstr ""
+
+#: pntemplates/intercom_user_previewpm.htm:13
+msgid "Error! No recipient entered."
+msgstr ""
+
+#: pntemplates/intercom_block_messages.htm:10
+#: pntemplates/intercom_ajax_getmessages.htm:9
+#: pntemplates/intercom_block_messages2.htm:9
+msgid "New private messages"
+msgstr ""
+
+#: pntemplates/intercom_block_messages.htm:20
+#: pntemplates/intercom_ajax_getmessages.htm:19
+msgid "The newest messages"
+msgstr ""
+
+#: pntemplates/intercom_user_header.htm:6
+#: pntemplates/intercom_user_login.htm:2
+msgid "Private messaging"
+msgstr ""
+
+#: pntemplates/intercom_user_maintenance.htm:2
+msgid "Maintenance settings"
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:19
+msgid "wrote"
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:55
+msgid "Group recipient(s)"
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:59
+msgid ""
+"Notice: To send a private message to multiple groups, enter the group names "
+"separated by commas."
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:85
+msgid "Error! No subject line entered."
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:91
+msgid "Error! No message text entered."
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:120
+msgid "Permitted HTML tags:"
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:126
+msgid "Send message now"
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:127
+msgid "Preview message"
+msgstr ""
+
+#: pntemplates/intercom_user_pm.htm:127
+msgid "Display message preview"
+msgstr ""
+
+#: pntemplates/intercom_init_step_final.htm:4
+#: pntemplates/intercom_init_step2.htm:4
+#: pntemplates/intercom_init_interactive.htm:4
+msgid "InterCom installation"
+msgstr ""
+
+#: pntemplates/intercom_init_step_final.htm:6
+msgid "You have now completed the InterCom installation procedure."
+msgstr ""
+
+#: pntemplates/intercom_init_step_final.htm:11
+msgid "Finalisation"
+msgstr ""
+
+#: pntemplates/intercom_init_step_final.htm:13
+msgid "Activate InterCom"
+msgstr ""
+
+#: pntemplates/intercom_init_step_final.htm:18
+msgid "OK"
+msgstr ""
+
+#: pntemplates/intercom_admin_main.htm:6
+msgid "Number of messages in"
+msgstr ""
+
+#: pntemplates/intercom_admin_main.htm:8
+msgid "Inbox:"
+msgstr ""
+
+#: pntemplates/intercom_admin_main.htm:11
+msgid "Outbox:"
+msgstr ""
+
+#: pntemplates/intercom_admin_main.htm:14
+msgid "Archive:"
+msgstr ""
+
+#: pntemplates/intercom_block_messages_modify.htm:3
+msgid "Template file name"
+msgstr ""
+
+#: pntemplates/intercom_block_messages_modify.htm:5
+msgid "Examples"
+msgstr ""
+
+#: pntemplates/intercom_init_step2.htm:6
+msgid "Step 2 - data importation"
+msgstr ""
+
+#: pntemplates/intercom_init_step2.htm:8
+msgid "Import messages from the Messages Module (Core)"
+msgstr ""
+
+#: pntemplates/intercom_init_step2.htm:8
+msgid "Import messages from PostNuke Messages module (core version)"
+msgstr ""
+
+#: pntemplates/intercom_init_step2.htm:9
+msgid "Do not import messages"
+msgstr ""
+
+#: pntemplates/intercom_init_step2.htm:9
+msgid "Import no message"
+msgstr ""
+
+#: pntemplates/intercom_user_viewinbox_messages.htm:7
+#: pntemplates/intercom_user_viewoutbox_messages.htm:7
+#: pntemplates/intercom_user_viewarchive_messages.htm:7
+msgid "Mark all"
+msgstr ""
+
+#: pntemplates/intercom_user_viewinbox_messages.htm:9
+#: pntemplates/intercom_user_viewoutbox_messages.htm:9
+#: pntemplates/intercom_user_viewarchive_messages.htm:9
+msgid "Subject"
+msgstr ""
+
+#: pntemplates/intercom_user_viewinbox_messages.htm:44
+#: pntemplates/intercom_user_viewinbox_messages.htm:49
+#: pntemplates/intercom_user_viewinbox_messages.htm:53
+msgid "Unread"
+msgstr ""
+
+#: pntemplates/intercom_user_viewinbox_messages.htm:45
+#: pntemplates/intercom_user_viewinbox_messages.htm:50
+#: pntemplates/intercom_user_viewinbox_messages.htm:54
+msgid "Answered"
+msgstr ""
+
+#: pntemplates/intercom_user_viewinbox_messages.htm:46
+#: pntemplates/intercom_user_viewinbox_messages.htm:51
+#: pntemplates/intercom_user_viewinbox_messages.htm:55
+#: pntemplates/intercom_user_viewinbox_messages.htm:62
+#: pntemplates/intercom_user_viewinbox_messages.htm:89
+#: pntemplates/intercom_user_viewoutbox_messages.htm:52
+#: pntemplates/intercom_user_viewoutbox_messages.htm:75
+#: pntemplates/intercom_user_viewarchive_messages.htm:42
+#: pntemplates/intercom_user_viewarchive_messages.htm:69
+msgid "Read"
+msgstr ""
+
+#: pntemplates/intercom_user_viewinbox_messages.htm:59
+msgid "Error! No subject line."
+msgstr ""
+
+#: pntemplates/intercom_user_viewinbox_messages.htm:106
+msgid "Save marked messages"
+msgstr ""
+
+#: pntemplates/intercom_user_viewinbox_messages.htm:107
+#: pntemplates/intercom_user_viewoutbox_messages.htm:88
+#: pntemplates/intercom_user_viewarchive_messages.htm:82
+msgid "Delete marked messages"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:10
+msgid "General settings"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:12
+msgid "Enable private messaging"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:17
+msgid "Message to display when private messaging is disabled"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:23
+msgid "Maximum number of messages in inbox"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:27
+msgid "Maximum number of messages in outbox"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:31
+msgid "Maximum number of messages in archive"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:35
+msgid "Allow HTML mark-up in messages"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:39
+msgid "Messages per page"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:45
+msgid "Announcement settings"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:47
+msgid "Display announcement"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:52
+msgid "Content"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:54
+msgid ""
+"Notice: This message will be displayed above each user's inbox. You can post "
+"all kinds of information intended for your users."
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:60
+msgid "Notification settings"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:62
+msgid "Allow e-mail Notifications"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:67
+msgid "Activate e-mail notifications for new users"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:69
+msgid ""
+"Notice: To activate the sending of e-mail notifications for new users, the "
+"'InterCom' module hook has to be enabled for the 'Users' module. This also "
+"activates the sending of a welcome message to new users (refer to the "
+"setting below)."
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:78
+msgid ""
+"Notice: If you leave the 'Sender' box blank then the site name will be used "
+"automatically."
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:83
+msgid ""
+"Notice: If you leave the 'Sender address' box blank then the administrator's "
+"address will be used automatically."
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:89
+msgid "Automatic response settings"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:91
+msgid "Enable automatic responses"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:93
+msgid ""
+"Notice: When the automatic response feature, users can enter a message to be "
+"sent as an automatic response to all incoming private messages."
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:98
+msgid "Welcome message settings"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:100
+msgid "Send a welcome message to new users"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:105
+msgid "Sender of welcome message"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:107
+msgid ""
+"Notice: The welcome message sender must be one of the site's registered "
+"users."
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:110
+msgid "Welcome message subject line"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:114
+msgid "Welcome message text"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:119
+msgid "Welcome message for selected language"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:122
+msgid ""
+"Notice: The following place holders are supported:<ul><li>%username% for the "
+"person's user name</li><li>%realname% for the person's real name</li><li>%"
+"sitename% for the site name</li></ul>If the text begins with an underscore "
+"('_'), it will be processed like a language define. The language define "
+"should be placed in 'modules/InterCom/pnlang/xxx/welcome.php' (where 'xxx' "
+"is the language code)."
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:125
+msgid "Save welcome message in user outbox"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:132
+msgid "Spam prevention settings"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:134
+msgid "Enable spam prevention"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:139
+msgid "Measured time span (in minutes)"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:143
+msgid "Measured number of messages"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:147
+msgid "Send admin notification of spam messaging via e-mail"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:150
+msgid ""
+"Notice: With the spam prevention feature, you can specify the number of "
+"messages that a user can send within a certain time span before the spam "
+"prevention feature is triggered. When a message is send to multiple "
+"recipients, each recipient is counted as one message."
+msgstr ""
+
+#: pntemplates/intercom_init_delete.htm:6
+msgid "Step 1 of de-installation procedure"
+msgstr ""
+
+#: pntemplates/intercom_init_delete.htm:8
+msgid "Delete tables from database"
+msgstr ""
+
+#: pntemplates/intercom_init_delete.htm:9
+msgid "Do not delete tables from database"
+msgstr ""
+
+#: pntemplates/intercom_user_viewoutbox_messages.htm:44
+msgid "not read by recipient"
+msgstr ""
+
+#: pntemplates/intercom_user_viewoutbox_messages.htm:46
+msgid "already read by recipient"
+msgstr ""
+
+#: pntemplates/intercom_user_viewoutbox_messages.htm:49
+msgid "Error! No subject entered."
+msgstr ""
+
+#: pntemplates/intercom_user_viewarchive_messages.htm:37
+msgid "read"
+msgstr ""
+
+#: pntemplates/intercom_user_viewarchive_messages.htm:39
+msgid "Error: No subject"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:6
+msgid ""
+"Warning! Use these utilities with extreme caution. They will affect all site "
+"users. However, you will be prompted for confirmation first."
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:8
+msgid "Do you really want to delete ALL private messages?"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:8
+msgid "Delete all messages in all inboxes, outboxes and archives"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:9
+msgid "Do you really want to delete ALL private messages in ALL inboxes?"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:9
+msgid "Delete all messages from all inboxes"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:10
+msgid "Do you really want to delete ALL private messages in ALL outboxes?"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:10
+msgid "Delete all messages from all outboxes"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:11
+msgid "Do you really want to delete ALL private messages in ALL archives?"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:11
+msgid "Delete all messages from all archives"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:12
+msgid "Do you really want to optimize the database tables?"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:12
+msgid "Optimize all tables"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:12
+msgid ""
+"Notice: This deletes all messages from the database that are not in "
+"someone's inbox."
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:13
+msgid "Do you really want to reset all settings to their default values?"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:13
+msgid "Reset all settings to default values"
+msgstr ""
+
+#: pntemplates/intercom_admin_tools.htm:13
+msgid "Notice: This resets all settings to their default values."
+msgstr ""
+
+#: pntemplates/intercom_user_login.htm:9
+msgid "Sorry! You need to log in first."
+msgstr ""
+
+#: pntemplates/intercom_user_login.htm:16
+#: pntemplates/intercom_user_login.htm:36
+msgid "Log in"
+msgstr ""
+
+#: pntemplates/intercom_user_login.htm:21
+msgid "E-mail address"
+msgstr ""
+
+#: pntemplates/intercom_user_login.htm:24
+msgid "User name"
+msgstr ""
+
+#: pntemplates/intercom_user_login.htm:28
+msgid "Password"
+msgstr ""
+
+#: pntemplates/intercom_user_login.htm:30
+msgid "Remember me"
+msgstr ""
+
+#: pntemplates/intercom_user_messageinfo.htm:3
+msgid "You have"
+msgstr ""
+
+#: pntemplates/intercom_user_messageinfo.htm:3
+msgid "new message(s)"
+msgstr ""
+
+#: pntemplates/intercom_user_messageinfo.htm:5
+msgid "Read message(s) now"
+msgstr ""
+
+#: pntemplates/intercom_user_messageinfo.htm:6
+msgid "Close window"
+msgstr ""
+
+#: pntemplates/intercom_init_interactive.htm:6
+msgid "Step 1 of InterCom installation procedure"
+msgstr ""
+
+#: pntemplates/intercom_init_interactive.htm:8
+msgid "Begin installation"
+msgstr ""
+
+#: pntemplates/intercom_init_interactive.htm:8
+msgid "Commence installation"
+msgstr ""
+
+#: pntemplates/intercom_block_messages2.htm:10
+msgid "Messages"
+msgstr ""

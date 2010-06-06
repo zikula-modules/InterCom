@@ -1,0 +1,5 @@
+Für Informationen zur Installation bitte in die deutsche Zikula-Dokumentation schauen: 
+http://code.zikula.org/community-german
+
+Ausführliche deutschsprachige Anleitung zu InterCom unter:
+http://code.zikula.org/community-german/wiki/Intercom

@@ -1,0 +1,2 @@
+For informations about installation please use the online-handbook.
+http://code.zikula.org/intercom/wiki/documentation

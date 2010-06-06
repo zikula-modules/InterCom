@@ -1,0 +1,35 @@
+/*******************************************************************************/
+/* CSS for ControlModal
+/*******************************************************************************/
+
+#modal_container.ic_modal_container {
+    background-color:#FFF8BF;
+    border:2px solid #FFD324;
+    color:#222222;
+    font-family:"Lucida Grande",Verdana;
+    font-size:12px;
+    height:4em;
+    overflow:auto;
+    padding:5px;
+    text-align:center;
+}
+#modal_container.ic_modal_container p {
+    padding:0;
+    margin:5px 0;
+}
+#modal_container.ic_modal_container ul {
+    list-style:none;
+    padding:0;
+    margin:5px 0;
+}
+#modal_container.ic_modal_container li {
+    display: inline;
+    padding:0 5px;
+    margin:0 3px;
+}
+#modal_container.ic_modal_container a {
+    text-decoration:underline;
+}
+#modal_overlay.ic_modal_overlay {
+    background-color:#000;
+}
