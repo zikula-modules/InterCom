@@ -22,12 +22,10 @@
 <!--[/if]-->
 
 <!--[if ($boxtype eq "inbox" && $autoreply == 1) || $getmessagecount.totalin>$getmessagecount.limitin || $getmessagecount.totalout>$getmessagecount.limitout || $getmessagecount.totalarchive>$getmessagecount.limitarchive]-->
-<div class="z-warningmsg">
-    <!--[if $boxtype eq "inbox"   && $autoreply == 1]--><!--[gt text="You have activated the function 'automatic reply'."]--><br /><!--[/if]-->
-    <!--[if $boxtype eq "inbox"   && $getmessagecount.totalin>$getmessagecount.limitin]--><!--[gt text="Please delete some of the messages in your inbox, you've reached the limit."]--><br /><!--[gt text="New Messages will be displayed first after you have delete some of the old."]--><br /><!--[/if]-->
-    <!--[if $boxtype eq "outbox"  && $getmessagecount.totalout>$getmessagecount.limitout]--><!--[gt text="There are too many message in the outbox. Please delete some messages in the outbox, so that you can send new messages."]--><br /><!--[/if]-->
-    <!--[if $boxtype eq "archive" && $getmessagecount.totalarchive>$getmessagecount.limitarchive]--><!--[gt text="There are too many messages in the archive. Please delete some messages in the archive, so that you can again store messages there."]--><br /><!--[/if]-->
-</div>
+    <!--[if $boxtype eq "inbox"   && $autoreply == 1]--><div class="z-warningmsg"><!--[gt text="You have activated the function 'automatic reply'."]--><br /></div><!--[/if]-->
+    <!--[if $boxtype eq "inbox"   && $getmessagecount.totalin>$getmessagecount.limitin]--><div class="z-warningmsg"><!--[gt text="Please delete some of the messages in your inbox, you've reached the limit."]--><br /><!--[gt text="New Messages will be displayed first after you have delete some of the old."]--><br /></div><!--[/if]-->
+    <!--[if $boxtype eq "outbox"  && $getmessagecount.totalout>$getmessagecount.limitout]--><div class="z-warningmsg"><!--[gt text="There are too many message in the outbox. Please delete some messages in the outbox, so that you can send new messages."]--><br /></div><!--[/if]-->
+    <!--[if $boxtype eq "archive" && $getmessagecount.totalarchive>$getmessagecount.limitarchive]--><div class="z-warningmsg"><!--[gt text="There are too many messages in the archive. Please delete some messages in the archive, so that you can again store messages there."]--><br /></div><!--[/if]-->
 <!--[/if]-->
 
 <!--[if $messagearray == FALSE]-->
