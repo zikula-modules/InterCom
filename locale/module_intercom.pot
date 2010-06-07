@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-05 20:12+0000\n"
+"POT-Creation-Date: 2010-06-07 21:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,14 +72,14 @@ msgstr ""
 msgid "Done! Imported messages from the 'Messages' module."
 msgstr ""
 
-#: pnajax.php:58 pnajax.php:112 pnajax.php:175 pnajax.php:227 pnajax.php:268
-#: pnajax.php:290 pnajax.php:312 pnajax.php:329 pnajax.php:363 pnajax.php:410
-#: pnajax.php:439 pnajax.php:504
+#: pnajax.php:58 pnajax.php:112 pnajax.php:180 pnajax.php:232 pnajax.php:273
+#: pnajax.php:295 pnajax.php:317 pnajax.php:334 pnajax.php:368 pnajax.php:415
+#: pnajax.php:444 pnajax.php:509
 msgid "Sorry! You do not have authorisation for this module."
 msgstr ""
 
-#: pnajax.php:64 pnajax.php:233 pnajax.php:333 pnajax.php:370 pnajax.php:415
-#: pnajax.php:444 pnajax.php:510
+#: pnajax.php:64 pnajax.php:238 pnajax.php:338 pnajax.php:375 pnajax.php:420
+#: pnajax.php:449 pnajax.php:515
 msgid ""
 "Error! The action you wanted to perform was not successful for some reason, "
 "maybe because of a problem with what you input. Please check and try again."
@@ -90,19 +90,19 @@ msgstr ""
 msgid "*Deleted user*"
 msgstr ""
 
-#: pnajax.php:124 pnajax.php:183
+#: pnajax.php:124 pnajax.php:188
 msgid ""
 "Error! Could not find the subject line for the message. Please check your "
 "input and try again."
 msgstr ""
 
-#: pnajax.php:131 pnajax.php:190
+#: pnajax.php:136 pnajax.php:195
 msgid ""
 "Error! Could not find the message text. Please check your input and try "
 "again."
 msgstr ""
 
-#: pnajax.php:461 pnajax.php:524
+#: pnajax.php:466 pnajax.php:529
 msgid "Error! Could not load data."
 msgstr ""
 
@@ -122,16 +122,22 @@ msgstr ""
 msgid "intercom"
 msgstr ""
 
+#: pntemplates/plugins/function.replysubject.php:30
+#: pntemplates/plugins/function.replysubject.php:35 pnuserapi.php:185
+msgid "Re"
+msgstr ""
+
+#: pntemplates/plugins/function.forwardsubject.php:30
+#: pntemplates/plugins/function.forwardsubject.php:34
+msgid "Fw"
+msgstr ""
+
 #: pnuserapi.php:43
 msgid "Error! Could not send message."
 msgstr ""
 
-#: pnuserapi.php:185
-msgid "Re:"
-msgstr ""
-
 #: pnuserapi.php:237
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:188
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:189
 msgid "Done! Saved your settings changes."
 msgstr ""
 
@@ -159,39 +165,39 @@ msgstr ""
 msgid "Error! The archive maximum capacity is missing."
 msgstr ""
 
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:92
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:93
 msgid "Error! The number of messages to display per page is missing."
 msgstr ""
 
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:102
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:103
 msgid "Error! The subject line for notification e-mail message is missing."
 msgstr ""
 
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:126
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:127
 msgid "Error! The welcome message text is missing."
 msgstr ""
 
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:135
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:136
 msgid "Error! The sender for the welcome message is missing."
 msgstr ""
 
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:140
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:141
 msgid "Error! Could not find this user."
 msgstr ""
 
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:148
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:149
 msgid "Error! The subject line for the welcome message is missing."
 msgstr ""
 
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:161
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:162
 msgid "Error! The maintenance notice text is missing."
 msgstr ""
 
-#: pnincludes/intercom_admin_modifyconfighandler.class.php:172
+#: pnincludes/intercom_admin_modifyconfighandler.class.php:173
 msgid "Error! The user information is missing."
 msgstr ""
 
-#: pnuser.php:187 pntemplates/intercom_user_indicators.htm:15
+#: pnuser.php:186 pntemplates/intercom_user_indicators.htm:15
 #: pntemplates/intercom_block_messages3.htm:9
 #: pntemplates/intercom_user_navigation.htm:4
 #: pntemplates/intercom_block_messages.htm:13
@@ -202,21 +208,21 @@ msgstr ""
 msgid "Inbox"
 msgstr ""
 
-#: pnuser.php:274 pntemplates/intercom_user_indicators.htm:16
+#: pnuser.php:273 pntemplates/intercom_user_indicators.htm:16
 #: pntemplates/intercom_user_navigation.htm:5
 msgid "Outbox"
 msgstr ""
 
-#: pnuser.php:344 pntemplates/intercom_user_indicators.htm:17
+#: pnuser.php:343 pntemplates/intercom_user_indicators.htm:17
 #: pntemplates/intercom_user_navigation.htm:6
 msgid "Archive"
 msgstr ""
 
-#: pnuser.php:384 pnuser.php:446 pnuser.php:506 pnuser.php:562
+#: pnuser.php:383 pnuser.php:445 pnuser.php:505 pnuser.php:561
 msgid "Error! Could not find message text. Please check and try again."
 msgstr ""
 
-#: pnuser.php:570
+#: pnuser.php:569
 msgid "Error! Message has no recipient. Do not try this again!"
 msgstr ""
 
@@ -393,29 +399,29 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: pnadminapi.php:146
+#: pnadminapi.php:147
 msgid "You have a new private message"
 msgstr ""
 
-#: pnadminapi.php:152
+#: pnadminapi.php:153
 msgid "Welcome to the private messaging system"
 msgstr ""
 
-#: pnadminapi.php:155
+#: pnadminapi.php:156
 msgid ""
 "Sorry! The private messaging system is currently off-line for maintenance. "
 "Please check again later, or contact the site administrator."
 msgstr ""
 
-#: pnadminapi.php:162
+#: pnadminapi.php:163
 msgid "Site admin"
 msgstr ""
 
-#: pnadminapi.php:163
+#: pnadminapi.php:164
 msgid "Welcome to the private messaging system on %sitename%"
 msgstr ""
 
-#: pnadminapi.php:164
+#: pnadminapi.php:165
 msgid "Hello!"
 msgstr ""
 
@@ -435,11 +441,11 @@ msgstr ""
 msgid "Error! Could not drop table."
 msgstr ""
 
-#: pninit.php:320
+#: pninit.php:321
 msgid "Error! Could not upgrade hook (smodule)"
 msgstr ""
 
-#: pninit.php:326
+#: pninit.php:327
 msgid "Error! Could not upgrade hook (tmodule)"
 msgstr ""
 
@@ -459,7 +465,7 @@ msgstr ""
 #: pntemplates/intercom_ajax_reply.htm:5
 #: pntemplates/intercom_user_previewpm.htm:20
 #: pntemplates/intercom_user_pm.htm:84
-#: pntemplates/intercom_admin_modifyconfig.htm:72
+#: pntemplates/intercom_admin_modifyconfig.htm:76
 msgid "Subject line"
 msgstr ""
 
@@ -486,39 +492,51 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: pntemplates/intercom_user_view.htm:26
+#: pntemplates/intercom_user_indicators.htm:15
+#: pntemplates/intercom_user_indicators.htm:16
+#: pntemplates/intercom_user_indicators.htm:17
+msgid "used"
+msgstr ""
+
+#: pntemplates/intercom_user_indicators.htm:15
+#: pntemplates/intercom_user_indicators.htm:16
+#: pntemplates/intercom_user_indicators.htm:17
+msgid "of"
+msgstr ""
+
+#: pntemplates/intercom_user_view.htm:25
 msgid "You have activated the function 'automatic reply'."
 msgstr ""
 
-#: pntemplates/intercom_user_view.htm:27
+#: pntemplates/intercom_user_view.htm:26
 msgid ""
 "Please delete some of the messages in your inbox, you've reached the limit."
 msgstr ""
 
-#: pntemplates/intercom_user_view.htm:27
+#: pntemplates/intercom_user_view.htm:26
 msgid ""
 "New Messages will be displayed first after you have delete some of the old."
 msgstr ""
 
-#: pntemplates/intercom_user_view.htm:28
+#: pntemplates/intercom_user_view.htm:27
 msgid ""
 "There are too many message in the outbox. Please delete some messages in the "
 "outbox, so that you can send new messages."
 msgstr ""
 
-#: pntemplates/intercom_user_view.htm:29
+#: pntemplates/intercom_user_view.htm:28
 msgid ""
 "There are too many messages in the archive. Please delete some messages in "
 "the archive, so that you can again store messages there."
 msgstr ""
 
-#: pntemplates/intercom_user_view.htm:34
+#: pntemplates/intercom_user_view.htm:32
 #: pntemplates/intercom_block_messages.htm:27
 #: pntemplates/intercom_ajax_getmessages.htm:26
 msgid "You currently have no messages."
 msgstr ""
 
-#: pntemplates/intercom_user_view.htm:40
+#: pntemplates/intercom_user_view.htm:38
 msgid "Status"
 msgstr ""
 
@@ -577,7 +595,7 @@ msgstr ""
 #: pntemplates/intercom_user_prefs.htm:46
 #: pntemplates/intercom_user_readpm.htm:64
 #: pntemplates/intercom_user_viewinbox_messages.htm:92
-#: pntemplates/intercom_admin_modifyconfig.htm:155
+#: pntemplates/intercom_admin_modifyconfig.htm:159
 msgid "Save"
 msgstr ""
 
@@ -612,7 +630,7 @@ msgstr ""
 #: pntemplates/intercom_user_readpm.htm:18
 #: pntemplates/intercom_block_messages.htm:23
 #: pntemplates/intercom_user_viewinbox_messages.htm:25
-#: pntemplates/intercom_admin_modifyconfig.htm:76
+#: pntemplates/intercom_admin_modifyconfig.htm:80
 #: pntemplates/intercom_user_viewarchive_messages.htm:18
 #: pntemplates/intercom_ajax_getmessages.htm:22
 msgid "Sender"
@@ -897,40 +915,44 @@ msgid "Allow HTML mark-up in messages"
 msgstr ""
 
 #: pntemplates/intercom_admin_modifyconfig.htm:39
+msgid "Allow Smilies in Messages?"
+msgstr ""
+
+#: pntemplates/intercom_admin_modifyconfig.htm:43
 msgid "Messages per page"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:45
+#: pntemplates/intercom_admin_modifyconfig.htm:49
 msgid "Announcement settings"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:47
+#: pntemplates/intercom_admin_modifyconfig.htm:51
 msgid "Display announcement"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:52
+#: pntemplates/intercom_admin_modifyconfig.htm:56
 msgid "Content"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:54
+#: pntemplates/intercom_admin_modifyconfig.htm:58
 msgid ""
 "Notice: This message will be displayed above each user's inbox. You can post "
 "all kinds of information intended for your users."
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:60
+#: pntemplates/intercom_admin_modifyconfig.htm:64
 msgid "Notification settings"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:62
+#: pntemplates/intercom_admin_modifyconfig.htm:66
 msgid "Allow e-mail Notifications"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:67
+#: pntemplates/intercom_admin_modifyconfig.htm:71
 msgid "Activate e-mail notifications for new users"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:69
+#: pntemplates/intercom_admin_modifyconfig.htm:73
 msgid ""
 "Notice: To activate the sending of e-mail notifications for new users, the "
 "'InterCom' module hook has to be enabled for the 'Users' module. This also "
@@ -938,63 +960,63 @@ msgid ""
 "setting below)."
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:78
+#: pntemplates/intercom_admin_modifyconfig.htm:82
 msgid ""
 "Notice: If you leave the 'Sender' box blank then the site name will be used "
 "automatically."
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:83
+#: pntemplates/intercom_admin_modifyconfig.htm:87
 msgid ""
 "Notice: If you leave the 'Sender address' box blank then the administrator's "
 "address will be used automatically."
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:89
+#: pntemplates/intercom_admin_modifyconfig.htm:93
 msgid "Automatic response settings"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:91
+#: pntemplates/intercom_admin_modifyconfig.htm:95
 msgid "Enable automatic responses"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:93
+#: pntemplates/intercom_admin_modifyconfig.htm:97
 msgid ""
 "Notice: When the automatic response feature, users can enter a message to be "
 "sent as an automatic response to all incoming private messages."
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:98
+#: pntemplates/intercom_admin_modifyconfig.htm:102
 msgid "Welcome message settings"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:100
+#: pntemplates/intercom_admin_modifyconfig.htm:104
 msgid "Send a welcome message to new users"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:105
+#: pntemplates/intercom_admin_modifyconfig.htm:109
 msgid "Sender of welcome message"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:107
+#: pntemplates/intercom_admin_modifyconfig.htm:111
 msgid ""
 "Notice: The welcome message sender must be one of the site's registered "
 "users."
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:110
+#: pntemplates/intercom_admin_modifyconfig.htm:114
 msgid "Welcome message subject line"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:114
+#: pntemplates/intercom_admin_modifyconfig.htm:118
 msgid "Welcome message text"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:119
+#: pntemplates/intercom_admin_modifyconfig.htm:123
 msgid "Welcome message for selected language"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:122
+#: pntemplates/intercom_admin_modifyconfig.htm:126
 msgid ""
 "Notice: The following place holders are supported:<ul><li>%username% for the "
 "person's user name</li><li>%realname% for the person's real name</li><li>%"
@@ -1004,31 +1026,31 @@ msgid ""
 "is the language code)."
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:125
+#: pntemplates/intercom_admin_modifyconfig.htm:129
 msgid "Save welcome message in user outbox"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:132
+#: pntemplates/intercom_admin_modifyconfig.htm:136
 msgid "Spam prevention settings"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:134
+#: pntemplates/intercom_admin_modifyconfig.htm:138
 msgid "Enable spam prevention"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:139
+#: pntemplates/intercom_admin_modifyconfig.htm:143
 msgid "Measured time span (in minutes)"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:143
+#: pntemplates/intercom_admin_modifyconfig.htm:147
 msgid "Measured number of messages"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:147
+#: pntemplates/intercom_admin_modifyconfig.htm:151
 msgid "Send admin notification of spam messaging via e-mail"
 msgstr ""
 
-#: pntemplates/intercom_admin_modifyconfig.htm:150
+#: pntemplates/intercom_admin_modifyconfig.htm:154
 msgid ""
 "Notice: With the spam prevention feature, you can specify the number of "
 "messages that a user can send within a certain time span before the spam "

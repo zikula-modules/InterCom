@@ -3,7 +3,7 @@
 <!--[if $indicatorbar gt 100]--><!--[assign var="indicatorbar" value=100]--><!--[/if]-->
 
 <div class="indicatorbar">
-  <!--[$indicatorbar]-->%
+  <b><!--[$indicatorbar]-->%</b>
   <br />
   <div style="width: <!--[$indicatorbar]-->%;" class="ibar">&nbsp;</div>
   <div style="float: left; text-align:left; width: 33%">0%</div>
@@ -12,7 +12,7 @@
 </div>
 
 <ul class="indicators">
-  <li class="<!--[$getmessagecount.inboxlimitclass]-->"><strong><!--[gt text="Inbox"]-->:</strong> <span id="ic-totalin"><!--[$getmessagecount.totalin]--></span> | <!--[$getmessagecount.limitin]--></li>
-  <li class="<!--[$getmessagecount.outboxlimitclass]-->"><strong><!--[gt text="Outbox"]-->:</strong> <span id="ic-totalout"><!--[$getmessagecount.totalout]--></span> | <!--[$getmessagecount.limitout]--></li>
-  <li class="<!--[$getmessagecount.archivelimitclass]-->"><strong><!--[gt text="Archive"]-->:</strong> <span id="ic-totalarchive"><!--[$getmessagecount.totalarchive]--></span> | <!--[$getmessagecount.limitarchive]--></li>
+  <li class="<!--[$getmessagecount.inboxlimitclass]-->"><strong><!--[gt text="Inbox"]-->:</strong> <!--[gt text="used"]--> <span id="ic-totalin"><!--[$getmessagecount.totalin]--></span> <!--[gt text="of"]--> <b><!--[$getmessagecount.limitin]--></b></li>
+  <li class="<!--[$getmessagecount.outboxlimitclass]-->"><strong><!--[gt text="Outbox"]-->:</strong> <!--[gt text="used"]--> <span id="ic-totalout"><!--[$getmessagecount.totalout]--></span> <!--[gt text="of"]--> <b><!--[$getmessagecount.limitout]--></b></li>
+  <li class="<!--[$getmessagecount.archivelimitclass]-->"><strong><!--[gt text="Archive"]-->:</strong> <!--[gt text="used"]--> <span id="ic-totalarchive"><!--[$getmessagecount.totalarchive]--></span> <!--[gt text="of"]--> <b><!--[$getmessagecount.limitarchive]--><b/></li>
 </ul>
