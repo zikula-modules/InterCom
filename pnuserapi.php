@@ -4,23 +4,6 @@
  *
  * InterCom - an advanced private messaging solution for Zikula
  *
- * License
- * -------
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License (GPL)
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * @author InterCom development team
- * @link http://code.zikula.org/intercom/ Support and documentation
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
- *
  */
 
 /**
@@ -80,8 +63,8 @@ function InterCom_userapi_emailnotification($args)
     }
 
     if (!isset($user['__ATTRIBUTES__']) || (!isset($user['__ATTRIBUTES__']['ic_note'])
-                                         && !isset($user['__ATTRIBUTES__']['ic_ar'])
-                                         && !isset($user['__ATTRIBUTES__']['ic_art']))) {
+    && !isset($user['__ATTRIBUTES__']['ic_ar'])
+    && !isset($user['__ATTRIBUTES__']['ic_art']))) {
         // ic_note: email notifiaction yes/no
         // ic_ar  : autoreply yes/no
         // ic_art : autoreply text
@@ -188,7 +171,7 @@ function InterCom_userapi_autoreply($args)
                  'inbox' => '1',
                  'outbox' => '1',
                  'stored' => '0'
-                ));
+                 ));
 }
 
 /**
@@ -256,7 +239,7 @@ function InterCom_userapi_delete($args)
     // Argument check - make sure that all required arguments are present, if
     // not then set an appropriate error message and return
     if ((!isset($args['msg_id']) || !is_numeric($args['msg_id'])) ||
-            (!in_array($args['msg_type'], array('msg_inbox', 'msg_outbox', 'msg_stored')))) {
+    (!in_array($args['msg_type'], array('msg_inbox', 'msg_outbox', 'msg_stored')))) {
         return LogUtil::registerArgsError;
     }
 
@@ -694,7 +677,7 @@ function InterCom_userapi_createhook($args)
     $dom = ZLanguage::getModuleDomain('InterCom');
     // Argument check
     if ((!isset($args['objectid'])) ||
-        (!isset($args['extrainfo']))) {
+    (!isset($args['extrainfo']))) {
         return LogUtil::registerArgsError;
     }
 

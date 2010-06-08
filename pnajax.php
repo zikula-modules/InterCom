@@ -1,32 +1,15 @@
 <?php
 /**
-* $Id$
-*
-* InterCom - an advanced private messaging solution for Zikula
-*
-* License
-* -------
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License (GPL)
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* @author InterCom development team
-* @link http://code.zikula.org/intercom/ Support and documentation
-* @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
-*
-*/
+ * $Id$
+ *
+ * InterCom - an advanced private messaging solution for Zikula
+ *
+ */
 
 /**
-* mark a message as read
-*
-*/
+ * mark a message as read
+ *
+ */
 function InterCom_ajax_markmsgread()
 {
     $msg_id = (int)FormUtil::getPassedValue('msgid', 0, 'POST');
@@ -35,9 +18,9 @@ function InterCom_ajax_markmsgread()
 }
 
 /**
-* mark a message as answered
-*
-*/
+ * mark a message as answered
+ *
+ */
 function InterCom_ajax_markmsganswered()
 {
     $msg_id = (int)FormUtil::getPassedValue('msgid', 0, 'POST');
@@ -46,10 +29,10 @@ function InterCom_ajax_markmsganswered()
 }
 
 /**
-* reply to a message from the inbox
-*
-*@params msgid int the id of the message to reply to
-*/
+ * reply to a message from the inbox
+ *
+ *@params msgid int the id of the message to reply to
+ */
 function InterCom_ajax_replyfrominbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -65,7 +48,7 @@ function InterCom_ajax_replyfrominbox()
     }
 
     $message = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                            array('boxtype'  => 'msg_inbox',
+    array('boxtype'  => 'msg_inbox',
                                   'msg_id'   => $msg_id));
 
     if($message['from_user'] == __('*Deleted user*', $dom)) {
@@ -99,11 +82,11 @@ function InterCom_ajax_replyfrominbox()
 }
 
 /**
-* send a reply
-*
-*@params
-*@params
-*/
+ * send a reply
+ *
+ *@params
+ *@params
+ */
 function InterCom_ajax_sendreply()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -127,29 +110,29 @@ function InterCom_ajax_sendreply()
     if (pnModGetVar('InterCom', 'messages_allowhtml') == 0) {
         $message = strip_tags($message);
     }
-	
-	if (pnModGetVar('InterCom', 'messages_allowsmilies') == 0) {
+
+    if (pnModGetVar('InterCom', 'messages_allowsmilies') == 0) {
         $message = strip_tags($message);
     }
-	
+
     if (empty($message)) {
         AjaxUtil::error(__('Error! Could not find the message text. Please check your input and try again.', $dom));
     }
 
     $replytomessage = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                                   array('boxtype'  => $boxtype,
+    array('boxtype'  => $boxtype,
                                          'msg_id'   => $replyto));
     //$message .= "[addsig]";
     $time = date("Y-m-d H:i:s");
 
     $from_uid = pnUserGetVar('uid');
     if ($replyto <> 0) {
-      pnModAPIFunc('InterCom', 'user', 'mark_replied',
-                   array ('msg_id' => $replyto));
+        pnModAPIFunc('InterCom', 'user', 'mark_replied',
+        array ('msg_id' => $replyto));
     }
 
     pnModAPIFunc('InterCom', 'user', 'store_message',
-                 array('from_userid' => $from_uid,
+    array('from_userid' => $from_uid,
                        'to_userid' => $replytomessage['from_userid'],
                        'msg_subject' => $subject,
                        'msg_time' => $time,
@@ -158,7 +141,7 @@ function InterCom_ajax_sendreply()
                        'msg_outbox' => '1',
                        'msg_stored' => '0'));
     pnModAPIFunc('InterCom', 'user', 'autoreply',
-                 array ('to_uid' => $replytomessage['from_userid'],
+    array ('to_uid' => $replytomessage['from_userid'],
                         'from_uid' => $from_uid,
                         'subject' => $subject));
 
@@ -167,11 +150,11 @@ function InterCom_ajax_sendreply()
 }
 
 /**
-* forward a message
-*
-*@params
-*@params
-*/
+ * forward a message
+ *
+ *@params
+ *@params
+ */
 function InterCom_ajax_sendforward()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -202,7 +185,7 @@ function InterCom_ajax_sendforward()
     $forwardto_uid = pnUserGetIDFromName($forwardto);
 
     pnModAPIFunc('InterCom', 'user', 'store_message',
-                 array('from_userid' => $from_uid,
+    array('from_userid' => $from_uid,
                        'to_userid' => $forwardto_uid,
                        'msg_subject' => $subject,
                        'msg_time' => $time,
@@ -211,7 +194,7 @@ function InterCom_ajax_sendforward()
                        'msg_outbox' => '1',
                        'msg_stored' => '0'));
     pnModAPIFunc('InterCom', 'user', 'autoreply',
-                 array ('to_uid' => $forwardto_uid,
+    array ('to_uid' => $forwardto_uid,
                         'from_uid' => $from_uid,
                         'subject' => $subject));
 
@@ -220,10 +203,10 @@ function InterCom_ajax_sendforward()
 }
 
 /**
-* forward a message from the inbox
-*
-*@params msgid int the id of the message to forward
-*/
+ * forward a message from the inbox
+ *
+ *@params msgid int the id of the message to forward
+ */
 function InterCom_ajax_forwardfrominbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -239,7 +222,7 @@ function InterCom_ajax_forwardfrominbox()
     }
 
     $message = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                            array('boxtype'  => 'msg_inbox',
+    array('boxtype'  => 'msg_inbox',
                                   'msg_id'   => $msg_id));
 
     // Create output object
@@ -261,10 +244,10 @@ function InterCom_ajax_forwardfrominbox()
 }
 
 /**
-* delete a message from the inbox
-*
-*@params msgid int the id of the message to delete
-*/
+ * delete a message from the inbox
+ *
+ *@params msgid int the id of the message to delete
+ */
 function InterCom_ajax_deletefrominbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -283,10 +266,10 @@ function InterCom_ajax_deletefrominbox()
 }
 
 /**
-* delete a message from the outbox
-*
-*@params msgid int the id of the message to delete
-*/
+ * delete a message from the outbox
+ *
+ *@params msgid int the id of the message to delete
+ */
 function InterCom_ajax_deletefromoutbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -305,10 +288,10 @@ function InterCom_ajax_deletefromoutbox()
 }
 
 /**
-* delete a message from the archive
-*
-*@params msgid int the id of the message to delete
-*/
+ * delete a message from the archive
+ *
+ *@params msgid int the id of the message to delete
+ */
 function InterCom_ajax_deletefromarchive()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -356,10 +339,10 @@ function InterCom_ajax_deletepm($boxtype='', $msg_id=0)
 }
 
 /**
-* toggle a messages status (read/unread)
-*
-*@params msgid int the id of the message to mark
-*/
+ * toggle a messages status (read/unread)
+ *
+ *@params msgid int the id of the message to mark
+ */
 function InterCom_ajax_togglestatus()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -376,7 +359,7 @@ function InterCom_ajax_togglestatus()
     }
 
     $message = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                            array('boxtype' => $boxtype,
+    array('boxtype' => $boxtype,
                                   'msg_id'  => $msg_id));
     // remove unneeded fields
     unset($message['from_user']);
@@ -403,10 +386,10 @@ function InterCom_ajax_togglestatus()
 }
 
 /**
-* save a message to the archive
-*
-*@params msgid int the id of the message to save
-*/
+ * save a message to the archive
+ *
+ *@params msgid int the id of the message to save
+ */
 function InterCom_ajax_store()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -429,13 +412,13 @@ function InterCom_ajax_store()
 }
 
 /**
-* getusers
-* performs a user search based on the keyword entered so far
-*
-* @author Frank Schummertz
-* @param keyword string the fragment of the username entered
-* @return void nothing, direct ouptut using echo!
-*/
+ * getusers
+ * performs a user search based on the keyword entered so far
+ *
+ * @author Frank Schummertz
+ * @param keyword string the fragment of the username entered
+ * @return void nothing, direct ouptut using echo!
+ */
 function InterCom_ajax_getusers()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -494,13 +477,13 @@ function InterCom_ajax_getusers()
 
 
 /**
-* getgroups
-* performs a group search based on the keyword entered so far
-*
-* @author Frank Schummertz
-* @param keyword string the fragment of the username entered
-* @return void nothing, direct ouptut using echo!
-*/
+ * getgroups
+ * performs a group search based on the keyword entered so far
+ *
+ * @author Frank Schummertz
+ * @param keyword string the fragment of the username entered
+ * @return void nothing, direct ouptut using echo!
+ */
 function InterCom_ajax_getgroups()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');

@@ -13,7 +13,7 @@ function InterCom_messagesblock_init()
 
 function InterCom_messagesblock_info()
 {
-    
+
     $dom = ZLanguage::getModuleDomain('InterCom');
     return array ('text_type'      => 'Private messages',
                   'module'         => 'InterCom',
@@ -30,10 +30,10 @@ function InterCom_messagesblock_display($blockinfo)
     if (!SecurityUtil::checkPermission('InterCom:messagesblock:', '::', ACCESS_OVERVIEW)) {
         return false;
     }
-    
+
     if (!pnModAvailable('InterCom')) {
         return false;
-    }    
+    }
 
     if (!pnUserloggedin()) {
         return false;
@@ -55,11 +55,11 @@ function InterCom_messagesblock_display($blockinfo)
 function InterCom_messagesblock_modify($blockinfo)
 {
     $vars = pnBlockVarsFromContent($blockinfo['content']);
-    if(!isset($vars['pn_template']) || empty($vars['pn_template']))   { 
-        $vars['pn_template']   = 'intercom_block_messages.htm'; 
+    if(!isset($vars['pn_template']) || empty($vars['pn_template']))   {
+        $vars['pn_template']   = 'intercom_block_messages.htm';
     }
     $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-    $pnRender->assign('vars', $vars);    
+    $pnRender->assign('vars', $vars);
     return $pnRender->fetch('intercom_block_messages_modify.htm');
 }
 

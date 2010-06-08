@@ -1,36 +1,19 @@
 <?php
 /**
-* $Id$
-*
-* InterCom - an advanced private messaging solution for Zikula
-*
-* License
-* -------
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License (GPL)
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* @author InterCom development team
-* @link http://code.zikula.org/intercom/ Support and documentation
-* @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
-*
-*/
+ * $Id$
+ *
+ * InterCom - an advanced private messaging solution for Zikula
+ *
+ */
 
 /**
-* The main user function -
-* This function redirects to the inbox function.
-*
-* @author Chasm
-* @version 1.0
-* @return
-*/
+ * The main user function -
+ * This function redirects to the inbox function.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @return
+ */
 function InterCom_user_main()
 {
     // This is a user only module - redirect everyone else
@@ -46,12 +29,12 @@ function InterCom_user_main()
 }
 
 /**
-* Function to modify the user preferences
-*
-* @author chaos
-* @version 1.0
-* @return
-*/
+ * Function to modify the user preferences
+ *
+ * @author chaos
+ * @version 1.0
+ * @return
+ */
 function InterCom_user_settings()
 {
     // This is a user only module - redirect everyone else
@@ -83,12 +66,12 @@ function InterCom_user_settings()
 }
 
 /**
-* Update the user preferences
-*
-* @author chaos
-* @version 1.0
-* @param
-*/
+ * Update the user preferences
+ *
+ * @author chaos
+ * @version 1.0
+ * @param
+ */
 function InterCom_user_modifyprefs()
 {
     // Security check
@@ -103,14 +86,14 @@ function InterCom_user_modifyprefs()
 }
 
 /**
-* View inbox -
-* This function shows the inbox.
-*
-* @author Chasm
-* @version 1.0
-* @param  int $sort
-* @return
-*/
+ * View inbox -
+ * This function shows the inbox.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @param  int $sort
+ * @return
+ */
 function InterCom_user_inbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -189,14 +172,14 @@ function InterCom_user_inbox()
 }
 
 /**
-* View outbox -
-* This function shows the outbox.
-*
-* @author Chasm
-* @version 1.0
-* @param $sort
-* @return
-*/
+ * View outbox -
+ * This function shows the outbox.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @param $sort
+ * @return
+ */
 function InterCom_user_outbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -238,7 +221,7 @@ function InterCom_user_outbox()
     $totalarray = pnModAPIFunc('InterCom', 'user', 'getmessagecount', '');
 
     $messagearray = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                                 array('boxtype'  => 'msg_outbox',
+    array('boxtype'  => 'msg_outbox',
                                        'orderby'  => $sort,
                                        'startnum' => $startnum,
                                        'perpage'  => $messagesperpage));
@@ -276,14 +259,14 @@ function InterCom_user_outbox()
 }
 
 /**
-* View archive -
-* This function shows the archive.
-*
-* @author Chasm
-* @version 1.0
-* @param int $sort
-* @return
-*/
+ * View archive -
+ * This function shows the archive.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @param int $sort
+ * @return
+ */
 function InterCom_user_archive()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -322,7 +305,7 @@ function InterCom_user_archive()
     $totalarray = pnModAPIFunc('InterCom', 'user', 'getmessagecount', '');
 
     $messagearray = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                                 array('boxtype'  => 'msg_stored',
+    array('boxtype'  => 'msg_stored',
                                        'orderby'  => $sort,
                                        'startnum' => $startnum,
                                        'perpage'  => $messagesperpage));
@@ -346,14 +329,14 @@ function InterCom_user_archive()
 }
 
 /**
-* Read inbox -
-* This function shows a inbox message.
-*
-* @author Chasm
-* @version 1.0
-* @param  int $messageid
-* @return
-*/
+ * Read inbox -
+ * This function shows a inbox message.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @param  int $messageid
+ * @return
+ */
 function InterCom_user_readinbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -375,7 +358,7 @@ function InterCom_user_readinbox()
     }
 
     $message = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                            array('boxtype'  => 'msg_inbox',
+    array('boxtype'  => 'msg_inbox',
                                   'msg_id'   => $messageid));
 
     // Check if a message exists
@@ -392,10 +375,10 @@ function InterCom_user_readinbox()
 
         // Prepare text of message for display
         $message['msg_text'] = pnModAPIFunc('InterCom', 'user', 'prepmessage_for_display',
-                                            array('msg_text' => $message['msg_text']));
+        array('msg_text' => $message['msg_text']));
         // URL - the db may contain false urls, try to clean them
         $message['url'] = pnModAPIFunc('InterCom', 'user', 'prepurl_for_display',
-                                        array('url' => $message['url']));
+        array('url' => $message['url']));
 
         // Create output object
         $pnRender = & pnRender::getInstance('InterCom', false, null, true);
@@ -407,14 +390,14 @@ function InterCom_user_readinbox()
 }
 
 /**
-* read outbox -
-* This function shows a outbox message.
-*
-* @author Chasm
-* @version 1.0
-* @param  int $messageid
-* @return
-*/
+ * read outbox -
+ * This function shows a outbox message.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @param  int $messageid
+ * @return
+ */
 function InterCom_user_readoutbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -437,7 +420,7 @@ function InterCom_user_readoutbox()
     }
 
     $message = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                            array('boxtype'  => 'msg_outbox',
+    array('boxtype'  => 'msg_outbox',
                                   'msg_id'   => $messageid));
 
     // no message? display error
@@ -451,11 +434,11 @@ function InterCom_user_readoutbox()
 
         // Prepare text of mesage for display
         $message['msg_text'] = pnModAPIFunc('InterCom', 'user', 'prepmessage_for_display',
-                                            array ('msg_text' => $message['msg_text']));
+        array ('msg_text' => $message['msg_text']));
 
         // URL - the db may contain false urls, try to clean them
         $message['url'] = pnModAPIFunc('InterCom', 'user', 'prepurl_for_display',
-                                          array ('url' => $message['url']));
+        array ('url' => $message['url']));
 
         // Create output object
         $pnRender = & pnRender::getInstance('InterCom', false, null, true);
@@ -467,14 +450,14 @@ function InterCom_user_readoutbox()
 }
 
 /**
-* read archive -
-* This function shows an archive message.
-*
-* @author Chasm
-* @version 1.0
-* @param  int $messageid
-* @return
-*/
+ * read archive -
+ * This function shows an archive message.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @param  int $messageid
+ * @return
+ */
 function InterCom_user_readarchive()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -497,7 +480,7 @@ function InterCom_user_readarchive()
     }
 
     $message = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                            array('boxtype'  => 'msg_stored',
+    array('boxtype'  => 'msg_stored',
                                   'msg_id'   => $messageid));
 
     // no message? display error
@@ -511,10 +494,10 @@ function InterCom_user_readarchive()
 
         // Prepare text of mesage for display
         $message['msg_text'] = pnModAPIFunc('InterCom', 'user', 'prepmessage_for_display',
-                                            array('msg_text' => $message['msg_text']));
+        array('msg_text' => $message['msg_text']));
         // URL - the db may contain false urls, try to clean them
         $message['url'] = pnModAPIFunc('InterCom', 'user', 'prepurl_for_display',
-                                          array('url' => $message['url']));
+        array('url' => $message['url']));
 
         // Create output object
         $pnRender = & pnRender::getInstance('InterCom', false, null, true);
@@ -526,13 +509,13 @@ function InterCom_user_readarchive()
 }
 
 /**
-* reply inbox -
-* This function shows the reply form for a inbox message.
-*
-* @author Chasm
-* @version 1.0
-* @return
-*/
+ * reply inbox -
+ * This function shows the reply form for a inbox message.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @return
+ */
 function InterCom_user_replyinbox()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -553,7 +536,7 @@ function InterCom_user_replyinbox()
     }
 
     $message = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                            array('boxtype'  => 'msg_inbox',
+    array('boxtype'  => 'msg_inbox',
                                   'msg_id'   => $messageid));
 
     // Chasm: display errormessage if no message is returned
@@ -571,7 +554,7 @@ function InterCom_user_replyinbox()
 
         // Prepare text of mesage for display
         $message['msg_text'] = pnModAPIFunc('InterCom', 'user', 'prepmessage_for_form',
-                                            array('msg_text' => $message['msg_text']));
+        array('msg_text' => $message['msg_text']));
         // Create output object
         $pnRender = & pnRender::getInstance('InterCom', false, null, true);
         $pnRender->assign('pmtype',       'reply');
@@ -580,7 +563,7 @@ function InterCom_user_replyinbox()
         $pnRender->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
         $pnRender->assign('allowbbcode',  pnModIsHooked('bbcode', 'InterCom'));
         $pnRender->assign('allowhtml',    pnModGetVar('InterCom', 'messages_allowhtml'));
-		$pnRender->assign('allowsmilies', pnModGetVar('InterCom', 'messages_smilies'));
+        $pnRender->assign('allowsmilies', pnModGetVar('InterCom', 'messages_smilies'));
         $pnRender->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
         $pnRender->assign('to_user',      DataUtil::formatforDisplay($fromuserdata['uname']));
         $pnRender->assign('to_user_string', DataUtil::formatforDisplay($fromuserdata['uname']));
@@ -593,13 +576,13 @@ function InterCom_user_replyinbox()
 }
 
 /**
-* new pm -
-* This function shows the form for a new message.
-*
-* @author Chasm
-* @version 1.0
-* @return
-*/
+ * new pm -
+ * This function shows the form for a new message.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @return
+ */
 function InterCom_user_newpm($args)
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -643,8 +626,8 @@ function InterCom_user_newpm($args)
     // format: user1,user2,user3
     $to_user      = FormUtil::getPassedValue('to_user',     isset($args['to_user'])     ? $args['to_user']     : '', 'GETPOST');
     $to_group     = FormUtil::getPassedValue('to_group',    isset($args['to_group'])    ? $args['to_group']    : '', 'GETPOST');
-    $msg_subject  = FormUtil::getPassedValue('subject', 	isset($args['subject']) 	? $args['subject']     : '', 'GETPOST');
-    $msg_text     = FormUtil::getPassedValue('message',    	isset($args['message'])     ? $args['message']     : '', 'GETPOST');
+    $msg_subject  = FormUtil::getPassedValue('subject',     isset($args['subject'])     ? $args['subject']     : '', 'GETPOST');
+    $msg_text     = FormUtil::getPassedValue('message',        isset($args['message'])     ? $args['message']     : '', 'GETPOST');
     $msg_preview  = FormUtil::getPassedValue('msg_preview', isset($args['msg_preview']) ? $args['msg_preview'] :  0, 'GETPOST');
     $html         = (int) FormUtil::getPassedValue('html',  isset($args['html'])        ? $args['html']         : 0, 'GETPOST');
 
@@ -682,7 +665,7 @@ function InterCom_user_newpm($args)
     $cl_buddies = array();
     if (pnModAvailable('ContactList')) {
         $cl_buddies = pnModAPIFunc('ContactList', 'user', 'getall',
-                                   array ('bid'   => $currentuid,
+        array ('bid'   => $currentuid,
                                           'state' => '1'));
     }
 
@@ -709,13 +692,13 @@ function InterCom_user_newpm($args)
 }
 
 /**
-* Submit private message -
-* This function stores a private message into the db.
-*
-* @author Chasm
-* @version 1.0
-* @return
-*/
+ * Submit private message -
+ * This function stores a private message into the db.
+ *
+ * @author Chasm
+ * @version 1.0
+ * @return
+ */
 function InterCom_user_submitpm()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -749,8 +732,8 @@ function InterCom_user_submitpm()
     //}
 
     if (FormUtil::getPassedValue('mail_prev_x', null, 'POST')) {
-          return pnModFunc('InterCom', 'user', 'newpm',
-                           array ('msg_preview' => '1',
+        return pnModFunc('InterCom', 'user', 'newpm',
+        array ('msg_preview' => '1',
                                   'to_user'     => $to_user,
                                   'to_group'    => $to_group,
                                   'msg_subject' => $subject,
@@ -847,7 +830,7 @@ function InterCom_user_submitpm()
             //check if blocked in postBuddy
             if (pnModAvailable('postBuddy')) {
                 $buddy = pnModAPIFunc('postBuddy', 'user', 'get',
-                                      array('uid' => $to_uid,
+                array('uid' => $to_uid,
                                             'bid' => $from_uid));
                 if ($buddy['state'] == 'DENIED') {
                     LogUtil::registerStatus(__('Sorry! The recipient you entered has blocked the reception of messages from you. Unfortunately, your message will not be sent.', $dom));
@@ -856,7 +839,7 @@ function InterCom_user_submitpm()
             //check if blocked in ContactList
             if (pnModAvailable('ContactList')) {
                 $isIgnored = pnModAPIFunc('ContactList', 'user', 'isIgnored',
-                                          array('uid'  => $to_uid,
+                array('uid'  => $to_uid,
                                                 'iuid' => $from_uid));
                 if ($isIgnored) {
                     LogUtil::registerStatus(__('Sorry! The recipient you entered has blocked the reception of messages from you. Unfortunately, your message will not be sent.', $dom));
@@ -865,10 +848,10 @@ function InterCom_user_submitpm()
             $from_uid = pnUserGetVar('uid');
             if (isset ($msg_id)) {
                 pnModAPIFunc('InterCom', 'user', 'mark_replied',
-                             array ('msg_id'=> $msg_id));
+                array ('msg_id'=> $msg_id));
             }
             pnModAPIFunc('InterCom', 'user', 'store_message',
-                         array ('from_userid' => $from_uid,
+            array ('from_userid' => $from_uid,
                                 'to_userid'   => $to_uid,
                                 'msg_subject' => $subject,
                                 'msg_time'    => $time,
@@ -877,7 +860,7 @@ function InterCom_user_submitpm()
                                 'msg_outbox'  => '1',
                                 'msg_stored'  => '0'));
             pnModAPIFunc('InterCom', 'user', 'autoreply',
-                         array ('to_uid'      => $to_uid,
+            array ('to_uid'      => $to_uid,
                                 'from_uid'    => $from_uid,
                                 'subject'     => $subject));
             $post_message_count++;
@@ -899,7 +882,7 @@ function InterCom_user_submitpm()
             foreach ($groupinfo['members'] as $to_uid => $dummy) {
                 $from_uid = pnUserGetVar('uid');
                 pnModAPIFunc('InterCom', 'user', 'store_message',
-                             array ('from_userid'  => $from_uid,
+                array ('from_userid'  => $from_uid,
                                     'to_userid'    => $to_uid,
                                     'msg_subject'  => $subject,
                                     'msg_time'     => $time,
@@ -921,13 +904,13 @@ function InterCom_user_submitpm()
 }
 
 /**
-* Switchaction -
-* Redirects form input to the specific function
-*
-* @author Chasm
-* @version 1.0
-* @return
-*/
+ * Switchaction -
+ * Redirects form input to the specific function
+ *
+ * @author Chasm
+ * @version 1.0
+ * @return
+ */
 function InterCom_user_switchaction()
 {
     // This is a user only module - redirect everone else
@@ -948,60 +931,60 @@ function InterCom_user_switchaction()
 
     if ($save != '') {
         return pnRedirect(pnModURL('InterCom', 'user', 'storepm',
-                                   array('messageid' => $msg_id)));
+        array('messageid' => $msg_id)));
     }
     if ($delete != '') {
         return pnRedirect(pnModURL('InterCom', 'user', 'deletefrominbox',
-                                   array('messageid' => $msg_id)));
+        array('messageid' => $msg_id)));
     }
 
     return pnRedirect(pnModURL('InterCom', 'user', 'inbox'));
 }
 
 /**
-* delete a message from the inbox
-*
-* @author Landseer
-* @version 2.0
-* @return
-*/
+ * delete a message from the inbox
+ *
+ * @author Landseer
+ * @version 2.0
+ * @return
+ */
 function InterCom_user_deletefrominbox()
 {
     return InterCom_deletepm('msg_inbox', 'inbox');
 }
 
 /**
-* delete a message from the archive
-*
-* @author Landseer
-* @version 2.0
-* @return
-*/
+ * delete a message from the archive
+ *
+ * @author Landseer
+ * @version 2.0
+ * @return
+ */
 function InterCom_user_deletefromarchive()
 {
     return InterCom_deletepm('msg_stored', 'archive');
 }
 
 /**
-* delete a message from the outbox
-*
-* @author Landseer
-* @version 2.0
-* @return
-*/
+ * delete a message from the outbox
+ *
+ * @author Landseer
+ * @version 2.0
+ * @return
+ */
 function InterCom_user_deletefromoutbox()
 {
     return InterCom_deletepm('msg_outbox', 'outbox');
 }
 
 /**
-* Delete private message -
-* Marks a private message as deleted
-*
-* @author Chasm
-* @version 1.0
-* @return
-*/
+ * Delete private message -
+ * Marks a private message as deleted
+ *
+ * @author Chasm
+ * @version 1.0
+ * @return
+ */
 function InterCom_deletepm($msg_type, $forwardfunc)
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -1028,7 +1011,7 @@ function InterCom_deletepm($msg_type, $forwardfunc)
     $status = false;
     foreach ($msg_id as $single_msg_id) {
         $status = pnModAPIFunc('InterCom', 'user', 'delete',
-                               array('msg_id'   => $single_msg_id,
+        array('msg_id'   => $single_msg_id,
                                      'msg_type' => $msg_type));
         if (!$status) {
             return LogUtil::registerError(__('Error! Could not delete the message. Please check the reason for this, resolve the problem and try again.', $dom), null, pnModURL('InterCom', 'user', 'inbox'));
@@ -1039,12 +1022,12 @@ function InterCom_deletepm($msg_type, $forwardfunc)
 }
 
 /**
-* Store as pm in the archive
-*
-* @author Chasm
-* @version 1.0
-* @return
-*/
+ * Store as pm in the archive
+ *
+ * @author Chasm
+ * @version 1.0
+ * @return
+ */
 function InterCom_user_storepm()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
@@ -1076,7 +1059,7 @@ function InterCom_user_storepm()
     $status = false;
     foreach ($msg_id as $single_msg_id) {
         $status = pnModAPIFunc('InterCom', 'user', 'store',
-                               array('msg_id' => $single_msg_id));
+        array('msg_id' => $single_msg_id));
         if (!$status) {
             return LogUtil::registerError(__('Error! Could not save your message. Please check the reason, resolve the problem and try again.', $dom), null, pnModURL('InterCom', 'user', 'inbox'));
         }
@@ -1086,12 +1069,12 @@ function InterCom_user_storepm()
 }
 
 /**
-* Login for the user with redirect
-*
-* @author chaos
-* @version 1.0
-* @return
-*/
+ * Login for the user with redirect
+ *
+ * @author chaos
+ * @version 1.0
+ * @return
+ */
 function InterCom_user_login()
 {
     $uname      = FormUtil::getPassedValue('uname', '', 'POST');
@@ -1113,12 +1096,12 @@ function InterCom_user_login()
 }
 
 /**
-* messageinfo
-* used in plugin function.messageinfo.php
-* displays a ajax-window (Control.Modal) if a new message has arrived
-*
-* @author Carsten Volmer
-*/
+ * messageinfo
+ * used in plugin function.messageinfo.php
+ * displays a ajax-window (Control.Modal) if a new message has arrived
+ *
+ * @author Carsten Volmer
+ */
 
 function InterCom_user_messageinfo()
 {
@@ -1143,13 +1126,13 @@ function InterCom_user_messageinfo()
 }
 
 /**
-* loginscreen
-* show a login screen to the user and redirect to the previouse page after login by supplying a url
-*
-*@author Frank Schummertz
-*@params $args['page'] string  the page to redirect to after a successful login
-*@returns html
-*/
+ * loginscreen
+ * show a login screen to the user and redirect to the previouse page after login by supplying a url
+ *
+ *@author Frank Schummertz
+ *@params $args['page'] string  the page to redirect to after a successful login
+ *@returns html
+ */
 
 function InterCom_user_loginscreen($args)
 {
@@ -1163,10 +1146,10 @@ function InterCom_user_loginscreen($args)
 
 
 /**
-* forward a message from the inbox
-*
-*@params msgid int the id of the message to forward
-*/
+ * forward a message from the inbox
+ *
+ *@params msgid int the id of the message to forward
+ */
 
 function InterCom_user_forwardfrominbox()
 {
@@ -1183,12 +1166,12 @@ function InterCom_user_forwardfrominbox()
     }
 
     $message = pnModAPIFunc('InterCom', 'user', 'getmessages',
-                            array('boxtype'  => 'msg_inbox',
+    array('boxtype'  => 'msg_inbox',
                                   'msg_id'   => $messageid));
 
     // Prepare text of mesage for display
     $message['msg_text'] = pnModAPIFunc('InterCom', 'user', 'prepmessage_for_form',
-                                        array('msg_text' => $message['msg_text']));
+    array('msg_text' => $message['msg_text']));
 
     // Create output object
     $pnRender = & pnRender::getInstance('InterCom', false, null, true);
