@@ -26,7 +26,6 @@ function InterCom_accountapi_getall($args)
 
     // Create an array of links to return
     if(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_OVERVIEW)) {
-        pnModLangLoad('InterCom', 'user');
         $items = array(array('url'     => pnModURL('InterCom', 'user', 'settings'),
                              'title'   => __('Private messaging settings', $dom),
                              'icon'    => 'userconfig.png'),

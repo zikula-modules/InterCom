@@ -100,15 +100,15 @@ function InterCom_userapi_emailnotification($args)
 
     // Get the needed variables for the mail
 
-    $pnRender = & pnRender::getInstance('InterCom', false);
-    $pnRender->assign('message_from',pnUserGetVar('uname', $from_uid));
-    $pnRender->assign('subject', $subject);
-    $pnRender->assign('viewinbox', pnModURL('InterCom', 'user', 'inbox'));
-    $pnRender->assign('prefs', pnModURL('InterCom', 'user', 'settings'));
-    $pnRender->assign('url', $url);
-    $pnRender->assign('baseURL', pnGetBaseURL());
+    $renderer = & pnRender::getInstance('InterCom', false);
+    $renderer->assign('message_from',pnUserGetVar('uname', $from_uid));
+    $renderer->assign('subject', $subject);
+    $renderer->assign('viewinbox', pnModURL('InterCom', 'user', 'inbox'));
+    $renderer->assign('prefs', pnModURL('InterCom', 'user', 'settings'));
+    $renderer->assign('url', $url);
+    $renderer->assign('baseURL', pnGetBaseURL());
 
-    $message = $pnRender->fetch("intercom_user_emailnotification.htm");
+    $message = $renderer->fetch("intercom_user_emailnotification.htm");
 
     $fromname = pnModGetVar('InterCom', 'messages_fromname');
     if ($fromname == '') {
@@ -695,7 +695,6 @@ function InterCom_userapi_createhook($args)
     $savewelcomemessage    = pnModGetVar('InterCom', 'messages_savewelcomemessage');
 
     // create the welcome message, uid = objectid
-    pnModLangLoad('InterCom', 'welcome');
     Loader::loadClass('StringUtil');
     if (StringUtil::left($welcomemessage, 1) == '_') {
         $welcomemessage = constant($welcomemessage);

@@ -7,17 +7,17 @@
     <script type="text/javascript">
         // <![CDATA[
         new Ajax.PeriodicalUpdater(
-                          'ic-newmessages', 
-                          document.location.pnbaseURL + 'ajax.php',
-                         {
-                           method: 'get',
-                           parameters: 'module=InterCom&func=getmessages',
-                           frequency: 60
-                           });
+        'ic-newmessages',
+        document.location.pnbaseURL + 'ajax.php',
+        {
+            method: 'get',
+            parameters: 'module=InterCom&func=getmessages',
+            frequency: 60
+        });
         // ]]>
     </script>
 
-  <noscript>
-    <!--[include file="intercom_ajax_getmessages.htm"]-->
-  </noscript>
+    <noscript>
+        <!--[include file="intercom_ajax_getmessages.htm"]-->
+    </noscript>
 </div>

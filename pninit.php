@@ -28,8 +28,8 @@ function InterCom_init_interactiveinit()
     }
 
     // prepare the output
-    $pnr = & pnRender::getInstance('InterCom', false);
-    return $pnr->fetch('intercom_init_interactive.htm');
+    $renderer = & pnRender::getInstance('InterCom', false);
+    return $renderer->fetch('intercom_init_interactive.htm');
 }
 
 /**
@@ -84,7 +84,7 @@ function InterCom_init_step2()
                            array('callermodname' => 'Users',
                        'hookmodname' => 'InterCom'));
 
-                           $pnr = & pnRender::getInstance('InterCom', false);
+                           $renderer = & pnRender::getInstance('InterCom', false);
 
                            // check if old Messages module table is available, if yes, go to step 2 and offer to import
                            // them, if not, continue to the final step
@@ -93,13 +93,13 @@ function InterCom_init_step2()
                            $res = DBUtil::executeSQL($sql);
                            if($res->EOF == true) {
                                // table does not exist
-                               $pnr->assign('authid', SecurityUtil::generateAuthKey('Modules'));
-                               return $pnr->fetch('intercom_init_step_final.htm');
+                               $renderer->assign('authid', SecurityUtil::generateAuthKey('Modules'));
+                               return $renderer->fetch('intercom_init_step_final.htm');
                            }
 
                            // prepare the output
-                           $pnr->assign('authid', SecurityUtil::generateAuthKey('InterCom'));
-                           return $pnr->fetch('intercom_init_step2.htm');
+                           $renderer->assign('authid', SecurityUtil::generateAuthKey('InterCom'));
+                           return $renderer->fetch('intercom_init_step2.htm');
 }
 
 /**
@@ -124,9 +124,9 @@ function InterCom_init_step3()
         pnModAPIFunc('InterCom', 'init', 'import_messages');
     }
 
-    $pnr = & pnRender::getInstance('InterCom', false);
-    $pnr->assign('authid', SecurityUtil::generateAuthKey('Modules'));
-    return $pnr->fetch('intercom_init_step_final.htm');
+    $renderer = & pnRender::getInstance('InterCom', false);
+    $renderer->assign('authid', SecurityUtil::generateAuthKey('Modules'));
+    return $renderer->fetch('intercom_init_step_final.htm');
 }
 
 /**
@@ -144,9 +144,9 @@ function InterCom_init_interactivedelete()
         return LogUtil::registerPermissionError();
     }
 
-    $pnr = & pnRender::getInstance('InterCom', false);
-    $pnr->assign('authid', SecurityUtil::generateAuthKey('InterCom'));
-    return $pnr->fetch('intercom_init_delete.htm');
+    $renderer = & pnRender::getInstance('InterCom', false);
+    $renderer->assign('authid', SecurityUtil::generateAuthKey('InterCom'));
+    return $renderer->fetch('intercom_init_delete.htm');
 }
 
 /**
@@ -187,9 +187,9 @@ function InterCom_init_deletefinal()
                                }
                            }
 
-                           $pnr = & pnRender::getInstance('InterCom', false);
-                           $pnr->assign('authid', SecurityUtil::generateAuthKey('Modules'));
-                           return $pnr->fetch('intercom_init_delete_final.htm');
+                           $renderer = & pnRender::getInstance('InterCom', false);
+                           $renderer->assign('authid', SecurityUtil::generateAuthKey('Modules'));
+                           return $renderer->fetch('intercom_init_delete_final.htm');
 }
 
 /**
@@ -206,28 +206,21 @@ function InterCom_init_deletefinal()
 function InterCom_init()
 {
     $dom = ZLanguage::getModuleDomain('InterCom');
-    if (defined('_PNINSTALLVER')) {
-        if (!DBUtil::createTable('intercom')) {
-            return LogUtil::registerError(__('Error! Could not create table.', $dom));
-        }
-        // Force api load
-        pnModAPILoad('InterCom', 'admin', true);
-        // Set up initial values all module variables
-        pnModAPIFunc('InterCom', 'admin', 'default_config');
 
-        if (pnModRegisterHook('item',
-                               'create',
-                               'API',
-                               'InterCom',
-                               'user',
-                               'createhook')) {
-        // enable the create hook for the Users module
-        pnModAPIFunc('Modules', 'admin', 'enablehooks',
-        array('callermodname' => 'Users',
-                               'hookmodname' => 'InterCom'));
-                               }
-
+    if (!DBUtil::createTable('intercom')) {
+        return LogUtil::registerError(__('Error! Could not create table.', $dom));
     }
+    // Force api load
+    pnModAPILoad('InterCom', 'admin', true);
+    // Set up initial values all module variables
+    pnModAPIFunc('InterCom', 'admin', 'default_config');
+
+    if (pnModRegisterHook('item', 'create', 'API', 'InterCom', 'user', 'createhook')) {
+        // enable the create hook for the Users module
+        pnModAPIFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users',
+                                                              'hookmodname'   => 'InterCom'));
+    }
+
     return true;
 }
 
@@ -246,34 +239,28 @@ function InterCom_upgrade($oldversion)
     switch ($oldversion) {
         case '1.5':
             // register the create hook
-            if (!pnModRegisterHook('item',
-                                   'create',
-                                   'API',
-                                   'InterCom',
-                                   'user',
-                                   'createhook')) {
-            return LogUtil::registerError(__('Error! Could not create the creation hook.', $dom));
-                                   }
-                                   // enable the create hook for the Users module
-                                   pnModAPIFunc('Modules', 'admin', 'enablehooks',
-                                   array('callermodname' => 'Users',
-                               'hookmodname' => 'InterCom'));
+            if (!pnModRegisterHook('item', 'create', 'API', 'InterCom', 'user', 'createhook')) {
+                return LogUtil::registerError(__('Error! Could not create the creation hook.', $dom));
+            }
+            // enable the create hook for the Users module
+            pnModAPIFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users',
+                                                                  'hookmodname' => 'InterCom'));
 
-                                   // convert 1/0 settings to true/false
-                                   pnModSetVar('InterCom', 'messages_allowhtml', (pnModGetVar('InterCom', 'messages_allowhtml') == '1') ? true : false);
-                                   pnModSetVar('InterCom', 'messages_allowsmilies', (pnModGetVar('InterCom', 'messages_allowsmilies') == '1') ? true : false);
-                                   pnModSetVar('InterCom', 'messages_allow_emailnotification', (pnModGetVar('InterCom', 'messages_allow_emailnotification') == '1') ? true : false);
-                                   pnModSetVar('InterCom', 'messages_allow_autoreply', (pnModGetVar('InterCom', 'messages_allow_autoreply') == '1') ? true : false);
-                                   pnModSetVar('InterCom', 'messages_userprompt_display', (pnModGetVar('InterCom', 'messages_userprompt_display') == '1') ? true : false);
-                                   pnModSetVar('InterCom', 'messages_active', (pnModGetVar('InterCom', 'messages_active') == '1') ? true : false);
-                                   pnModSetVar('InterCom', 'messages_protection_on', (pnModGetVar('InterCom', 'messages_protection_on') == '1') ? true : false);
-                                   pnModSetVar('InterCom', 'messages_protection_mail', (pnModGetVar('InterCom', 'messages_protection_mail') == '1') ? true : false);
+            // convert 1/0 settings to true/false
+            pnModSetVar('InterCom', 'messages_allowhtml', (pnModGetVar('InterCom', 'messages_allowhtml') == '1') ? true : false);
+            pnModSetVar('InterCom', 'messages_allowsmilies', (pnModGetVar('InterCom', 'messages_allowsmilies') == '1') ? true : false);
+            pnModSetVar('InterCom', 'messages_allow_emailnotification', (pnModGetVar('InterCom', 'messages_allow_emailnotification') == '1') ? true : false);
+            pnModSetVar('InterCom', 'messages_allow_autoreply', (pnModGetVar('InterCom', 'messages_allow_autoreply') == '1') ? true : false);
+            pnModSetVar('InterCom', 'messages_userprompt_display', (pnModGetVar('InterCom', 'messages_userprompt_display') == '1') ? true : false);
+            pnModSetVar('InterCom', 'messages_active', (pnModGetVar('InterCom', 'messages_active') == '1') ? true : false);
+            pnModSetVar('InterCom', 'messages_protection_on', (pnModGetVar('InterCom', 'messages_protection_on') == '1') ? true : false);
+            pnModSetVar('InterCom', 'messages_protection_mail', (pnModGetVar('InterCom', 'messages_protection_mail') == '1') ? true : false);
 
-                                   // new mod vars
-                                   pnModSetVar('InterCom', 'messages_welcomemessagesender', 'Admin');
-                                   pnModSetVar('InterCom', 'messages_welcomemessagesubject', '_IC_INTL_WELCOME_MESSAGESUBJECT');  // quotes are important here!!
-                                   pnModSetVar('InterCom', 'messages_welcomemessage', '_IC_INTL_WELCOME_MESSAGE');  // quotes are important here!!
-                                   pnModSetVar('InterCom', 'messages_savewelcomemessage', false);
+            // new mod vars
+            pnModSetVar('InterCom', 'messages_welcomemessagesender', 'Admin');
+            pnModSetVar('InterCom', 'messages_welcomemessagesubject', '_IC_INTL_WELCOME_MESSAGESUBJECT');  // quotes are important here!!
+            pnModSetVar('InterCom', 'messages_welcomemessage', '_IC_INTL_WELCOME_MESSAGE');  // quotes are important here!!
+            pnModSetVar('InterCom', 'messages_savewelcomemessage', false);
 
         case '2.0': // rename to InterCom in 2.1
             // rename tables

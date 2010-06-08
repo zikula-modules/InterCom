@@ -56,7 +56,7 @@ function InterCom_ajax_replyfrominbox()
     }
 
     // Create output object
-    $pnRender = & pnRender::getInstance('InterCom', false, null, true);
+    $renderer = & pnRender::getInstance('InterCom', false, null, true);
 
     $bbsmile = pnModIsHooked('bbsmile', 'InterCom');
     $bbcode  = pnModIsHooked('bbcode',  'InterCom');
@@ -73,12 +73,12 @@ function InterCom_ajax_replyfrominbox()
         $message['reply_text'] = '[quote=' . pnUserGetVar('uname', $message['from_userid']) . ']' . $message['reply_text'] . '[/quote]';
     }
 
-    $pnRender->assign('message', $message);
-    $pnRender->assign('allowsmilies', $bbsmile);
-    $pnRender->assign('allowbbcode',  $bbcode);
+    $renderer->assign('message', $message);
+    $renderer->assign('allowsmilies', $bbsmile);
+    $renderer->assign('allowbbcode',  $bbcode);
 
     // no output in xjsonheader as this might be too long for prototype!
-    AjaxUtil::output(array('data' => $pnRender->fetch('intercom_ajax_reply.htm')));
+    AjaxUtil::output(array('data' => $renderer->fetch('intercom_ajax_reply.htm')));
 }
 
 /**
@@ -226,7 +226,7 @@ function InterCom_ajax_forwardfrominbox()
                                   'msg_id'   => $msg_id));
 
     // Create output object
-    $pnRender = & pnRender::getInstance('InterCom', false);
+    $renderer = & pnRender::getInstance('InterCom', false);
 
     $bbcode = pnModIsHooked('bbcode', 'InterCom');
     $message['forward_text'] = DataUtil::formatForDisplay($message['msg_text']);
@@ -234,13 +234,13 @@ function InterCom_ajax_forwardfrominbox()
         $message['forward_text'] = '[quote=' . pnUserGetVar('uname', $message['from_userid']) . ']' . $message['forward_text'] . '[/quote]';
     }
 
-    $pnRender->assign('message', $message);
-    $pnRender->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
-    $pnRender->assign('allowbbcode', $bbcode);
-    $pnRender->assign('allowhtml', pnModGetVar('InterCom', 'messages_allowhtml'));
+    $renderer->assign('message', $message);
+    $renderer->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
+    $renderer->assign('allowbbcode', $bbcode);
+    $renderer->assign('allowhtml', pnModGetVar('InterCom', 'messages_allowhtml'));
 
     // no output in xjsonheader as this might be too long for prototype!
-    AjaxUtil::output(array('data' => $pnRender->fetch('intercom_ajax_forward.htm')));
+    AjaxUtil::output(array('data' => $renderer->fetch('intercom_ajax_forward.htm')));
 }
 
 /**
@@ -545,11 +545,11 @@ function InterCom_ajax_getgroups()
  */
 function InterCom_ajax_getmessages ()
 {
-    $pnRender = & pnRender::getInstance('InterCom', false);
+    $renderer = & pnRender::getInstance('InterCom', false);
     if(pnConfigGetVar('shorturls')) {
         Loader::includeOnce('system/Theme/plugins/outputfilter.shorturls.php');
-        $pnRender->register_outputfilter('smarty_outputfilter_shorturls');
+        $renderer->register_outputfilter('smarty_outputfilter_shorturls');
     }
-    $pnRender->display('intercom_ajax_getmessages.htm');
+    $renderer->display('intercom_ajax_getmessages.htm');
     pnShutDown();
 }

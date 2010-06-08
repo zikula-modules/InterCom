@@ -58,11 +58,11 @@ function InterCom_user_settings()
     $allow_autoreply = pnModGetVar('InterCom', 'messages_allow_autoreply');
 
     // Create output object
-    $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-    $pnRender->assign('email_notification', $attr['ic_note']);
-    $pnRender->assign('autoreply',          $attr['ic_ar']);
-    $pnRender->assign('autoreply_text',     $attr['ic_art']);
-    return $pnRender->fetch('intercom_user_prefs.htm');
+    $renderer = & pnRender::getInstance('InterCom', false, null, true);
+    $renderer->assign('email_notification', $attr['ic_note']);
+    $renderer->assign('autoreply',          $attr['ic_ar']);
+    $renderer->assign('autoreply_text',     $attr['ic_art']);
+    return $renderer->fetch('intercom_user_prefs.htm');
 }
 
 /**
@@ -109,8 +109,8 @@ function InterCom_user_inbox()
     }
     // Maintenance message
     if (pnModGetVar('InterCom', 'messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-        $pnRender = & pnRender::getInstance('InterCom', false);
-        return $pnRender->fetch('intercom_user_maintenance.htm');
+        $renderer = & pnRender::getInstance('InterCom', false);
+        return $renderer->fetch('intercom_user_maintenance.htm');
     }
 
     // Get variables for autoreply
@@ -156,19 +156,19 @@ function InterCom_user_inbox()
     }
 
     // Create output object
-    $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-    $pnRender->assign('boxtype',          'inbox');
-    $pnRender->assign('currentuid',       pnUserGetVar('uid'));
-    $pnRender->assign('messagearray',     $messagearray);
-    $pnRender->assign('sortarray',        $sortarray);
-    $pnRender->assign('getmessagecount',  $totalarray);
-    $pnRender->assign('sortbar_target',   'inbox');
-    $pnRender->assign('messagesperpage',  $messagesperpage);
-    $pnRender->assign('autoreply',        $autoreply);
-    $pnRender->assign('sort',             $sort);
-    $pnRender->assign('ictitle',          DataUtil::formatForDisplay(__('Inbox', $dom)));
+    $renderer = & pnRender::getInstance('InterCom', false, null, true);
+    $renderer->assign('boxtype',          'inbox');
+    $renderer->assign('currentuid',       pnUserGetVar('uid'));
+    $renderer->assign('messagearray',     $messagearray);
+    $renderer->assign('sortarray',        $sortarray);
+    $renderer->assign('getmessagecount',  $totalarray);
+    $renderer->assign('sortbar_target',   'inbox');
+    $renderer->assign('messagesperpage',  $messagesperpage);
+    $renderer->assign('autoreply',        $autoreply);
+    $renderer->assign('sort',             $sort);
+    $renderer->assign('ictitle',          DataUtil::formatForDisplay(__('Inbox', $dom)));
     // Return output object
-    return $pnRender->fetch('intercom_user_view.htm');
+    return $renderer->fetch('intercom_user_view.htm');
 }
 
 /**
@@ -195,8 +195,8 @@ function InterCom_user_outbox()
     }
     // Maintenance message
     if (pnModGetVar('InterCom', 'messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-        $pnRender = & pnRender::getInstance('InterCom', false);
-        return $pnRender->fetch('intercom_user_maintenance.htm');
+        $renderer = & pnRender::getInstance('InterCom', false);
+        return $renderer->fetch('intercom_user_maintenance.htm');
     }
 
     // Get startnum and perpage parameter for pager
@@ -244,18 +244,18 @@ function InterCom_user_outbox()
     InterCom_addinlinejs();
 
     // Create output object
-    $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-    $pnRender->assign('boxtype',         'outbox');
-    $pnRender->assign('currentuid',      pnUserGetVar('uid'));
-    $pnRender->assign('messagearray',    $messagearray);
-    $pnRender->assign('sortarray',       $sortarray);
-    $pnRender->assign('getmessagecount', $totalarray);
-    $pnRender->assign('sortbar_target',  'outbox');
-    $pnRender->assign('messagesperpage', $messagesperpage);
-    $pnRender->assign('sort',            $sort);
-    $pnRender->assign('ictitle',         DataUtil::formatForDisplay(__('Outbox', $dom)));
+    $renderer = & pnRender::getInstance('InterCom', false, null, true);
+    $renderer->assign('boxtype',         'outbox');
+    $renderer->assign('currentuid',      pnUserGetVar('uid'));
+    $renderer->assign('messagearray',    $messagearray);
+    $renderer->assign('sortarray',       $sortarray);
+    $renderer->assign('getmessagecount', $totalarray);
+    $renderer->assign('sortbar_target',  'outbox');
+    $renderer->assign('messagesperpage', $messagesperpage);
+    $renderer->assign('sort',            $sort);
+    $renderer->assign('ictitle',         DataUtil::formatForDisplay(__('Outbox', $dom)));
     // Return output object
-    return $pnRender->fetch('intercom_user_view.htm');
+    return $renderer->fetch('intercom_user_view.htm');
 }
 
 /**
@@ -282,8 +282,8 @@ function InterCom_user_archive()
     }
     // Maintenance message
     if (pnModGetVar('InterCom', 'messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-        $pnRender = & pnRender::getInstance('InterCom', false);
-        return $pnRender->fetch('intercom_user_maintenance.htm');
+        $renderer = & pnRender::getInstance('InterCom', false);
+        return $renderer->fetch('intercom_user_maintenance.htm');
     }
 
     // Get startnum and perpage parameter for pager
@@ -314,18 +314,18 @@ function InterCom_user_archive()
     InterCom_addinlinejs();
 
     // Create output object
-    $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-    $pnRender->assign('boxtype',         'archive');
-    $pnRender->assign('currentuid',      pnUserGetVar('uid'));
-    $pnRender->assign('messagearray',    $messagearray);
-    $pnRender->assign('sortarray',       $sortarray);
-    $pnRender->assign('getmessagecount', $totalarray);
-    $pnRender->assign('sortbar_target',  'archive');
-    $pnRender->assign('messagesperpage', $messagesperpage);
-    $pnRender->assign('sort',            $sort);
-    $pnRender->assign('ictitle',          DataUtil::formatForDisplay(__('Archive', $dom)));
+    $renderer = & pnRender::getInstance('InterCom', false, null, true);
+    $renderer->assign('boxtype',         'archive');
+    $renderer->assign('currentuid',      pnUserGetVar('uid'));
+    $renderer->assign('messagearray',    $messagearray);
+    $renderer->assign('sortarray',       $sortarray);
+    $renderer->assign('getmessagecount', $totalarray);
+    $renderer->assign('sortbar_target',  'archive');
+    $renderer->assign('messagesperpage', $messagesperpage);
+    $renderer->assign('sort',            $sort);
+    $renderer->assign('ictitle',          DataUtil::formatForDisplay(__('Archive', $dom)));
     // Return output object
-    return $pnRender->fetch('intercom_user_view.htm');
+    return $renderer->fetch('intercom_user_view.htm');
 }
 
 /**
@@ -381,11 +381,11 @@ function InterCom_user_readinbox()
         array('url' => $message['url']));
 
         // Create output object
-        $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-        $pnRender->assign('currentuid', pnUserGetVar('uid'));
-        $pnRender->assign('boxtype', 'inbox');
-        $pnRender->assign('message',  $message);
-        return $pnRender->fetch('intercom_user_readpm.htm');
+        $renderer = & pnRender::getInstance('InterCom', false, null, true);
+        $renderer->assign('currentuid', pnUserGetVar('uid'));
+        $renderer->assign('boxtype', 'inbox');
+        $renderer->assign('message',  $message);
+        return $renderer->fetch('intercom_user_readpm.htm');
     }
 }
 
@@ -441,11 +441,11 @@ function InterCom_user_readoutbox()
         array ('url' => $message['url']));
 
         // Create output object
-        $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-        $pnRender->assign('currentuid', pnUserGetVar('uid'));
-        $pnRender->assign('boxtype', 'outbox');
-        $pnRender->assign('message',  $message);
-        return $pnRender->fetch('intercom_user_readpm.htm');
+        $renderer = & pnRender::getInstance('InterCom', false, null, true);
+        $renderer->assign('currentuid', pnUserGetVar('uid'));
+        $renderer->assign('boxtype', 'outbox');
+        $renderer->assign('message',  $message);
+        return $renderer->fetch('intercom_user_readpm.htm');
     }
 }
 
@@ -500,11 +500,11 @@ function InterCom_user_readarchive()
         array('url' => $message['url']));
 
         // Create output object
-        $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-        $pnRender->assign('currentuid', pnUserGetVar('uid'));
-        $pnRender->assign('boxtype', 'archive');
-        $pnRender->assign('message',  $message);
-        return $pnRender->fetch('intercom_user_readpm.htm');
+        $renderer = & pnRender::getInstance('InterCom', false, null, true);
+        $renderer->assign('currentuid', pnUserGetVar('uid'));
+        $renderer->assign('boxtype', 'archive');
+        $renderer->assign('message',  $message);
+        return $renderer->fetch('intercom_user_readpm.htm');
     }
 }
 
@@ -556,22 +556,22 @@ function InterCom_user_replyinbox()
         $message['msg_text'] = pnModAPIFunc('InterCom', 'user', 'prepmessage_for_form',
         array('msg_text' => $message['msg_text']));
         // Create output object
-        $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-        $pnRender->assign('pmtype',       'reply');
-        $pnRender->assign('currentuid',   pnUserGetVar('uid'));
-        $pnRender->assign('message',      $message);
-        $pnRender->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
-        $pnRender->assign('allowbbcode',  pnModIsHooked('bbcode', 'InterCom'));
-        $pnRender->assign('allowhtml',    pnModGetVar('InterCom', 'messages_allowhtml'));
-        $pnRender->assign('allowsmilies', pnModGetVar('InterCom', 'messages_smilies'));
-        $pnRender->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
-        $pnRender->assign('to_user',      DataUtil::formatforDisplay($fromuserdata['uname']));
-        $pnRender->assign('to_user_string', DataUtil::formatforDisplay($fromuserdata['uname']));
-        $pnRender->assign('from_uname',   $touserdata['uname']);
-        $pnRender->assign('from_uid',     pnUserGetVar('uid'));
-        $pnRender->assign('ictitle',      DataUtil::formatForDisplay(__('Send reply', $dom)));
+        $renderer = & pnRender::getInstance('InterCom', false, null, true);
+        $renderer->assign('pmtype',       'reply');
+        $renderer->assign('currentuid',   pnUserGetVar('uid'));
+        $renderer->assign('message',      $message);
+        $renderer->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
+        $renderer->assign('allowbbcode',  pnModIsHooked('bbcode', 'InterCom'));
+        $renderer->assign('allowhtml',    pnModGetVar('InterCom', 'messages_allowhtml'));
+        $renderer->assign('allowsmilies', pnModGetVar('InterCom', 'messages_smilies'));
+        $renderer->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
+        $renderer->assign('to_user',      DataUtil::formatforDisplay($fromuserdata['uname']));
+        $renderer->assign('to_user_string', DataUtil::formatforDisplay($fromuserdata['uname']));
+        $renderer->assign('from_uname',   $touserdata['uname']);
+        $renderer->assign('from_uid',     pnUserGetVar('uid'));
+        $renderer->assign('ictitle',      DataUtil::formatForDisplay(__('Send reply', $dom)));
 
-        return $pnRender->fetch('intercom_user_pm.htm');
+        return $renderer->fetch('intercom_user_pm.htm');
     }
 }
 
@@ -672,23 +672,23 @@ function InterCom_user_newpm($args)
     InterCom_addinlinejs();
 
     // Create output object
-    $pnRender = & pnRender::getInstance('InterCom', false, null, true);
-    $pnRender->assign('pmtype',       'new');
-    $pnRender->assign('currentuid',   $currentuid);
-    $pnRender->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
-    $pnRender->assign('allowbbcode',  pnModIsHooked('bbcode', 'InterCom'));
-    $pnRender->assign('allowhtml',    pnModGetVar('InterCom', 'messages_allowhtml'));
-    $pnRender->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
-    $pnRender->assign('msg_preview',  $msg_preview);
-    $pnRender->assign('to_user',      $to_user_array);
-    $pnRender->assign('to_user_string',$to_user);
-    $pnRender->assign('to_group',     $to_group_array);
-    $pnRender->assign('cl_buddies',   $cl_buddies);
-    $pnRender->assign('message',      $message);
-    $pnRender->assign('ictitle',      DataUtil::formatForDisplay(__('New message', $dom)));
+    $renderer = & pnRender::getInstance('InterCom', false, null, true);
+    $renderer->assign('pmtype',       'new');
+    $renderer->assign('currentuid',   $currentuid);
+    $renderer->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
+    $renderer->assign('allowbbcode',  pnModIsHooked('bbcode', 'InterCom'));
+    $renderer->assign('allowhtml',    pnModGetVar('InterCom', 'messages_allowhtml'));
+    $renderer->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
+    $renderer->assign('msg_preview',  $msg_preview);
+    $renderer->assign('to_user',      $to_user_array);
+    $renderer->assign('to_user_string',$to_user);
+    $renderer->assign('to_group',     $to_group_array);
+    $renderer->assign('cl_buddies',   $cl_buddies);
+    $renderer->assign('message',      $message);
+    $renderer->assign('ictitle',      DataUtil::formatForDisplay(__('New message', $dom)));
 
     // Return output object
-    return $pnRender->fetch('intercom_user_pm.htm');
+    return $renderer->fetch('intercom_user_pm.htm');
 }
 
 /**
@@ -1090,8 +1090,8 @@ function InterCom_user_login()
         return pnRedirect($url);
     } else {
         LogUtil::registerError(__('Error! Could not log in.', $dom));
-        $pnRender = & pnRender::getInstance('InterCom');
-        return $pnRender->fetch('intercom_user_login.htm');
+        $renderer = & pnRender::getInstance('InterCom');
+        return $renderer->fetch('intercom_user_login.htm');
     }
 }
 
@@ -1138,9 +1138,9 @@ function InterCom_user_loginscreen($args)
 {
     $page = (isset($args['page']) && !empty($args['page'])) ? $args['page'] : 'main';
 
-    $pnRender = & pnRender::getInstance('InterCom', false);
-    $pnRender->assign('url', pnModURL('InterCom', 'user', $page));
-    return $pnRender->fetch('intercom_user_login.htm');
+    $renderer = & pnRender::getInstance('InterCom', false);
+    $renderer->assign('url', pnModURL('InterCom', 'user', $page));
+    return $renderer->fetch('intercom_user_login.htm');
 }
 
 
@@ -1174,7 +1174,7 @@ function InterCom_user_forwardfrominbox()
     array('msg_text' => $message['msg_text']));
 
     // Create output object
-    $pnRender = & pnRender::getInstance('InterCom', false, null, true);
+    $renderer = & pnRender::getInstance('InterCom', false, null, true);
 
     $bbcode = pnModIsHooked('bbcode', 'InterCom');
     $message['forward_text'] = DataUtil::formatForDisplay($message['msg_text']);
@@ -1182,16 +1182,16 @@ function InterCom_user_forwardfrominbox()
         $message['forward_text'] = '[quote=' . pnUserGetVar('uname', $message['from_userid']) . ']' . $message['forward_text'] . '[/quote]';
     }
 
-    $pnRender->assign('pmtype',       'forward');
-    $pnRender->assign('currentuid',   pnUserGetVar('uid'));
-    $pnRender->assign('message',      $message);
-    $pnRender->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
-    $pnRender->assign('allowbbcode',  $bbcode);
-    $pnRender->assign('allowhtml',    pnModGetVar('InterCom', 'messages_allowhtml'));
-    $pnRender->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
-    $pnRender->assign('ictitle',      DataUtil::formatForDisplay(__('Forward message', $dom)));
+    $renderer->assign('pmtype',       'forward');
+    $renderer->assign('currentuid',   pnUserGetVar('uid'));
+    $renderer->assign('message',      $message);
+    $renderer->assign('allowsmilies', pnModIsHooked('bbsmile', 'InterCom'));
+    $renderer->assign('allowbbcode',  $bbcode);
+    $renderer->assign('allowhtml',    pnModGetVar('InterCom', 'messages_allowhtml'));
+    $renderer->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
+    $renderer->assign('ictitle',      DataUtil::formatForDisplay(__('Forward message', $dom)));
 
-    return $pnRender->fetch('intercom_user_pm.htm');
+    return $renderer->fetch('intercom_user_pm.htm');
 }
 
 /**

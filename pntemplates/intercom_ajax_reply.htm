@@ -2,38 +2,38 @@
 <!--[capture assign="textfieldid"]-->ic-ajaxreplymessage-<!--[$message.msg_id|pnvarprepfordisplay]--><!--[/capture]-->
 
 <div class="ic-formrow">
-  <label for="subject"><!--[gt text="Subject line" domain="module_intercom"]--></label>
-  <input type="text" class="ic-text" name="ic-ajaxreplysubject-<!--[$message.msg_id|pnvarprepfordisplay]-->" id="ic-ajaxreplysubject-<!--[$message.msg_id|pnvarprepfordisplay]-->" maxlength="100" value="<!--[replysubject subject=$message.msg_subject|replace:" ":""|truncate:3:"":true subjectclean=$message.msg_subject]-->" />
+    <label for="subject"><!--[gt text="Subject line" domain="module_intercom"]--></label>
+    <input type="text" class="ic-text" name="ic-ajaxreplysubject-<!--[$message.msg_id|pnvarprepfordisplay]-->" id="ic-ajaxreplysubject-<!--[$message.msg_id|pnvarprepfordisplay]-->" maxlength="100" value="<!--[replysubject subject=$message.msg_subject|replace:" ":""|truncate:3:"":true subjectclean=$message.msg_subject]-->" />
 </div>
 
 <div class="ic-formrow">
-  <label for="<!--[$textfieldid]-->"><!--[gt text="Message text" domain="module_intercom"]--></label>
-  <textarea id="<!--[$textfieldid]-->" name="<!--[$textfieldid]-->" class="ic-text"><!--[$message.reply_text|pnvarprepfordisplay]--></textarea>
+    <label for="<!--[$textfieldid]-->"><!--[gt text="Message text" domain="module_intercom"]--></label>
+    <textarea id="<!--[$textfieldid]-->" name="<!--[$textfieldid]-->" class="ic-text"><!--[$message.reply_text|pnvarprepfordisplay]--></textarea>
 </div>
 
 <div class="z-clearfix ic-margin">
-  <!--[if $pncore.InterCom.messages_allowhtml eq 1 || $allowsmilies eq 1]-->
-  <div class="ic-floatleft">
-    <!--[if $pncore.InterCom.messages_allowhtml eq 1]-->
-    <div class="ic-formrow">
-      <label for="html"><!--[gt text="Disable HTML mark-up" domain="module_intercom"]--></label>
-      <input type="checkbox" id="html" name="html" value="1" <!--[if $html eq 1]-->checked="true"<!--[/if]--> />
+    <!--[if $pncore.InterCom.messages_allowhtml eq 1 || $allowsmilies eq 1]-->
+    <div class="ic-floatleft">
+        <!--[if $pncore.InterCom.messages_allowhtml eq 1]-->
+        <div class="ic-formrow">
+            <label for="html"><!--[gt text="Disable HTML mark-up" domain="module_intercom"]--></label>
+            <input type="checkbox" id="html" name="html" value="1" <!--[if $html eq 1]-->checked="true"<!--[/if]--> />
+        </div>
+        <!--[/if]-->
+        <!--[if $allowsmilies eq 1]-->
+        <!--[pnmodfunc modname=bbsmile func=bbsmiles textfieldid=$textfieldid]-->
+        <!--[/if]-->
     </div>
     <!--[/if]-->
-    <!--[if $allowsmilies eq 1]-->
-    <!--[pnmodfunc modname=bbsmile func=bbsmiles textfieldid=$textfieldid]-->
-    <!--[/if]-->
-  </div>
-  <!--[/if]-->
 
-  <!--[if $allowbbcode eq 1]-->
-  <div class="ic-floatright">
-    <!--[pnmodfunc modname=bbcode type=user func=bbcodes textfieldid=$textfieldid images=0]-->
-  </div>
-  <!--[/if]-->
+    <!--[if $allowbbcode eq 1]-->
+    <div class="ic-floatright">
+        <!--[pnmodfunc modname=bbcode type=user func=bbcodes textfieldid=$textfieldid images=0]-->
+    </div>
+    <!--[/if]-->
 </div>
 
 <div class="ic-margin">
-  <a id="msg-sendreply-<!--[$message.msg_id|pnvarprepfordisplay]-->"   class="image ok"     href="javascript:void(0);"><!--[gt text="Send now" domain="module_intercom"]--></a>
-  <a id="msg-cancelreply-<!--[$message.msg_id|pnvarprepfordisplay]-->" class="image cancel" href="javascript:void(0);"><!--[gt text="Cancel" domain="module_intercom"]--></a>
+    <a id="msg-sendreply-<!--[$message.msg_id|pnvarprepfordisplay]-->"   class="image ok"     href="javascript:void(0);"><!--[gt text="Send now" domain="module_intercom"]--></a>
+    <a id="msg-cancelreply-<!--[$message.msg_id|pnvarprepfordisplay]-->" class="image cancel" href="javascript:void(0);"><!--[gt text="Cancel" domain="module_intercom"]--></a>
 </div>

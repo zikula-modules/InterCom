@@ -34,7 +34,6 @@ class intercom_admin_modifyconfighandler
         $welcomemessage = pnModGetVar('InterCom', 'messages_welcomemessage');
         $welcomemessagesubject = pnModGetVar('InterCom', 'messages_welcomemessagesubject');
         $intlwelcomemessage = '';
-        pnModLangLoad('InterCom', 'welcome');
         Loader::loadClass('StringUtil');
         if (StringUtil::left($welcomemessagesubject, 1) == '_') {
             $intlwelcomemessage = constant($welcomemessagesubject) . "\n\n";
@@ -52,7 +51,7 @@ class intercom_admin_modifyconfighandler
         // Security check
         if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             return LogUtil::registerPermissionError(pnModURL('InterCom', 'admin', 'main'));
-        }  
+        }
         if ($args['commandName'] == 'submit') {
             if (!$pnRender->pnFormIsValid()) {
                 return false;
@@ -68,7 +67,7 @@ class intercom_admin_modifyconfighandler
             } else {
                 pnModSetVar('InterCom', 'messages_limitinbox', $data['messages_limitinbox']);
             }
-                                  
+
             if(is_null($data['messages_limitoutbox'])) {
                 $ifield = & $pnRender->pnFormGetPluginById('messages_limitoutbox');
                 $ifield->setError(DataUtil::formatForDisplay(__('Error! The outbox maximum capacity is missing.', $dom)));
@@ -76,7 +75,7 @@ class intercom_admin_modifyconfighandler
             } else {
                 pnModSetVar('InterCom', 'messages_limitoutbox', $data['messages_limitoutbox']);
             }
-                       
+
             if(is_null($data['messages_limitarchive'])) {
                 $ifield = & $pnRender->pnFormGetPluginById('messages_limitarchive');
                 $ifield->setError(DataUtil::formatForDisplay(__('Error! The archive maximum capacity is missing.', $dom)));
@@ -87,7 +86,7 @@ class intercom_admin_modifyconfighandler
 
             pnModSetVar('InterCom', 'messages_allowhtml', $data['messages_allowhtml']);
             pnModSetVar('InterCom', 'messages_allowsmilies', $data['messages_allowsmilies']);
-                      
+
             if(is_null($data['messages_perpage'])) {
                 $ifield = & $pnRender->pnFormGetPluginById('messages_perpage');
                 $ifield->setError(DataUtil::formatForDisplay(__('Error! The number of messages to display per page is missing.', $dom)));
@@ -110,14 +109,14 @@ class intercom_admin_modifyconfighandler
             pnModSetVar('InterCom', 'messages_force_emailnotification', $data['messages_force_emailnotification']);
             pnModSetVar('InterCom', 'messages_fromname', $data['messages_fromname']);
             pnModSetVar('InterCom', 'messages_from_email', $data['messages_from_email']);
-            
+
             // turn the create hook on/off
             if ($data['messages_createhookactive']==true) {
-                pnModAPIFunc('Modules', 'admin', 'enablehooks', 
+                pnModAPIFunc('Modules', 'admin', 'enablehooks',
                              array('callermodname' => 'Users',
                                    'hookmodname' => 'InterCom'));
             } else {
-                pnModAPIFunc('Modules', 'admin', 'disablehooks', 
+                pnModAPIFunc('Modules', 'admin', 'disablehooks',
                              array('callermodname' => 'Users',
                                    'hookmodname' => 'InterCom'));
             }
@@ -165,7 +164,7 @@ class intercom_admin_modifyconfighandler
             } else {
                 pnModSetVar('InterCom', 'messages_maintain', $data['messages_maintain']);
             }
-            
+
             pnModSetVar('InterCom', 'messages_userprompt_display', $data['messages_userprompt_display']);
             if(empty($data['messages_userprompt'])) {
                 if ($data['messages_userprompt_display'] == true) {
