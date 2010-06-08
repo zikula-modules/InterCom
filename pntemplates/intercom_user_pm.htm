@@ -32,43 +32,49 @@
         <input type="hidden" name="authid" value="<!--[pnsecgenauthkey module=Intercom]-->" />
         <fieldset>
             <legend><!--[$ictitle]--></legend>
-            <ol>
-                <li class="ic-formrow">
-                    <label for="username"><!--[gt text="Individual recipient(s)"]--></label>
-                    <div class="ic-inputbox-username">
-                        <input id="username" name="to_user" type="text" value="<!--[$to_user_string]-->" />
-                        <div id="list-user">
-                            <div class="default"><!--[gt text="Notice: To send a private message to multiple individual recipients, enter their user names separated by commas."]--></div>
-                            <ul class="feed">
-                                <!--[if !empty($to_user)]-->
-                                <!--[foreach from=$to_user item=item]-->
-                                <li value="<!--[$item|pnvarprepfordisplay]-->"><!--[$item|pnvarprepfordisplay]--></li>
-                                <!--[/foreach]-->
-                                <!--[/if]-->
-                            </ul>
+            <div class="z-formrow">
+                <ol>
+                    <li>
+                        <label for="username"><!--[gt text="Individual recipient(s)"]--></label>
+                        <div class="ic-inputbox-username">
+                            <input id="username" name="to_user" type="text" value="<!--[$to_user_string]-->" />
+                            <div id="list-user">
+                                <p class="default"><!--[gt text="Notice: To send a private message to multiple individual recipients, enter their user names separated by commas."]--></p>
+                                <ul class="feed">
+                                    <!--[if !empty($to_user)]-->
+                                    <!--[foreach from=$to_user item=item]-->
+                                    <li value="<!--[$item|pnvarprepfordisplay]-->"><!--[$item|pnvarprepfordisplay]--></li>
+                                    <!--[/foreach]-->
+                                    <!--[/if]-->
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                </ol>
+            </div>
 
-                <!--[if $pmtype eq "new" && $msgtogroups eq true]-->
-                <li class="ic-formrow">
-                    <label for="groupname"><!--[gt text="Group recipient(s)"]--></label>
-                    <div class="ic-inputbox-groupname">
-                        <input id="groupname" name="to_group" type="text" />
-                        <div id="list-group">
-                            <div class="default"><!--[gt text="Notice: To send a private message to multiple groups, enter the group names separated by commas."]--></div>
-                            <ul class="feed">
-                                <!--[if !empty($to_group)]-->
-                                <!--[foreach from=$to_group item=item]-->
-                                <li value="<!--[$item|pnvarprepfordisplay]-->"><!--[$item|pnvarprepfordisplay]--></li>
-                                <!--[/foreach]-->
-                                <!--[/if]-->
-                            </ul>
+            <!--[if $pmtype eq "new" && $msgtogroups eq true]-->
+            <div class="z-formrow">
+                <ol>
+                    <li>
+                        <label for="groupname"><!--[gt text="Group recipient(s)"]--></label>
+                        <div class="ic-inputbox-groupname">
+                            <input id="groupname" name="to_group" type="text" />
+                            <div id="list-group">
+                                <p class="default"><!--[gt text="Notice: To send a private message to multiple groups, enter the group names separated by commas."]--></p>
+                                <ul class="feed">
+                                    <!--[if !empty($to_group)]-->
+                                    <!--[foreach from=$to_group item=item]-->
+                                    <li value="<!--[$item|pnvarprepfordisplay]-->"><!--[$item|pnvarprepfordisplay]--></li>
+                                    <!--[/foreach]-->
+                                    <!--[/if]-->
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <!--[/if]-->
-            </ol>
+                    </li>
+                </ol>
+            </div>
+            <!--[/if]-->
 
             <script type="text/javascript">
                 document.observe('dom:loaded', function() {
@@ -83,13 +89,13 @@
             <div class="z-formrow">
                 <label for="subject"><!--[gt text="Subject line"]--></label>
                 <span id="advice-required-subject" class="custom-advice" style="display:none"><!--[gt text="Error! No subject line entered."]--></span>
-                <input id="subject" class="ic-text required" name="subject" type="text" maxlength="255" value="<!--[$subject]-->" />
+                <input id="subject" class="required" name="subject" type="text" maxlength="255" value="<!--[$subject]-->" />
             </div>
 
             <div class="z-formrow">
                 <label for="message"><!--[gt text="Message text"]--></label>
                 <span id="advice-required-message" class="custom-advice" style="display:none"><!--[gt text="Error! No message text entered."]--></span>
-                <textarea id="message" class="ic-text required" name="message" cols="40" rows="5"><!--[$messagetext]--></textarea>
+                <textarea id="message" class="required" name="message" cols="40" rows="5"><!--[$messagetext]--></textarea>
             </div>
 
             <div class="z-clearfix ic-margin">

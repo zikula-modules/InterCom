@@ -3,23 +3,6 @@
 *
 * InterCom - an advanced private messaging solution for Zikula
 *
-* License
-* -------
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License (GPL)
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* @author InterCom development team
-* @link http://code.zikula.org/intercom/ Support and documentation
-* @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
-*
 */
 /*******************************************************************************/
 /* INBOX - OUTBOX - ARCHIVE
@@ -169,18 +152,6 @@
 /* GENERAL
 /*******************************************************************************/
 
-#intercom ul.navigation {
-  font-weight: bold;
-  list-style: none;
-  margin: 1em 0pt;
-  padding: 0;
-  text-align: center;
-}
-#intercom ul.navigation li {
-  display: inline;
-  font-weight: bold;
-  margin: 0 0.5em;
-}
 #intercom .indicatorbar {
   float: right;
   width: 48%;
@@ -255,21 +226,10 @@
 
 #intercom .validation-failed {
   border: 1px solid #FF3300 !important;
-  background: #eee !important;
 }
 
 /*******************************************************************************/
 /* Styling of links and buttons with images
-/*******************************************************************************/
-/*
-* Note: When use a CSS3 feature to highlight external the following image
-*       normally would not be visisble. The ! important fixes this.
-* a[href^="http:"],
-* a[href^="https:"] {
-*     padding-left: 1.5em;
-*     background: url('images/internet.gif') no-repeat bottom left;
-* }
-*
 /*******************************************************************************/
 
 #intercom a.image,
@@ -382,7 +342,7 @@
 /*******************************************************************************/
 /* InterCom Form-CSS (based on pnForm)
 /*******************************************************************************/
-
+/*
 #intercom .ic-form {
   margin:15px 0 10px;
 }
@@ -426,6 +386,7 @@
   text-align:center;
   line-height:2em;
 }
+*/
 #intercom .ic-margin {
   margin:1.5em 0;
 }
