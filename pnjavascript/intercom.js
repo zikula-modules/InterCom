@@ -20,7 +20,7 @@ InterCom.prototype =
 {
     initialize: function(listid, handles, bodies, boxtype, options) 
     {
-        this.options = this._set_options(options);      
+        this.options = this._set_options(options);
         this.headers = $$(handles);
         this.bodies = $$(bodies);
         this.boxtype = boxtype;

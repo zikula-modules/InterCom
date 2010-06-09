@@ -1,10 +1,7 @@
+// Copyright Zikula Foundation 2010 - license GNU/LGPLv2.1 (or at your option, any later version).
+
 /**
- *
- * $Id: intercom.js 401 2008-11-19 18:42:03Z Landseer $
- *
  * init javscript for inbox
- *
- *
  */
 
 Event.observe(window, 'load', function() {

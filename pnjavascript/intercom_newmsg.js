@@ -1,10 +1,7 @@
+// Copyright Zikula Foundation 2010 - license GNU/LGPLv2.1 (or at your option, any later version).
+
 /**
- *
- * $Id$
- *
  * init javscript for new message
- *
- *
  */
 
 Event.observe(window, 'load', function() {
