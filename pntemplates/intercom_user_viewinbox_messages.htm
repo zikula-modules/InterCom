@@ -65,7 +65,8 @@
 
                 <div class="z-clearfix">
                     <div class="msg_avatar">
-                        <!--[icuseravatar uid=$messagearray[message].from_userid]-->
+                        <!--[icuseravatar uid=$messagearray[message].from_userid assign=useravatar]-->
+                        <!--[$messagearray[message].from_userid|userprofilelink:'':$useravatar]-->
                         <!--[pnmodavailable modname="ContactList" assign="ContactListInstalled"]-->
                         <!--[if $ContactListInstalled]-->
                         <p><a href="<!--[pnmodurl modname="ContactList" type="user" func="create" uid=$messagearray[message].from_userid]-->"><!--[pnimg modname="ContactList" src="user_add.png" __title="Add buddy" ]--></a></p>

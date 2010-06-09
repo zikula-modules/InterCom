@@ -55,7 +55,8 @@
 
                 <div class="z-clearfix">
                     <div class="msg_avatar">
-                        <!--[icuseravatar uid=$messagearray[message].from_userid]-->
+                        <!--[icuseravatar uid=$messagearray[message].from_userid assign=useravatar]-->
+                        <!--[$messagearray[message].from_userid|userprofilelink:'':$useravatar]-->
                     </div>
 
                     <div class="msg_text">

@@ -507,7 +507,6 @@ function InterCom_userapi_getmessages($args)
             $objarray[$key]['from_user']    = pnUserGetVar('uname', $objarray[$key]['from_userid'], __('*Deleted user*', $dom));
             $objarray[$key]['to_user']      = pnUserGetVar('uname', $objarray[$key]['to_userid'], __('*Deleted user*', $dom));
             $objarray[$key]['signature']    = pnUserGetVar('_SIGNATURE', $objarray[$key]['from_userid'], '');
-            $objarray[$key]['avatar']       = pnUserGetVar('_YOURAVATAR', $objarray[$key]['from_userid'], 'blank.gif');
         }
     }
     if (isset($args['msg_id'])) {
