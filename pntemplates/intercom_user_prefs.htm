@@ -1,6 +1,7 @@
 <!--[* $Id$ *]-->
 <!--[gt text="Messaging settings" assign=ictitle]-->
 <!--[include file="intercom_user_header.htm" ictitle=$ictitle]-->
+<!--[pnpageaddvar name="javascript" value="modules/InterCom/pnjavascript/intercom_prefs.js"]-->
 <h3><!--[$ictitle]--></h3>
 
 <form id="post" class="z-form" action="<!--[pnmodurl modname=InterCom type=user func=modifyprefs]-->" method="post" enctype="multipart/form-data">
@@ -32,9 +33,11 @@
                 </select>
                 <p class="z-formnote z-informationmsg"><!--[gt text="Notice: Here you can specify whether or not you want an automatic response to be sent to the sender each time you receive a private message (possibly useful when you are on holiday, for instance)."]--></p>
             </div>
-            <div class="z-formrow">
-                <label for="intercom_autoreply_text"><!--[gt text="Message content"]--></label>
-                <textarea id="intercom_autoreply_text" rows="5" cols="40" name="intercom_autoreply_text"><!--[$autoreply_text]--></textarea>
+            <div id="autoreply_text">
+                <div class="z-formrow">
+                    <label for="intercom_autoreply_text"><!--[gt text="Message content"]--></label>
+                    <textarea id="intercom_autoreply_text" rows="5" cols="40" class="ic_texpand" name="intercom_autoreply_text"><!--[$autoreply_text]--></textarea>
+                </div>
             </div>
         </fieldset>
         <!--[/if]-->

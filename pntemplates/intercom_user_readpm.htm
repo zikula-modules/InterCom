@@ -2,69 +2,58 @@
 <!--[gt text="Received message" assign=ictitle]-->
 <!--[include file="intercom_user_header.htm" ictitle=$ictitle]-->
 
-<!--[capture assign="avatarurl"]--><!--[pngetbaseurl]-->images/avatar/<!--[$message.avatar]--><!--[/capture]-->
-<!--[* assign var="avatarimage" value=$avatarurl|getimagesize *]-->
-
-<div id="ic-readform" class="z-form z-linear">
+<div id="ic-readform" class="z-form">
     <fieldset>
         <legend><!--[$ictitle]--></legend>
 
-        <div class="z-clearfix">
-            <div class="ic-readheaderleft">
-
-                <div class="z-formrow z-clearfix">
-                    <div class="ic-floatleft">
-                        <!--[if $boxtype neq "outbox"]-->
-                        <label><!--[gt text="Sender"]--></label>
-                        <!--[else]-->
-                        <label><!--[gt text="Recipient"]--></label>
-                        <!--[/if]-->
-                        <p class="ic-readtext">
-                            <strong><!--[$message.pn_uname|userprofilelink]--></strong>
-                            <!--[pnmodavailable modname="ContactList" assign="ContactListInstalled"]-->
-                            <!--[if $ContactListInstalled && $boxtype neq "outbox"]-->
-                            <a href="<!--[pnmodurl modname="ContactList" type="user" func="create" uid=$message.from_userid]-->"><!--[pnimg modname="ContactList" src="user_add.png" __title="Add buddy" ]--></a>
-                            <!--[/if]-->
-                        </p>
-                    </div>
-
-                    <div class="ic-floatright">
-                        <label><!--[gt text="Date"]--></label>
-                        <p class="ic-readtext">
-                            <!--[$message.msg_unixtime|pndate_format:"datetimebrief"]-->
-                        </p>
-                    </div>
-                </div>
-
-                <div class="z-formrow">
-                    <label><!--[gt text="Subject line"]--></label>
-                    <p class="ic-readtext"><!--[$message.msg_subject]--></p>
-                </div>
-            </div>
-
-            <!--[if $message.avatar]-->
-            <div class="ic-readheaderright" style="width: 130px; height: 130px; background:url(<!--[$avatarurl]-->) no-repeat scroll center; ">&nbsp;</div>
+        <div class="z-formrow">
+            <!--[if $boxtype neq "outbox"]-->
+            <label><!--[gt text="Sender"]--></label>
+            <!--[else]-->
+            <label><!--[gt text="Recipient"]--></label>
             <!--[/if]-->
+            <span>
+                <strong><!--[$message.uname|userprofilelink]--></strong>
+                <!--[pnmodavailable modname="ContactList" assign="ContactListInstalled"]-->
+                <!--[if $ContactListInstalled && $boxtype neq "outbox"]-->
+                <a href="<!--[pnmodurl modname="ContactList" type="user" func="create" uid=$message.from_userid]-->"><!--[pnimg modname="ContactList" src="user_add.png" __title="Add buddy" ]--></a>
+                <!--[/if]-->
+            </span>
         </div>
 
         <div class="z-formrow">
-            <label><!--[gt text="Message text"]--></label>
-            <div class="ic-readtext ic-messagetext">
-                <!--[$message.msg_text]-->
-                <!--[if $message.signature != ""]--><div class="signature"><!--[$message.signature|pnvarprephtmldisplay|pnmodcallhooks|nl2br]--></div><!--[/if]-->
-            </div>
+            <label><!--[gt text="Date"]--></label>
+            <span><!--[$message.msg_unixtime|pndate_format:"datetimebrief"]--></span>
+        </div>
+
+        <div class="z-formrow">
+            <label><!--[gt text="Subject line"]--></label>
+            <span><!--[$message.msg_subject]--></span>
         </div>
 
     </fieldset>
 
-    <div class="z-formrow ic-buttons">
+    <fieldset class="z-linear">
+        <legend><!--[gt text="Message text"]--></legend>
+        <div class="z-formrow">
+            <div>
+                <!--[if $message.avatar]-->
+                <div class="ic-readheaderright"><!--[icuseravatar uid=$message.from_userid]--></div>
+                <!--[/if]-->
+                <!--[$message.msg_text]-->
+            </div>
+            <!--[if $message.signature != ""]--><div class="signature z-formnote"><!--[$message.signature|pnvarprephtmldisplay|pnmodcallhooks|nl2br]--></div><!--[/if]-->
+        </div>
+    </fieldset>
+
+    <div class="z-formbuttons z-buttons">
         <!--[if $boxtype eq "inbox"]-->
-        <a class="image mailreply" href="<!--[pnmodurl modname="InterCom" type="user" func="replyinbox" messageid=$message.msg_id]-->" title="<!--[gt text='Reply']-->"><!--[gt text="Reply"]--></a>&nbsp;
-        <a class="image mailforward" href="<!--[pnmodurl modname="InterCom" type="user" func="forwardfrominbox" messageid=$message.msg_id]-->" title="<!--[gt text="Forward"]-->"><!--[gt text="Forward"]--></a>&nbsp;
-        <a class="image mailsave" href="<!--[pnmodurl modname="InterCom" type="user" func="storepm" messageid=$message.msg_id userid="$pnuserid"]-->" title="<!--[gt text='Save']-->"><!--[gt text="Save"]--></a>&nbsp;
+        <a href="<!--[pnmodurl modname="InterCom" type="user" func="replyinbox" messageid=$message.msg_id]-->" title="<!--[gt text='Reply']-->"><!--[pnimg modname=core src=mail_reply.gif set=icons/extrasmall __alt="Reply" __title="Reply"]--><!--[gt text="Reply"]--></a>
+        <a href="<!--[pnmodurl modname="InterCom" type="user" func="forwardfrominbox" messageid=$message.msg_id]-->" title="<!--[gt text="Forward"]-->"><!--[pnimg modname=core src=mail_forward.gif set=icons/extrasmall __alt="Forward" __title="Forward"]--><!--[gt text="Forward"]--></a>
+        <a href="<!--[pnmodurl modname="InterCom" type="user" func="storepm" messageid=$message.msg_id userid="$pnuserid"]-->" title="<!--[gt text='Save']-->"><!--[pnimg modname=InterCom src=save.gif __alt="Save" __title="Save"]--><!--[gt text="Save"]--></a>
         <!--[/if]-->
-        <a class="image printer" href="<!--[pnmodurl modname="InterCom" type="user" func="read`$boxtype`" messageid=$message.msg_id theme=printer]-->"><!--[gt text="Print"]--></a>&nbsp;
-        <a class="image maildelete" href="<!--[pnmodurl modname="InterCom" type="user" func="deletefrom`$boxtype`" messageid=$message.msg_id]-->" title="<!--[gt text='Delete']-->"><!--[gt text="Delete"]--></a>&nbsp;
+        <a href="<!--[pnmodurl modname="InterCom" type="user" func="read`$boxtype`" messageid=$message.msg_id theme=printer]-->"><!--[pnimg modname=core src=printer1.gif set=icons/extrasmall __alt="Print" __title="Print"]--><!--[gt text="Print"]--></a>
+        <a href="<!--[pnmodurl modname="InterCom" type="user" func="deletefrom`$boxtype`" messageid=$message.msg_id]-->" title="<!--[gt text='Delete']-->"><!--[pnimg modname=core src=mail_delete.gif set=icons/extrasmall __alt="Delete" __title="Delete"]--><!--[gt text="Delete"]--></a>
     </div>
 
 </div>

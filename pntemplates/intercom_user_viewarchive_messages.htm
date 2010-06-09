@@ -1,6 +1,6 @@
 <!--[* $Id$ *]-->
 
-<form id="msg_view" class="z-form" action="<!--[pnmodurl modname="InterCom" type="user" func="deletefromarchive"]-->" method="post">
+<form id="msg_view" class="z-form z-linear" action="<!--[pnmodurl modname="InterCom" type="user" func="deletefromarchive"]-->" method="post">
     <fieldset>
         <legend><!--[$ictitle]--></legend>
         <dl class="msg_header">
@@ -28,7 +28,6 @@
 
         <div id="msg_listing">
             <!--[section name=message loop=$messagearray]-->
-            <!--[capture assign="avatarurl"]--><!--[pngetbaseurl]-->images/avatar/<!--[$messagearray[message].avatar]--><!--[/capture]-->
             <!--[counter assign=zaehlen]-->
 
             <dl id="msgheader-<!--[$messagearray[message].msg_id]-->" class="msg_line <!--[if $zaehlen is odd]-->odd<!--[elseif $zaehlen is even]-->even<!--[/if]-->">
@@ -46,13 +45,7 @@
 
                 <div class="z-clearfix">
                     <div class="msg_avatar">
-                        <a href="<!--[pnmodurl modname="Profile" type="user" func="view" uid=$messagearray[message].from_userid]-->" title="<!--[$messagearray[message].from_user]-->" >
-                            <!--[if $messagearray[message].avatar ne "" && $messagearray[message].avatar ne "blank.gif"]-->
-                            <img src="<!--[$avatarurl]-->" width="50" alt="<!--[$messagearray[message].from_user]-->" />
-                            <!--[else]-->
-                            <!--[pnimg modname=core src="personal.gif" set="icons/medium" alt=$messagearray[message].from_user]-->
-                            <!--[/if]-->
-                        </a>
+                        <!--[icuseravatar uid=$messagearray[message].from_userid]-->
                         <!--[pnmodavailable modname="ContactList" assign="ContactListInstalled"]-->
                         <!--[if $ContactListInstalled]-->
                         <p><a href="<!--[pnmodurl modname="ContactList" type="user" func="create" uid=$messagearray[message].from_userid]-->"><!--[pnimg modname="ContactList" src="user_add.png" __title="Add buddy" ]--></a></p>
@@ -78,7 +71,7 @@
             <!--[/section]-->
         </div>
 
-        <div class="msg_footer">
+        <div class="z-buttons msg_footer">
             <input type="submit" name="delete" value="<!--[gt text="Delete marked messages"]-->" />
         </div>
 

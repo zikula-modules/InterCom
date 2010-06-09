@@ -79,9 +79,9 @@
             <script type="text/javascript">
                 document.observe('dom:loaded', function() {
                     // init
-                    tlist1 = new FacebookList('username', 'list-user',{fetchFile:document.location.pnbaseURL + 'ajax.php?module=InterCom&func=getusers'});
+                    tlist1 = new FacebookList('username', 'list-user',{fetchFile:document.location.pnbaseURL + 'ajax.php?module=InterCom'+'&'+'func=getusers'});
                     <!--[if $pmtype eq "new" && $msgtogroups eq true]-->
-                    tlist2 = new FacebookList('groupname', 'list-group',{fetchFile:document.location.pnbaseURL + 'ajax.php?module=InterCom&func=getgroups'});
+                    tlist2 = new FacebookList('groupname', 'list-group',{fetchFile:document.location.pnbaseURL + 'ajax.php?module=InterCom'+'&'+'func=getgroups'});
                     <!--[/if]-->
                 });
             </script>
@@ -89,27 +89,26 @@
             <div class="z-formrow">
                 <label for="subject"><!--[gt text="Subject line"]--></label>
                 <span id="advice-required-subject" class="custom-advice" style="display:none"><!--[gt text="Error! No subject line entered."]--></span>
-                <input id="subject" class="required" name="subject" type="text" maxlength="255" value="<!--[$subject]-->" />
+                <input id="subject" class="required ic-subject" name="subject" type="text" maxlength="255" value="<!--[$subject]-->" />
             </div>
 
             <div class="z-formrow">
                 <label for="message"><!--[gt text="Message text"]--></label>
                 <span id="advice-required-message" class="custom-advice" style="display:none"><!--[gt text="Error! No message text entered."]--></span>
-                <textarea id="message" class="required" name="message" cols="40" rows="5"><!--[$messagetext]--></textarea>
+                <textarea id="message" class="required ic_texpand" name="message" cols="40" rows="5"><!--[$messagetext]--></textarea>
             </div>
 
             <div class="z-clearfix ic-margin">
 
                 <!--[if $allowhtml eq 1 || $allowsmilies eq 1]-->
                 <div class="ic-floatleft">
-                    <!--[if $allowhtml eq 1]-->
-                    <div class="z-formrow">
-                        <label for="html"><!--[gt text="Disable HTML mark-up"]--></label>
-                        <input type="checkbox" id="html" name="html" value="1" <!--[if $html eq 1]-->checked="true"<!--[/if]--> />
-                    </div>
-                    <!--[/if]-->
                     <!--[if $allowsmilies eq 1]-->
                     <!--[pnmodfunc modname=bbsmile func=bbsmiles textfieldid=message]-->
+                    <!--[/if]-->
+                    <!--[if $allowhtml eq 1]-->
+                    <br />
+                    <label for="html"><!--[gt text="Disable HTML mark-up"]--></label>
+                    <input type="checkbox" id="html" name="html" value="1" <!--[if $html eq 1]-->checked="true"<!--[/if]--> />
                     <!--[/if]-->
                 </div>
                 <!--[/if]-->
@@ -123,15 +122,15 @@
             </div>
 
             <!--[if $allowhtml eq 1]-->
-            <div class="z-warningmsg"><!--[gt text="Permitted HTML tags:"]-->&nbsp;<!--[allowedhtml]--></div>
+            <div class="z-formnote z-warningmsg"><!--[gt text="Permitted HTML tags:"]-->&nbsp;<!--[allowedhtml]--></div>
             <!--[/if]-->
 
         </fieldset>
 
         <div class="z-formbuttons">
-            <!--[pnbutton mode="input" src=button_ok.gif set=icons/small name="mail_send" value="send" __alt="Send now" __title="Send message now"]-->
-            <!--[pnbutton mode="input" src=mail_find.gif set=icons/small name="mail_prev" value="preview" __alt="Preview message" __title="Display message preview"]-->
-            <a href="<!--[pnmodurl modname=InterCom type=user func=inbox]-->"><!--[pnimg modname=core src=button_cancel.gif set=icons/small   __alt="Cancel" __title="Cancel"]--></a>
+            <!--[pnbutton mode="input" src=button_ok.gif set=icons/small name="mail_send" value="send" __alt="Send now" __title="Send now" __text="Send now"]-->
+            <!--[pnbutton mode="input" src=mail_find.gif set=icons/small name="mail_prev" value="preview" __alt="Preview message" __title="Preview message" __text="Preview message"]-->
+            <a href="<!--[pnmodurl modname=InterCom type=user func=inbox]-->" title="<!--[gt text="Cancel"]-->"><!--[pnimg modname=core src=button_cancel.gif set=icons/small __alt="Cancel" __title="Cancel"]--></a>
         </div>
 
     </div>

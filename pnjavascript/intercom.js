@@ -8,9 +8,7 @@
  * Accordion Effect for Script.aculo.us
  * Created by Lucas van Dijk
  * http://www.return1.net
- *
- * textarea resizing based on
- * http://jroller.com/rmcmahon/entry/resizingtextarea_with_prototype
+ * http://www.opensource.org/licenses/mit-license.php
  *
  */
 
@@ -29,6 +27,10 @@ InterCom.prototype =
         this.ERROR    = 1;
         this.INFO     = 2;
         this.WORKING  = 3;
+
+        $$('.ic_texpand').each(function(el){
+          new Texpand(el, {autoShrink: true, shrinkOnBlur:false, expandOnFocus: false, expandOnLoad: true });
+        });
 
         if($(listid)) { 
         
@@ -85,13 +87,6 @@ InterCom.prototype =
             }.bind(this));
         
         }
-
-        $A(document.getElementsByTagName('textarea')).each(function(el) {
-            el.rows = this.options.defaultRows;
-            Event.observe(el, "click", this.resizeTextarea.bindAsEventListener(this, el));
-            Event.observe(el, "keyup", this.resizeTextarea.bindAsEventListener(this, el));
-        }.bind(this));
-
     },
 
     toggleview: function(headerid) 
@@ -260,10 +255,9 @@ InterCom.prototype =
                             if($('smiliemodal')) {
                                 new Control.Modal($('smiliemodal'), {});
                             }
+
                             ta = $('ic-ajaxreplymessage-' + msgid);
-                            Event.observe(ta, "click", this.resizeTextarea.bindAsEventListener(this, ta));
-                            Event.observe(ta, "keyup", this.resizeTextarea.bindAsEventListener(this, ta));
-                            this.resizeTextarea(null, ta);
+                            new Texpand(ta, {autoShrink: true, shrinkOnBlur:false, expandOnFocus: false, expandOnLoad: true });
 
                             // set focus on textarea when return is pressed in the subject
                             $('ic-ajaxreplysubject-' + msgid).observe('keypress', function(event) {
@@ -363,9 +357,7 @@ InterCom.prototype =
                             }
 
                             var ta = $('ic-ajaxforwardmessage-' + msgid);
-                            Event.observe(ta, "click", this.resizeTextarea.bindAsEventListener(this, ta));
-                            Event.observe(ta, "keyup", this.resizeTextarea.bindAsEventListener(this, ta));
-                            this.resizeTextarea(null, ta);
+                            new Texpand(ta, {autoShrink: true, shrinkOnBlur:false, expandOnFocus: false, expandOnLoad: true });
 
                             // set focus on textarea when return is pressed in the subject
                             $('ic-ajaxforwardsubject-' + msgid).observe('keypress', function(event) {
@@ -467,21 +459,8 @@ InterCom.prototype =
         if($('ic-totalarchive')) {
             $('ic-totalarchive').update(transport.headerJSON.totalarchive);
         }
-    },    
-
-    resizeTextarea: function(el, tarea)
-    {
-        lines = tarea.value.split('\n');
-        newRows = lines.length + 1;
-        oldRows = tarea.rows;
-
-        if (newRows >= oldRows) {
-            tarea.rows = newRows;
-        } else  {
-            tarea.rows = Math.max(this.options.defaultRows, newRows);
-        }
     },
-    
+
     showInformation: function(msgid, infotext, showdelay, msgtype)
     {
         if($('information-' + msgid)) {
@@ -510,7 +489,7 @@ InterCom.prototype =
                 );
             }
             return true;
-        }                
+        }
     },
     
     clearInformation: function(msgid)
@@ -530,7 +509,6 @@ function CheckAll() {
 function CheckCheckAll() {
     $('allbox').checked = ($$('.msg_check input:checked').length == $$('.msg_check input[type="checkbox"]').length -1) & !$('allbox').checked;
 }
-
 
 function base64_decode( data ) {
     // http://kevin.vanzonneveld.net
@@ -576,42 +554,6 @@ function base64_decode( data ) {
     } while (i < data.length);
  
     dec = tmp_arr.join('');
-    dec = utf8_decode(dec);
- 
-    return dec;
-}
 
-function utf8_decode ( str_data ) {
-    // http://kevin.vanzonneveld.net
-    // +   original by: Webtoolkit.info (http://www.webtoolkit.info/)
-    // +      input by: Aman Gupta
-    // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +   improved by: Norman "zEh" Fuchs
-    // +   bugfixed by: hitwork
-    // +   bugfixed by: Onno Marsman
-    // *     example 1: utf8_decode('Kevin van Zonneveld');
-    // *     returns 1: 'Kevin van Zonneveld'
- 
-    var tmp_arr = [], i = ac = c1 = c2 = c3 = 0;
- 
-    str_data += '';
- 
-    while ( i < str_data.length ) {
-        c1 = str_data.charCodeAt(i);
-        if (c1 < 128) {
-            tmp_arr[ac++] = String.fromCharCode(c1);
-            i++;
-        } else if ((c1 > 191) && (c1 < 224)) {
-            c2 = str_data.charCodeAt(i+1);
-            tmp_arr[ac++] = String.fromCharCode(((c1 & 31) << 6) | (c2 & 63));
-            i += 2;
-        } else {
-            c2 = str_data.charCodeAt(i+1);
-            c3 = str_data.charCodeAt(i+2);
-            tmp_arr[ac++] = String.fromCharCode(((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-            i += 3;
-        }
-    }
- 
-    return tmp_arr.join('');
+    return dec;
 }

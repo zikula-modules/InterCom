@@ -1,7 +1,7 @@
 // Copyright Zikula Foundation 2010 - license GNU/LGPLv2.1 (or at your option, any later version).
 
 /**
- * init javscript for new message
+ * init javascript for new message
  */
 
 Event.observe(window, 'load', function() {

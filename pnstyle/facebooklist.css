@@ -7,6 +7,10 @@
 /* TextboxList CSS
 /*******************************************************************************/
 
+#intercom .z-form .z-formrow {
+    overflow:visible;
+}
+
 #intercom .z-form .z-formrow input,
 #intercom .z-form .z-formrow textarea {
     background:#FBFBFB;
@@ -153,7 +157,7 @@ font: 11px "Lucida Grande", "Verdana";
     background:#EEEEEE;
     display:none;
     position:absolute;
-    width:100%;
+    width:99%;
     z-index:1000;
     font: 11px "Lucida Grande", "Verdana";
 }
