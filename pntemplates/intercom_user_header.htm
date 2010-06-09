@@ -3,19 +3,19 @@
 <!--[pageaddvar name="javascript" value="javascript/helpers/texpand.js"]-->
 <!--[pnpageaddvar name="stylesheet" value="modules/InterCom/pnstyle/facebooklist.css"]-->
 <!--[pnpagesetvar name=title value=$ictitle]-->
-<script type="text/javascript">  
-//  ![CDATA[[
-Ajax.Responders.register({  
- onCreate: function(){ Element.show('spinner')},  
- onComplete: function(){Element.hide('spinner')}  
- });  
-// ]] 
+<script type="text/javascript">
+    //  ![CDATA[[
+    Ajax.Responders.register({
+        onCreate: function(){ Element.show('spinner')},
+        onComplete: function(){Element.hide('spinner')}
+    });
+    // ]]
 </script>
 <div id="intercom">
     <h2><!--[gt text="Private messaging"]-->
-	 <img alt="spinner" id="spinner" src="modules/InterCom/pnimages/ajax-loader.gif"  
-       style="display:none;" /> 
-	</h2>
-	   
+        <img alt="spinner" id="spinner" src="modules/InterCom/pnimages/ajax-loader.gif"
+        style="display:none;" />
+    </h2>
+
     <!--[include file="intercom_user_navigation.htm"]-->
     <!--[insert name="getstatusmsg"]-->
