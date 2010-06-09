@@ -45,9 +45,9 @@
         <!--[if $pncore.InterCom.messages_allow_emailnotification eq false && $pncore.InterCom.messages_allow_autoreply eq false]-->
         <div class="z-warningmsg"><!--[gt text="Sorry! This feature has been disabled by the site administrator."]--></div>
         <!--[else]-->
-        <div class="z-formbuttons">
-            <!--[pnbutton src=button_ok.gif set=icons/small __alt="Save" __title="Save"]-->
-            <a href="<!--[pnmodurl modname=InterCom type=user func=inbox]-->"><!--[pnimg modname=core src=button_cancel.gif set=icons/small   __alt="Cancel" __title="Cancel"]--></a>
+        <div class="z-formbuttons ic-buttons">
+            <!--[pnbutton src=button_ok.gif set=icons/extrasmall __alt="Save" __title="Save" __text="Save"]-->
+            <a href="<!--[pnmodurl modname=InterCom type=user func=inbox]-->" title="<!--[gt text="Cancel"]-->"><!--[pnimg modname=core src=button_cancel.gif set=icons/extrasmall __alt="Cancel" __title="Cancel"]--><!--[gt text="Cancel"]--></a>
         </div>
         <!--[/if]-->
     </div>
