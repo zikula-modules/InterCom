@@ -324,7 +324,7 @@ function InterCom_upgrade($oldversion)
                                    'hookmodname' => 'InterCom'));
                                    }
         case '2.2':
-            pnModSetVar('InterCom', 'messages_force_emailnotification', false);
+            pnModSetVar('InterCom', 'messages_force_emailnotification', true);
     }
 
     return true;
