@@ -113,9 +113,12 @@ InterCom.prototype =
                 }
             );
             msgbody.addClassName('accordeon_open');
-            // mark message read
+            // mark message as read or not if you are in the outbox
+			if ( this.boxtype != 'msg.outbox' ) {}
+			else{
             this.markmsgread(msgid);
-        }
+			}
+        }	
     },
     
     _default_options: 
