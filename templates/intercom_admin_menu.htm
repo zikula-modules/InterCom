@@ -1,0 +1,13 @@
+{* $Id$ *}
+{admincategorymenu xhtml=1}
+{pageaddvar name="javascript" value="prototype"}
+{pageaddvar name="javascript" value="javascript/ajax/validation.js,modules/InterCom/javascript/intercom.js,modules/InterCom/javascript/facebooklist.js"}
+
+<div class="z-adminbox">
+    <h1>{modgetinfo modname="InterCom" info="displayname"}</h1>
+    <div class="z-menu">{moduleadminlinks modname="InterCom"}</div>
+</div>
+
+<div id="intercomadmin" class="z-admincontainer">
+    {insert name="getstatusmsg"}
+    <div class="z-adminpageicon">{img modname="InterCom" src="admin.gif" alt=''}</div>
