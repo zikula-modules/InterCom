@@ -23,7 +23,7 @@
  *
  */
 
-class InterCom_Form_Handler_Admin_ModifyConfig
+class InterCom_Form_Handler_Admin_ModifyConfig extends Form_Handler
 {
 
     function initialize(&$view)
@@ -61,7 +61,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
 
             if(is_null($data['messages_limitinbox'])) {
                 $ifield = & $view->getPluginById('messages_limitinbox');
-                $ifield->setError(DataUtil::formatForDisplay(__('Error! The inbox maximum capacity is missing.', $dom)));
+                $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The inbox maximum capacity is missing.', $dom)));
                 $ok = false;
             } else {
                 ModUtil::setVar('InterCom', 'messages_limitinbox', $data['messages_limitinbox']);
@@ -69,7 +69,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
 
             if(is_null($data['messages_limitoutbox'])) {
                 $ifield = & $view->getPluginById('messages_limitoutbox');
-                $ifield->setError(DataUtil::formatForDisplay(__('Error! The outbox maximum capacity is missing.', $dom)));
+                $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The outbox maximum capacity is missing.', $dom)));
                 $ok = false;
             } else {
                 ModUtil::setVar('InterCom', 'messages_limitoutbox', $data['messages_limitoutbox']);
@@ -77,7 +77,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
 
             if(is_null($data['messages_limitarchive'])) {
                 $ifield = & $view->getPluginById('messages_limitarchive');
-                $ifield->setError(DataUtil::formatForDisplay(__('Error! The archive maximum capacity is missing.', $dom)));
+                $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The archive maximum capacity is missing.', $dom)));
                 $ok = false;
             } else {
                 ModUtil::setVar('InterCom', 'messages_limitarchive', $data['messages_limitarchive']);
@@ -88,7 +88,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
 
             if(is_null($data['messages_perpage'])) {
                 $ifield = & $view->getPluginById('messages_perpage');
-                $ifield->setError(DataUtil::formatForDisplay(__('Error! The number of messages to display per page is missing.', $dom)));
+                $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The number of messages to display per page is missing.', $dom)));
                 $ok = false;
             } else {
                 ModUtil::setVar('InterCom', 'messages_perpage', $data['messages_perpage']);
@@ -98,7 +98,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
             if ($data['messages_allow_emailnotification'] == true) {
                 if(empty($data['messages_mailsubject'])) {
                     $ifield = & $view->getPluginById('messages_mailsubject');
-                    $ifield->setError(DataUtil::formatForDisplay(__('Error! The subject line for notification e-mail message is missing.', $dom)));
+                    $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The subject line for notification e-mail message is missing.', $dom)));
                     $ok = false;
                 } else {
                     ModUtil::setVar('InterCom', 'messages_mailsubject', $data['messages_mailsubject']);
@@ -122,7 +122,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
             if(empty($data['messages_welcomemessage'])) {
                 if ($data['messages_createhookactive'] == true) {
                     $ifield = & $view->getPluginById('messages_welcomemessage');
-                    $ifield->setError(DataUtil::formatForDisplay(__('Error! The welcome message text is missing.', $dom)));
+                    $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The welcome message text is missing.', $dom)));
                     $ok = false;
                 }
             } else {
@@ -131,7 +131,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
             if(empty($data['messages_welcomemessagesender'])) {
                 if ($data['messages_createhookactive'] == true) {
                     $ifield = & $view->getPluginById('messages_welcomemessagesender');
-                    $ifield->setError(DataUtil::formatForDisplay(__('Error! The sender for the welcome message is missing.', $dom)));
+                    $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The sender for the welcome message is missing.', $dom)));
                     $ok = false;
                 }
             } else if (UserUtil::getIdFromName($data['messages_welcomemessagesender'])==false) {
@@ -144,7 +144,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
             if(empty($data['messages_welcomemessagesubject'])) {
                 if ($data['messages_createhookactive'] == true) {
                     $ifield = & $view->getPluginById('messages_welcomemessagesubject');
-                    $ifield->setError(DataUtil::formatForDisplay(__('Error! The subject line for the welcome message is missing.', $dom)));
+                    $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The subject line for the welcome message is missing.', $dom)));
                     $ok = false;
                 }
             } else {
@@ -157,7 +157,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
             if(empty($data['messages_maintain'])) {
                 if ($data['messages_active'] == true) {
                     $ifield = & $view->getPluginById('messages_maintain');
-                    $ifield->setError(DataUtil::formatForDisplay(__('Error! The maintenance notice text is missing.', $dom)));
+                    $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The maintenance notice text is missing.', $dom)));
                     $ok = false;
                 }
             } else {
@@ -168,7 +168,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
             if(empty($data['messages_userprompt'])) {
                 if ($data['messages_userprompt_display'] == true) {
                     $ifield = & $view->getPluginById('messages_userprompt');
-                    $ifield->setError(DataUtil::formatForDisplay(__('Error! The user information is missing.', $dom)));
+                    $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The user information is missing.', $dom)));
                     $ok = false;
                 }
             } else {
@@ -184,7 +184,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig
                 return false;
             }
 
-            LogUtil::registerStatus(__('Done! Saved your settings changes.', $dom));
+            LogUtil::registerStatus($this->__('Done! Saved your settings changes.', $dom));
         }
         return true;
     }
