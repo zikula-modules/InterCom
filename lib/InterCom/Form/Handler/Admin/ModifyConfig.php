@@ -110,15 +110,13 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Form_Handler
             ModUtil::setVar('InterCom', 'messages_from_email', $data['messages_from_email']);
 
             // turn the create hook on/off
-            if ($data['messages_createhookactive']==true) {
-                ModUtil::apiFunc('Modules', 'admin', 'enablehooks',
-                             array('callermodname' => 'Users',
-                                   'hookmodname' => 'InterCom'));
-            } else {
-                ModUtil::apiFunc('Modules', 'admin', 'disablehooks',
-                             array('callermodname' => 'Users',
-                                   'hookmodname' => 'InterCom'));
-            }
+
+//            TODO: Fix hooks for Zikula 1.3
+//            if ($data['messages_createhookactive']==true) {
+//                ModUtil::apiFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
+//            } else {
+//                ModUtil::apiFunc('Modules', 'admin', 'disablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
+//            }
             if(empty($data['messages_welcomemessage'])) {
                 if ($data['messages_createhookactive'] == true) {
                     $ifield = & $view->getPluginById('messages_welcomemessage');

@@ -84,7 +84,7 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_InteractiveInstall
         $res = DBUtil::executeSQL($sql);
         if($res->EOF == true) {
             // table does not exist
-            $this->view->assign('authid', SecurityUtil::generateAuthKey('Modules'));
+            $this->view->assign('authid', SecurityUtil::generateAuthKey('Extensions'));
             return $this->view->fetch('intercom_init_step_final.htm');
         }
 
@@ -115,7 +115,7 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_InteractiveInstall
         }
 
         $this->view->setCaching(false);
-        $this->view->assign('authid', SecurityUtil::generateAuthKey('Modules'));
+        $this->view->assign('authid', SecurityUtil::generateAuthKey('Extensions'));
         return $this->view->fetch('intercom_init_step_final.htm');
     }
 
@@ -171,7 +171,7 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_InteractiveInstall
             }
         }
 
-        $this->view->assign('authid', SecurityUtil::generateAuthKey('Modules'));
+        $this->view->assign('authid', SecurityUtil::generateAuthKey('Extensions'));
         return $this->view->fetch('intercom_init_delete_final.htm');
     }
 
