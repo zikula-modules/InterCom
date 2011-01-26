@@ -59,8 +59,8 @@ class InterCom_Controller_Ajax extends Zikula_Controller
         // Create output object
         $renderer = Zikula_View::getInstance('InterCom', false, null, true);
 
-        $bbsmile = ModUtil::isHooked('bbsmile', 'InterCom');
-        $bbcode  = ModUtil::isHooked('bbcode',  'InterCom');
+        $bbsmile = ModUtil::isHooked('BBSmile', 'InterCom');
+        $bbcode  = ModUtil::isHooked('BBCode',  'InterCom');
         $message['reply_text'] = DataUtil::formatForDisplay($message['msg_text']);
 
         // replace [addsig] with users signature
@@ -226,14 +226,14 @@ class InterCom_Controller_Ajax extends Zikula_Controller
         // Create output object
         $renderer = Zikula_View::getInstance('InterCom', false);
 
-        $bbcode = ModUtil::isHooked('bbcode', 'InterCom');
+        $bbcode = ModUtil::isHooked('BBCode', 'InterCom');
         $message['forward_text'] = DataUtil::formatForDisplay($message['msg_text']);
         if ($bbcode == true) {
             $message['forward_text'] = '[quote=' . UserUtil::getVar('uname', $message['from_userid']) . ']' . $message['forward_text'] . '[/quote]';
         }
 
         $renderer->assign('message', $message);
-        $renderer->assign('allowsmilies', ModUtil::isHooked('bbsmile', 'InterCom'));
+        $renderer->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
         $renderer->assign('allowbbcode', $bbcode);
         $renderer->assign('allowhtml', ModUtil::getVar('InterCom', 'messages_allowhtml'));
 

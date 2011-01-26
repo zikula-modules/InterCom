@@ -25,10 +25,10 @@ class InterCom_Version extends Zikula_Version
                         'minversion' => '1.0.0', 'maxversion' => '',
                         'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
                 array( 'modname'    => 'BBCode',
-                        'minversion' => '2.0.0', 'maxversion' => '',
+                        'minversion' => '3.0.0', 'maxversion' => '',
                         'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
                 array( 'modname'    => 'BBSmile',
-                        'minversion' => '2.2.0', 'maxversion' => '',
+                        'minversion' => '3.0.0', 'maxversion' => '',
                         'status'     => ModUtil::DEPENDENCY_RECOMMENDED)
         );
 

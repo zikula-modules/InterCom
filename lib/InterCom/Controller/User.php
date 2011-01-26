@@ -143,16 +143,16 @@ class InterCom_Controller_User extends Zikula_Controller
         // inline js for language defines
         $this->addinlinejs();
 
-        if(ModUtil::isHooked('bbsmile', 'InterCom')) {
+        if(ModUtil::isHooked('BBSmile', 'InterCom')) {
             PageUtil::addVar('javascript', 'prototype');
             PageUtil::addVar('javascript', 'modules/BBSmile/javascript/dosmilie.js');
             PageUtil::addVar('javascript', 'modules/BBSmile/javascript/control_modal.js');
-            PageUtil::addVar('stylesheet', ThemeUtil::getModuleStylesheet('bbsmile'));
+            PageUtil::addVar('stylesheet', ThemeUtil::getModuleStylesheet('BBSmile'));
         }
-        if(ModUtil::isHooked('bbcode', 'InterCom')) {
+        if(ModUtil::isHooked('BBCode', 'InterCom')) {
             PageUtil::addVar('javascript', 'prototype');
             PageUtil::addVar('javascript', 'modules/BBCode/javascript/bbcode.js');
-            PageUtil::addVar('stylesheet', ThemeUtil::getModuleStylesheet('bbcode'));
+            PageUtil::addVar('stylesheet', ThemeUtil::getModuleStylesheet('BBCode'));
         }
 
         // Create output object
@@ -548,8 +548,8 @@ class InterCom_Controller_User extends Zikula_Controller
             $this->view->assign('pmtype',       'reply');
             $this->view->assign('currentuid',   UserUtil::getVar('uid'));
             $this->view->assign('message',      $message);
-            $this->view->assign('allowsmilies', ModUtil::isHooked('bbsmile', 'InterCom'));
-            $this->view->assign('allowbbcode',  ModUtil::isHooked('bbcode', 'InterCom'));
+            $this->view->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
+            $this->view->assign('allowbbcode',  ModUtil::isHooked('BBCode', 'InterCom'));
             $this->view->assign('allowhtml',    $this->getVar('messages_allowhtml'));
             $this->view->assign('allowsmilies', $this->getVar('messages_smilies'));
             $this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
@@ -661,8 +661,8 @@ class InterCom_Controller_User extends Zikula_Controller
         $this->view->add_core_data();
         $this->view->assign('pmtype',       'new');
         $this->view->assign('currentuid',   $currentuid);
-        $this->view->assign('allowsmilies', ModUtil::isHooked('bbsmile', 'InterCom'));
-        $this->view->assign('allowbbcode',  ModUtil::isHooked('bbcode', 'InterCom'));
+        $this->view->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
+        $this->view->assign('allowbbcode',  ModUtil::isHooked('BBCode', 'InterCom'));
         $this->view->assign('allowhtml',    $this->getVar('messages_allowhtml'));
         $this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
         $this->view->assign('msg_preview',  $msg_preview);
@@ -1152,7 +1152,7 @@ class InterCom_Controller_User extends Zikula_Controller
         // Create output object
         $this->view->add_core_data();
 
-        $bbcode = ModUtil::isHooked('bbcode', 'InterCom');
+        $bbcode = ModUtil::isHooked('BBCode', 'InterCom');
         $message['forward_text'] = DataUtil::formatForDisplay($message['msg_text']);
         if ($bbcode == true) {
             $message['forward_text'] = '[quote=' . UserUtil::getVar('uname', $message['from_userid']) . ']' . $message['forward_text'] . '[/quote]';
@@ -1161,7 +1161,7 @@ class InterCom_Controller_User extends Zikula_Controller
         $this->view->assign('pmtype',       'forward');
         $this->view->assign('currentuid',   UserUtil::getVar('uid'));
         $this->view->assign('message',      $message);
-        $this->view->assign('allowsmilies', ModUtil::isHooked('bbsmile', 'InterCom'));
+        $this->view->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
         $this->view->assign('allowbbcode',  $bbcode);
         $this->view->assign('allowhtml',    $this->getVar('messages_allowhtml'));
         $this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));

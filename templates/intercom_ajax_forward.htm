@@ -33,7 +33,7 @@
     {if $allowhtml eq 1 || $allowsmilies eq 1}
     <div class="ic-floatleft">
         {if $allowsmilies eq 1}
-        {modfunc modname=bbsmile func=bbsmiles textfieldid=$textfieldid}
+        {modfunc modname='BBSmile' func='bbsmiles' textfieldid=$textfieldid}
         {/if}
         {if $allowhtml eq 1}
         <br />
@@ -45,7 +45,7 @@
 
     {if $allowbbcode eq 1}
     <div class="ic-floatright">
-        {modfunc modname=bbcode type=user func=bbcodes textfieldid=$textfieldid images=0}
+        {modfunc modname='BBCode' type='user' func='bbcodes' textfieldid=$textfieldid images=0}
     </div>
     {/if}
 </div>
