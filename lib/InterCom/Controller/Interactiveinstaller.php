@@ -70,18 +70,12 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_InteractiveInstall
         // Chasm: update process written for the admin section in the next init step.
         ModUtil::apiFunc('InterCom', 'admin', 'default_config');
 
-        if (!ModUtil::registerHook('item',
-        'create',
-        'API',
-        'InterCom',
-        'user',
-        'createhook')) {
-            return LogUtil::registerError($this->__('Error! Could not create the creation hook.'));
-        }
+//      TODO: Fix hooks for Zikula 1.3
+//        if (!ModUtil::registerHook('item', 'create', 'API', 'InterCom', 'user', 'createhook')) {
+//            return LogUtil::registerError($this->__('Error! Could not create the creation hook.'));
+//        }
         // enable the create hook for the Users module
-        ModUtil::apiFunc('Modules', 'admin', 'enablehooks',
-                array('callermodname' => 'Users',
-                'hookmodname' => 'InterCom'));
+//        ModUtil::apiFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
 
         // check if old Messages module table is available, if yes, go to step 2 and offer to import
         // them, if not, continue to the final step
@@ -162,14 +156,10 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_InteractiveInstall
         // Delete any module variables
         $this->delVars();
 
-        if (!ModUtil::unregisterHook('item',
-        'create',
-        'API',
-        'InterCom',
-        'user',
-        'createhook')) {
-            LogUtil::registerError($this->__('Error! Could not unregister hook'));
-        }
+//      TODO: Fix hooks for Zikula 1.3
+//        if (!ModUtil::unregisterHook('item', 'create', 'API', 'InterCom', 'user', 'createhook')) {
+//            LogUtil::registerError($this->__('Error! Could not unregister hook'));
+//        }
 
         $removetables = FormUtil::getPassedValue('removetables', 0, 'GETPOST');
         if($removetables == 1) {
@@ -206,11 +196,11 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_InteractiveInstall
         // Set up initial values all module variables
         ModUtil::apiFunc('InterCom', 'admin', 'default_config');
 
-        if (ModUtil::registerHook('item', 'create', 'API', 'InterCom', 'user', 'createhook')) {
-            // enable the create hook for the Users module
-            ModUtil::apiFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users',
-                    'hookmodname'   => 'InterCom'));
-        }
+//        TODO: Fix hooks for Zikula 1.3
+//        if (ModUtil::registerHook('item', 'create', 'API', 'InterCom', 'user', 'createhook')) {
+//            // enable the create hook for the Users module
+//            ModUtil::apiFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname'   => 'InterCom'));
+//        }
 
         return true;
     }
