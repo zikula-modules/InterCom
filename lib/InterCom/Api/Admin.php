@@ -17,9 +17,21 @@ class InterCom_Api_Admin extends Zikula_Api
     {
         $links = array();
         if (SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-            $links[] = array('url' => ModUtil::url('InterCom', 'admin', 'main'), 'text' => $this->__('Statistics'));
-            $links[] = array('url' => ModUtil::url('InterCom', 'admin', 'tools'), 'text' => $this->__('Utilities'));
-            $links[] = array('url' => ModUtil::url('InterCom', 'admin', 'modifyconfig'), 'text' => $this->__('Settings'));
+            $links[] = array(
+                'url' => ModUtil::url('InterCom', 'admin', 'main'),
+                'text' => $this->__('Statistics'),
+                'class' => 'z-icon-es-info'
+            );
+            $links[] = array(
+                'url' => ModUtil::url('InterCom', 'admin', 'tools'),
+                'text' => $this->__('Utilities'),
+                'class' => 'z-icon-es-gears'
+            );
+            $links[] = array(
+                'url' => ModUtil::url('InterCom', 'admin', 'modifyconfig'),
+                'text' => $this->__('Settings'),
+                'class' => 'z-icon-es-config'
+            );
         }
         return $links;
     }
