@@ -23,10 +23,10 @@
  *
  */
 
-class InterCom_Form_Handler_Admin_ModifyConfig extends Form_Handler
+class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_Handler
 {
 
-    function initialize(&$view)
+    function initialize(Zikula_Form_View $view)
     {
         $view->caching = false;
         $view->add_core_data();
@@ -45,7 +45,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Form_Handler
     }
 
 
-    function handleCommand(&$view, &$args)
+    function handleCommand(Zikula_Form_View $view, &$args)
     {
         // Security check
         if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
