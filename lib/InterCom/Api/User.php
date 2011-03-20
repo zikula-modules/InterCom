@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Api_User extends Zikula_Api
+class InterCom_Api_User extends Zikula_AbstractApi
 {
     /**
      * This function stores a PM into the DB

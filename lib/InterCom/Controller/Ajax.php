@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Controller_Ajax extends Zikula_Controller
+class InterCom_Controller_Ajax extends Zikula_AbstractController
 {
     /**
      * mark a message as read
@@ -449,7 +449,7 @@ class InterCom_Controller_Ajax extends Zikula_Controller
         }
 
         $output = json_encode($return);
-        
+
         header('HTTP/1.0 200 OK');
         echo $output;
         System::shutdown();

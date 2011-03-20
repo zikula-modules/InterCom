@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Installer extends Zikula_Installer
+class InterCom_Installer extends Zikula_AbstractInstaller
 {
     /**
      * upgrade the InterCom module from an old version

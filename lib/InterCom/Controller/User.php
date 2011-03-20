@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Controller_User extends Zikula_Controller
+class InterCom_Controller_User extends Zikula_AbstractController
 {
     /**
      * The main user function -

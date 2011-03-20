@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Api_Admin extends Zikula_Api
+class InterCom_Api_Admin extends Zikula_AbstractApi
 {
     /**
      * get available admin panel links

@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Version extends Zikula_Version
+class InterCom_Version extends Zikula_AbstractVersion
 {
     public function getMetaData()
     {

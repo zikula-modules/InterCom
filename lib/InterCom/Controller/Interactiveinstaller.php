@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Controller_Interactiveinstaller extends Zikula_InteractiveInstaller
+class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiveInstaller
 {
     /**
      * interactive installation procedure

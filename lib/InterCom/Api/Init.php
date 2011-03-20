@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Api_Init extends Zikula_Api
+class InterCom_Api_Init extends Zikula_AbstractApi
 {
     public function import_messages()
     {

@@ -5,7 +5,7 @@
  * InterCom-Block
  *
  */
-class InterCom_Block_Messages extends Zikula_Controller_Block
+class InterCom_Block_Messages extends Zikula_Controller_AbstractBlock
 {
     public function init()
     {
