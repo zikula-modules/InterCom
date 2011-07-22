@@ -1,5 +1,5 @@
 {* $Id$ *}
-{include file="intercom_admin_menu.htm"}
+{include file="admin/menu.tpl"}
 
 <h2>{gt text="Statistics"}</h2>
 
@@ -10,4 +10,4 @@
     <dd>{gt text="Archive"}: {$archive}</dd>
 </dl>
 
-{include file="intercom_admin_footer.htm"}
+{include file="admin/footer.tpl"}

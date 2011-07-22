@@ -1,7 +1,10 @@
 {* $Id$ *}
 {pageaddvar name="javascript" value="prototype"}
-{pageaddvar name="javascript" value="javascript/ajax/validation.js,modules/InterCom/javascript/intercom.js,modules/InterCom/pnjavascript/facebooklist.js"}
-{pageaddvar name="javascript" value="javascript/helpers/texpand.js"}
+{pageaddvar name="javascript" value="javascript/ajax/validation.min.js"}
+{pageaddvar name="javascript" value="modules/InterCom/javascript/intercom.js"}
+{pageaddvar name="javascript" value="modules/InterCom/javascript/facebooklist.js"}
+
+{pageaddvar name="javascript" value="modules/InterCom/javascript/texpand.packed.js"}
 {pageaddvar name="stylesheet" value="modules/InterCom/style/facebooklist.css"}
 {pagesetvar name=title value=$ictitle}
 <script type="text/javascript">
@@ -14,9 +17,9 @@
 </script>
 <div id="intercom">
     <h2>{gt text="Private messaging"}
-        <img alt="spinner" id="spinner" src="modules/InterCom/pnimages/ajax-loader.gif"
+        <img alt="spinner" id="spinner" src="modules/InterCom/images/ajax-loader.gif"
         style="display:none;" />
     </h2>
 
-    {include file="intercom_user_navigation.htm"}
+    {include file="user/navigation.tpl"}
     {insert name="getstatusmsg"}

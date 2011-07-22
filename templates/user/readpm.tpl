@@ -1,6 +1,6 @@
 {* $Id$ *}
 {gt text="Received message" assign=ictitle}
-{include file="intercom_user_header.htm" ictitle=$ictitle}
+{include file="user/header.tpl" ictitle=$ictitle}
 
 <div id="ic-readform" class="z-form">
     <fieldset>
@@ -40,7 +40,7 @@
                 <div class="ic-readheaderright">{icuseravatar uid=$message.from_userid}</div>
                 {$message.msg_text}
             </div>
-            {if $message.signature != ""}<div class="signature z-formnote">{$message.signature|safehtml|modcallhooks|nl2br}</div>{/if}
+            {if $message.signature != ""}<div class="signature z-formnote">{$message.signature|safehtml|nl2br}<!-- {$message.signature|safehtml|modcallhooks|nl2br} --></div>{/if}
         </div>
     </fieldset>
 
@@ -61,4 +61,4 @@
 {modapifunc modname="ContactList" type="user" func="getFOAFLink" uid1=$message.to_userid uid2=$message.from_userid}
 {/if}
 
-{include file="intercom_user_footer.htm"}
+{include file="user/footer.tpl"}

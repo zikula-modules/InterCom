@@ -60,8 +60,8 @@
                     </div>
 
                     <div class="msg_text">
-                        {$messagearray[message].msg_text|safehtml|modcallhooks|nl2br}
-                        {if $messagearray[message].signature != ""}<div class="signature">{$messagearray[message].signature|safehtml|modcallhooks|nl2br}</div>{/if}
+                        {$messagearray[message].msg_text|safehtml|nl2br}<!-- {$messagearray[message].msg_text|safehtml|modcallhooks|nl2br} -->
+                        {if $messagearray[message].signature != ""}<div class="signature">{$messagearray[message].signature|safehtml|nl2br}</div>{/if}
                     </div>
                 </div>
 

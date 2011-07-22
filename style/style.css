@@ -1,4 +1,4 @@
-/**
+﻿/**
 * $Id$
 *
 * InterCom - an advanced private messaging solution for Zikula
@@ -161,12 +161,12 @@
   margin: 0 0.4em;
 }
 #intercom ul.indicators li.ic-limitreached {
-  background: url(../../../images/icons/extrasmall/redled.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/redled.png) no-repeat 0 50%;
   padding: 2px 0 2px 22px;
   margin:0;
 }
 #intercom ul.indicators li.ic-limitnotreached {
-  background: url(../../../images/icons/extrasmall/greenled.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/greenled.png) no-repeat 0 50%;
   padding: 2px 0 2px 22px;
   margin:0;
 }
@@ -240,80 +240,80 @@
   padding: 2px 0 2px 19px; /* 16px image + spacer */
 }
 #intercom a.view {
-  background: url(../../../images/icons/extrasmall/demo.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/demo.png) no-repeat 0 50%;
 }
 #intercom a.mailreply {
-  background: url(../../../images/icons/extrasmall/mail_reply.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/mail_reply.png) no-repeat 0 50%;
 }
 #intercom a.mailforward {
-  background: url(../../../images/icons/extrasmall/mail_forward.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/mail_forward.png) no-repeat 0 50%;
 }
 #intercom a.printer {
-  background: url(../../../images/icons/extrasmall/printer1.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/printer1.png) no-repeat 0 50%;
 }
 #intercom a.maildelete {
-  background: url(../../../images/icons/extrasmall/mail_delete.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/mail_delete.png) no-repeat 0 50%;
 }
 #intercom a.profile {
-  background: url(../../../images/icons/extrasmall/personal.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/personal.png) no-repeat 0 50%;
 }
 #intercom a.mailsend {
-  background: url(../../../images/icons/extrasmall/mail_send.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/mail_send.png) no-repeat 0 50%;
 }
 #intercom a.homepage {
-  background: url(../../../images/icons/extrasmall/network.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/network.png) no-repeat 0 50%;
 }
 #intercom a.inbox,
 .intercomblock a.inbox {
-  background: url(../../../images/icons/extrasmall/folder_inbox.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/inbox.png) no-repeat 0 50%;
 }
 #intercom a.outbox {
-  background: url(../../../images/icons/extrasmall/folder_outbox.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/folder_outbox.png) no-repeat 0 50%;
 }
 #intercom a.memberlist,
 .intercomblock a.memberlist {
-  background: url(../../../images/icons/extrasmall/agt_forum.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/agt_forum.png) no-repeat 0 50%;
 }
 #intercom a.userpref {
-  background: url(../../../images/icons/extrasmall/exec.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/exec.png) no-repeat 0 50%;
 }
 #intercom a.configure {
-  background: url(../../../images/icons/extrasmall/package_system.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/package_system.png) no-repeat 0 50%;
 }
 #intercom a.ok {
-  background: url(../../../images/icons/extrasmall/button_ok.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/button_ok.png) no-repeat 0 50%;
 }
 #intercom a.cancel {
-  background: url(../../../images/icons/extrasmall/button_cancel.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/button_cancel.png) no-repeat 0 50%;
 }
 .intercomblock a.mailread {
-  background: url(../../../images/icons/extrasmall/mail_generic.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/mail_generic.png) no-repeat 0 50%;
 }
 #intercom a.newmsg,
 .intercomblock a.newmsg {
-  background: url(../../../images/icons/extrasmall/mail_new.gif) no-repeat 0 50%;
+  background: url(../../../images/icons/extrasmall/mail_new.png) no-repeat 0 50%;
 }
 .intercomblock a.mailunread {
-  background: url(../pnimages/mail_unread.gif) no-repeat 0 50%;
+  background: url(../images/mail_unread.png) no-repeat 0 50%;
 }
 #intercom a.mailsave {
-  background: url(../pnimages/save.gif) no-repeat 0 50%;
+  background: url(../images/save.gif) no-repeat 0 50%;
 }
 #intercom a.icq {
   /* inline css */
 }
 #intercom a.aim {
-  background: url(../pnimages/aim.gif) no-repeat 0 50%;
+  background: url(../images/aim.png) no-repeat 0 50%;
 }
 #intercom a.ym {
-  background: url(../pnimages/Ym.gif) no-repeat 0 50%;
+  background: url(../images/Ym.png) no-repeat 0 50%;
 }
 #intercom a.msn {
-  background: url(../pnimages/msn.gif) no-repeat 0 50%;
+  background: url(../images/msn.png) no-repeat 0 50%;
 }
 
 #intercom div.ic-informationtext-working {
-  background:transparent url(../../../images/ajax/indicator_arrows.gif) no-repeat scroll 0 50%;
+  background:transparent url(../../../images/ajax/indicator_arrows.png) no-repeat scroll 0 50%;
   padding:0 0 0 22px;
   font-weight: bold;
   line-height:2em;
@@ -322,7 +322,7 @@
 
 #intercom div.ic-informationtext-error {
   padding:0 0 0 22px;
-  background: transparent url(../../../images/icons/extrasmall/error.gif) no-repeat 0 50%;
+  background: transparent url(../../../images/icons/extrasmall/error.png) no-repeat 0 50%;
   font-weight: bold;
   color: red;
   line-height:2em;
@@ -331,7 +331,7 @@
 
 #intercom div.ic-informationtext-info {
   padding:0 0 0 22px;
-  background: transparent url(../../../images/icons/extrasmall/info.gif) no-repeat 0 50%;
+  background: transparent url(../../../images/icons/extrasmall/info.png) no-repeat 0 50%;
   font-weight: bold;
   line-height:2em;
   margin:0 0 0 60px;

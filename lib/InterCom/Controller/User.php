@@ -64,7 +64,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('email_notification', $attr['ic_note']);
         $this->view->assign('autoreply',          $attr['ic_ar']);
         $this->view->assign('autoreply_text',     $attr['ic_art']);
-        return $this->view->fetch('intercom_user_prefs.htm');
+        return $this->view->fetch('user/prefs.tpl');
     }
 
     /**
@@ -110,7 +110,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         // Maintenance message
         if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             $this->view->setCaching(false);
-            return $this->view->fetch('intercom_user_maintenance.htm');
+            return $this->view->fetch('user/maintenance.tpl');
         }
 
         // Get variables for autoreply
@@ -168,7 +168,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('sort',             $sort);
         $this->view->assign('ictitle',          DataUtil::formatForDisplay($this->__('Inbox')));
         // Return output object
-        return $this->view->fetch('intercom_user_view.htm');
+        return $this->view->fetch('user/view.tpl');
     }
 
     /**
@@ -194,7 +194,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         // Maintenance message
         if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             $this->view->setCaching(false);
-            return $this->view->fetch('intercom_user_maintenance.htm');
+            return $this->view->fetch('user/maintenance.tpl');
         }
 
         // Get startnum and perpage parameter for pager
@@ -253,7 +253,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('sort',            $sort);
         $this->view->assign('ictitle',         DataUtil::formatForDisplay($this->__('Outbox')));
         // Return output object
-        return $this->view->fetch('intercom_user_view.htm');
+        return $this->view->fetch('user/view.tpl');
     }
 
     /**
@@ -279,7 +279,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         // Maintenance message
         if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             $this->view->setCaching(false);
-            return $this->view->fetch('intercom_user_maintenance.htm');
+            return $this->view->fetch('user/maintenance.tpl');
         }
 
         // Get startnum and perpage parameter for pager
@@ -321,7 +321,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('sort',            $sort);
         $this->view->assign('ictitle',          DataUtil::formatForDisplay($this->__('Archive')));
         // Return output object
-        return $this->view->fetch('intercom_user_view.htm');
+        return $this->view->fetch('user/view.tpl');
     }
 
     /**
@@ -379,7 +379,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
             $this->view->assign('currentuid', UserUtil::getVar('uid'));
             $this->view->assign('boxtype', 'inbox');
             $this->view->assign('message',  $message);
-            return $this->view->fetch('intercom_user_readpm.htm');
+            return $this->view->fetch('user/readpm.tpl');
         }
     }
 
@@ -437,7 +437,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
             $this->view->assign('currentuid', UserUtil::getVar('uid'));
             $this->view->assign('boxtype', 'outbox');
             $this->view->assign('message',  $message);
-            return $this->view->fetch('intercom_user_readpm.htm');
+            return $this->view->fetch('user/readpm.tpl');
         }
     }
 
@@ -494,7 +494,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
             $this->view->assign('currentuid', UserUtil::getVar('uid'));
             $this->view->assign('boxtype', 'archive');
             $this->view->assign('message',  $message);
-            return $this->view->fetch('intercom_user_readpm.htm');
+            return $this->view->fetch('user/readpm.tpl');
         }
     }
 
@@ -559,7 +559,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
             $this->view->assign('from_uid',     UserUtil::getVar('uid'));
             $this->view->assign('ictitle',      DataUtil::formatForDisplay($this->__('Send reply')));
 
-            return $this->view->fetch('intercom_user_pm.htm');
+            return $this->view->fetch('user/pm.tpl');
         }
     }
 
@@ -674,7 +674,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('ictitle',      DataUtil::formatForDisplay($this->__('New message')));
 
         // Return output object
-        return $this->view->fetch('intercom_user_pm.htm');
+        return $this->view->fetch('user/pm.tpl');
     }
 
     /**
@@ -1070,7 +1070,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
             return System::redirect($url);
         } else {
             LogUtil::registerError($this->__('Error! Could not log in.'));
-            return $this->view->fetch('intercom_user_login.htm');
+            return $this->view->fetch('user/login.tpl');
         }
     }
 
@@ -1097,7 +1097,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
                 ModUtil::apiFunc('InterCom', 'user', 'mark_popup', array('to_userid' => UserUtil::getVar('uid')));
                 $this->view->setCaching(false);
                 $this->view->assign('totalarray', $totalarray);
-                $out = $this->view->fetch('intercom_user_messageinfo.htm');
+                $out = $this->view->fetch('user/messageinfo.tpl');
             }
         }
         return $out;
@@ -1118,7 +1118,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
 
         $this->view->setCaching(false);
         $this->view->assign('url', ModUtil::url('InterCom', 'user', $page));
-        return $this->view->fetch('intercom_user_login.htm');
+        return $this->view->fetch('user/login.tpl');
     }
 
 
@@ -1167,7 +1167,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
         $this->view->assign('ictitle',      DataUtil::formatForDisplay($this->__('Forward message')));
 
-        return $this->view->fetch('intercom_user_pm.htm');
+        return $this->view->fetch('user/pm.tpl');
     }
 
     /**

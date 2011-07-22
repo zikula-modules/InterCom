@@ -1,4 +1,4 @@
-{* $Id$ *}
+﻿{* $Id$ *}
 <div class="z-menu">
     <div class="z-menuitem-title">
         [

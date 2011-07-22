@@ -43,7 +43,7 @@ class InterCom_Block_Messages extends Zikula_Controller_AbstractBlock
         $this->view->add_core_data()->setCaching(false);
 
         if(empty($vars['pn_template'])) {
-            $vars['pn_template'] = 'intercom_block_messages.htm';
+            $vars['pn_template'] = 'block/messages.tpl';
         }
 
         $blockinfo['content'] = $this->view->fetch(trim($vars['pn_template']));
@@ -55,17 +55,17 @@ class InterCom_Block_Messages extends Zikula_Controller_AbstractBlock
     {
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
         if(!isset($vars['pn_template']) || empty($vars['pn_template']))   {
-            $vars['pn_template']   = 'intercom_block_messages.htm';
+            $vars['pn_template']   = 'block/messages.tpl';
         }
         $this->view->add_core_data()->setCaching(false);
         $this->view->assign('vars', $vars);
-        return $this->view->fetch('intercom_block_messages_modify.htm');
+        return $this->view->fetch('block/messages_modify.tpl');
     }
 
     public function update($blockinfo)
     {
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
-        $vars['pn_template'] = FormUtil::getPassedValue('pn_template', 'intercom_block_messages.htm', 'POST');
+        $vars['pn_template'] = FormUtil::getPassedValue('pn_template', 'block/messages.tpl', 'POST');
         $blockinfo['content'] = BlockUtil::varsToContent($vars);
         return $blockinfo;
     }

@@ -109,7 +109,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         $renderer->assign('url', $url);
         $renderer->assign('baseURL', System::getBaseUrl());
 
-        $message = $renderer->fetch("intercom_user_emailnotification.htm");
+        $message = $renderer->fetch("mail/emailnotification.tpl");
 
         $fromname = ModUtil::getVar('InterCom', 'messages_fromname');
         if ($fromname == '') {

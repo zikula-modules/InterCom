@@ -79,7 +79,7 @@ class InterCom_Controller_Ajax extends Zikula_AbstractController
         $renderer->assign('allowbbcode',  $bbcode);
 
         // no output in xjsonheader as this might be too long for prototype!
-        AjaxUtil::output(array('data' => $renderer->fetch('intercom_ajax_reply.htm')));
+        AjaxUtil::output(array('data' => $renderer->fetch('ajax/reply.tpl')));
     }
 
     /**
@@ -238,7 +238,7 @@ class InterCom_Controller_Ajax extends Zikula_AbstractController
         $renderer->assign('allowhtml', ModUtil::getVar('InterCom', 'messages_allowhtml'));
 
         // no output in xjsonheader as this might be too long for prototype!
-        AjaxUtil::output(array('data' => $renderer->fetch('intercom_ajax_forward.htm')));
+        AjaxUtil::output(array('data' => $renderer->fetch('ajax/forward.tpl')));
     }
 
     /**
@@ -516,7 +516,7 @@ class InterCom_Controller_Ajax extends Zikula_AbstractController
             include_once 'lib/view/plugins/outputfilter.shorturls.php';
             $renderer->register_outputfilter('smarty_outputfilter_shorturls');
         }
-        $renderer->display('intercom_ajax_getmessages.htm');
+        $renderer->display('ajax/getmessages.tpl');
         System::shutdown();
     }
 }

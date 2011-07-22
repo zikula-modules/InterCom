@@ -1,10 +1,10 @@
 {* $Id$ *}
 
-{include file="intercom_user_header.htm" ictitle=$ictitle}
+{include file="user/header.tpl" ictitle=$ictitle}
 {pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_newmsg.js"}
 
 {if $msg_preview == 1}
-{include file="intercom_user_previewpm.htm"}
+{include file="user/previewpm.tpl"}
 {/if}
 
 {if $pmtype eq "reply"}
@@ -140,4 +140,4 @@
     var valid = new Validation('post');
 </script>
 
-{include file="intercom_user_footer.htm"}
+{include file="user/footer.tpl"}
