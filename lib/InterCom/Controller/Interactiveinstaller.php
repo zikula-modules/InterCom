@@ -6,7 +6,7 @@
  *
  */
 
-class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiveInstaller
+class InterCom_Controller_Interactiveinstaller extends Zikula_Controller_AbstractInteractiveInstaller
 {
     /**
      * interactive installation procedure
@@ -25,11 +25,10 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiv
         // In this case we simply show a welcome screen.
 
         // Check permissions
-        if (!SecurityUtil::checkPermission('::', '::', ACCESS_ADMIN)) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN));
 
-        return $this->view->fetch('intercom_init_interactive.htm');
+
+        return $this->view->fetch('install/interactive.tpl');
     }
 
     /**
@@ -46,21 +45,12 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiv
         // for some basic data now. After collecting the data, we store them session vars.
 
         // Check permissions
-        if (!SecurityUtil::checkPermission('::', '::', ACCESS_ADMIN)) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN));
 
         // check if table exist.
         // this might happen if InterCom has been removed before *without* removing the tables
-        $pntable = DBUtil::getTables();
-        $messagestable = $pntable['intercom'];
-        $sql = "SHOW TABLES LIKE '$messagestable'";
-        $res = DBUtil::executeSQL($sql);
-        if($res->EOF == true) {
-            // table does not exist
-            if (!DBUtil::createTable('intercom')) {
-                return LogUtil::registerError($this->__('Error! Could not create table.'));
-            }
+        if (!DBUtil::createTable('intercom')) {
+            return false;
         }
 
         // Force api load
@@ -84,13 +74,11 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiv
         $res = DBUtil::executeSQL($sql);
         if($res->EOF == true) {
             // table does not exist
-            $this->view->assign('authid', SecurityUtil::generateAuthKey('Extensions'));
-            return $this->view->fetch('intercom_init_step_final.htm');
+            return $this->view->fetch('install/step_final.tpl');
         }
 
         // prepare the output
-        $this->view->assign('authid', SecurityUtil::generateAuthKey('InterCom'));
-        return $this->view->fetch('intercom_init_step2.htm');
+        return $this->view->fetch('install/step2.tpl');
     }
 
     /**
@@ -103,9 +91,7 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiv
     public function step3()
     {
         // Check permissions
-        if (!SecurityUtil::checkPermission('::', '::', ACCESS_ADMIN)) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN));
 
         $import = FormUtil::getPassedValue('import', 0, 'GETPOST');
         if($import == 1) {
@@ -115,8 +101,7 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiv
         }
 
         $this->view->setCaching(false);
-        $this->view->assign('authid', SecurityUtil::generateAuthKey('Extensions'));
-        return $this->view->fetch('intercom_init_step_final.htm');
+        return $this->view->fetch('install/final.tpl');
     }
 
     /**
@@ -130,12 +115,8 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiv
     public function uninstall()
     {
         // Check permissions
-        if (!SecurityUtil::checkPermission('::', '::', ACCESS_ADMIN)) {
-            return LogUtil::registerPermissionError();
-        }
-
-        $this->view->assign('authid', SecurityUtil::generateAuthKey('InterCom'));
-        return $this->view->fetch('intercom_init_delete.htm');
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN));
+        return $this->view->fetch('install/delete.tpl');
     }
 
     /**
@@ -149,9 +130,7 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiv
     public function deletefinal()
     {
         // Check permissions
-        if (!SecurityUtil::checkPermission('::', '::', ACCESS_ADMIN)) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN));
 
         // Delete any module variables
         $this->delVars();
@@ -171,8 +150,7 @@ class InterCom_Controller_Interactiveinstaller extends Zikula_AbstractInteractiv
             }
         }
 
-        $this->view->assign('authid', SecurityUtil::generateAuthKey('Extensions'));
-        return $this->view->fetch('intercom_init_delete_final.htm');
+        return $this->view->fetch('install/delete_final.tpl');
     }
 
     /**

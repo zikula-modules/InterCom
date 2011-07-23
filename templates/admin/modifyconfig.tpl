@@ -1,5 +1,5 @@
 {* $Id$ *}
-{include file="intercom_admin_menu.htm"}
+{include file="admin/menu.tpl"}
 
 <h2>{gt text="Settings"}</h2>
 
@@ -232,4 +232,4 @@
     /* ]]> */
 </script>
 
-{include file="intercom_admin_footer.htm"}
+{include file="admin/footer.tpl"}

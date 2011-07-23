@@ -1,5 +1,5 @@
 {* $Id$ *}
-{include file="intercom_admin_menu.htm"}
+{include file="admin/menu.tpl"}
 
 <h2>{gt text="Utilities"}</h2>
 
@@ -13,4 +13,4 @@
     <li><a href="{modurl modname="InterCom" type="admin" func="dbtools" operation="reset_to_defaults"}" onclick="return confirm('{gt text="Do you really want to reset all settings to their default values?"}')">{gt text="Reset all settings to default values"}</a> ({gt text="Notice: This resets all settings to their default values."})</li>
 </ul>
 
-{include file="intercom_admin_footer.htm"}
+{include file="admin/footer.tpl"}

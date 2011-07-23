@@ -137,7 +137,7 @@ font: 11px "Lucida Grande", "Verdana";
     width: 7px;
     height: 7px;
     font-size: 1px;
-    background: url(../pnimages/close.gif);
+    background: url(../images/close.gif);
     padding:0;
 }
 #intercom ul.holder li.bit-box a.closebutton:hover {

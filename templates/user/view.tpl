@@ -1,6 +1,6 @@
 {* $Id$ *}
 
-{include file="intercom_user_header.htm" ictitle=$ictitle}
+{include file="user/header.tpl" ictitle=$ictitle}
 
 {if $boxtype eq "inbox"}
 {pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_inbox.js"}
@@ -30,14 +30,14 @@
 {if $messagearray == FALSE}
 <div class="z-informationmsg">{gt text="You currently have no messages."}</div>
 {else}
-{include file="intercom_user_view`$boxtype`_messages.htm"}
+{include file="user/`$boxtype`_messages.tpl"}
 {/if}
 
 <div class="z-form">
     <fieldset>
         <legend>{gt text="Status"}</legend>
-        {include file="intercom_user_indicators.htm"}
+        {include file="user/indicators.tpl"}
     </fieldset>
 </div>
 
-{include file="intercom_user_footer.htm"}
+{include file="user/footer.tpl"}

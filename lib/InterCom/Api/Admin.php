@@ -123,11 +123,11 @@ class InterCom_Api_Admin extends Zikula_AbstractApi
         return true;
     }
 
-    public function default_config()
-    {
+    /* public function default_config()
+    { */
         // Security check - important to do this as early on as possible to
         // avoid potential security holes or just too much wasted processing
-        if (!defined('_PNINSTALLVER') && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
+     /*    if (!defined('_PNINSTALLVER') && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             return LogUtil::registerPermissionError();
         }
 
@@ -161,5 +161,5 @@ class InterCom_Api_Admin extends Zikula_AbstractApi
         $this->setVar('messages_savewelcomemessage', false);
 
         return true;
-    }
+    } */
 }

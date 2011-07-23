@@ -1,6 +1,6 @@
 {* $Id$ *}
 {gt text="Maintenance settings" assign=ictitle}
-{include file="intercom_user_header.htm" ictitle=$ictitle}
+{include file="user/header.tpl" ictitle=$ictitle}
 
 <div class="z-warningmsg">
     <h3>{$ictitle}</h3>
@@ -8,4 +8,4 @@
     <p>{$maintain|safehtml}</p>
 </div>
 
-{include file="intercom_user_footer.htm"}
+{include file="user/footer.tpl"}

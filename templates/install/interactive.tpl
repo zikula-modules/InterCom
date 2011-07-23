@@ -1,4 +1,4 @@
-{* $Id$ *}
+{adminheader}
 {pageaddvar name="stylesheet" value="modules/InterCom/style/style.css"}
 <div id="intercom" class="ic-init">
     <h2>{gt text="InterCom installation" domain="module_intercom"}</h2>

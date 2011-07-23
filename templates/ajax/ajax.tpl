@@ -18,6 +18,6 @@
     </script>
 
     <noscript>
-        {include file="intercom_ajax_getmessages.htm"}
+        {include file="ajax/getmessages.tpl"}
     </noscript>
 </div>
