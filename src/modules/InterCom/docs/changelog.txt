@@ -32,6 +32,9 @@
 
 Version history
 ----------------------------------------------------------
+2.3.0
+[-] removed interactive Installer
+
 2.1 
 [+] Renamed to InterCom
 [+] added external ref to dutch language pack to svn
