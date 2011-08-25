@@ -1,5 +1,4 @@
-{* $Id$ *}
-
+﻿{* $Id$ *}
 <form id="msg_view" class="z-form z-linear" action="{modurl modname="InterCom" type="user" func="switchaction"}" method="post">
     <fieldset>
         <legend>{$ictitle}</legend>
