@@ -239,7 +239,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         // not then set an appropriate error message and return
         if ((!isset($args['msg_id']) || !is_numeric($args['msg_id'])) ||
                 (!in_array($args['msg_type'], array('msg_inbox', 'msg_outbox', 'msg_stored')))) {
-            return LogUtil::registerArgsError;
+            return LogUtil::registerArgsError();
         }
 
         $obj['msg_id'] = $args['msg_id'];
