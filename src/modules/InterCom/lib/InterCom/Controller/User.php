@@ -706,7 +706,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $html     = FormUtil::getPassedValue('html', 0, 'GETPOST');
 
         if($from_uid <> UserUtil::getVar('uid')) {
-            return LogUtil::registerArgsError;
+            return LogUtil::registerArgsError();
         }
         // Security check for messages to entire groups
         //if (SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_MODERATE)) {

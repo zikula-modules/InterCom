@@ -599,7 +599,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         }
 
         if (!isset($args['to_userid']) || !is_numeric($args['to_userid'])) {
-            return LogUtil::registerArgsError;
+            return LogUtil::registerArgsError();
         }
 
         $pntable = DBUtil::getTables();
@@ -623,7 +623,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         $msg_text = nl2br($args['msg_text']);
         $msg_text = DataUtil::formatforDisplayHTML(stripslashes($msg_text));
 
-        list($msg_text) = ModUtil::callHooks('item', 'transform', '', array($msg_text));
+     // TODO  list($msg_text) = ModUtil::callHooks('item', 'transform', '', array($msg_text));
         return $msg_text;
     }
 

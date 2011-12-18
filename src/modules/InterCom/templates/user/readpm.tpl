@@ -40,7 +40,7 @@
                 <div class="ic-readheaderright">{icuseravatar uid=$message.from_userid}</div>
                 {$message.msg_text}
             </div>
-            {if $message.signature != ""}<div class="signature z-formnote">{$message.signature|safehtml|nl2br}<!-- {$message.signature|safehtml|modcallhooks|nl2br} --></div>{/if}
+            {if $message.signature != ""}<div class="signature z-formnote">{$message.signature|safehtml|nl2br}<!-- {$message.signature|safehtml|nl2br} --></div>{/if}
         </div>
     </fieldset>
 
@@ -50,8 +50,8 @@
         <a href="{modurl modname="InterCom" type="user" func="forwardfrominbox" messageid=$message.msg_id}" title="{gt text="Forward"}">{img modname=core src=mail_forward.gif set=icons/extrasmall __alt="Forward" __title="Forward"} {gt text="Forward"}</a>
         <a href="{modurl modname="InterCom" type="user" func="storepm" messageid=$message.msg_id userid="$pnuserid"}" title="{gt text='Save'}">{img modname=InterCom src=save.gif __alt="Save" __title="Save"} {gt text="Save"}</a>
         {/if}
-        <a href="{modurl modname="InterCom" type="user" func="read`$boxtype`" messageid=$message.msg_id theme=printer}">{img modname=core src=printer1.gif set=icons/extrasmall __alt="Print" __title="Print"} {gt text="Print"}</a>
-        <a href="{modurl modname="InterCom" type="user" func="deletefrom`$boxtype`" messageid=$message.msg_id}" title="{gt text='Delete'}">{img modname=core src=mail_delete.gif set=icons/extrasmall __alt="Delete" __title="Delete"} {gt text="Delete"}</a>
+        <a href="{modurl modname="InterCom" type="user" func="read`$boxtype`" messageid=$message.msg_id theme=printer}">{img modname='core' src='printer.png' set='icons/extrasmall' __alt="Print" __title="Print"} {gt text="Print"}</a>
+        <a href="{modurl modname="InterCom" type="user" func="deletefrom`$boxtype`" messageid=$message.msg_id}" title="{gt text='Delete'}">{img modname='core' src='14_layer_deletelayer.png' set='icons/extrasmall' __alt="Delete" __title="Delete"} {gt text="Delete"}</a>
     </div>
 
 </div>
