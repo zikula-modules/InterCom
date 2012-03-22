@@ -29,9 +29,9 @@
         <div class="z-formrow">
             <label>{gt text="Message text"}</label>
             <div class="ic-readtext ic-messagetext">
-                {$message.msg_text|nl2br}<!-- {$message.msg_text|nl2br|modcallhooks} -->
+                {$message.msg_text|nl2br}{* {$message.msg_text|nl2br|modcallhooks} *}
                 {usergetvar name="_SIGNATURE" assign="signature"}
-                {if $signature != ""}<div class="signature">{$signature|safehtml|modcallhooks|nl2br}</div>{/if}
+                {if $signature != ""}<div class="signature">{$signature|safehtml|nl2br}{* {$signature|safehtml|modcallhooks|nl2br} *}</div>{/if}
             </div>
         </div>
 
