@@ -40,7 +40,7 @@
                 <div class="ic-readheaderright">{icuseravatar uid=$message.from_userid}</div>
                 {$message.msg_text}
             </div>
-            {if $message.signature != ""}<div class="signature z-formnote">{$message.signature|safehtml|nl2br}<!-- {$message.signature|safehtml|nl2br} --></div>{/if}
+            {if $message.signature != ""}<div class="signature z-formnote">{$message.signature|safehtml|nl2br}{* {$message.signature|safehtml|nl2br} *}</div>{/if}
         </div>
     </fieldset>
 
