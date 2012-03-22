@@ -60,6 +60,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $allow_autoreply = $this->getVar('messages_allow_autoreply');
 
         // Create output object
+		$this->view->setCaching(false); // not suitable for caching
         $this->view->add_core_data();
         $this->view->assign('email_notification', $attr['ic_note']);
         $this->view->assign('autoreply',          $attr['ic_ar']);
@@ -156,6 +157,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         }
 
         // Create output object
+		$this->view->setCaching(false); // not suitable for caching
         $this->view->add_core_data();
         $this->view->assign('boxtype',          'inbox');
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
@@ -242,6 +244,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->addinlinejs();
 
         // Create output object
+		$this->view->setCaching(false); // not suitable for caching
         $this->view->add_core_data();
         $this->view->assign('boxtype',         'outbox');
         $this->view->assign('currentuid',      UserUtil::getVar('uid'));
@@ -310,6 +313,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->addinlinejs();
 
         // Create output object
+		$this->view->setCaching(false); // not suitable for caching
         $this->view->add_core_data();
         $this->view->assign('boxtype',         'archive');
         $this->view->assign('currentuid',      UserUtil::getVar('uid'));
@@ -375,6 +379,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
                     array('url' => $message['url']));
 
             // Create output object
+            $this->view->setCaching(false); // not suitable for caching
             $this->view->add_core_data();
             $this->view->assign('currentuid', UserUtil::getVar('uid'));
             $this->view->assign('boxtype', 'inbox');
@@ -433,6 +438,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
                     array ('url' => $message['url']));
 
             // Create output object
+            $this->view->setCaching(false); // not suitable for caching
             $this->view->add_core_data();
             $this->view->assign('currentuid', UserUtil::getVar('uid'));
             $this->view->assign('boxtype', 'outbox');
@@ -490,6 +496,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
                     array('url' => $message['url']));
 
             // Create output object
+            $this->view->setCaching(false); // not suitable for caching
             $this->view->add_core_data();
             $this->view->assign('currentuid', UserUtil::getVar('uid'));
             $this->view->assign('boxtype', 'archive');
@@ -544,6 +551,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
             $message['msg_text'] = ModUtil::apiFunc('InterCom', 'user', 'prepmessage_for_form',
                     array('msg_text' => $message['msg_text']));
             // Create output object
+            $this->view->setCaching(false); // not suitable for caching
             $this->view->add_core_data();
             $this->view->assign('pmtype',       'reply');
             $this->view->assign('currentuid',   UserUtil::getVar('uid'));
@@ -658,6 +666,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->addinlinejs();
 
         // Create output object
+		$this->view->setCaching(false); // not suitable for caching
         $this->view->add_core_data();
         $this->view->assign('pmtype',       'new');
         $this->view->assign('currentuid',   $currentuid);
@@ -714,9 +723,9 @@ class InterCom_Controller_User extends Zikula_AbstractController
         //} else {
         //    $to_group = '';
         //}
-
         if (FormUtil::getPassedValue('mail_prev_x', null, 'POST')) {
-            return ModUtil::func('InterCom', 'user', 'newpm',
+            //return ModUtil::func('InterCom', 'user', 'newpm',
+             return $this->newpm('InterCom', 'user', 'newpm',
                     array ('msg_preview' => '1',
                     'to_user'     => $to_user,
                     'to_group'    => $to_group,
@@ -727,8 +736,12 @@ class InterCom_Controller_User extends Zikula_AbstractController
 
         // Check the arguments
         if ($to_user == '' && $to_group == '') {
-            LogUtil::registerError($this->__('Error! You did not enter a recipient. Please enter an e-mail address for the recipient and try again.'), null);
-            return $this->newpm();
+            LogUtil::registerError($this->__('Error! You did not enter a recipient. Please enter an recipient and try again.'), null);
+            return $this->newpm(array ('to_user'     => $to_user,
+                    'to_group'    => $to_group,
+                    'msg_subject' => $subject,
+                    'msg_text'    => $message,
+                    'html'        => $html));
         }
         if ($subject == '') {
             return LogUtil::registerError($this->__('Error! Could not find the subject line. Please enter a subject line and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
@@ -1150,6 +1163,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
                 array('msg_text' => $message['msg_text']));
 
         // Create output object
+        $this->view->setCaching(false); // not suitable for caching
         $this->view->add_core_data();
 
         $bbcode = ModUtil::isHooked('BBCode', 'InterCom');
@@ -1192,7 +1206,7 @@ var messagearchived = "' . DataUtil::formatfordisplay($this->__('Done! Message a
 var messagedeleted = "' . DataUtil::formatfordisplay($this->__('Done! Message deleted.')) . '";
 var userdeleted = "' . DataUtil::formatfordisplay($this->__('Sorry! You cannot reply to the message from this user because the person\'s user account has been deleted.')) . '";
 </script>';
-        PageUtil::addVar('rawtext', $inlinejs);
+        PageUtil::addVar('header', $inlinejs); // rawtext => header
         return true;
     }
 }
