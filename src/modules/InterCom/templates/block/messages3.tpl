@@ -12,7 +12,7 @@
                 {/if}
             </a>
         </li>
-        <li><a class="image newpm" href="{modurl modname="InterCom" type="user" func="newpm"}">{gt text="New mail" domain="module_intercom"}</a> </li>
+        <li><a class="image newmsg" href="{modurl modname="InterCom" type="user" func="newpm"}">{gt text="New mail" domain="module_intercom"}</a> </li>
         <li><a class="image memberlist" href="{modurl modname="Members_List"}">{gt text="Members list" domain="module_intercom"}</a></li>
     </ul>
 </div>
