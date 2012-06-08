@@ -46,7 +46,7 @@
                     {/if}
                 </dd>
                 <dt class="msg_subject clickable">{if $messagearray[message].msg_subject}{$messagearray[message].msg_subject|truncate:30|safehtml}{else}{gt text="Error! No subject entered."}{/if}</dt>
-                <dd class="msg_time clickable">{$messagearray[message].msg_unixtime|dateformat:"datetimebrief"}</dd>
+                <dd class="msg_time clickable">{$messagearray[message].msg_time|dateformat:"datetimebrief"}</dd>
                 <dd class="msg_uname clickable"><strong>{$messagearray[message].to_user|truncate:45|safehtml}</strong></dd>
                 <dd class="msg_view"><a href="{modurl modname="InterCom" type="user" func="readoutbox" messageid=$messagearray[message].msg_id}">{img modname=core src="demo.gif" set="icons/extrasmall" __title="Read" }</a></dd>
             </dl>

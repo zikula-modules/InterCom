@@ -16,7 +16,7 @@
 {/if}
 
 {if $pmtype eq "reply" && $allowbbcode eq 1}
-{capture assign="messagetext"}[quote={$message.from_user} {gt text="wrote"} {$message.msg_unixtime|dateformat:datetimebrief}]{$message.msg_text}[/quote]{/capture}
+{capture assign="messagetext"}[quote={$message.from_user} {gt text="wrote"} {$message.msg_time|dateformat:datetimebrief}]{$message.msg_text}[/quote]{/capture}
 {elseif $pmtype eq "forward"}
 {capture assign="messagetext"}{$message.forward_text|safetext}{/capture}
 {else}
