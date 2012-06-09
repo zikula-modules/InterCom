@@ -109,44 +109,43 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
             ModUtil::setVar('InterCom', 'messages_fromname', $data['messages_fromname']);
             ModUtil::setVar('InterCom', 'messages_from_email', $data['messages_from_email']);
 
-            // turn the create hook on/off
-
-//            TODO: Fix hooks for Zikula 1.3
-//            if ($data['messages_createhookactive']==true) {
-//                ModUtil::apiFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
-//            } else {
-//                ModUtil::apiFunc('Modules', 'admin', 'disablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
-//            }
-            if(empty($data['messages_welcomemessage'])) {
-                if ($data['messages_createhookactive'] == true) {
+            // turn the create hook on/off,
+            // Save values if we are turning it on.
+            if ($data['messages_createhookactive']==true) {
+                ModUtil::apiFunc('Extensions', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
+                if(empty($data['messages_welcomemessage'])) {
                     $ifield = & $view->getPluginById('messages_welcomemessage');
                     $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The welcome message text is missing.', $dom)));
                     $ok = false;
+                } else {
+                    ModUtil::setVar('InterCom', 'messages_welcomemessage', $data['messages_welcomemessage']);
                 }
-            } else {
-                ModUtil::setVar('InterCom', 'messages_welcomemessage', $data['messages_welcomemessage']);
-            }
-            if(empty($data['messages_welcomemessagesender'])) {
-                if ($data['messages_createhookactive'] == true) {
-                    $ifield = & $view->getPluginById('messages_welcomemessagesender');
-                    $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The sender for the welcome message is missing.', $dom)));
-                    $ok = false;
+                if(empty($data['messages_welcomemessagesender'])) {
+                    if ($data['messages_createhookactive'] == true) {
+                        $ifield = & $view->getPluginById('messages_welcomemessagesender');
+                        $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The sender for the welcome message is missing.', $dom)));
+                        $ok = false;
+                    }
+                } else if (UserUtil::getIdFromName($data['messages_welcomemessagesender'])==false) {
+                        $ifield = & $view->getPluginById('messages_welcomemessagesender');
+                        $ifield->setError(DataUtil::formatForDisplay(__('Error! Could not find this user.', $dom)));
+                        $ok = false;
+                } else {
+                    ModUtil::setVar('InterCom', 'messages_welcomemessagesender', $data['messages_welcomemessagesender']);
                 }
-            } else if (UserUtil::getIdFromName($data['messages_welcomemessagesender'])==false) {
-                    $ifield = & $view->getPluginById('messages_welcomemessagesender');
-                    $ifield->setError(DataUtil::formatForDisplay(__('Error! Could not find this user.', $dom)));
-                    $ok = false;
-            } else {
-                ModUtil::setVar('InterCom', 'messages_welcomemessagesender', $data['messages_welcomemessagesender']);
-            }
-            if(empty($data['messages_welcomemessagesubject'])) {
-                if ($data['messages_createhookactive'] == true) {
-                    $ifield = & $view->getPluginById('messages_welcomemessagesubject');
-                    $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The subject line for the welcome message is missing.', $dom)));
-                    $ok = false;
+                if(empty($data['messages_welcomemessagesubject'])) {
+                    if ($data['messages_createhookactive'] == true) {
+                        $ifield = & $view->getPluginById('messages_welcomemessagesubject');
+                        $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The subject line for the welcome message is missing.', $dom)));
+                        $ok = false;
+                    }
+                } else {
+                    ModUtil::setVar('InterCom', 'messages_welcomemessagesubject', $data['messages_welcomemessagesubject']);
                 }
+                ModUtil::setVar('InterCom', 'messages_savewelcomemessage', $data['messages_savewelcomemessage']);
+            // Turn off hook.
             } else {
-                ModUtil::setVar('InterCom', 'messages_welcomemessagesubject', $data['messages_welcomemessagesubject']);
+                ModUtil::apiFunc('Extensions', 'admin', 'disablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
             }
 
             ModUtil::setVar('InterCom', 'messages_allow_autoreply', $data['messages_allow_autoreply']);
