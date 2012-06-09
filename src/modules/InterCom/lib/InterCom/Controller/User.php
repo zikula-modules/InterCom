@@ -1091,7 +1091,7 @@ var userdeleted = "' . DataUtil::formatfordisplay($this->__('Sorry! You cannot r
 	}
 
         // Perform access check
-        if (!SecurityUtil::checkPermission('DbtDiary::', '::', $access))
+        if (!SecurityUtil::checkPermission('InterCom::', '::', $access))
         {
             return LogUtil::registerPermissionError();
         }
