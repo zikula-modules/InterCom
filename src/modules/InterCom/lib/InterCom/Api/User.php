@@ -154,7 +154,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         }
 
         // and read the user data incl. the attributes
-        $user = DBUtil::selectObjectByID('users', $to_uid, 'uid', null, null, null, false);
+        $user = UserUtil::getVars($to_id);
 
         if ($user['__ATTRIBUTES__']['ic_ar'] != 1) {
             return true;
@@ -196,18 +196,15 @@ class InterCom_Api_User extends Zikula_AbstractApi
         }
 
         $uid = UserUtil::getVar('uid');
-        $user = DBUtil::selectObjectByID('users', $uid, 'uid', null, null, null, false);
 
         // Get parameters from environment
         // ic_note: email notifiaction yes/no
         // ic_ar  : autoreply yes/no
         // ic_art  : autoreply text
-        $user['__ATTRIBUTES__']['ic_note'] = FormUtil::getPassedValue('intercom_email_notification');
-        $user['__ATTRIBUTES__']['ic_ar']   = FormUtil::getPassedValue('intercom_autoreply');
-        $user['__ATTRIBUTES__']['ic_art']  = FormUtil::getPassedValue('intercom_autoreply_text');
-
         // store attributes
-        DBUtil::updateObject($user, 'users', '', 'uid');
+        UserUtil::setVar('ic_note', FormUtil::getPassedValue('intercom_email_notification'), $uid);
+        UserUtil::setVar('ic_ar', FormUtil::getPassedValue('intercom_autoreply'), $uid);
+        UserUtil::setVar('ic_art', FormUtil::getPassedValue('intercom_autoreply_text'), $uid);
 
         // delete entry in the old intercom_userprefs table if the table exists
         $tbls = DBUtil::metaTables();
