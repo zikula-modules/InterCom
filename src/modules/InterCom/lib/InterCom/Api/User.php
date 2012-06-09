@@ -163,7 +163,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         // Get the needed variables for the autoreply
         $time = date("Y-m-d H:i:s");
 
-        ModUtil::apiFunc('InterCom', 'user', 'store_message', array(
+        $this->store_message( array(
                 'from_uid' => $to_uid,
                 'to_uid' => $from_uid,
                 'subject' => $this->__('Re') . ': ' . $subject,
