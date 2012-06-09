@@ -684,8 +684,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $protection_amount = $this->getVar('messages_protection_amount');
         $protection_mail   = $this->getVar('messages_protection_mail');
 
-        array_splice($recipients, 1);
-
         // Initalize spam protection
         $antispam_count = 0;
 
