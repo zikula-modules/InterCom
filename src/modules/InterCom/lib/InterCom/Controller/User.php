@@ -41,13 +41,9 @@ class InterCom_Controller_User extends Zikula_AbstractController
         // and read the user data incl. the attributes
         $attr = UserUtil::getVar('__ATTRIBUTES__', $uid);
 
-        // Get the admin preferences
-        $allow_emailnotification = $this->getVar('messages_allow_emailnotification');
-        $allow_autoreply = $this->getVar('messages_allow_autoreply');
-
         // Create output object
 		$this->view->setCaching(false); // not suitable for caching
-        $this->view->add_core_data();
+        $this->view->add_core_data();           // Sends admin prefs to template
         $this->view->assign('email_notification', $attr['ic_note']);
         $this->view->assign('autoreply',          $attr['ic_ar']);
         $this->view->assign('autoreply_text',     $attr['ic_art']);
@@ -92,16 +88,13 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $autoreply = 0;
         if ($this->getVar('messages_allow_autoreply') == 1) {
             // and read the user data incl. the attributes
-            $attr = UserUtil::getVar('__ATTRIBUTES__'); DBUtil::selectObjectByID('users', UserUtil::getVar('uid'), 'uid', null, null, null, false);
+            $attr = UserUtil::getVar('__ATTRIBUTES__'); 
             $autoreply = $attr['ic_ar'];
         }
 
         // Get startnum and perpage parameter for pager
         $startnum = (int)FormUtil::getPassedValue('startnum', 0, 'GETPOST');
         $messagesperpage = $this->getVar('messages_perpage', 25);
-
-        // Get parameter for inboxlimit
-        $inboxlimit = $this->getVar('messages_limitinbox');
 
         // Get parameters from whatever input we need.
         $sort = (int)FormUtil::getPassedValue('sort', 3, 'GETPOST');
@@ -136,7 +129,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('boxtype',          'inbox');
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
         $this->view->assign('messagearray',     $messagearray);
-        $this->view->assign('sortarray',        $sortarray);
         $this->view->assign('getmessagecount',  $totalarray);
         $this->view->assign('sortbar_target',   'inbox');
         $this->view->assign('messagesperpage',  $messagesperpage);
@@ -176,9 +168,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
             $messagesperpage = 25;
         }
 
-        // Get parameter for inboxlimit
-        $outboxlimit = $this->getVar('messages_limitoutbox');
-
         // Get parameters from whatever input we need.
         $sort = (int)FormUtil::getPassedValue('sort', 3, 'GETPOST');
 
@@ -197,7 +186,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
 
 
         for ($i = 1; $i <= $totalarray['totalout']; $i++) {
-            $message = $messagearray[$i -1]['msg_id'] - 1;
             if ($messagearray[$i -1]['msg_read'] == '1' && $messagearray[$i -1]['msg_inbox'] == '1') {
                 $messagearray[$i -1]['checkit_img'] = '1';
             }
@@ -218,7 +206,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('boxtype',         'outbox');
         $this->view->assign('currentuid',      UserUtil::getVar('uid'));
         $this->view->assign('messagearray',    $messagearray);
-        $this->view->assign('sortarray',       $sortarray);
         $this->view->assign('getmessagecount', $totalarray);
         $this->view->assign('sortbar_target',  'outbox');
         $this->view->assign('messagesperpage', $messagesperpage);
@@ -276,7 +263,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('boxtype',         'archive');
         $this->view->assign('currentuid',      UserUtil::getVar('uid'));
         $this->view->assign('messagearray',    $messagearray);
-        $this->view->assign('sortarray',       $sortarray);
         $this->view->assign('getmessagecount', $totalarray);
         $this->view->assign('sortbar_target',  'archive');
         $this->view->assign('messagesperpage', $messagesperpage);
