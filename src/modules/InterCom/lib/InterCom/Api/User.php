@@ -717,7 +717,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
 
         $res = DBUtil::insertObject($obj, 'intercom', 'msg_id');
 
-        return true;
+        return $args['extrainfo'];
     }
 
     /**
