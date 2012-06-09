@@ -88,8 +88,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $autoreply = 0;
         if ($this->getVar('messages_allow_autoreply') == 1) {
             // and read the user data incl. the attributes
-            $attr = UserUtil::getVar('__ATTRIBUTES__'); 
-            $autoreply = $attr['ic_ar'];
+            $autoreply = UserUtil::getVar('ic_ar'); 
         }
 
         // Get startnum and perpage parameter for pager
