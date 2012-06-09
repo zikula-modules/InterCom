@@ -336,10 +336,13 @@ class InterCom_Api_User extends Zikula_AbstractApi
               WHERE  $messagescolumn[msg_outbox]  = '1'
               AND    $messagescolumn[from_userid] = $uid";
 
-        $res1 = DBUtil::executeSQL($sql_1);
-        list ($totalarchive, $totalin, $read, $msg_popup) = $res1->fields;;
-        $res2 = DBUtil::executeSQL($sql_2);
-        $totalout = $res2->fields[0];
+        $res1 = DBUtil::marshallObjects(DBUtil::executeSQL($sql_1),
+                array('totalarchive', 'totalin', 'read', 'msg_popup') );
+        if (is_array($res1[0])) extract($res1[0]);
+
+        $res2 = DBUtil::marshallObjects(DBUtil::executeSQL($sql_2),
+                array('totalout'));
+        $totalout = $res2[0]['totalout'];
         $unread = $totalin - $read;
         $popup = $totalin - $msg_popup;
 
@@ -380,17 +383,9 @@ class InterCom_Api_User extends Zikula_AbstractApi
             $archivelimitclass = 'ic-limitnotreached';
         }
 
-        $limitindivider = 100 / $limitin;
-        $indicatorbarin = $totalin * $limitindivider;
-        $indicatorbarin = round($indicatorbarin, 0);
-
-        $limitoutdivider = 100 / $limitout;
-        $indicatorbarout = $totalout * $limitoutdivider;
-        $indicatorbarout = round($indicatorbarout, 0);
-
-        $limitarchivedivider = 100 / $limitarchive;
-        $indicatorbararchive = $totalarchive * $limitarchivedivider;
-        $indicatorbararchive = round($indicatorbararchive, 0);
+        $indicatorbarin = round(($totalin / $limitin) * 100);
+        $indicatorbarout = round(($totalout / $limitout) * 100);
+        $indicatorbararchive = round(($totalarchive / $limitarchive) * 100);
         // form a variable to return
         $ReturnArray = array();
 
