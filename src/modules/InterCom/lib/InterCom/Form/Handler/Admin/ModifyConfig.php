@@ -147,7 +147,8 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
                 ModUtil::setVar('InterCom', 'messages_savewelcomemessage', $data['messages_savewelcomemessage']);
             // Turn off hook.
             } else {
-                EventUtil::unregisterPersistentModuleHandlers('InterCom');
+                EventUtil::unregisterPersistentModuleHandler('InterCom', 'user.account.create',
+                        array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
             }
 
             ModUtil::setVar('InterCom', 'messages_allow_autoreply', $data['messages_allow_autoreply']);
