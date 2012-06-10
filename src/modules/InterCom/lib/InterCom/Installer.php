@@ -43,7 +43,7 @@ class InterCom_Installer extends Zikula_AbstractInstaller
         $this->setVar('messages_protection_amount', '15');
         $this->setVar('messages_protection_mail', false);
 
-        $this->setVar('messages_welcomemessagesender', $this->__('Site admin'));
+        $this->setVar('messages_welcomemessagesender', $this->__('admin'));
         $this->setVar('messages_welcomemessagesubject', $this->__('Welcome to the private messaging system on %sitename%'));  // quotes are important here!!
         $this->setVar('messages_welcomemessage', $this->__('Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin')); // quotes are important here!!!
         $this->setVar('messages_savewelcomemessage', false);
@@ -77,6 +77,7 @@ class InterCom_Installer extends Zikula_AbstractInstaller
             return false;
         }
 
+        EventUtil::unregisterPersistentModuleHandlers('InterCom');
         $this->delVars('InterCom');
 
         return true;
