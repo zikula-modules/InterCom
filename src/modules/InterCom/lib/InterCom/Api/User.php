@@ -722,14 +722,13 @@ class InterCom_Api_User extends Zikula_AbstractApi
     public function getposterdata($args)
     {
         if (!isset($args['uid']) || empty($args['uid']) || !is_numeric($args['uid'])) {
-            return LogUtil::registerArgsError;
+            return LogUtil::registerArgsError();
         }
 
         $posterdata = UserUtil::getVars($args['uid']);
         if ($posterdata == false || empty($posterdata)) {
             $posterdata = UserUtil::getVars(1);
             $posterdata['uname']    = $this->__('*Deleted user*');
-            $posterdata['pn_uname'] = $this->__('*Deleted user*');
         }
         return $posterdata;
     }
