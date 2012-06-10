@@ -767,7 +767,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
                         'from_uid'    => $from_uid,
                         'subject'     => $subject));
                 $post_message_count++;
-                LogUtil::registerStatus($this->__('Done! Message sent.'));
             }
         }
 
