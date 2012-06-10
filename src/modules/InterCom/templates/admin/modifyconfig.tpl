@@ -102,7 +102,7 @@
     <legend>{gt text="Welcome message settings"}</legend>
     <div class="z-formrow">
         {formlabel for="messages_welcomemessage_send" __text="Send a welcome message to new users"}
-        {formcheckbox id="messages_welcomemessage_send" checked=$createhookactive}
+        {formcheckbox id="messages_welcomemessage_send" checked=$welcomemessage_send}
     </div>
     <div id="configwelcome">
         <div class="z-formrow">
@@ -179,8 +179,8 @@
     icCheckMailNotificationEntry();
 
     $('configwelcome').hide();
-    $('messages_createhookactive').observe('click', icCheckWelcomeEntry);
-    $('messages_createhookactive').observe('keyup', icCheckWelcomeEntry);
+    $('messages_welcomemessage_send').observe('click', icCheckWelcomeEntry);
+    $('messages_welcomemessage_send').observe('keyup', icCheckWelcomeEntry);
     icCheckWelcomeEntry();
 
     $('configspam').hide();
@@ -213,7 +213,7 @@
     }
 
     function icCheckWelcomeEntry() {
-        if ($('messages_createhookactive').checked == true) {
+        if ($('messages_welcomemessage_send').checked == true) {
             Effect.BlindDown('configwelcome');
         } else {
             Effect.BlindUp('configwelcome');
