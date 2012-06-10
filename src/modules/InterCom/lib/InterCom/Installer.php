@@ -58,17 +58,13 @@ class InterCom_Installer extends Zikula_AbstractInstaller
     {
         switch ($oldversion)
         {
-           case '2.1':
-            /* in a new installation of InterCom 2.1 the createhook has not been added, we will do this now if necessary */
-//                TODO: Fix hooks for Zikula 1.3
-//                if (ModUtil::registerHook('item', 'create', 'API', 'InterCom', 'user', 'createhook')) {
-//                    // enable the create hook for the Users module
-//                    ModUtil::apiFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
-//                }
+            case '2.1':
             case '2.2':
                 $this->setVar('messages_force_emailnotification', true);
             case '2.2.0':
                 DBUtil::changeTable('intercom');
+                EventUtil::registerPersistentModuleHandler('InterCom', 'user.account.create',
+                    array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
         }
 
         return true;
