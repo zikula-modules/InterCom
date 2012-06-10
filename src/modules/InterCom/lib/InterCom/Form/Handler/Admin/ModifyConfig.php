@@ -109,10 +109,12 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
             ModUtil::setVar('InterCom', 'messages_fromname', $data['messages_fromname']);
             ModUtil::setVar('InterCom', 'messages_from_email', $data['messages_from_email']);
 
-            // turn the create hook on/off,
+            // turn the create event listener on/off,
             // Save values if we are turning it on.
             if ($data['messages_createhookactive']==true) {
-                ModUtil::apiFunc('Extensions', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
+                //ModUtil::apiFunc('Extensions', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
+                EventUtil::registerPersistentModuleHandler('InterCom', 'user.account.create',
+                        array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
                 if(empty($data['messages_welcomemessage'])) {
                     $ifield = & $view->getPluginById('messages_welcomemessage');
                     $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The welcome message text is missing.')));
@@ -145,7 +147,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
                 ModUtil::setVar('InterCom', 'messages_savewelcomemessage', $data['messages_savewelcomemessage']);
             // Turn off hook.
             } else {
-                ModUtil::apiFunc('Extensions', 'admin', 'disablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
+                EventUtil::unregisterPersistentModuleHandlers('InterCom');
             }
 
             ModUtil::setVar('InterCom', 'messages_allow_autoreply', $data['messages_allow_autoreply']);
