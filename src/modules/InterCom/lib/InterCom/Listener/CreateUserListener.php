@@ -22,6 +22,11 @@ class InterCom_Listener_CreateUserListener
      */
     public static function onCreateUser(Zikula_Event $event)
     {
+        // If sending messages isn't enabled, just return.
+        if (!ModUtil::getVar('InterCom', 'messages_welcomemessage_send'))
+        {
+            return;
+        }
         
         $user = $event->getSubject();
         $welcomemessage        = ModUtil::getVar('messages_welcomemessage');

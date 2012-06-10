@@ -101,8 +101,8 @@
 <fieldset>
     <legend>{gt text="Welcome message settings"}</legend>
     <div class="z-formrow">
-        {formlabel for="messages_createhookactive" __text="Send a welcome message to new users"}
-        {formcheckbox id="messages_createhookactive" checked=$createhookactive}
+        {formlabel for="messages_welcomemessage_send" __text="Send a welcome message to new users"}
+        {formcheckbox id="messages_welcomemessage_send" checked=$createhookactive}
     </div>
     <div id="configwelcome">
         <div class="z-formrow">

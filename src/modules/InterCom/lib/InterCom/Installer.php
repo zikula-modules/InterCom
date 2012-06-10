@@ -48,6 +48,9 @@ class InterCom_Installer extends Zikula_AbstractInstaller
         $this->setVar('messages_welcomemessage', $this->__('Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin')); // quotes are important here!!!
         $this->setVar('messages_savewelcomemessage', false);
 
+        EventUtil::registerPersistentModuleHandler('InterCom', 'user.account.create',
+                array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
+
         return true;
     }
 

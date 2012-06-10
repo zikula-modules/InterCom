@@ -30,7 +30,8 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
     {
         $view->caching = false;
         $view->add_core_data();
-        $view->assign('createhookactive', ModUtil::isHooked('InterCom', 'Users'));
+        $view->assign('messages_welcomemessage_send', 
+                ModUtil::getVar('InterCom', 'messages_welcomemessage_send'));
         $welcomemessage = ModUtil::getVar('InterCom', 'messages_welcomemessage');
         $welcomemessagesubject = ModUtil::getVar('InterCom', 'messages_welcomemessagesubject');
         $intlwelcomemessage = '';
@@ -109,12 +110,11 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
             ModUtil::setVar('InterCom', 'messages_fromname', $data['messages_fromname']);
             ModUtil::setVar('InterCom', 'messages_from_email', $data['messages_from_email']);
 
-            // turn the create event listener on/off,
+            ModUtil::setVar('InterCom', 'messages_welcomemessage_send',
+                   $data['messages_welcomemessage_send'] );
             // Save values if we are turning it on.
-            if ($data['messages_createhookactive']==true) {
-                //ModUtil::apiFunc('Extensions', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
-                EventUtil::registerPersistentModuleHandler('InterCom', 'user.account.create',
-                        array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
+
+            if ($data['messages_welcomemessage_send']==true) {
                 if(empty($data['messages_welcomemessage'])) {
                     $ifield = & $view->getPluginById('messages_welcomemessage');
                     $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The welcome message text is missing.')));
@@ -145,10 +145,6 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
                     ModUtil::setVar('InterCom', 'messages_welcomemessagesubject', $data['messages_welcomemessagesubject']);
                 }
                 ModUtil::setVar('InterCom', 'messages_savewelcomemessage', $data['messages_savewelcomemessage']);
-            // Turn off hook.
-            } else {
-                EventUtil::unregisterPersistentModuleHandler('InterCom', 'user.account.create',
-                        array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
             }
 
             ModUtil::setVar('InterCom', 'messages_allow_autoreply', $data['messages_allow_autoreply']);
