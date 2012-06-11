@@ -43,10 +43,13 @@ class InterCom_Installer extends Zikula_AbstractInstaller
         $this->setVar('messages_protection_amount', '15');
         $this->setVar('messages_protection_mail', false);
 
-        $this->setVar('messages_welcomemessagesender', $this->__('Site admin'));
+        $this->setVar('messages_welcomemessagesender', $this->__('admin'));
         $this->setVar('messages_welcomemessagesubject', $this->__('Welcome to the private messaging system on %sitename%'));  // quotes are important here!!
         $this->setVar('messages_welcomemessage', $this->__('Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin')); // quotes are important here!!!
         $this->setVar('messages_savewelcomemessage', false);
+
+        EventUtil::registerPersistentModuleHandler('InterCom', 'user.account.create',
+                array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
 
         return true;
     }
@@ -55,17 +58,13 @@ class InterCom_Installer extends Zikula_AbstractInstaller
     {
         switch ($oldversion)
         {
-           case '2.1':
-            /* in a new installation of InterCom 2.1 the createhook has not been added, we will do this now if necessary */
-//                TODO: Fix hooks for Zikula 1.3
-//                if (ModUtil::registerHook('item', 'create', 'API', 'InterCom', 'user', 'createhook')) {
-//                    // enable the create hook for the Users module
-//                    ModUtil::apiFunc('Modules', 'admin', 'enablehooks', array('callermodname' => 'Users', 'hookmodname' => 'InterCom'));
-//                }
+            case '2.1':
             case '2.2':
                 $this->setVar('messages_force_emailnotification', true);
             case '2.2.0':
                 DBUtil::changeTable('intercom');
+                EventUtil::registerPersistentModuleHandler('InterCom', 'user.account.create',
+                    array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
         }
 
         return true;
@@ -77,6 +76,7 @@ class InterCom_Installer extends Zikula_AbstractInstaller
             return false;
         }
 
+        EventUtil::unregisterPersistentModuleHandlers('InterCom');
         $this->delVars('InterCom');
 
         return true;
