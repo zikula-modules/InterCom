@@ -29,8 +29,9 @@ class InterCom_Listener_CreateUserListener
         }
         
         $user = $event->getSubject();
-        $welcomemessage        = ModUtil::getVar('messages_welcomemessage');
-        $welcomemessagesubject = ModUtil::getVar('messages_welcomemessagesubject');
+        $welcomemessage        = ModUtil::getVar('InterCom', 'messages_welcomemessage');
+        $welcomemessagesubject = ModUtil::getVar('InterCom', 'messages_welcomemessagesubject');
+
         // replace placeholders
         $uid = $user['uid'];
         $uname = $user['uname'];
@@ -54,8 +55,9 @@ class InterCom_Listener_CreateUserListener
             'msg_inbox' => '1',
             'msg_outbox' => '0',
             'msg_stored' => '0');
-        ModUtil::apiFunc('InterCom', 'user', 'store_message', $obj);
-        
+
+        DBUtil::insertObject($obj, 'intercom', 'msg_id');
+        return;
     }
 
 }
