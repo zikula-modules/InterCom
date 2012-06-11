@@ -653,66 +653,6 @@ class InterCom_Api_User extends Zikula_AbstractApi
     }
 
     /**
-     * create hook
-     *
-     *
-     */
-    public function createhook($args)
-    {
-        // Argument check
-        if ((!isset($args['objectid'])) ||
-                (!isset($args['extrainfo']))) {
-            return LogUtil::registerArgsError;
-        }
-
-        // see if we have to turn on the e-mail notification
-        $forceemailnotification = ModUtil::getVar('InterCom', 'messages_force_emailnotification', false);
-        $user = DBUtil::selectObjectByID('users', $args['objectid'], 'uid', null, null, null, false);
-        if ($forceemailnotification == true) {
-            $user['__ATTRIBUTES__']['ic_note'] = 1;
-            // store attributes
-            DBUtil::updateObject($user, 'users', '', 'uid');
-        }
-
-        $welcomemessage        = ModUtil::getVar('InterCom', 'messages_welcomemessage');
-        $welcomemessagesubject = ModUtil::getVar('InterCom', 'messages_welcomemessagesubject');
-        $savewelcomemessage    = ModUtil::getVar('InterCom', 'messages_savewelcomemessage');
-
-        // create the welcome message, uid = objectid
-        Loader::loadClass('StringUtil');
-        if (StringUtil::left($welcomemessage, 1) == '_') {
-            $welcomemessage = constant($welcomemessage);
-        }
-        if (StringUtil::left($welcomemessagesubject, 1) == '_') {
-            $welcomemessagesubject = constant($welcomemessagesubject);
-        }
-
-        // replace placeholders
-        $welcomemessage = str_replace('%username%', $user['uname'], $welcomemessage);
-        $welcomemessage = str_replace('%realname%', $user['_UREALNAME'], $welcomemessage);
-        $welcomemessage = str_replace('%sitename%', System::getVar('sitename'), $welcomemessage);
-        $welcomemessagesubject = str_replace('%username%', $user['uname'], $welcomemessagesubject);
-        $welcomemessagesubject = str_replace('%realname%', $user['_UREALNAME'], $welcomemessagesubject);
-        $welcomemessagesubject = str_replace('%sitename%', System::getVar('sitename'), $welcomemessagesubject);
-
-        $time = date("Y-m-d H:i:s");
-
-        // store message
-        $obj =  array ('from_userid' => UserUtil::getIdFromName(ModUtil::getVar('InterCom', 'messages_welcomemessagesender')),
-                'to_userid' => $user['uid'],
-                'msg_subject' => $welcomemessagesubject,
-                'msg_time' => $time,
-                'msg_text' => $welcomemessage,
-                'msg_inbox' => '1',
-                'msg_outbox' => ($savewelcomemessage==true) ? '1' : '0',
-                'msg_stored' => '0');
-
-        $res = DBUtil::insertObject($obj, 'intercom', 'msg_id');
-
-        return $args['extrainfo'];
-    }
-
-    /**
      * getposterdata
      * reads the posters data and fakes them if the poster has been deleted in the meantime
      *
