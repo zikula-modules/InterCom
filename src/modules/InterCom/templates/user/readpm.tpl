@@ -23,7 +23,7 @@
 
         <div class="z-formrow">
             <label>{gt text="Date"}</label>
-            <span>{$message.msg_unixtime|dateformat:"datetimebrief"}</span>
+            <span>{$message.msg_time|dateformat:"datetimebrief"}</span>
         </div>
 
         <div class="z-formrow">

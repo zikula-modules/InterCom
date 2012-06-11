@@ -154,7 +154,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         }
 
         // and read the user data incl. the attributes
-        $user = DBUtil::selectObjectByID('users', $to_uid, 'uid', null, null, null, false);
+        $user = UserUtil::getVars($to_id);
 
         if ($user['__ATTRIBUTES__']['ic_ar'] != 1) {
             return true;
@@ -163,7 +163,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         // Get the needed variables for the autoreply
         $time = date("Y-m-d H:i:s");
 
-        ModUtil::apiFunc('InterCom', 'user', 'store_message', array(
+        $this->store_message( array(
                 'from_uid' => $to_uid,
                 'to_uid' => $from_uid,
                 'subject' => $this->__('Re') . ': ' . $subject,
@@ -196,18 +196,15 @@ class InterCom_Api_User extends Zikula_AbstractApi
         }
 
         $uid = UserUtil::getVar('uid');
-        $user = DBUtil::selectObjectByID('users', $uid, 'uid', null, null, null, false);
 
         // Get parameters from environment
         // ic_note: email notifiaction yes/no
         // ic_ar  : autoreply yes/no
         // ic_art  : autoreply text
-        $user['__ATTRIBUTES__']['ic_note'] = FormUtil::getPassedValue('intercom_email_notification');
-        $user['__ATTRIBUTES__']['ic_ar']   = FormUtil::getPassedValue('intercom_autoreply');
-        $user['__ATTRIBUTES__']['ic_art']  = FormUtil::getPassedValue('intercom_autoreply_text');
-
         // store attributes
-        DBUtil::updateObject($user, 'users', '', 'uid');
+        UserUtil::setVar('ic_note', FormUtil::getPassedValue('intercom_email_notification'), $uid);
+        UserUtil::setVar('ic_ar', FormUtil::getPassedValue('intercom_autoreply'), $uid);
+        UserUtil::setVar('ic_art', FormUtil::getPassedValue('intercom_autoreply_text'), $uid);
 
         // delete entry in the old intercom_userprefs table if the table exists
         $tbls = DBUtil::metaTables();
@@ -336,10 +333,13 @@ class InterCom_Api_User extends Zikula_AbstractApi
               WHERE  $messagescolumn[msg_outbox]  = '1'
               AND    $messagescolumn[from_userid] = $uid";
 
-        $res1 = DBUtil::executeSQL($sql_1);
-        list ($totalarchive, $totalin, $read, $msg_popup) = $res1->fields;;
-        $res2 = DBUtil::executeSQL($sql_2);
-        $totalout = $res2->fields[0];
+        $res1 = DBUtil::marshallObjects(DBUtil::executeSQL($sql_1),
+                array('totalarchive', 'totalin', 'read', 'msg_popup') );
+        if (is_array($res1[0])) extract($res1[0]);
+
+        $res2 = DBUtil::marshallObjects(DBUtil::executeSQL($sql_2),
+                array('totalout'));
+        $totalout = $res2[0]['totalout'];
         $unread = $totalin - $read;
         $popup = $totalin - $msg_popup;
 
@@ -380,17 +380,9 @@ class InterCom_Api_User extends Zikula_AbstractApi
             $archivelimitclass = 'ic-limitnotreached';
         }
 
-        $limitindivider = 100 / $limitin;
-        $indicatorbarin = $totalin * $limitindivider;
-        $indicatorbarin = round($indicatorbarin, 0);
-
-        $limitoutdivider = 100 / $limitout;
-        $indicatorbarout = $totalout * $limitoutdivider;
-        $indicatorbarout = round($indicatorbarout, 0);
-
-        $limitarchivedivider = 100 / $limitarchive;
-        $indicatorbararchive = $totalarchive * $limitarchivedivider;
-        $indicatorbararchive = round($indicatorbararchive, 0);
+        $indicatorbarin = round(($totalin / $limitin) * 100);
+        $indicatorbarout = round(($totalout / $limitout) * 100);
+        $indicatorbararchive = round(($totalarchive / $limitarchive) * 100);
         // form a variable to return
         $ReturnArray = array();
 
@@ -717,7 +709,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
 
         $res = DBUtil::insertObject($obj, 'intercom', 'msg_id');
 
-        return true;
+        return $args['extrainfo'];
     }
 
     /**

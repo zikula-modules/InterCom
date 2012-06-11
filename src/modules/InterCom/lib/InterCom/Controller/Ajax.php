@@ -428,7 +428,7 @@ class InterCom_Controller_Ajax extends Zikula_AbstractController
         $pntable     = DBUtil::getTables();
         $userscolumn = $pntable['users_column'];
 
-        $where = 'WHERE ' . $userscolumn['uname'] . ' REGEXP \'(' . DataUtil::formatForStore($keyword) . ')\' AND '.$userscolumn['uname'].' NOT LIKE \'Anonymous\'';
+        $where = 'WHERE ' . $userscolumn['uname'] . ' LIKE \'' . DataUtil::formatForStore($keyword) . '%\' AND '.$userscolumn['uname'].' NOT LIKE \'Anonymous\'';
         $orderby = 'ORDER BY ' . $userscolumn['uname'] . ' ASC';
 
         $countusers = DBUtil::selectObjectCount('users', $where);

@@ -20,7 +20,7 @@
     {section name=message loop=$messages}
     <dd><a class="image {if $messages[message].msg_read == 1}mailread{else}mailunread{/if}" href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messages[message].msg_id}" title="{$messages[message].msg_subject}"><strong>{$messages[message].msg_subject}</strong></a></dd>
     <dd>{gt text="Sender" domain="module_intercom"}: {$messages[message].fromuser|userprofilelink}</dd>
-    <dd>{$messages[message].msg_unixtime|dateformat:"datetimebrief"}</dd>
+    <dd>{$messages[message].msg_time|dateformat:"datetimebrief"}</dd>
     {/section}
     {else}
     <dt>{gt text="You currently have no messages." domain="module_intercom"}</dt>

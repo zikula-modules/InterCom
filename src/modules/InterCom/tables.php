@@ -38,7 +38,7 @@ function InterCom_tables()
                                              'to_userid'       => 'I NOTNULL DEFAULT 0',
                                              'msg_subject'     => 'C(100) NOTNULL DEFAULT \'\'',
                                              'msg_time'        => 'C(20) NOTNULL DEFAULT \'\'',
-                                             'msg_text'        => 'X2 DEFAULT \'\'',
+                                             'msg_text'        => 'XL DEFAULT \'\'',
                                              'msg_read'        => 'L NOTNULL DEFAULT 0',
                                              'msg_replied'     => 'L NOTNULL DEFAULT 0',
                                              'msg_popup'       => 'L NOTNULL DEFAULT 0',
@@ -62,7 +62,7 @@ function InterCom_tables()
     $pntable['intercom_userprefs_column_def'] = array ('user_id'            => 'I PRIMARY DEFAULT 0',
                                                        'email_notification' => 'L NOTNULL DEFAULT 0',
                                                        'autoreply'          => 'L NOTNULL DEFAULT 0',
-                                                       'autoreply_text'     => 'X2 DEFAULT \'\'');
+                                                       'autoreply_text'     => 'XL DEFAULT \'\'');
 
     // fake the old priv_msgs tsble structure for upgrade form old core Messages module
     // this will be removed in 3.0
@@ -81,7 +81,7 @@ function InterCom_tables()
                                               'from_userid' => 'I NOTNULL DEFAULT 0',
                                               'to_userid'   => 'I NOTNULL DEFAULT 0',
                                               'msg_time'    => 'C(20) NOTNULL DEFAULT\'\'',
-                                              'msg_text'    => 'X2 NOTNULL DEFAULT\'\'',
+                                              'msg_text'    => 'XL NOTNULL DEFAULT\'\'',
                                               'read_msg'    => 'I NOTNULL');
 
     // Return the table information

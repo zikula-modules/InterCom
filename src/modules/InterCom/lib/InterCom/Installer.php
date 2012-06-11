@@ -65,6 +65,7 @@ class InterCom_Installer extends Zikula_AbstractInstaller
             case '2.2':
                 $this->setVar('messages_force_emailnotification', true);
             case '2.2.0':
+                DBUtil::changeTable('intercom');
         }
 
         return true;

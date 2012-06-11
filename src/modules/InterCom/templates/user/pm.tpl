@@ -16,7 +16,7 @@
 {/if}
 
 {if $pmtype eq "reply" && $allowbbcode eq 1}
-{capture assign="messagetext"}[quote={$message.from_user} {gt text="wrote"} {$message.msg_unixtime|dateformat:datetimebrief}]{$message.msg_text}[/quote]{/capture}
+{capture assign="messagetext"}[quote={$message.from_user} {gt text="wrote"} {$message.msg_time|dateformat:datetimebrief}]{$message.msg_text}[/quote]{/capture}
 {elseif $pmtype eq "forward"}
 {capture assign="messagetext"}{$message.forward_text|safetext}{/capture}
 {else}
@@ -128,9 +128,9 @@
         </fieldset>
 
         <div class="z-formbuttons ic-buttons">
-            {button mode="input" src=button_ok.gif set=icons/extrasmall name="mail_send" value="send" __alt="Send now" __title="Send now" __text="Send now"}
-            {button mode="input" src=mail_find.gif set=icons/extrasmall name="mail_prev" value="preview" __alt="Preview message" __title="Preview message" __text="Preview message"}
-            <a href="{modurl modname=InterCom type=user func=inbox}" title="{gt text="Cancel"}">{img modname=core src=button_cancel.gif set=icons/extrasmall __alt="Cancel" __title="Cancel"}</a>
+	    {button id='SendNow' src='button_ok.png' set='icons/extrasmall' name="mail_send" value="send" __alt='Send now' __title='Send now' __text='Send now'}
+	    {button id='Preview' src='mail_find.png' set='icons/extrasmall' name="mail_prev" value="preview" __alt='Preview message' __title='Preview message' __text='Preview message'}
+            <a href="{modurl modname=InterCom type=user func=inbox}" title="{gt text="Cancel"}">{img modname='core' src='button_cancel.png' set='icons/extrasmall' __alt="Cancel" __title="Cancel"}{gt text='Cancel'}</a>
         </div>
 
     </div>

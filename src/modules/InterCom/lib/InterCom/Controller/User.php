@@ -19,14 +19,9 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function main()
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'main')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
+
         return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
     }
 
@@ -40,28 +35,15 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function settings()
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'settings')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
-
-        // Get the uid of the user
-        $uid = UserUtil::getVar('uid');
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // and read the user data incl. the attributes
         $attr = UserUtil::getVar('__ATTRIBUTES__', $uid);
 
-        // Get the admin preferences
-        $allow_emailnotification = $this->getVar('messages_allow_emailnotification');
-        $allow_autoreply = $this->getVar('messages_allow_autoreply');
-
         // Create output object
 		$this->view->setCaching(false); // not suitable for caching
-        $this->view->add_core_data();
+        $this->view->add_core_data();           // Sends admin prefs to template
         $this->view->assign('email_notification', $attr['ic_note']);
         $this->view->assign('autoreply',          $attr['ic_ar']);
         $this->view->assign('autoreply_text',     $attr['ic_art']);
@@ -78,9 +60,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function modifyprefs()
     {
         // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         ModUtil::apiFunc('InterCom', 'user', 'updateprefs');
         // This function generated no output, and so now it is complete we redirect
@@ -100,34 +81,19 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function inbox()
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'inbox')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
-        // Maintenance message
-        if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-            $this->view->setCaching(false);
-            return $this->view->fetch('user/maintenance.tpl');
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // Get variables for autoreply
         $autoreply = 0;
         if ($this->getVar('messages_allow_autoreply') == 1) {
             // and read the user data incl. the attributes
-            $attr = UserUtil::getVar('__ATTRIBUTES__'); DBUtil::selectObjectByID('users', UserUtil::getVar('uid'), 'uid', null, null, null, false);
-            $autoreply = $attr['ic_ar'];
+            $autoreply = UserUtil::getVar('ic_ar'); 
         }
 
         // Get startnum and perpage parameter for pager
         $startnum = (int)FormUtil::getPassedValue('startnum', 0, 'GETPOST');
         $messagesperpage = $this->getVar('messages_perpage', 25);
-
-        // Get parameter for inboxlimit
-        $inboxlimit = $this->getVar('messages_limitinbox');
 
         // Get parameters from whatever input we need.
         $sort = (int)FormUtil::getPassedValue('sort', 3, 'GETPOST');
@@ -162,7 +128,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('boxtype',          'inbox');
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
         $this->view->assign('messagearray',     $messagearray);
-        $this->view->assign('sortarray',        $sortarray);
         $this->view->assign('getmessagecount',  $totalarray);
         $this->view->assign('sortbar_target',   'inbox');
         $this->view->assign('messagesperpage',  $messagesperpage);
@@ -185,14 +150,9 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function outbox()
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'outbox')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
+
         // Maintenance message
         if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             $this->view->setCaching(false);
@@ -206,9 +166,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         if (empty ($messagesperpage) || !is_numeric($messagesperpage)) {
             $messagesperpage = 25;
         }
-
-        // Get parameter for inboxlimit
-        $outboxlimit = $this->getVar('messages_limitoutbox');
 
         // Get parameters from whatever input we need.
         $sort = (int)FormUtil::getPassedValue('sort', 3, 'GETPOST');
@@ -228,7 +185,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
 
 
         for ($i = 1; $i <= $totalarray['totalout']; $i++) {
-            $message = $messagearray[$i -1]['msg_id'] - 1;
             if ($messagearray[$i -1]['msg_read'] == '1' && $messagearray[$i -1]['msg_inbox'] == '1') {
                 $messagearray[$i -1]['checkit_img'] = '1';
             }
@@ -249,7 +205,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('boxtype',         'outbox');
         $this->view->assign('currentuid',      UserUtil::getVar('uid'));
         $this->view->assign('messagearray',    $messagearray);
-        $this->view->assign('sortarray',       $sortarray);
         $this->view->assign('getmessagecount', $totalarray);
         $this->view->assign('sortbar_target',  'outbox');
         $this->view->assign('messagesperpage', $messagesperpage);
@@ -271,19 +226,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function archive()
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'archive')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
-        // Maintenance message
-        if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-            $this->view->setCaching(false);
-            return $this->view->fetch('user/maintenance.tpl');
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // Get startnum and perpage parameter for pager
         $startnum = (int)FormUtil::getPassedValue('startnum', 0, 'GETPOST');
@@ -318,7 +262,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $this->view->assign('boxtype',         'archive');
         $this->view->assign('currentuid',      UserUtil::getVar('uid'));
         $this->view->assign('messagearray',    $messagearray);
-        $this->view->assign('sortarray',       $sortarray);
         $this->view->assign('getmessagecount', $totalarray);
         $this->view->assign('sortbar_target',  'archive');
         $this->view->assign('messagesperpage', $messagesperpage);
@@ -340,14 +283,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function readinbox()
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'inbox')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // Get parameters from whatever input we need.
         $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
@@ -400,14 +337,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function readoutbox()
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'outbox')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // Get parameters from whatever input we need.
         $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
@@ -459,14 +390,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function readarchive()
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'archive')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // Get parameters from whatever input we need.
         $messageid = (int) FormUtil::getPassedValue('messageid', 0, 'GETPOST');
@@ -516,13 +441,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function replyinbox()
     {
         // This is a user only module - redirect everyone else
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'inbox')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_COMMENT)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_COMMENT);
+        if ($notauth) return $notauth;
 
         // Get parameters from whatever input we need.
         $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
@@ -582,14 +502,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function newpm($args)
     {
         // This is a user only module - redirect everyone else
-        // Check this before Security check - maybe after login user has enough rights
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'newpm')));
-        }
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_COMMENT)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_COMMENT);
+        if ($notauth) return $notauth;
 
         // Check if outboxlimit is reached
         if (!SecurityUtil::checkPermission("InterCom::", "::", ACCESS_ADMIN)) {
@@ -697,14 +611,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function submitpm()
     {
         // This is a user only module - redirect everone else
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'main')));
-        }
-
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_COMMENT)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_COMMENT);
+        if ($notauth) return $notauth;
 
         $from_uid = (int)FormUtil::getPassedValue('from_uid');
         $to_user  = FormUtil::getPassedValue('to_user', '', 'GETPOST');
@@ -760,8 +668,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         $protection_time   = $this->getVar('messages_protection_time');
         $protection_amount = $this->getVar('messages_protection_amount');
         $protection_mail   = $this->getVar('messages_protection_mail');
-
-        array_splice($recipients, 1);
 
         // Initalize spam protection
         $antispam_count = 0;
@@ -861,7 +767,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
                         'from_uid'    => $from_uid,
                         'subject'     => $subject));
                 $post_message_count++;
-                LogUtil::registerStatus($this->__('Done! Message sent.'));
             }
         }
 
@@ -911,14 +816,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function switchaction()
     {
         // This is a user only module - redirect everone else
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'main')));
-        }
-
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // Get parameters from whatever input we need.
         // Chasm: messageid my be an array! no typecasting!
@@ -985,14 +884,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     protected function deletepm($msg_type, $forwardfunc)
     {
         // This is a user only module - redirect everone else
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'main')));
-        }
-
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // Get parameters from whatever input we need.
         // Chasm: messageid my be an array! no typecasting!
@@ -1026,14 +919,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function storepm()
     {
         // This is a user only module - redirect everone else
-        if (!UserUtil::isLoggedIn()) {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'loginscreen', array('page' => 'main')));
-        }
-
-        // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
 
         // Check if archivelimit is reached
         if (!SecurityUtil::checkPermission("InterCom::", "::", ACCESS_ADMIN)) {
@@ -1059,32 +946,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
         }
         LogUtil::registerStatus($this->__('Done! Message archived.'));
         return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
-    }
-
-    /**
-     * Login for the user with redirect
-     *
-     * @author chaos
-     * @version 1.0
-     * @return
-     */
-    public function login()
-    {
-        $uname      = FormUtil::getPassedValue('uname', '', 'POST');
-        $email      = FormUtil::getPassedValue('email', '', 'POST');
-        $pass       = FormUtil::getPassedValue('pass', '', 'POST');
-        $url        = FormUtil::getPassedValue('url', ModUtil::url('InterCom', 'user', 'inbox'), 'POST');
-        $rememberme = FormUtil::getPassedValue('rememberme', '', 'POST');
-
-        $loginoption = ModUtil::getVar('Users', 'loginviaoption', 0);
-
-        // Do the login
-        if (UserUtil::login(($loginoption==1) ? $email : $uname, $pass, $rememberme)) {
-            return System::redirect($url);
-        } else {
-            LogUtil::registerError($this->__('Error! Could not log in.'));
-            return $this->view->fetch('user/login.tpl');
-        }
     }
 
     /**
@@ -1117,26 +978,6 @@ class InterCom_Controller_User extends Zikula_AbstractController
     }
 
     /**
-     * loginscreen
-     * show a login screen to the user and redirect to the previouse page after login by supplying a url
-     *
-     *@author Frank Schummertz
-     *@params $args['page'] string  the page to redirect to after a successful login
-     *@returns html
-     */
-
-    public function loginscreen($args)
-    {
-        $page = (isset($args['page']) && !empty($args['page'])) ? $args['page'] : 'main';
-
-        $this->view->setCaching(false);
-        $this->view->assign('url', ModUtil::url('InterCom', 'user', $page));
-        return $this->view->fetch('user/login.tpl');
-    }
-
-
-
-    /**
      * forward a message from the inbox
      *
      *@params msgid int the id of the message to forward
@@ -1145,9 +986,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
     public function forwardfrominbox()
     {
         // Security check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_COMMENT)) {
-            return LogUtil::registerPermissionError(System::getHomepageUrl());
-        }
+        $notauth = $this->checkuser($uid, ACCESS_COMMENT);
+        if ($notauth) return $notauth;
 
         $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
         if ($messageid == 0) {
@@ -1209,4 +1049,46 @@ var userdeleted = "' . DataUtil::formatfordisplay($this->__('Sorry! You cannot r
         PageUtil::addVar('header', $inlinejs); // rawtext => header
         return true;
     }
+    
+    /***
+     * Do all user checks in one method:
+     * Check if logged in, has correct access, and if site is disabled
+     * Returns the appropriate error/return value if failed, which can be
+     *          returned by calling method.
+     * Returns false if use has permissions.
+     * On exit, $uid has the user's UID if logged in.
+     */
+
+    protected function checkuser(&$uid, $access = ACCESS_READ)
+    {
+
+        // If not logged in, redirect to login screen
+        if (!UserUtil::isLoggedIn())
+	{
+	    $url = ModUtil::url('users', 'user', 'login',
+		    array( 'returnpage' => urlencode(System::getCurrentUri()),
+			)
+	    );
+	    return System::redirect($url);
+	}
+
+        // Perform access check
+        if (!SecurityUtil::checkPermission('InterCom::', '::', $access))
+        {
+            return LogUtil::registerPermissionError();
+        }
+
+        // Maintenance message
+        if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
+            $this->view->setCaching(false);
+            return $this->view->fetch('user/maintenance.tpl');
+        }
+
+        // Get the uid of the user
+        $uid = UserUtil::getVar('uid');
+
+        // Return false to signify everything is OK.
+        return false;
+    }
+    
 }
