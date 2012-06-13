@@ -106,7 +106,6 @@ class InterCom_Api_User extends Zikula_AbstractApi
         $renderer->assign('subject', $subject);
         $renderer->assign('viewinbox', ModUtil::url('InterCom', 'user', 'inbox'));
         $renderer->assign('prefs', ModUtil::url('InterCom', 'user', 'settings'));
-        $renderer->assign('url', $url);
         $renderer->assign('baseURL', System::getBaseUrl());
 
         $message = $renderer->fetch("mail/emailnotification.tpl");
@@ -347,7 +346,8 @@ class InterCom_Api_User extends Zikula_AbstractApi
         $limitout = ModUtil::getVar('InterCom', 'messages_limitoutbox');
         $limitarchive = ModUtil::getVar('InterCom', 'messages_limitarchive');
 
-        if (empty($totalin)) {
+	// This and totalarchive are set by the extract above.
+	if (empty($totalin)) {
             $totalin = 0;
         }
         if (empty($totalout)) {
