@@ -22,7 +22,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
             return LogUtil::registerPermissionError();;
         }
 
-        $res = DBUtil::insertObject($args, 'intercom', 'msg_id');
+	$res = DBUtil::insertObject($args, 'intercom', 'msg_id');
         if ($res == false) {
             return LogUtil::registerError($this->__('Error! Could not send message.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
         }
@@ -159,20 +159,18 @@ class InterCom_Api_User extends Zikula_AbstractApi
         if ($user['__ATTRIBUTES__']['ic_ar'] != 1) {
             return true;
         }
-	$a = print_r($user, true);
-	file_put_contents('/tmp/log.txt', $a);
 
         // Get the needed variables for the autoreply
         $time = date("Y-m-d H:i:s");
         $this->store_message( array(
-                'from_uid' => $to_uid,
-                'to_uid' => $from_uid,
-                'subject' => $this->__('Re') . ': ' . $subject,
-                'time' => $time,
-                'message' => $user['__ATTRIBUTES__']['ic_art'],
-                'inbox' => '1',
-                'outbox' => '1',
-                'stored' => '0'
+                'from_userid' => $to_uid,
+                'to_userid' => $from_uid,
+                'msg_subject' => $this->__('Re') . ': ' . $subject,
+                'msg_time' => $time,
+                'msg_text' => $user['__ATTRIBUTES__']['ic_art'],
+                'msg_inbox' => '1',
+                'msg_outbox' => '1',
+                'msg_stored' => '0'
         ));
     }
 
