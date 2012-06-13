@@ -23,7 +23,7 @@
  * bug fix: the cursor does not 'travel' when going up/down the list   Credit: Marcel
  * 
  * 
- * Copyright: InteRiders <http://interiders.com/ >- Distributed under MIT - Keep this message!
+ * Copyright: InteRiders <http://interiders.com/>- Distributed under MIT - Keep this message!
  * 
  * 
  * == Loren Johnson, www.hellovenado.com -- 2/27/08 ==
