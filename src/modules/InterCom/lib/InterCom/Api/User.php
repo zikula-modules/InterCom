@@ -154,15 +154,16 @@ class InterCom_Api_User extends Zikula_AbstractApi
         }
 
         // and read the user data incl. the attributes
-        $user = UserUtil::getVars($to_id);
+        $user = UserUtil::getVars($to_uid);
 
         if ($user['__ATTRIBUTES__']['ic_ar'] != 1) {
             return true;
         }
+	$a = print_r($user, true);
+	file_put_contents('/tmp/log.txt', $a);
 
         // Get the needed variables for the autoreply
         $time = date("Y-m-d H:i:s");
-
         $this->store_message( array(
                 'from_uid' => $to_uid,
                 'to_uid' => $from_uid,
