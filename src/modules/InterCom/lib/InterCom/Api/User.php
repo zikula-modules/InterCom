@@ -146,16 +146,14 @@ class InterCom_Api_User extends Zikula_AbstractApi
         $from_uid = $args['from_uid'];
         $subject = $args['subject'];
 
-        // First check if admin allowed autoreply
+        // Check if admin allowed autoreply
         $allow_autoreply = ModUtil::getVar('InterCom', 'messages_allow_autoreply');
         if ($allow_autoreply != 1) {
             return true;
         }
 
-        // and read the user data incl. the attributes
-        $user = UserUtil::getVars($to_uid);
-
-        if ($user['__ATTRIBUTES__']['ic_ar'] != 1) {
+        // Return if the recipient does not have autoreply activated
+	if (!UserUtil::getVar('ic_ar', $to_uid)) {
             return true;
         }
 
@@ -166,7 +164,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
                 'to_userid' => $from_uid,
                 'msg_subject' => $this->__('Re') . ': ' . $subject,
                 'msg_time' => $time,
-                'msg_text' => $user['__ATTRIBUTES__']['ic_art'],
+                'msg_text' => UserUtil::getVar('ic_art', $to_uid),
                 'msg_inbox' => '1',
                 'msg_outbox' => '1',
                 'msg_stored' => '0'
