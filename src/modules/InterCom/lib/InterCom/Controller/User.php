@@ -631,7 +631,7 @@ class InterCom_Controller_User extends Zikula_AbstractController
         //} else {
         //    $to_group = '';
         //}
-        if (FormUtil::getPassedValue('mail_prev_x', null, 'POST')) {
+        if (FormUtil::getPassedValue('mail_prev', null, 'POST')) {
             //return ModUtil::func('InterCom', 'user', 'newpm',
              return $this->newpm('InterCom', 'user', 'newpm',
                     array ('msg_preview' => '1',
