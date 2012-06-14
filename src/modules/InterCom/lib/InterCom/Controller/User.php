@@ -706,9 +706,9 @@ class InterCom_Controller_User extends Zikula_AbstractController
                         $from_uname = UserUtil::getVar('uname', $from_uid);
                         if ($protection_mail == 1) {
                             $email_from = $this->getVar('messages_fromname');
-                            $email_fromname = ModUtil::getVar('sitename');
+                            $email_fromname = System::getVar('sitename');
                             $email_to = System::getVar('adminmail');
-                            $email_subject = ModUtil::getVar('sitename') . '' . $this->__('Spam alert');
+                            $email_subject = System::getVar('sitename') . '' . $this->__('Spam alert');
                             $message = $this->__('The user') . ' ' . $from_uname . ' (#' . $from_uid . ') ' . $this->__('tried to send too many private messages in too short a time. The private messaging system\'s spam prevention feature stopped the messages from being sent.');
 
                             $args = array (
