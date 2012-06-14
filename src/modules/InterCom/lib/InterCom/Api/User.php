@@ -22,7 +22,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
             return LogUtil::registerPermissionError();;
         }
 
-        $res = DBUtil::insertObject($args, 'intercom', 'msg_id');
+	$res = DBUtil::insertObject($args, 'intercom', 'msg_id');
         if ($res == false) {
             return LogUtil::registerError($this->__('Error! Could not send message.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
         }
@@ -106,7 +106,6 @@ class InterCom_Api_User extends Zikula_AbstractApi
         $renderer->assign('subject', $subject);
         $renderer->assign('viewinbox', ModUtil::url('InterCom', 'user', 'inbox'));
         $renderer->assign('prefs', ModUtil::url('InterCom', 'user', 'settings'));
-        $renderer->assign('url', $url);
         $renderer->assign('baseURL', System::getBaseUrl());
 
         $message = $renderer->fetch("mail/emailnotification.tpl");
@@ -147,31 +146,28 @@ class InterCom_Api_User extends Zikula_AbstractApi
         $from_uid = $args['from_uid'];
         $subject = $args['subject'];
 
-        // First check if admin allowed autoreply
+        // Check if admin allowed autoreply
         $allow_autoreply = ModUtil::getVar('InterCom', 'messages_allow_autoreply');
         if ($allow_autoreply != 1) {
             return true;
         }
 
-        // and read the user data incl. the attributes
-        $user = UserUtil::getVars($to_id);
-
-        if ($user['__ATTRIBUTES__']['ic_ar'] != 1) {
+        // Return if the recipient does not have autoreply activated
+	if (!UserUtil::getVar('ic_ar', $to_uid)) {
             return true;
         }
 
         // Get the needed variables for the autoreply
         $time = date("Y-m-d H:i:s");
-
         $this->store_message( array(
-                'from_uid' => $to_uid,
-                'to_uid' => $from_uid,
-                'subject' => $this->__('Re') . ': ' . $subject,
-                'time' => $time,
-                'message' => $user['__ATTRIBUTES__']['ic_art'],
-                'inbox' => '1',
-                'outbox' => '1',
-                'stored' => '0'
+                'from_userid' => $to_uid,
+                'to_userid' => $from_uid,
+                'msg_subject' => $this->__('Re') . ': ' . $subject,
+                'msg_time' => $time,
+                'msg_text' => UserUtil::getVar('ic_art', $to_uid),
+                'msg_inbox' => '1',
+                'msg_outbox' => '1',
+                'msg_stored' => '0'
         ));
     }
 
@@ -348,7 +344,8 @@ class InterCom_Api_User extends Zikula_AbstractApi
         $limitout = ModUtil::getVar('InterCom', 'messages_limitoutbox');
         $limitarchive = ModUtil::getVar('InterCom', 'messages_limitarchive');
 
-        if (empty($totalin)) {
+	// This and totalarchive are set by the extract above.
+	if (empty($totalin)) {
             $totalin = 0;
         }
         if (empty($totalout)) {

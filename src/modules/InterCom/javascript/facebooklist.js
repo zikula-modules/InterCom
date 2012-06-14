@@ -23,7 +23,7 @@
  * bug fix: the cursor does not 'travel' when going up/down the list   Credit: Marcel
  * 
  * 
- * Copyright: InteRiders <http://interiders.com/> - Distributed under MIT - Keep this message!
+ * Copyright: InteRiders <http://interiders.com/>- Distributed under MIT - Keep this message!
  * 
  * 
  * == Loren Johnson, www.hellovenado.com -- 2/27/08 ==
@@ -52,6 +52,8 @@
  * mod: 05/07/08 Add non-standard autocomplete attribute to main input to prevent browser-supplied autocompletion in Gecko and some other browsers. 
  * mod: 08/27/08 bug when gsub'ing space wth "spaceReplace". Input-field does not have a function gsub, though its value has. 
  *
+ * == Chris Candreva -- 6/13/12
+ * Make hitting tab also accept the current entry, not just enter.
 */
 
 // InterCom addition for large sites: start searching via Ajax when a user has entered min. x chars
@@ -446,17 +448,18 @@ var FacebookList = Class.create(TextboxList, {
         }
         break;
         case Event.KEY_RETURN:
-        e.stop();
-        if(! this.autocurrent) break;
-        this.autoAdd(this.autocurrent);
-        this.autocurrent = false;
-        this.autoenter = true;
-        break;
+        case Event.KEY_TAB:
+	    e.stop();
+	    if(! this.autocurrent) break;
+	    this.autoAdd(this.autocurrent);
+	    this.autocurrent = false;
+	    this.autoenter = true;
+	    break;
         case Event.KEY_ESC:
-        this.autoHide();
-        if(this.current && this.current.retrieveData('input'))
-        this.current.retrieveData('input').clear();
-        break;
+	    this.autoHide();
+	    if(this.current && this.current.retrieveData('input'))
+	    this.current.retrieveData('input').clear();
+	    break;
         default: this.dosearch = true;
       }
     }.bind(this));

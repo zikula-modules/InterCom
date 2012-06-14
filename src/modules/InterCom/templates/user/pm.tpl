@@ -3,7 +3,7 @@
 {include file="user/header.tpl" ictitle=$ictitle}
 {pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_newmsg.js"}
 
-{if $msg_preview == 1}
+{if $msg_preview}
 {include file="user/previewpm.tpl"}
 {/if}
 
