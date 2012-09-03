@@ -44,6 +44,10 @@
         {formlabel for="messages_perpage" __text="Messages per page"}
         {formintinput minValue="5" maxValue="99" size="10" maxLength="10" id="messages_perpage"}
     </div>
+    <div class="z-formrow">
+        {formlabel for="disable_ajax" __text="Disable ajax"}
+        {formcheckbox id="disable_ajax"}
+    </div>
 </fieldset>
 
 <fieldset>

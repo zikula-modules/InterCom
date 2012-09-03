@@ -174,6 +174,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
             $this->setVar('messages_protection_time', $data['messages_protection_time']);
             $this->setVar('messages_protection_amount', $data['messages_protection_amount']);
             $this->setVar('messages_protection_mail', $data['messages_protection_mail']);
+            $this->setVar('disable_ajax', $data['disable_ajax']);
 
             if ($ok === false) {
                 return false;
