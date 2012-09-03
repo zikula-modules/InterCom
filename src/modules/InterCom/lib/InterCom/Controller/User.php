@@ -407,8 +407,8 @@ class InterCom_Controller_User extends Zikula_AbstractController
             $message['msg_text'] = ModUtil::apiFunc('InterCom', 'user', 'prepmessage_for_display',
                     array('msg_text' => $message['msg_text']));
             // URL - the db may contain false urls, try to clean them
-            $message['url'] = ModUtil::apiFunc('InterCom', 'user', 'prepurl_for_display',
-                    array('url' => $message['url']));
+            //$message['url'] = ModUtil::apiFunc('InterCom', 'user', 'prepurl_for_display',
+            //        array('url' => $message['url']));
 
             // Create output object
             $this->view->setCaching(false); // not suitable for caching
