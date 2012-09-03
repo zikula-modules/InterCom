@@ -267,6 +267,7 @@
 .intercomblock a.inbox {
   background: url(../../../images/icons/extrasmall/inbox.png) no-repeat 0 50%;
 }
+
 #intercom a.outbox {
   background: url(../../../images/icons/extrasmall/folder_outbox.png) no-repeat 0 50%;
 }
@@ -335,6 +336,16 @@
   font-weight: bold;
   line-height:2em;
   margin:0 0 0 60px;
+}
+
+.z-icon-es-inbox {
+    background: url("../../../images/icons/extrasmall/inbox.png") no-repeat scroll 0 50% transparent;
+    padding: 2px 0 2px 20px;
+}
+
+.z-icon-es-outbox {
+    background: url("../../../images/icons/extrasmall/folder_outbox.png") no-repeat scroll 0 50% transparent;
+    padding: 2px 0 2px 20px;
 }
 
 /*******************************************************************************/

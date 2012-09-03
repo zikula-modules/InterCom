@@ -33,6 +33,6 @@
 </div>
 
 <div class="ic-buttons ic-margin">
-    <a id="msg-sendreply-{$message.msg_id|safetext}"   href="javascript:void(0);">{img modname=core src=button_ok.gif set=icons/extrasmall __alt="Send now" __title="Send now"} {gt text="Send now" domain="module_intercom"}</a>
-    <a id="msg-cancelreply-{$message.msg_id|safetext}" href="javascript:void(0);">{img modname=core src=button_cancel.gif set=icons/extrasmall __alt="Cancel" __title="Cancel"} {gt text="Cancel" domain="module_intercom"}</a>
+    <a id="msg-sendreply-{$message.msg_id|safetext}"   href="javascript:void(0);">{img modname=core src=button_ok.png set=icons/extrasmall __alt="Send now" __title="Send now"} {gt text="Send now" domain="module_intercom"}</a>
+    <a id="msg-cancelreply-{$message.msg_id|safetext}" href="javascript:void(0);">{img modname=core src=button_cancel.png set=icons/extrasmall __alt="Cancel" __title="Cancel"} {gt text="Cancel" domain="module_intercom"}</a>
 </div>

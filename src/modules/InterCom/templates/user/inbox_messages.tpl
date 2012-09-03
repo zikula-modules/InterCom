@@ -7,27 +7,27 @@
             <dd class="msg_icon">&nbsp;</dd>
             <dt class="msg_subject">{gt text="Subject"}
                 {if $sort neq 5}
-                <a href="{modurl modname="InterCom" func=inbox sort=5}">{img src="black_down.gif"}</a>
-                {else}{img src="green_down.gif"}{/if}
+                <a href="{modurl modname="InterCom" func=inbox sort=5}">{img src="black_down.png"}</a>
+                {else}{img src="green_down.png"}{/if}
                 {if $sort neq 6}
-                <a href="{modurl modname="InterCom" func=inbox sort=6}">{img src="black_up.gif"}</a>
-                {else}{img src="green_up.gif"}{/if}
+                <a href="{modurl modname="InterCom" func=inbox sort=6}">{img src="black_up.png"}</a>
+                {else}{img src="green_up.png"}{/if}
             </dt>
             <dd class="msg_time">{gt text="Date"}
                 {if $sort neq 3}
-                <a href="{modurl modname="InterCom" func=inbox sort=3}">{img src="black_down.gif"}</a>
-                {else}{img src="green_down.gif"}{/if}
+                <a href="{modurl modname="InterCom" func=inbox sort=3}">{img src="black_down.png"}</a>
+                {else}{img src="green_down.png"}{/if}
                 {if $sort neq 4}
-                <a href="{modurl modname="InterCom" func=inbox sort=4}">{img src="black_up.gif"}</a>
-                {else}{img src="green_up.gif"}{/if}
+                <a href="{modurl modname="InterCom" func=inbox sort=4}">{img src="black_up.png"}</a>
+                {else}{img src="green_up.png"}{/if}
             </dd>
             <dd class="msg_uname">{gt text="Sender"}
                 {if $sort neq 1}
-                <a href="{modurl modname="InterCom" func=inbox sort=1}">{img src="black_down.gif"}</a>
-                {else}{img src="green_down.gif"}{/if}
+                <a href="{modurl modname="InterCom" func=inbox sort=1}">{img src="black_down.png"}</a>
+                {else}{img src="green_down.png"}{/if}
                 {if $sort neq 2}
-                <a href="{modurl modname="InterCom" func=inbox sort=2}">{img src="black_up.gif"}</a>
-                {else}{img src="green_up.gif"}{/if}
+                <a href="{modurl modname="InterCom" func=inbox sort=2}">{img src="black_up.png"}</a>
+                {else}{img src="green_up.png"}{/if}
             </dd>
             <dd class="msg_view">&nbsp;</dd>
         </dl>
@@ -39,25 +39,25 @@
                 <dd class="msg_check"><input type="checkbox" onclick="CheckCheckAll();" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].msg_id}" /></dd>
                 <dd id="msgicon{$messagearray[message].msg_id}" class="msg_icon clickable">
                     {if $messagearray[message].msg_read == 0}
-                    {img modname=InterCom src="mail_unread.gif" __title="Unread"  id="msg-unread-`$messagearray[message].msg_id`"}
-                    {img modname=InterCom src="mail_answered.gif" __title="Answered"  class="invisible" id="msg-answered-`$messagearray[message].msg_id`"}
-                    {img modname=core src="mail_generic.gif" set="icons/extrasmall" __title="Read"  class="invisible" id="msg-read-`$messagearray[message].msg_id`"}
+                    {img modname=InterCom src="mail_unread.png" __title="Unread"  id="msg-unread-`$messagearray[message].msg_id`"}
+                    {img modname=InterCom src="mail_answered.png" __title="Answered"  class="invisible" id="msg-answered-`$messagearray[message].msg_id`"}
+                    {img modname=core src="mail_generic.png" set="icons/extrasmall" __title="Read"  class="invisible" id="msg-read-`$messagearray[message].msg_id`"}
                     {else}
                     {if $messagearray[message].msg_replied == 1}
-                    {img modname=InterCom src="mail_unread.gif" __title="Unread"  class="invisible" id="msg-unread-`$messagearray[message].msg_id`"}
-                    {img modname=InterCom src="mail_answered.gif" __title="Answered"  id="msg-answered-`$messagearray[message].msg_id`"}
-                    {img modname=core src="mail_generic.gif" set="icons/extrasmall" __title="Read"  class="invisible" id="msg-read-`$messagearray[message].msg_id`"}
+                    {img modname=InterCom src="mail_unread.png" __title="Unread"  class="invisible" id="msg-unread-`$messagearray[message].msg_id`"}
+                    {img modname=InterCom src="mail_answered.png" __title="Answered"  id="msg-answered-`$messagearray[message].msg_id`"}
+                    {img modname=core src="mail_generic.png" set="icons/extrasmall" __title="Read"  class="invisible" id="msg-read-`$messagearray[message].msg_id`"}
                     {else}
-                    {img modname=InterCom src="mail_unread.gif" __title="Unread"  class="invisible" id="msg-unread-`$messagearray[message].msg_id`"}
-                    {img modname=InterCom src="mail_answered.gif" __title="Answered"  class="invisible" id="msg-answered-`$messagearray[message].msg_id`"}
-                    {img modname=core src="mail_generic.gif" set="icons/extrasmall" __title="Read"  id="msg-read-`$messagearray[message].msg_id`"}
+                    {img modname=InterCom src="mail_unread.png" __title="Unread"  class="invisible" id="msg-unread-`$messagearray[message].msg_id`"}
+                    {img modname=InterCom src="mail_answered.png" __title="Answered"  class="invisible" id="msg-answered-`$messagearray[message].msg_id`"}
+                    {img modname=core src="mail_generic.png" set="icons/extrasmall" __title="Read"  id="msg-read-`$messagearray[message].msg_id`"}
                     {/if}
                     {/if}
                 </dd>
                 <dt class="msg_subject clickable">{if $messagearray[message].msg_subject}{$messagearray[message].msg_subject|truncate:30|safehtml}{else}{gt text="Error! No subject line."}{/if}</dt>
                 <dd class="msg_time clickable">{$messagearray[message].msg_time|dateformat:"datetimebrief"}</dd>
                 <dd class="msg_uname clickable"><strong>{$messagearray[message].from_user|truncate:45|safehtml}</strong></dd>
-                <dd class="msg_view"><a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}">{img modname=core src="demo.gif" set="icons/extrasmall" __title="Read" }</a></dd>
+                <dd class="msg_view"><a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}">{img modname=core src="demo.png" set="icons/extrasmall" __title="Read" }</a></dd>
             </dl>
 
             <div id="msgbody-{$messagearray[message].msg_id}" class="msg_body" style="display: none;">
@@ -65,7 +65,7 @@
                 <div class="z-clearfix">
                     <div class="msg_avatar">
                         {icuseravatar uid=$messagearray[message].from_userid assign=useravatar}
-                        {$messagearray[message].from_userid|userprofilelink:'':$useravatar}
+                        {$messagearray[message].from_userid|profilelinkbyuid:'':$useravatar}
                         {modavailable modname="ContactList" assign="ContactListInstalled"}
                         {if $ContactListInstalled}
                         <p><a href="{modurl modname="ContactList" type="user" func="create" uid=$messagearray[message].from_userid}">{img modname="ContactList" src="user_add.png" __title="Add buddy" }</a></p>

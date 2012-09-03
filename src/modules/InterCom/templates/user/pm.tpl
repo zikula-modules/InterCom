@@ -29,7 +29,7 @@
         <input type="hidden" name="msg_id" value="{$message.msg_id}" />
         {/if}
         <input type="hidden" name="from_uid" value="{$currentuid|safetext}" />
-        <input type="hidden" name="authid" value="{secgenauthkey module=Intercom}" />
+        <input type="hidden" name="authid" value="{insert name='csrftoken'}" />
         <fieldset>
             <legend>{$ictitle}</legend>
             <div class="z-formrow">
@@ -79,9 +79,9 @@
             <script type="text/javascript">
                 document.observe('dom:loaded', function() {
                     // init
-                    tlist1 = new FacebookList('username', 'list-user',{fetchFile:document.location.pnbaseURL + 'ajax.php?module=InterCom'+'&'+'func=getusers'});
+                    tlist1 = new FacebookList('username', 'list-user', {fetchFile:'{{$baseurl}}ajax.php?module=InterCom&func=getusers'});
                     {{if $pmtype eq "new" && $msgtogroups eq true}}
-                    tlist2 = new FacebookList('groupname', 'list-group',{fetchFile:document.location.pnbaseURL + 'ajax.php?module=InterCom'+'&'+'func=getgroups'});
+                    tlist2 = new FacebookList('groupname', 'list-group', {fetchFile:'{{$baseurl}}ajax.php?module=InterCom&func=getgroups'});
                     {{/if}}
                 });
             </script>
@@ -122,14 +122,14 @@
             </div>
 
             {if $allowhtml eq 1}
-            <div class="z-formnote z-warningmsg">{gt text="Permitted HTML tags:"}&nbsp;{allowedhtml}</div>
+            <div class="z-formnote z-warningmsg">{gt text="Permitted HTML tags:"}&nbsp;{intercom_allowedhtml}</div>
             {/if}
 
         </fieldset>
 
         <div class="z-formbuttons ic-buttons">
-	    {button id='SendNow' src='button_ok.png' set='icons/extrasmall' name="mail_send" value="send" __alt='Send now' __title='Send now' __text='Send now'}
-	    {button id='Preview' src='mail_find.png' set='icons/extrasmall' name="mail_prev" value="preview" __alt='Preview message' __title='Preview message' __text='Preview message'}
+	        {button id='SendNow' src='button_ok.png' set='icons/extrasmall' name="mail_send" value="send" __alt='Send now' __title='Send now' __text='Send now'}
+	        {button id='Preview' src='mail_find.png' set='icons/extrasmall' name="mail_prev" value="preview" __alt='Preview message' __title='Preview message' __text='Preview message'}
             <a href="{modurl modname=InterCom type=user func=inbox}" title="{gt text="Cancel"}">{img modname='core' src='button_cancel.png' set='icons/extrasmall' __alt="Cancel" __title="Cancel"}{gt text='Cancel'}</a>
         </div>
 

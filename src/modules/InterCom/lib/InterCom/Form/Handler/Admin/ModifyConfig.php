@@ -29,11 +29,11 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
     function initialize(Zikula_Form_View $view)
     {
         $view->caching = false;
-        $view->add_core_data();
-        $view->assign('messages_welcomemessage_send', 
-                ModUtil::getVar('InterCom', 'messages_welcomemessage_send'));
-        $welcomemessage = ModUtil::getVar('InterCom', 'messages_welcomemessage');
-        $welcomemessagesubject = ModUtil::getVar('InterCom', 'messages_welcomemessagesubject');
+
+        $view->assign($this->getVars());
+
+        $welcomemessage = $this->getVar('InterCom', 'messages_welcomemessage');
+        $welcomemessagesubject = $this->getVar('InterCom', 'messages_welcomemessagesubject');
         $intlwelcomemessage = '';
         if (StringUtil::left($welcomemessagesubject, 1) == '_') {
             $intlwelcomemessage = constant($welcomemessagesubject) . "\n\n";
@@ -60,12 +60,12 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
             $ok = true;
             $data = $view->getValues();
 
-            if(is_null($data['messages_limitinbox'])) {
+            if (is_null($data['messages_limitinbox'])) {
                 $ifield = & $view->getPluginById('messages_limitinbox');
                 $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The inbox maximum capacity is missing.')));
                 $ok = false;
             } else {
-                ModUtil::setVar('InterCom', 'messages_limitinbox', $data['messages_limitinbox']);
+                $this->setVar('messages_limitinbox', $data['messages_limitinbox']);
             }
 
             if(is_null($data['messages_limitoutbox'])) {
@@ -73,7 +73,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
                 $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The outbox maximum capacity is missing.')));
                 $ok = false;
             } else {
-                ModUtil::setVar('InterCom', 'messages_limitoutbox', $data['messages_limitoutbox']);
+                $this->setVar('messages_limitoutbox', $data['messages_limitoutbox']);
             }
 
             if(is_null($data['messages_limitarchive'])) {
@@ -81,48 +81,47 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
                 $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The archive maximum capacity is missing.')));
                 $ok = false;
             } else {
-                ModUtil::setVar('InterCom', 'messages_limitarchive', $data['messages_limitarchive']);
+                $this->setVar('messages_limitarchive', $data['messages_limitarchive']);
             }
 
-            ModUtil::setVar('InterCom', 'messages_allowhtml', $data['messages_allowhtml']);
-            ModUtil::setVar('InterCom', 'messages_allowsmilies', $data['messages_allowsmilies']);
+            $this->setVar('messages_allowhtml', $data['messages_allowhtml']);
+            $this->setVar('messages_allowsmilies', $data['messages_allowsmilies']);
 
-            if(is_null($data['messages_perpage'])) {
+            if (is_null($data['messages_perpage'])) {
                 $ifield = & $view->getPluginById('messages_perpage');
                 $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The number of messages to display per page is missing.')));
                 $ok = false;
             } else {
-                ModUtil::setVar('InterCom', 'messages_perpage', $data['messages_perpage']);
+                $this->setVar('messages_perpage', $data['messages_perpage']);
             }
 
-            ModUtil::setVar('InterCom', 'messages_allow_emailnotification', $data['messages_allow_emailnotification']);
+            $this->setVar('messages_allow_emailnotification', $data['messages_allow_emailnotification']);
             if ($data['messages_allow_emailnotification'] == true) {
                 if(empty($data['messages_mailsubject'])) {
                     $ifield = & $view->getPluginById('messages_mailsubject');
                     $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The subject line for notification e-mail message is missing.')));
                     $ok = false;
                 } else {
-                    ModUtil::setVar('InterCom', 'messages_mailsubject', $data['messages_mailsubject']);
+                    $this->setVar('messages_mailsubject', $data['messages_mailsubject']);
                 }
             }
 
-            ModUtil::setVar('InterCom', 'messages_force_emailnotification', $data['messages_force_emailnotification']);
-            ModUtil::setVar('InterCom', 'messages_fromname', $data['messages_fromname']);
-            ModUtil::setVar('InterCom', 'messages_from_email', $data['messages_from_email']);
+            $this->setVar('messages_force_emailnotification', $data['messages_force_emailnotification']);
+            $this->setVar('messages_fromname', $data['messages_fromname']);
+            $this->setVar('messages_from_email', $data['messages_from_email']);
 
-            ModUtil::setVar('InterCom', 'messages_welcomemessage_send',
-                   $data['messages_welcomemessage_send'] );
+            $this->setVar('messages_welcomemessage_send', $data['messages_welcomemessage_send'] );
             // Save values if we are turning it on.
 
             if ($data['messages_welcomemessage_send']==true) {
-                if(empty($data['messages_welcomemessage'])) {
+                if (empty($data['messages_welcomemessage'])) {
                     $ifield = & $view->getPluginById('messages_welcomemessage');
                     $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The welcome message text is missing.')));
                     $ok = false;
                 } else {
-                    ModUtil::setVar('InterCom', 'messages_welcomemessage', $data['messages_welcomemessage']);
+                    $this->setVar('messages_welcomemessage', $data['messages_welcomemessage']);
                 }
-                if(empty($data['messages_welcomemessagesender'])) {
+                if (empty($data['messages_welcomemessagesender'])) {
                     if ($data['messages_createhookactive'] == true) {
                         $ifield = & $view->getPluginById('messages_welcomemessagesender');
                         $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The sender for the welcome message is missing.')));
@@ -133,7 +132,7 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
                         $ifield->setError(DataUtil::formatForDisplay(__('Error! Could not find this user.')));
                         $ok = false;
                 } else {
-                    ModUtil::setVar('InterCom', 'messages_welcomemessagesender', $data['messages_welcomemessagesender']);
+                    $this->setVar('messages_welcomemessagesender', $data['messages_welcomemessagesender']);
                 }
                 if(empty($data['messages_welcomemessagesubject'])) {
                     if ($data['messages_createhookactive'] == true) {
@@ -142,46 +141,47 @@ class InterCom_Form_Handler_Admin_ModifyConfig extends Zikula_Form_AbstractHandl
                         $ok = false;
                     }
                 } else {
-                    ModUtil::setVar('InterCom', 'messages_welcomemessagesubject', $data['messages_welcomemessagesubject']);
+                    $this->setVar('messages_welcomemessagesubject', $data['messages_welcomemessagesubject']);
                 }
-                ModUtil::setVar('InterCom', 'messages_savewelcomemessage', $data['messages_savewelcomemessage']);
+                $this->setVar('messages_savewelcomemessage', $data['messages_savewelcomemessage']);
             }
 
-            ModUtil::setVar('InterCom', 'messages_allow_autoreply', $data['messages_allow_autoreply']);
+            $this->setVar('messages_allow_autoreply', $data['messages_allow_autoreply']);
 
-            ModUtil::setVar('InterCom', 'messages_active', $data['messages_active']);
-            if(empty($data['messages_maintain'])) {
+            $this->setVar('messages_active', $data['messages_active']);
+            if (empty($data['messages_maintain'])) {
                 if ($data['messages_active'] == true) {
                     $ifield = & $view->getPluginById('messages_maintain');
                     $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The maintenance notice text is missing.')));
                     $ok = false;
                 }
             } else {
-                ModUtil::setVar('InterCom', 'messages_maintain', $data['messages_maintain']);
+                $this->setVar('messages_maintain', $data['messages_maintain']);
             }
 
-            ModUtil::setVar('InterCom', 'messages_userprompt_display', $data['messages_userprompt_display']);
-            if(empty($data['messages_userprompt'])) {
+            $this->setVar('messages_userprompt_display', $data['messages_userprompt_display']);
+            if (empty($data['messages_userprompt'])) {
                 if ($data['messages_userprompt_display'] == true) {
                     $ifield = & $view->getPluginById('messages_userprompt');
                     $ifield->setError(DataUtil::formatForDisplay($this->__('Error! The user information is missing.')));
                     $ok = false;
                 }
             } else {
-                ModUtil::setVar('InterCom', 'messages_userprompt', $data['messages_userprompt']);
+                $this->setVar('messages_userprompt', $data['messages_userprompt']);
             }
 
-            ModUtil::setVar('InterCom', 'messages_protection_on', $data['messages_protection_on']);
-            ModUtil::setVar('InterCom', 'messages_protection_time', $data['messages_protection_time']);
-            ModUtil::setVar('InterCom', 'messages_protection_amount', $data['messages_protection_amount']);
-            ModUtil::setVar('InterCom', 'messages_protection_mail', $data['messages_protection_mail']);
+            $this->setVar('messages_protection_on', $data['messages_protection_on']);
+            $this->setVar('messages_protection_time', $data['messages_protection_time']);
+            $this->setVar('messages_protection_amount', $data['messages_protection_amount']);
+            $this->setVar('messages_protection_mail', $data['messages_protection_mail']);
 
-            if($ok == false) {
+            if ($ok === false) {
                 return false;
             }
 
             LogUtil::registerStatus($this->__('Done! Saved your settings changes.'));
         }
+
         return true;
     }
 

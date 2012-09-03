@@ -34,20 +34,10 @@ class InterCom_Controller_User extends Zikula_AbstractController
      */
     public function settings()
     {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
+        $form = FormUtil::newForm('InterCom', $this);
+        return $form->execute('user/prefs.tpl', new InterCom_Form_Handler_User_Preferences());
 
-        // and read the user data incl. the attributes
-        $attr = UserUtil::getVar('__ATTRIBUTES__', $uid);
 
-        // Create output object
-		$this->view->setCaching(false); // not suitable for caching
-        $this->view->add_core_data();           // Sends admin prefs to template
-        $this->view->assign('email_notification', $attr['ic_note']);
-        $this->view->assign('autoreply',          $attr['ic_ar']);
-        $this->view->assign('autoreply_text',     $attr['ic_art']);
-        return $this->view->fetch('user/prefs.tpl');
     }
 
     /**

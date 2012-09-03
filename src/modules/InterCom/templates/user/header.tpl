@@ -1,4 +1,3 @@
-{* $Id$ *}
 {pageaddvar name="javascript" value="prototype"}
 {pageaddvar name="javascript" value="javascript/ajax/validation.min.js"}
 {pageaddvar name="javascript" value="modules/InterCom/javascript/intercom.js"}
@@ -17,9 +16,9 @@
 </script>
 <div id="intercom">
     <h2>{gt text="Private messaging"}
-        <img alt="spinner" id="spinner" src="modules/InterCom/images/ajax-loader.gif"
+        <img alt="spinner" id="spinner" src="modules/InterCom/images/ajax-loader.png"
         style="display:none;" />
     </h2>
 
-    {include file="user/navigation.tpl"}
+    {modulelinks modname='InterCom' type='user'}
     {insert name="getstatusmsg"}

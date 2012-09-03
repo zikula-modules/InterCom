@@ -172,49 +172,6 @@ class InterCom_Api_User extends Zikula_AbstractApi
     }
 
     /**
-     * Update the user preferences
-     *
-     * @author chaos
-     * @version
-     * @return
-     */
-    public function updateprefs()
-    {
-        // Security check - important to do this as early on as possible to
-        // avoid potential security holes or just too much wasted processing
-        if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_COMMENT)) {
-            return false;
-        }
-
-        // Confirm authorisation code
-        if (!SecurityUtil::confirmAuthKey()) {
-            return LogUtil::registerAuthidError(ModUtil::url('InterCom', 'user', 'main'));
-        }
-
-        $uid = UserUtil::getVar('uid');
-
-        // Get parameters from environment
-        // ic_note: email notifiaction yes/no
-        // ic_ar  : autoreply yes/no
-        // ic_art  : autoreply text
-        // store attributes
-        UserUtil::setVar('ic_note', FormUtil::getPassedValue('intercom_email_notification'), $uid);
-        UserUtil::setVar('ic_ar', FormUtil::getPassedValue('intercom_autoreply'), $uid);
-        UserUtil::setVar('ic_art', FormUtil::getPassedValue('intercom_autoreply_text'), $uid);
-
-        // delete entry in the old intercom_userprefs table if the table exists
-        $tbls = DBUtil::metaTables();
-        // if old intercom_userprefs table exists, try to delete the values for user $uid
-        if (in_array('intercom_userprefs', $tbls)) {
-            DBUtil::deleteObjectByID('intercom_userprefs', $uid, 'user_id');
-        }
-
-        // report configuration updated
-        LogUtil::registerStatus($this->__('Done! Saved your settings changes.'));
-        return true;
-    }
-
-    /**
      * delete a private message
      *
      * @author Chasm
@@ -489,7 +446,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
         if (is_array($objarray)) {
             $keys = array_keys($objarray);
             foreach($keys as $key) {
-                $objarray[$key]['msg_unixtime'] = getusertime*DEPRECATED*(strtotime($objarray[$key]['msg_time']));
+                $objarray[$key]['msg_unixtime'] = (UserUtil::getVar('tzoffset') - System::getVar('timezone_server')) * 3600+(strtotime($objarray[$key]['msg_time']));
                 $objarray[$key]['from_user']    = UserUtil::getVar('uname', $objarray[$key]['from_userid'], $this->__('*Deleted user*'));
                 $objarray[$key]['to_user']      = UserUtil::getVar('uname', $objarray[$key]['to_userid'], $this->__('*Deleted user*'));
                 $objarray[$key]['signature']    = UserUtil::getVar('_SIGNATURE', $objarray[$key]['from_userid'], '');
@@ -669,4 +626,45 @@ class InterCom_Api_User extends Zikula_AbstractApi
         }
         return $posterdata;
     }
+
+    /**
+     * get available admin panel links
+     *
+     * @return array array of user links
+     */
+    public function getlinks()
+    {
+        $links = array();
+        if (SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
+            $links[] = array(
+                'url' => ModUtil::url('InterCom', 'user', 'inbox'),
+                'text' => $this->__('Inbox'),
+                'class' => 'z-icon-es-inbox'
+            );
+            $links[] = array(
+                'url' => ModUtil::url('InterCom', 'user', 'outbox'),
+                'text' => $this->__('Outbox'),
+                'class' => 'z-icon-es-outbox'
+            );
+            $links[] = array(
+                'url' => ModUtil::url('InterCom', 'user', 'archive'),
+                'text' => $this->__('Archive'),
+                'class' => 'z-icon-es-gears'
+            );
+            if ($this->getVar('messages_allow_emailnotification')|| $this->getVar('messages_allow_autoreply')) {
+                $links[] = array(
+                    'url' => ModUtil::url('InterCom', 'user', 'settings'),
+                    'text' => $this->__('Settings'),
+                    'class' => 'z-icon-es-config'
+                );
+            }
+            $links[] = array(
+                'url' => ModUtil::url('InterCom', 'user', 'newpm'),
+                'text' => $this->__('New message'),
+                'class' => 'z-icon-es-new'
+            );
+        }
+        return $links;
+    }
+
 }
