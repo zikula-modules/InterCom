@@ -417,12 +417,12 @@ class InterCom_Controller_Ajax extends Zikula_AbstractController
     {
         // Security check
         if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_COMMENT)) {
-            AjaxUtil::error($this->__('Sorry! You do not have authorisation for this module.'));
+            throw new Zikula_Exception_Forbidden($this->__('Sorry! You do not have authorisation for this module.'));
         }
 
         $keyword = FormUtil::getPassedValue('keyword', '', 'POST');
         if (empty($keyword)) {
-            AjaxUtil::error($this->__('Error! The action you wanted to perform was not successful for some reason, maybe because of a problem with what you input. Please check and try again.'));
+            throw new Zikula_Exception_Fatal('Error! The action you wanted to perform was not successful for some reason, maybe because of a problem with what you input. Please check and try again.');
         }
 
         $pntable     = DBUtil::getTables();
