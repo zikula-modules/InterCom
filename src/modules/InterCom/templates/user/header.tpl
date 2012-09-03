@@ -1,8 +1,12 @@
 {pageaddvar name="javascript" value="prototype"}
-{pageaddvar name="javascript" value="javascript/ajax/validation.min.js"}
 {pageaddvar name="javascript" value="modules/InterCom/javascript/intercom.js"}
-{pageaddvar name="javascript" value="modules/InterCom/javascript/facebooklist.js"}
 
+{if !isset($modvars.InterCom.disable_ajax) || !$modvars.InterCom.disable_ajax}
+{pageaddvar name="javascript" value="javascript/ajax/validation.min.js"}
+{pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_ajax.js"}
+{/if}
+
+{pageaddvar name="javascript" value="modules/InterCom/javascript/facebooklist.js"}
 {pageaddvar name="javascript" value="modules/InterCom/javascript/texpand.packed.js"}
 {pageaddvar name="stylesheet" value="modules/InterCom/style/facebooklist.css"}
 {pagesetvar name=title value=$ictitle}
