@@ -12,6 +12,15 @@
  *
  */
 
+// remove the no ajax links
+document.observe("dom:loaded", function() {
+    // initially hide all containers for tab content
+    $$('.noajax').each(function(el) {
+        el.insert ({'after': el.innerHTML} );
+        el.remove();
+    });
+});
+
 var InterCom = Class.create();
 
 InterCom.prototype = 

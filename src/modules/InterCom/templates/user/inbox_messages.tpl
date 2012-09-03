@@ -1,10 +1,4 @@
-﻿{if !isset($modvars.InterCom.disable_ajax) || !$modvars.InterCom.disable_ajax}
-{assign value=1 var='ajax'}
-{else}
-{assign value=0 var='ajax'}
-{/if}
-
-<form id="msg_view" class="z-form z-linear" action="{modurl modname="InterCom" type="user" func="switchaction"}" method="post">
+﻿<form id="msg_view" class="z-form z-linear" action="{modurl modname="InterCom" type="user" func="switchaction"}" method="post">
     <fieldset>
         <legend>{$ictitle}</legend>
         <dl class="msg_header">
@@ -59,9 +53,9 @@
                     {/if}
                     {/if}
                 </dd>
-                <dt class="msg_subject clickable">{if !$ajax}<a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}">{/if}{if $messagearray[message].msg_subject}{$messagearray[message].msg_subject|truncate:30|safehtml}{else}{gt text="Error! No subject line."}{/if}{if !$ajax}</a>{/if}</dt>
-                <dd class="msg_time clickable">{if !$ajax}<a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}">{/if}{$messagearray[message].msg_time|dateformat:"datetimebrief"}{if !$ajax}</a>{/if}</dd>
-                <dd class="msg_uname clickable">{if !$ajax}<a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}">{/if}<strong>{$messagearray[message].from_user|truncate:45|safehtml}</strong>{if !$ajax}</a>{/if}</dd>
+                <dt class="msg_subject clickable"><a class="noajax" href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}">{if $messagearray[message].msg_subject}{$messagearray[message].msg_subject|truncate:30|safehtml}{else}{gt text="Error! No subject line."}{/if}</a></dt>
+                <dd class="msg_time clickable"><a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}">{$messagearray[message].msg_time|dateformat:"datetimebrief"}</a></dd>
+                <dd class="msg_uname clickable"><a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}"><strong>{$messagearray[message].from_user|truncate:45|safehtml}</strong></a></dd>
                 <dd class="msg_view"><a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].msg_id}">{img modname=core src="demo.png" set="icons/extrasmall" __title="Read" }</a></dd>
             </dl>
 
