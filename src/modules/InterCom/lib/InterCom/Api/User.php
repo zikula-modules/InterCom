@@ -635,7 +635,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
     public function getlinks()
     {
         $links = array();
-        if (SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
+        if (UserUtil::isLoggedIn()) {
             $links[] = array(
                 'url' => ModUtil::url('InterCom', 'user', 'inbox'),
                 'text' => $this->__('Inbox'),
