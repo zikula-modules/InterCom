@@ -7,26 +7,26 @@
             <dd class="msg_icon">&nbsp;</dd>
             <dt class="msg_subject">{gt text="Subject"}
                 {if $sort neq 5}
-                <a href="{modurl modname="InterCom" func=inbox sort=5}">{img src="black_down.png"}</a>
+                <a href="{modurl modname="InterCom" type="user" func=inbox sort=5}">{img src="black_down.png"}</a>
                 {else}{img src="green_down.png"}{/if}
                 {if $sort neq 6}
-                <a href="{modurl modname="InterCom" func=inbox sort=6}">{img src="black_up.png"}</a>
+                <a href="{modurl modname="InterCom" type="user" func=inbox sort=6}">{img src="black_up.png"}</a>
                 {else}{img src="green_up.png"}{/if}
             </dt>
             <dd class="msg_time">{gt text="Date"}
                 {if $sort neq 3}
-                <a href="{modurl modname="InterCom" func=inbox sort=3}">{img src="black_down.png"}</a>
+                <a href="{modurl modname="InterCom" type="user" func=inbox sort=3}">{img src="black_down.png"}</a>
                 {else}{img src="green_down.png"}{/if}
                 {if $sort neq 4}
-                <a href="{modurl modname="InterCom" func=inbox sort=4}">{img src="black_up.png"}</a>
+                <a href="{modurl modname="InterCom" type="user" func=inbox sort=4}">{img src="black_up.png"}</a>
                 {else}{img src="green_up.png"}{/if}
             </dd>
             <dd class="msg_uname">{gt text="Sender"}
                 {if $sort neq 1}
-                <a href="{modurl modname="InterCom" func=inbox sort=1}">{img src="black_down.png"}</a>
+                <a href="{modurl modname="InterCom" type="user" func=inbox sort=1}">{img src="black_down.png"}</a>
                 {else}{img src="green_down.png"}{/if}
                 {if $sort neq 2}
-                <a href="{modurl modname="InterCom" func=inbox sort=2}">{img src="black_up.png"}</a>
+                <a href="{modurl modname="InterCom" type="user" func=inbox sort=2}">{img src="black_up.png"}</a>
                 {else}{img src="green_up.png"}{/if}
             </dd>
             <dd class="msg_view">&nbsp;</dd>
@@ -65,7 +65,9 @@
                 <div class="z-clearfix">
                     <div class="msg_avatar">
                         {icuseravatar uid=$messagearray[message].from_userid assign=useravatar}
+                        {if isset($useravatar)}
                         {$messagearray[message].from_userid|profilelinkbyuid:'':$useravatar}
+                        {/if}
                         {modavailable modname="ContactList" assign="ContactListInstalled"}
                         {if $ContactListInstalled}
                         <p><a href="{modurl modname="ContactList" type="user" func="create" uid=$messagearray[message].from_userid}">{img modname="ContactList" src="user_add.png" __title="Add buddy" }</a></p>

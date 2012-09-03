@@ -1,9 +1,7 @@
-{* $Id$ *}
-
 {include file="user/header.tpl" ictitle=$ictitle}
 {pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_newmsg.js"}
 
-{if $msg_preview}
+{if isset($msg_preview)}
 {include file="user/previewpm.tpl"}
 {/if}
 
@@ -37,7 +35,7 @@
                     <li>
                         <label for="username">{gt text="Individual recipient(s)"}</label>
                         <div class="ic-inputbox-username">
-                            <input id="username" name="to_user" type="text" value="{$to_user_string}" />
+                            <input id="username" name="to_user" type="text" value="{if isset($to_user_string)}{$to_user_string}{/if}" />
                             <div id="list-user">
                                 <p class="default">{gt text="Notice: To send a private message to multiple individual recipients, enter their user names separated by commas."}</p>
                                 <ul class="feed">
