@@ -145,7 +145,7 @@ class InterCom_Controller_Ajax extends Zikula_AbstractController
                 'from_uid' => $from_uid,
                 'subject' => $subject));
 
-        AjaxUtil::output(_SENT, false, true);
+        return new Zikula_Response_Ajax(true);
 
     }
 
@@ -197,7 +197,7 @@ class InterCom_Controller_Ajax extends Zikula_AbstractController
                 'from_uid' => $from_uid,
                 'subject' => $subject));
 
-        AjaxUtil::output(_SENT, false, true);
+        return new Zikula_Response_Ajax(true);
 
     }
 
