@@ -16,7 +16,7 @@
 </script>
 <div id="intercom">
     <h2>{gt text="Private messaging"}
-        <img alt="spinner" id="spinner" src="modules/InterCom/images/ajax-loader.png"
+        <img alt="spinner" id="spinner" src="modules/InterCom/images/ajax-loader.gif"
         style="display:none;" />
     </h2>
 
