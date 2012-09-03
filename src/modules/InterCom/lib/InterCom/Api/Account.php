@@ -31,7 +31,7 @@ class InterCom_Api_Account extends Zikula_AbstractApi
                             'icon'    => 'userconfig.png'),
                     array('url'     => ModUtil::url('InterCom', 'user', 'main'),
                             'title'   => $this->__('Private messaging mailbox'),
-                            'icon'    => 'viewinbox.gif'));
+                            'icon'    => 'viewinbox.png'));
         }
 
         // Return the items
