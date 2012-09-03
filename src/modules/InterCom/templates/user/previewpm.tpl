@@ -8,7 +8,7 @@
             <label>{gt text="Recipient(s)"}</label>
             <p class="ic-readtext">
                 {foreach from=$to_user item=item}
-                <strong>{$item|userprofilelink}</strong>
+                <strong>{$item|profilelinkbyuname}</strong>
                 {foreachelse}
                 <strong>{gt text="Error! No recipient entered."}</strong>
                 {/foreach}
