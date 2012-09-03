@@ -16,7 +16,7 @@
  * Smarty function to display the avatar of a user
  *
  * Example
- * <!--[icuseravatar uid="2"]-->
+ * {icuseravatar uid="2"}
  *
  * @param        object      &$smarty     Reference to the Smarty object
  * @param        integer     $uid         user-id
@@ -36,9 +36,9 @@ function smarty_function_icuseravatar($params, &$smarty)
     $avatarpath      = ModUtil::getVar('Users', 'avatarpath', 'images/avatar');
     //  The following two modvars will be introduced into the Users module with Zikula 1.3
     $allowgravatars  = ModUtil::getVar('Users', 'allowgravatars', 1);
-    $gravatarimage   = ModUtil::getVar('Users', 'gravatarimage', 'gravatar.gif');
+    $gravatarimage   = ModUtil::getVar('Users', 'gravatarimage', 'gravatar.png');
 
-    if (isset($avatar) && !empty($avatar) && $avatar != $gravatarimage && $avatar != 'blank.gif') {
+    if (isset($avatar) && !empty($avatar) && $avatar != $gravatarimage && $avatar != 'blank.png') {
         $avatarURL = System::getBaseUrl() . $avatarpath . '/' . $avatar;
     } else if (($avatar == $gravatarimage) && ($allowgravatars == 1)) {
         if (!isset($params['rating'])) $params['rating'] = false;
@@ -48,7 +48,7 @@ function smarty_function_icuseravatar($params, &$smarty)
         if (isset($params['rating']) && !empty($params['rating'])) $avatarURL .= "&rating=".$params['rating'];
         if (isset($params['size']) && !empty($params['size'])) $avatarURL .="&size=".$params['size'];
         $avatarURL .= "&default=".urlencode(System::getBaseUrl() . $avatarpath . '/' . $gravatarimage);
-    } else { // e.g. blank.gif or empty avatars
+    } else { // e.g. blank.png or empty avatars
         return false;
     }
 

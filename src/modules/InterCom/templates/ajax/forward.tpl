@@ -51,6 +51,6 @@
 </div>
 
 <div class="ic-buttons ic-margin">
-    <a id="msg-sendforward-{$message.msg_id|safetext}"   href="javascript:void(0);">{img modname=core src=button_ok.gif set=icons/extrasmall __alt="Forward message now" __title="Forward message now"} {gt text="Forward message now" domain="module_intercom"}</a>
-    <a id="msg-cancelforward-{$message.msg_id|safetext}" href="javascript:void(0);">{img modname=core src=button_cancel.gif set=icons/extrasmall __alt="Cancel" __title="Cancel"} {gt text="Cancel" domain="module_intercom"}</a>
+    <a id="msg-sendforward-{$message.msg_id|safetext}"   href="javascript:void(0);">{img modname=core src=button_ok.png set=icons/extrasmall __alt="Forward message now" __title="Forward message now"} {gt text="Forward message now" domain="module_intercom"}</a>
+    <a id="msg-cancelforward-{$message.msg_id|safetext}" href="javascript:void(0);">{img modname=core src=button_cancel.png set=icons/extrasmall __alt="Cancel" __title="Cancel"} {gt text="Cancel" domain="module_intercom"}</a>
 </div>
