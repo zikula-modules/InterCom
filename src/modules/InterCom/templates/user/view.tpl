@@ -13,7 +13,8 @@
 {assign var="indicatorbar" value=$getmessagecount.indicatorbararchive}
 {/if}
 
-{if (pnModGetVar('InterCom','messages_userprompt_display') == 1)}
+{modgetvar module="InterCom" name="messages_userprompt_display" assign=display}
+{if $display == 1}
 <div class="z-informationmsg">
     {modgetvar module="InterCom" name="messages_userprompt" assign=userprompt}
     {$userprompt|safehtml}
