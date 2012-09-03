@@ -1,7 +1,8 @@
-{* $Id$ *}
-{include file="admin/menu.tpl"}
-
-<h2>{gt text="Statistics"}</h2>
+{adminheader}
+<div class="z-admin-content-pagetitle">
+{icon type="info" size="small"}
+    <h3>{gt text="Statistics"}</h3>
+</div>
 
 <dl>
     <dt><strong>{gt text="Number of messages in"}</strong></dt>
@@ -10,4 +11,4 @@
     <dd>{gt text="Archive"}: {$archive}</dd>
 </dl>
 
-{include file="admin/footer.tpl"}
+{adminfooter}
