@@ -632,7 +632,7 @@ class InterCom_Api_User extends Zikula_AbstractApi
      *
      * @return array array of user links
      */
-    public function getlinks()
+    public function getLinks()
     {
         $links = array();
         if (UserUtil::isLoggedIn()) {
