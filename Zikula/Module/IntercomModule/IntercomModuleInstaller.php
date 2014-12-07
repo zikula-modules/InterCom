@@ -11,14 +11,23 @@
  * information regarding copyright.
  */
 
-class InterCom_Installer extends Zikula_AbstractInstaller
+/**
+ * Intercom module installer.
+ */
+
+namespace Zikula\Module\IntercomModule;
+
+use DoctrineHelper;
+use EventUtil;
+use System;
+use Zikula\Module\IntercomModule\Entity\MessageEntity;
+
+
+class IntercomModuleInstaller extends \Zikula_AbstractInstaller
 {
-    public function install()
-    {
-        if (!DBUtil::createTable('intercom')) {
-            return false;
-        }
-        
+
+    public function SetDefaultVars()
+    { 
         $this->setVar('messages_limitarchive', '50');
         $this->setVar('messages_limitoutbox', '50');
         $this->setVar('messages_limitinbox', '50');
@@ -47,6 +56,19 @@ class InterCom_Installer extends Zikula_AbstractInstaller
         $this->setVar('messages_welcomemessagesubject', $this->__('Welcome to the private messaging system on %sitename%'));  // quotes are important here!!
         $this->setVar('messages_welcomemessage', $this->__('Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin')); // quotes are important here!!!
         $this->setVar('messages_savewelcomemessage', false);
+    
+    }   
+    
+    public function install()
+    {
+    
+        try {
+            DoctrineHelper::createSchema($this->entityManager, array('Zikula\Module\IntercomModule\Entity\MessageEntity'));
+        } catch (\Exception $e) {
+            $this->request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            return false;
+        }
+        $this->SetDefaultVars();
 
         EventUtil::registerPersistentModuleHandler('InterCom', 'user.account.create',
                 array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
@@ -58,13 +80,6 @@ class InterCom_Installer extends Zikula_AbstractInstaller
     {
         switch ($oldversion)
         {
-            case '2.1':
-            case '2.2':
-                $this->setVar('messages_force_emailnotification', true);
-            case '2.2.0':
-                DBUtil::changeTable('intercom');
-                EventUtil::registerPersistentModuleHandler('InterCom', 'user.account.create',
-                    array('InterCom_Listener_CreateUserListener', 'onCreateUser'));
         }
 
         return true;
@@ -72,13 +87,16 @@ class InterCom_Installer extends Zikula_AbstractInstaller
 
     public function uninstall()
     {
-        if (!DBUtil::dropTable('intercom')) {
+        try {
+            DoctrineHelper::dropSchema($this->entityManager, array('Zikula\Module\IntercomModule\Entity\MessageEntity'));
+        } catch (\PDOException $e) {
+            $this->request->getSession()->getFlashBag()->add('error', $e->getMessage());
             return false;
         }
-
+        // Delete any module variables
+        $this->delVars();
+        
         EventUtil::unregisterPersistentModuleHandlers('InterCom');
-        $this->delVars('InterCom');
-
         return true;
     }
 }
