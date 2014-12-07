@@ -1,12 +1,21 @@
 <?php
 /**
- * $Id$
+ * InterCom Module for Zikula
  *
- * InterCom - an advanced private messaging solution for Zikula
+ * @copyright  InterCom Team
+ * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
+ * @package    InterCom
+ * @subpackage User
  *
+ * Please see the CREDITS.txt file distributed with this source code for further
+ * information regarding copyright.
  */
 
-class InterCom_Version extends Zikula_AbstractVersion
+namespace Zikula\Module\IntercomModule;
+
+use ModUtil;
+
+class IntercomModuleVersion extends \Zikula_AbstractVersion
 {
     public function getMetaData()
     {
