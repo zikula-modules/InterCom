@@ -11,13 +11,12 @@ class InterCom_Version extends Zikula_AbstractVersion
     public function getMetaData()
     {
         $meta = array();
-        $meta['version']        = '2.3.0';
+        $meta['version']        = '3.0.0';
         $meta['description']    = $this->__('Provides a private messaging system with an individual mailbox for each user, incorporating integration with the user account panel and with various other modules and blocks.');
         $meta['displayname']    = $this->__('InterCom private messaging');
         $meta['url']            = $this->__('intercom');
         $meta['contact']        = 'InterCom Development Team - http://code.zikula.org/intercom/';
-        $meta['core_min']      =   '1.3.3';
-        $meta['core_max']      =   '1.3.99';
+        $meta['core_min']      =   '1.4.0';
 
         $meta['capabilities'] = array('message' => array('version' => '1.0'));
 
