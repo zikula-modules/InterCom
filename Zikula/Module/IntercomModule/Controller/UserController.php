@@ -1,12 +1,36 @@
 <?php
 /**
- * $Id$
+ * InterCom Module for Zikula
  *
- * InterCom - an advanced private messaging solution for Zikula
+ * @copyright  InterCom Team
+ * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
+ * @package    InterCom
+ * @subpackage User
  *
+ * Please see the CREDITS.txt file distributed with this source code for further
+ * information regarding copyright.
  */
 
-class InterCom_Controller_User extends Zikula_AbstractController
+namespace Zikula\Module\IntercomModule\Controller;
+
+use ModUtil;
+use System;
+use SecurityUtil;
+use ServiceUtil;
+use UserUtil;
+use Zikula\Core\Controller\AbstractController;
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotations - do not remove
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
+
+
+class UserController extends \Zikula_AbstractController
 {
     /**
      * The main user function -

@@ -1,12 +1,22 @@
 <?php
 /**
- * $Id$
+ * InterCom Module for Zikula
  *
- * InterCom - an advanced private messaging solution for Zikula
+ * @copyright  InterCom Team
+ * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
+ * @package    InterCom
+ * @subpackage User
  *
+ * Please see the CREDITS.txt file distributed with this source code for further
+ * information regarding copyright.
  */
+namespace Zikula\Module\IntercomModule\Api;
 
-class InterCom_Api_Admin extends Zikula_AbstractApi
+use ModUtil;
+use UserUtil;
+use SecurityUtil;
+
+class AdminApi extends \Zikula_AbstractApi
 {
     /**
      * get available admin panel links

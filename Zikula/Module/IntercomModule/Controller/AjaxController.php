@@ -1,12 +1,41 @@
 <?php
 /**
- * $Id$
+ * InterCom Module for Zikula
  *
- * InterCom - an advanced private messaging solution for Zikula
+ * @copyright  InterCom Team
+ * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
+ * @package    InterCom
+ * @subpackage User
  *
+ * Please see the CREDITS.txt file distributed with this source code for further
+ * information regarding copyright.
  */
 
-class InterCom_Controller_Ajax extends Zikula_AbstractController
+namespace Zikula\Module\IntercomModule\Controller;
+
+use ModUtil;
+use UserUtil;
+use DataUtil;
+use SecurityUtil;
+use System;
+use Zikula\Core\RouteUrl;
+use ZLanguage;
+use Zikula\Core\Exception\FatalErrorException;
+use Zikula\Core\Response\Ajax\AjaxResponse;
+use Zikula\Core\Response\Ajax\UnavailableResponse;
+use Zikula\Core\Response\Ajax\BadDataResponse;
+use Zikula\Core\Response\PlainResponse;
+use Zikula\Core\UrlInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Response;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotations - do not remove
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * @  Route("/ajax")
+ */
+class AjaxController extends \Zikula_Controller_AbstractAjax
 {
     /**
      * mark a message as read

@@ -11,7 +11,22 @@
  * information regarding copyright.
  */
 
-class InterCom_Listener_CreateUserListener
+namespace Zikula\Module\IntercomModule\Listener;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use SecurityUtil;
+use ModUtil;
+use HookUtil;
+use System;
+use ZLanguage;
+use Zikula_View;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zikula\Core\Event\GenericEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Doctrine\ORM\EntityManager;
+
+abstract class CreateUserListener implements EventSubscriberInterface
 {
     /**
      * On an module remove hook call this listener
@@ -19,7 +34,7 @@ class InterCom_Listener_CreateUserListener
      * Listens for the 'user.account.create' event.
      *
      * @param Zikula_Event $event Event.
-     */
+     
     public static function onCreateUser(Zikula_Event $event)
     {
         // If sending messages isn't enabled, just return.
@@ -59,5 +74,6 @@ class InterCom_Listener_CreateUserListener
         DBUtil::insertObject($obj, 'intercom', 'msg_id');
         return;
     }
-
+public static function getSubscribedEvents(){
+}*/
 }

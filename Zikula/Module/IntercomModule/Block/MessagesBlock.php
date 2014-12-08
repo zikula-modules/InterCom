@@ -1,11 +1,23 @@
 <?php
 /**
- * $Id$
+ * InterCom Module for Zikula
  *
- * InterCom-Block
+ * @copyright  InterCom Team
+ * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
+ * @package    InterCom
+ * @subpackage User
  *
+ * Please see the CREDITS.txt file distributed with this source code for further
+ * information regarding copyright.
  */
-class InterCom_Block_Messages extends Zikula_Controller_AbstractBlock
+namespace Zikula\Module\IntercomModule\Block;
+
+use SecurityUtil;
+use ModUtil;
+use BlockUtil;
+use UserUtil;
+
+class MessagesBlock extends \Zikula_Controller_AbstractBlock
 {
     public function init()
     {
