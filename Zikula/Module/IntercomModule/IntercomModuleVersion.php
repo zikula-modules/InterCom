@@ -25,9 +25,9 @@ class IntercomModuleVersion extends \Zikula_AbstractVersion
         $meta['displayname']    = $this->__('InterCom private messaging');
         $meta['url']            = $this->__('intercom');
         $meta['contact']        = 'InterCom Development Team - http://code.zikula.org/intercom/';
-        $meta['core_min']      =   '1.4.0';
-
-        $meta['capabilities'] = array('message' => array('version' => '1.0'));
+        $meta['core_min']       =   '1.4.0';
+        $meta['oldnames']       = array('InterCom');
+        $meta['capabilities']   = array('message' => array('version' => '1.0'));
 
         // module dependencies
         $meta['dependencies'] = array(
