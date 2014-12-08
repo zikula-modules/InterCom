@@ -48,7 +48,7 @@ class MessagesQueryBuilder extends QueryBuilder {
         if ($stored !== false) {
             return $this
                             ->andWhere('m.stored = :stored')
-                            ->setParameter('stored', $inbox);
+                            ->setParameter('stored', $stored);
         }
     }    
 
@@ -78,7 +78,7 @@ class MessagesQueryBuilder extends QueryBuilder {
     }
     
     public function filterSend($send) {
-        if ($send === false){
+        if ($send !== false){
             return $this->andWhere($this->expr()->isNull('m.send'));
         }        
     }
@@ -100,13 +100,13 @@ class MessagesQueryBuilder extends QueryBuilder {
     }
     
     public function filterReplied($replied) {
-        if ($replied === false){
+        if ($replied !== false){
             return $this->andWhere($this->expr()->isNull('m.replied'));
         }        
     }
     
     public function filterNotified($notified) {
-        if ($notified === false){
+        if ($notified !== false){
             return $this->andWhere($this->expr()->isNull('m.notified'));
         }        
     }    
@@ -154,7 +154,7 @@ class MessagesQueryBuilder extends QueryBuilder {
             break;            
             case 'subject':
                     return $this
-                            ->andWhere('p.subject LIKE :search')
+                            ->andWhere('m.subject LIKE :search')
                             ->setParameter('search', '%'.$search.'%');   
             case 'text':
                     return $this

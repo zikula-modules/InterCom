@@ -34,8 +34,8 @@ class MessageRepository extends EntityRepository
     {           
     
         $qb = $this->build();    
-        $qb->select('p');  
-        $qb->from('Zikula\Module\IntercomModule\Entity', 'm');
+        $qb->select('m');  
+        $qb->from('Zikula\Module\IntercomModule\Entity\MessageEntity', 'm');
         //filters
         $qb->addFilters($f);
         //search
