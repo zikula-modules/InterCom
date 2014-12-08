@@ -38,9 +38,11 @@ class AccountApi extends \Zikula_AbstractApi
         if(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_OVERVIEW)) {
             $items = array(array('url'     => ModUtil::url('InterCom', 'user', 'settings'),
                             'title'   => $this->__('Private messaging settings'),
+                            'text' => $this->__('Display messages settings'),                
                             'icon'    => 'userconfig.png'),
-                    array('url'     => ModUtil::url('InterCom', 'user', 'main'),
+                     array('url'     => ModUtil::url('InterCom', 'user', 'main'),
                             'title'   => $this->__('Private messaging mailbox'),
+                            'text' => $this->__('Display messages'),                         
                             'icon'    => 'viewinbox.png'));
         }
 
