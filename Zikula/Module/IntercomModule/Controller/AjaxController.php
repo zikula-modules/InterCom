@@ -62,7 +62,7 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * reply to a message from the inbox
      *
-     *@params msgid int the id of the message to reply to
+     *@  params msgid int the id of the message to reply to
      */
     public function replyfrominbox()
     {
@@ -114,8 +114,8 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * send a reply
      *
-     *@params
-     *@params
+     *@ params
+     *@ params
      */
     public function sendreply()
     {
@@ -181,8 +181,8 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * forward a message
      *
-     *@params
-     *@params
+     *@ p arams
+     *@ params
      */
     public function sendforward()
     {
@@ -233,7 +233,7 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * forward a message from the inbox
      *
-     *@params msgid int the id of the message to forward
+     *@ params msgid int the id of the message to forward
      */
     public function forwardfrominbox()
     {
@@ -273,7 +273,7 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * delete a message from the inbox
      *
-     *@params msgid int the id of the message to delete
+     *@ params msgid int the id of the message to delete
      */
     public function deletefrominbox()
     {
@@ -295,7 +295,7 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * delete a message from the outbox
      *
-     *@params msgid int the id of the message to delete
+     *@ params msgid int the id of the message to delete
      */
     public function deletefromoutbox()
     {
@@ -317,7 +317,7 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * delete a message from the archive
      *
-     *@params msgid int the id of the message to delete
+     *@ params msgid int the id of the message to delete
      */
     public function deletefromarchive()
     {
@@ -366,7 +366,7 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * toggle a messages status (read/unread)
      *
-     *@params msgid int the id of the message to mark
+     *@ params msgid int the id of the message to mark
      */
     public function togglestatus()
     {
@@ -412,7 +412,7 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
     /**
      * save a message to the archive
      *
-     *@params msgid int the id of the message to save
+     *@ params msgid int the id of the message to save
      */
     public function store()
     {
@@ -438,9 +438,9 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
      * getusers
      * performs a user search based on the keyword entered so far
      *
-     * @author Frank Schummertz
-     * @param keyword string the fragment of the username entered
-     * @return void nothing, direct ouptut using echo!
+     * @ author Frank Schummertz
+     * @ param keyword string the fragment of the username entered
+     * @ return void nothing, direct ouptut using echo!
      */
     public function getusers()
     {
@@ -489,9 +489,9 @@ class AjaxController extends \Zikula_Controller_AbstractAjax
      * getgroups
      * performs a group search based on the keyword entered so far
      *
-     * @author Frank Schummertz
-     * @param keyword string the fragment of the username entered
-     * @return void nothing, direct ouptut using echo!
+     * @ author Frank Schummertz
+     * @ param keyword string the fragment of the username entered
+     * @ return void nothing, direct ouptut using echo!
      */
     public function getgroups()
     {
