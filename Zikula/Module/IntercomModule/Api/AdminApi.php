@@ -12,8 +12,6 @@
  */
 namespace Zikula\Module\IntercomModule\Api;
 
-use ModUtil;
-use UserUtil;
 use SecurityUtil;
 
 class AdminApi extends \Zikula_AbstractApi
@@ -28,20 +26,20 @@ class AdminApi extends \Zikula_AbstractApi
         $links = array();
         if (SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             $links[] = array(
-                'url' => ModUtil::url('InterCom', 'admin', 'main'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_admin_index'),
                 'text' => $this->__('Statistics'),
-                'class' => 'z-icon-es-info'
-            );
+                'title' => $this->__('Display statistics'),               
+                'icon' => 'list');
             $links[] = array(
-                'url' => ModUtil::url('InterCom', 'admin', 'tools'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_admin_tools'),
                 'text' => $this->__('Utilities'),
-                'class' => 'z-icon-es-gears'
-            );
+                'title' => $this->__('Here you can manage your messages database'),                
+                'icon' => 'plus');
             $links[] = array(
-                'url' => ModUtil::url('InterCom', 'admin', 'modifyconfig'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_admin_preferences'),
                 'text' => $this->__('Settings'),
-                'class' => 'z-icon-es-config'
-            );
+                'title' => $this->__('Adjust module settings'),                
+                'icon' => 'wrench');
         }
         return $links;
     }
