@@ -69,12 +69,12 @@ class MessageEntity extends EntityAccess
     private $subject = '';    
 
     /**
-     * time
+     * send
      *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
-    private $time;
+    private $send;
 
     /**
      * text
@@ -84,23 +84,23 @@ class MessageEntity extends EntityAccess
     private $text = '';
     
     /**
-     * read
+     * seen
      *
-     * @ORM\Column(type="datetime")type="datetime", nullable=true, options={"default":null})
+     * @ORM\Column(type="datetime", nullable=true, options={"default":null})
      */
-    private $read;
+    private $seen;
 
     /**
      * replied
      *
-     * @ORM\Column(type="datetime")type="datetime", nullable=true, options={"default":null})
+     * @ORM\Column(type="datetime", nullable=true, options={"default":null})
      */
     private $replied;
     
     /**
      * notified
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="datetime", nullable=true, options={"default":null})
      */
     private $notified;
     
@@ -209,25 +209,25 @@ class MessageEntity extends EntityAccess
     }
     
     /**
-     * Set message time
+     * Set message send
      *
-     * @param DateTime object $time
+     * @param DateTime object $send
      * @return $this
      */
-    public function setTime(\DateTime $time)
+    public function setSend(\DateTime $send)
     {
-        $this->time = $time;  
+        $this->send = $send;  
         return $this;
     }
     
     /**
-     * Get message time
+     * Get message send
      *
      * @return DateTime object 
      */
-    public function getTime()
+    public function getSend()
     {
-        return $this->time;
+        return $this->send;
     }
     
     /**
@@ -253,25 +253,25 @@ class MessageEntity extends EntityAccess
     }
     
     /**
-     * Set read status
+     * Set seen status
      *
-     * @param  DateTime/null $read
+     * @param  DateTime/null $seen
      * @return $this
      */
-    public function setRead(\DateTime $read = null)
+    public function setSeen(\DateTime $seen = null)
     {
-        $this->read = $read;  
+        $this->seen = $seen;  
         return $this;
     }
     
     /**
-     * Get read status
+     * Get seen status
      *
      * @return DateTime/null 
      */
-    public function getRead()
+    public function getSeen()
     {
-        return $this->read;
+        return $this->seen;
     }
     
     /**
