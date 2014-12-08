@@ -22,8 +22,8 @@ use Zikula\Core\Controller\AbstractController;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotations - do not remove
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotations - do not remove
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,17 +31,21 @@ use Symfony\Component\Routing\RouterInterface;
 
 
 class UserController extends \Zikula_AbstractController
-{
-    /**
-     * The main user function -
-     * This function redirects to the inbox function.
-     *
-     * @author Chasm
-     * @version 1.0
-     * @return
-     */
-    public function main()
+{  
+    public function postInitialize()
     {
+        $this->view->setCaching(false);
+    }
+
+    /**
+     * @Route("")
+     *
+     * the main administration function
+     *
+     * @return RedirectResponse
+     */
+    public function indexAction(Request $request)
+    { 
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
         if ($notauth) return $notauth;
@@ -51,12 +55,8 @@ class UserController extends \Zikula_AbstractController
 
     /**
      * Function to modify the user preferences
-     *
-     * @author chaos
-     * @version 1.0
-     * @return
      */
-    public function settings()
+    public function settingsAction()
     {
         $form = FormUtil::newForm('InterCom', $this);
         return $form->execute('user/prefs.tpl', new InterCom_Form_Handler_User_Preferences());
@@ -66,12 +66,8 @@ class UserController extends \Zikula_AbstractController
 
     /**
      * Update the user preferences
-     *
-     * @author chaos
-     * @version 1.0
-     * @param
      */
-    public function modifyprefs()
+    public function modifyprefsAction()
     {
         // Security check
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -84,15 +80,13 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * View inbox -
-     * This function shows the inbox.
+     * @Route("/inbox")
      *
-     * @author Chasm
-     * @version 1.0
-     * @param  int $sort
-     * @return
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function inbox()
+    public function inboxAction()
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -153,15 +147,13 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * View outbox -
-     * This function shows the outbox.
+     * @Route("/outbox")
      *
-     * @author Chasm
-     * @version 1.0
-     * @param $sort
-     * @return
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function outbox()
+    public function outboxAction()
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -229,15 +221,13 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * View archive -
-     * This function shows the archive.
+     * @Route("/archive")
      *
-     * @author Chasm
-     * @version 1.0
-     * @param int $sort
-     * @return
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function archive()
+    public function archiveAction()
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -286,15 +276,13 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * Read inbox -
-     * This function shows a inbox message.
+     * @Route("/preferences")
      *
-     * @author Chasm
-     * @version 1.0
-     * @param  int $messageid
-     * @return
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function readinbox()
+    public function readinboxAction()
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -342,13 +330,8 @@ class UserController extends \Zikula_AbstractController
     /**
      * read outbox -
      * This function shows a outbox message.
-     *
-     * @author Chasm
-     * @version 1.0
-     * @param  int $messageid
-     * @return
      */
-    public function readoutbox()
+    public function readoutboxAction()
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -396,12 +379,8 @@ class UserController extends \Zikula_AbstractController
      * read archive -
      * This function shows an archive message.
      *
-     * @author Chasm
-     * @version 1.0
-     * @param  int $messageid
-     * @return
      */
-    public function readarchive()
+    public function readarchiveAction()
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -446,13 +425,8 @@ class UserController extends \Zikula_AbstractController
 
     /**
      * reply inbox -
-     * This function shows the reply form for a inbox message.
-     *
-     * @author Chasm
-     * @version 1.0
-     * @return
      */
-    public function replyinbox()
+    public function replyinboxAction()
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_COMMENT);
@@ -508,12 +482,8 @@ class UserController extends \Zikula_AbstractController
     /**
      * new pm -
      * This function shows the form for a new message.
-     *
-     * @author Chasm
-     * @version 1.0
-     * @return
      */
-    public function newpm($args)
+    public function newpmAction($args)
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_COMMENT);
@@ -617,12 +587,8 @@ class UserController extends \Zikula_AbstractController
     /**
      * Submit private message -
      * This function stores a private message into the db.
-     *
-     * @author Chasm
-     * @version 1.0
-     * @return
      */
-    public function submitpm()
+    public function submitpmAction()
     {
         // This is a user only module - redirect everone else
         $notauth = $this->checkuser($uid, ACCESS_COMMENT);
@@ -820,14 +786,8 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * Switchaction -
-     * Redirects form input to the specific function
-     *
-     * @author Chasm
-     * @version 1.0
-     * @return
      */
-    public function switchaction()
+    public function switchactionAction()
     {
         // This is a user only module - redirect everone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -852,37 +812,23 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * delete a message from the inbox
-     *
-     * @author Landseer
-     * @version 2.0
-     * @return
      */
-    public function deletefrominbox()
+    public function deletefrominboxAction()
     {
         return $this->deletepm('msg_inbox', 'inbox');
     }
 
     /**
-     * delete a message from the archive
-     *
-     * @author Landseer
-     * @version 2.0
-     * @return
      */
-    public function deletefromarchive()
+    public function deletefromarchiveAction()
     {
         return $this->deletepm('msg_stored', 'archive');
     }
 
     /**
      * delete a message from the outbox
-     *
-     * @author Landseer
-     * @version 2.0
-     * @return
      */
-    public function deletefromoutbox()
+    public function deletefromoutboxAction()
     {
         return $this->deletepm('msg_outbox', 'outbox');
     }
@@ -890,12 +836,8 @@ class UserController extends \Zikula_AbstractController
     /**
      * Delete private message -
      * Marks a private message as deleted
-     *
-     * @author Chasm
-     * @version 1.0
-     * @return
      */
-    protected function deletepm($msg_type, $forwardfunc)
+    protected function deletepmAction($msg_type, $forwardfunc)
     {
         // This is a user only module - redirect everone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -925,12 +867,8 @@ class UserController extends \Zikula_AbstractController
 
     /**
      * Store as pm in the archive
-     *
-     * @author Chasm
-     * @version 1.0
-     * @return
      */
-    public function storepm()
+    public function storepmAction()
     {
         // This is a user only module - redirect everone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -966,11 +904,10 @@ class UserController extends \Zikula_AbstractController
      * messageinfo
      * used in plugin function.messageinfo.php
      * displays a ajax-window (Control.Modal) if a new message has arrived
-     *
-     * @author Carsten Volmer
+
      */
 
-    public function messageinfo()
+    public function messageinfoAction()
     {
         $out = '';
         if(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
@@ -994,10 +931,9 @@ class UserController extends \Zikula_AbstractController
     /**
      * forward a message from the inbox
      *
-     *@params msgid int the id of the message to forward
      */
 
-    public function forwardfrominbox()
+    public function forwardfrominboxAction()
     {
         // Security check
         $notauth = $this->checkuser($uid, ACCESS_COMMENT);
@@ -1042,7 +978,7 @@ class UserController extends \Zikula_AbstractController
      * add inline js with language defines
      *
      */
-    protected function addinlinejs()
+    protected function addinlinejsAction()
     {
         // inline js for language defines
         $inlinejs = '<script type="text/javascript">
@@ -1073,7 +1009,7 @@ var userdeleted = "' . DataUtil::formatfordisplay($this->__('Sorry! You cannot r
      * On exit, $uid has the user's UID if logged in.
      */
 
-    protected function checkuser(&$uid, $access = ACCESS_READ)
+    protected function checkuserAction(&$uid, $access = ACCESS_READ)
     {
 
         // If not logged in, redirect to login screen

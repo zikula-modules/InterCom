@@ -41,13 +41,13 @@ class AdminController extends \Zikula_AbstractController
     }
 
     /**
-     * the administration startpage
+     * @Route("")
      *
-     * @author
-     * @version
-     * @return output The main module admin page.
+     * the main administration function
+     *
+     * @return RedirectResponse
      */
-    public function main()
+    public function indexAction(Request $request)
     {
         // Security check
         if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
@@ -79,13 +79,13 @@ class AdminController extends \Zikula_AbstractController
     }
 
     /**
-     * the modifyconfig administration function
+     * @Route("/preferences")
      *
-     * @author
-     * @version
-     * @return output The main module admin page.
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function modifyconfig()
+    public function preferencesAction(Request $request)
     {
         if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             return LogUtil::registerPermissionError(System::getHomepageUrl());
@@ -98,7 +98,14 @@ class AdminController extends \Zikula_AbstractController
         return $pnf->execute('admin/modifyconfig.tpl', new InterCom_Form_Handler_Admin_ModifyConfig());
     }
 
-    public function tools()
+    /**
+     * @Route("/tools")
+     *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     */   
+    public function toolsAction(Request $request)
     {
         // Security check
         if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
@@ -106,17 +113,6 @@ class AdminController extends \Zikula_AbstractController
         }
 
         return $this->view->fetch('admin/tools.tpl');
-    }
-
-    /**
-     * DB Tools
-     *
-     * @author
-     * @version
-     * @param  $
-     */
-    public function dbtools()
-    {
         $dom = ZLanguage::getModuleDomain('InterCom');
         // Security check
         if (!SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
