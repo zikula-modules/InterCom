@@ -39,29 +39,29 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $dom = ZLanguage::getModuleDomain(self::MODULENAME);
 
         return array(
-            'messages_limitarchive'=> '50',
-            'messages_limitoutbox'=> '50',
-            'messages_limitinbox'=> '50',
-            'messages_allowhtml'=> false,
-            'messages_allowsmilies'=> false,
-            'messages_perpage'=> '25',
-            'messages_allow_emailnotification'=> true,
-            'messages_mailsubject'=> __('You have a new private message', $dom),
-            'messages_fromname'=> '',
-            'messages_from_email'=> '',
-            'messages_allow_autoreply'=> true,
-            'messages_userprompt'=> __('Welcome to the private messaging system', $dom),
-            'messages_userprompt_display'=> false,
-            'messages_active'=> true,
-            'messages_maintain'=> __('Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.', $dom),
-            'messages_protection_on'=> true,
-            'messages_protection_time'=> '15',
-            'messages_protection_amount'=> '15',
-            'messages_protection_mail'=> false,
-            'messages_welcomemessagesender'=> __('admin', $dom),
-            'messages_welcomemessagesubject'=> __('Welcome to the private messaging system on %sitename%', $dom),  // quotes are important here!!
-            'messages_welcomemessage'=> __('Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin', $dom), // quotes are important here!!!
-            'messages_savewelcomemessage'=> false);
+            'limitarchive'=> '50',
+            'limitoutbox'=> '50',
+            'limitinbox'=> '50',
+            'allowhtml'=> false,
+            'allowsmilies'=> false,
+            'perpage'=> '25',
+            'allow_emailnotification'=> true,
+            'mailsubject'=> __('You have a new private message', $dom),
+            'fromname'=> '',
+            'from_email'=> '',
+            'allow_autoreply'=> true,
+            'userprompt'=> __('Welcome to the private messaging system', $dom),
+            'userprompt_display'=> false,
+            'active'=> true,
+            'maintain'=> __('Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.', $dom),
+            'protection_on'=> true,
+            'protection_time'=> '15',
+            'protection_amount'=> '15',
+            'protection_mail'=> false,
+            'welcomemessagesender'=> __('admin', $dom),
+            'welcomemessagesubject'=> __('Welcome to the private messaging system on %sitename%', $dom),  // quotes are important here!!
+            'welcomemessage'=> __('Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin', $dom), // quotes are important here!!!
+            'savewelcomemessage'=> false);
     
     }   
     
