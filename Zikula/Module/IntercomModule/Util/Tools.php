@@ -15,6 +15,8 @@ namespace Zikula\Module\IntercomModule\Util;
 use DataUtil;
 use ServiceUtil;
 
+use Zikula\Module\IntercomModule\Util\Settings;
+
 class Tools {
 
     /**
@@ -48,7 +50,8 @@ class Tools {
      */
     public function resetSettings()
     {
-        return true;
+        $settings = new Settings();
+        return $settings->resetSettings();
     }
     
     /**

@@ -47,60 +47,15 @@ class SettingsValidator {
     }    
     
     public function validate(){
-        $this->checkSubject();
-        $this->checkText();
-        $this->checkInbox();
-        $this->checkOutbox();
-        $this->checkStored();
-        $this->checkNotified();
-        $this->checkReplied();
-        $this->checkSeen();
-        $this->checkSend();
-        $this->checkSender();
-        $this->checkRecipient();        
+        $this->checkLimitinbox();       
     }
     
-
-    public function checkSubject() {
-        $subject = $this->data['subject'];
-        if (empty($subject)){
+    public function checkLimitinbox() {
+        $limitinbox = $this->data['limitinbox'];
+        if (empty($limitinbox)){
             $this->valid = false;    
-            $this->errors['subject'] = 'Subject cannot be empty';            
+            $this->errors['limitinbox'] = 'Inbox limit must be set';            
         }         
     }
-
-    public function checkText() {    
-        if (empty($this->data['text'])){
-            $this->valid = false;    
-            $this->errors['text'] = 'Message cannot be empty';            
-        } 
-    }
-    
-    public function checkInbox() {
-        
-    }
-
-    public function checkOutbox() {
-        
-    }
-
-    public function checkStored() {
-      
-    }
-
-    public function checkNotified() {
-        
-    }
-    
-    public function checkReplied() {
-        
-    }    
-    
-    public function checkSeen() {
-        
-    }
-
-    public function checkSend() {
-      
-    }       
+       
 }
