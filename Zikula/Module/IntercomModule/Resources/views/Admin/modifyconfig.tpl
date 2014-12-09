@@ -75,11 +75,14 @@
         <label class="control-label" for="messages_force_emailnotification">{gt text="Activate e-mail notifications for new users"}</label>
         <input id="messages_force_emailnotification" name="messages_force_emailnotification" type="checkbox" value="{*$messages_force_emailnotification*}" />        
         <p class="help-block">{gt text="Notice: To activate the sending of e-mail notifications for new users, the 'InterCom' module hook has to be enabled for the 'Users' module. This also activates the sending of a welcome message to new users (refer to the setting below)."}</p>       
-        
-        
-        <label class="control-label" for="messages_userprompt">{gt text="Content"}</label>
-        <textarea class="form-control" id="messages_userprompt" name="messages_userprompt" type="textarea" value="{*$messages_userprompt*}" rows="3"></textarea>
-        <p class="help-block">{gt text="Notice: This message will be displayed above each user's inbox. You can post all kinds of information intended for your users."}</p>        
+        <label class="control-label" for="messages_mailsubject">{gt text="Subject line"}</label> 
+        <input id="messages_mailsubject" name="messages_mailsubject" type="text" value="{*$messages_mailsubject*}"/> 
+        <label class="control-label" for="messages_fromname">{gt text="Sender"}</label>
+         <input id="messages_fromname" name="messages_fromname" type="text" value="{*$messages_fromname*}"/>  
+         <p class="help-block">{gt text="Notice: If you leave the 'Sender' box blank then the site name will be used automatically."}</p>
+        <label class="control-label" for="messages_from_email">{gt text="Sender address"} </label>
+        <input id="messages_from_email" name="messages_from_email" type="text" value="{*$messages_from_email*}"/> 
+        <p class="help-block">{gt text="Notice: If you leave the 'Sender address' box blank then the administrator's address will be used automatically."}</p>     
         </div>
     </div>
     </div>
@@ -100,17 +103,23 @@
     <div class="panel panel-default">
         <div class="panel-heading">{gt text="Welcome message settings"}</div>  
         <div class="panel-body">
-        <div class="form-group col-lg-12">
-        <label class="control-label" for="messages_allow_emailnotification">{gt text="Allow e-mail notifications"}</label>
-        <input id="messages_allow_emailnotification" name="messages_allow_emailnotification" type="checkbox" value="{*$messages_allow_emailnotification*}" />
-        <label class="control-label" for="messages_force_emailnotification">{gt text="Activate e-mail notifications for new users"}</label>
-        <input id="messages_force_emailnotification" name="messages_force_emailnotification" type="checkbox" value="{*$messages_force_emailnotification*}" />        
-        <p class="help-block">{gt text="Notice: To activate the sending of e-mail notifications for new users, the 'InterCom' module hook has to be enabled for the 'Users' module. This also activates the sending of a welcome message to new users (refer to the setting below)."}</p>       
-        
-        
-        <label class="control-label" for="messages_userprompt">{gt text="Content"}</label>
-        <textarea class="form-control" id="messages_userprompt" name="messages_userprompt" type="textarea" value="{*$messages_userprompt*}" rows="3"></textarea>
-        <p class="help-block">{gt text="Notice: This message will be displayed above each user's inbox. You can post all kinds of information intended for your users."}</p>        
+        <div class="form-group col-lg-12">                          
+        <label class="control-label" for="messages_welcomemessage_send">{gt text="Send a welcome message to new users"}</label>
+        <input id="messages_welcomemessage_send" name="messages_welcomemessage_send" type="checkbox" value="{*$messages_welcomemessage_send*}" />
+        <label class="control-label" for="messages_welcomemessagesender">{gt text="Sender of welcome message"}</label>
+        <input id="messages_welcomemessagesender" type="text" value="{*$messages_mailsubject*}"/>
+        <div class="z-formnote z-informationmsg">{gt text="Notice: The welcome message sender must be one of the site's registered users."}</div>        
+        <label class="control-label" for="messages_welcomemessagesubject">{gt text="Welcome message subject line"}</label>
+        <input id="messages_welcomemessagesubject" type="text" value="{*$messages_mailsubject*}"/>
+        <label class="control-label" for="messages_welcomemessage">{gt text="Welcome message text"}</label>
+        <textarea class="form-control" id="messages_welcomemessage" name="messages_welcomemessage" type="textarea" value="{*$messages_welcomemessage*}" rows="3"></textarea>        
+        {*if $intlwelcomemessage neq ""*}
+        <label class="control-label" for="messages_intlwelcomemessage">{gt text="Welcome message for selected language"}</label>
+        <textarea class="form-control" id="messages_intlwelcomemessage" name="messages_intlwelcomemessage" type="textarea" value="{*$messages_intlwelcomemessage*}" rows="3"></textarea>        
+        <div class="z-formnote z-informationmsg">{gt text="Notice: The following place holders are supported:<ul><li>%username% for the person's user name</li><li>%realname% for the person's real name</li><li>%sitename% for the site name</li></ul>If the text begins with an underscore ('_'), it will be processed like a language define. The language define should be placed in 'modules/InterCom/pnlang/xxx/welcome.php' (where 'xxx' is the language code)."}</p>            
+        {*/if*}
+        <label class="control-label" for="messages_savewelcomemessage">{gt text="Save welcome message in user outbox"}</label>
+        <input id="messages_savewelcomemessage" name="messages_savewelcomemessage" type="checkbox" value="{*$messages_savewelcomemessage*}" />
         </div>
     </div>
     </div>
@@ -120,24 +129,23 @@
         <div class="panel-heading">{gt text="Spam prevention settings"}</div>  
         <div class="panel-body">
         <div class="form-group col-lg-12">
-        <label class="control-label" for="messages_allow_emailnotification">{gt text="Allow e-mail notifications"}</label>
-        <input id="messages_allow_emailnotification" name="messages_allow_emailnotification" type="checkbox" value="{*$messages_allow_emailnotification*}" />
-        <label class="control-label" for="messages_force_emailnotification">{gt text="Activate e-mail notifications for new users"}</label>
-        <input id="messages_force_emailnotification" name="messages_force_emailnotification" type="checkbox" value="{*$messages_force_emailnotification*}" />        
-        <p class="help-block">{gt text="Notice: To activate the sending of e-mail notifications for new users, the 'InterCom' module hook has to be enabled for the 'Users' module. This also activates the sending of a welcome message to new users (refer to the setting below)."}</p>       
-        
-        
-        <label class="control-label" for="messages_userprompt">{gt text="Content"}</label>
-        <textarea class="form-control" id="messages_userprompt" name="messages_userprompt" type="textarea" value="{*$messages_userprompt*}" rows="3"></textarea>
-        <p class="help-block">{gt text="Notice: This message will be displayed above each user's inbox. You can post all kinds of information intended for your users."}</p>        
+        <label class="control-label" for="messages_protection_on">{gt text="Enable spam prevention"}</label>
+        <input id="messages_protection_on" name="messages_protection_on" type="checkbox" value="{*$messages_protection_on*}" />
+        <label class="control-label" for="messages_protection_time">{gt text="Measured time span (in minutes)"}</label>
+        <input id="messages_protection_time" name="messages_protection_time" type="text" value="{*$messages_protection_time*}"/>
+
+        <label class="control-label" for="messages_protection_amount">{gt text="Measured number of messages"}</label>
+        <input id="messages_protection_amount" name="messages_protection_amount" type="text" value="{*$messages_protection_amount*}"/>
+
+        <label class="control-label" for="messages_protection_mail">{gt text="Send admin notification of spam messaging via e-mail"}</label>
+        <input id="messages_protection_mail" name="messages_protection_mail" type="checkbox" value="{*$messages_protection_mail*}" />
+            {gt text="Notice: With the spam prevention feature, you can specify the number of messages that a user can send within a certain time span before the spam prevention feature is triggered. When a message is send to multiple recipients, each recipient is counted as one message."}
+    
         </div>
     </div>
     </div>
     </div>        
     </div>         
-        
-        
-        
     <div class="row">            
         <div class="form-group pull-right">
                 <div class="col-lg-12">
