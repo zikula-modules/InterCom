@@ -177,7 +177,10 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $sql = 'ALTER TABLE intercom MODIFY msg_popup DATETIME DEFAULT NULL';
         $stmt = $connection->prepare($sql);
         $stmt->execute();        
-
+        // sql UPDATE `module_vars` SET `modname`='ZikulaIntercomModule' WHERE `modname`='InterCom'
+        $sql = 'UPDATE module_vars SET modname = ZikulaIntercomModule WHERE modname = InterCom';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();         
         
         if (!$this->upgrade_to_3_0_0_renameColumns()) {
             return false;
