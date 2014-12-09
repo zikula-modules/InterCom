@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
+use Zikula\Module\IntercomModule\Util\Tools;
 
 /**
  * @Route("/admin")
@@ -120,86 +121,70 @@ class AdminController extends \Zikula_AbstractController
         // Security check
         if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
-        }
-        
-        if ($request->isMethod('Get')){
-           return new Response($this->view->fetch('Admin/tools.tpl'));        
         }        
 
-        $this->checkCsrfToken();
-        $dom = ZLanguage::getModuleDomain('InterCom');
-
+        //$this->checkCsrfToken();
+        //$dom = ZLanguage::getModuleDomain('InterCom');
         // Get parameters
-        $operation = $request->request->get('operation');
-
+        $operation = $request->query->get('operation', false);
+        if ($operation === false){
+           return new Response($this->view->fetch('Admin/tools.tpl'));        
+        }
+        $tools = new Tools();
         // to do: better information to the user if the action was successful or not! - DONE
         switch ($operation) {
             case "delete_all":
-                if (!ModUtil::apiFunc('InterCom', 'admin', 'delete_all')) {
-                    return LogUtil::registerError($this->__('Error! Could not delete all messages.'), null, ModUtil::url('InterCom', 'admin', 'tools'));
-                }
-                else {
-                    LogUtil::registerStatus($this->__('Done! Deleted all messages.'));
+                if ($tools->delete_all()) {                   
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Deleted all messages.'));
+                } else {
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not delete all messages.'));
                 }
                 break;
-
             case "delete_inboxes":
-                if (!ModUtil::apiFunc('InterCom', 'admin', 'delete_inboxes')) {
-                    return LogUtil::registerError($this->__('Error! Could not empty inboxes.'), null, ModUtil::url('InterCom', 'admin', 'tools'));
-                }
-                else {
-                    LogUtil::registerStatus($this->__('Done! Emptied inboxes.'));
+                if ($tools->delete_inboxes()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied inboxes.'));
+                } else {
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty inboxes.'));
                 }
                 break;
-
             case "delete_outboxes":
-                if (!ModUtil::apiFunc('InterCom', 'admin', 'delete_outboxes')) {
-                    return LogUtil::registerError($this->__('Error! Could not empty outboxes.'), null, ModUtil::url('InterCom', 'admin', 'tools'));
-                }
-                else {
-                    LogUtil::registerStatus($this->__('Done! Emptied outboxes.'));
+                if ($tools->delete_outboxes()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied outboxes.'));
+                } else {
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty outboxes.'));
                 }
                 break;
-
             case "delete_archives":
-                if (!ModUtil::apiFunc('InterCom', 'admin', 'delete_archives')) {
-                    return LogUtil::registerError($this->__('Error! Could not empty archives.'), null, ModUtil::url('InterCom', 'admin', 'tools'));
-                }
-                else {
-                    LogUtil::registerStatus($this->__('Done! Emptied archives.'));
+                if ($tools->delete_archives()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied archives.'));
+                } else {
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty archives.'));
                 }
                 break;
-
             case "optimize_db":
-                if (!ModUtil::apiFunc('InterCom', 'admin', 'optimize_db')) {
-                    return LogUtil::registerError($this->__('Error! Could not optimise tables.'), null, ModUtil::url('InterCom', 'admin', 'tools'));
-                }
-                else {
-                    LogUtil::registerStatus($this->__('Done! Optimised tables.'));
+                if ($tools->optimize_db()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Optimised tables.'));
+                } else {
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not optimise tables.'));
                 }
                 break;
-
             case "reset_to_defaults":
-                if (!ModUtil::apiFunc('InterCom', 'admin', 'default_config')) {
-                    return LogUtil::registerError($this->__('Error! Could not reset settings to default values.'), null, ModUtil::url('InterCom', 'admin', 'tools'));
-                }
-                else {
-                    LogUtil::registerStatus($this->__('Done! Reset settings to default values.'));
-                }
+                if ($tools->resetSettings()) {
+                    $request->getSession()->getFlashbag()->add('status', $this->__('Done! Reset settings to default values.'));  
+                } else {
+                    $request->getSession()->getFlashbag()->add('error', $this->__('Error! Could not reset settings to default values.'));             
+                }                
                 break;
-
             case "import_form_native":
-                if (!ModUtil::apiFunc('InterCom', 'init', 'import_form_native')) {
-                    return LogUtil::registerError($this->__('Error! Could not import messages from \'Messages\' module.'), null, ModUtil::url('InterCom', 'admin', 'main'));
-                }
-                else {
-                    LogUtil::registerStatus($this->__('Done! Imported messages from the \'Messages\' module.'));
+                if ($tools->import_form_native()) {
+                    $request->getSession()->getFlashbag()->add('status',$this->__('Done! Imported messages from the \'Messages\' module.'));
+                } else {
+                    $request->getSession()->getFlashbag()->add('error', $this->__('Error! Could not import messages from \'Messages\' module.'));
                 }
                 break;
-
             default:
-                return System::redirect(ModUtil::url('InterCom', 'admin', 'tools'));
-                break;
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_tools', array(), RouterInterface::ABSOLUTE_URL));
         }
+    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_tools', array(), RouterInterface::ABSOLUTE_URL));        
     }
 }

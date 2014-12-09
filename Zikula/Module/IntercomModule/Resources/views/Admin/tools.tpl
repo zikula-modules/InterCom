@@ -35,7 +35,7 @@
       </h4>
     <p class="list-group-item-text">{gt text="Notice: This deletes all messages from the database that are not in someone's inbox."}</p>
   </a>
-  <a href="{modurl modname="InterCom" type="admin" func="dbtools" operation="reset_to_defaults"}" onclick="return confirm('{gt text="Do you really want to reset all settings to their default values?"}')" class="list-group-item">
+  <a href="{route name='zikulaintercommodule_admin_tools' operation='reset_to_defaults' }" class="list-group-item">
       <h4 class="list-group-item-heading">{gt text="Reset all settings to default values"}         
       </h4>
     <p class="list-group-item-text">{gt text="Notice: This resets all settings to their default values."}</p>
