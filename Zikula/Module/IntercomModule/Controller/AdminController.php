@@ -123,7 +123,7 @@ class AdminController extends \Zikula_AbstractController
         }
         
         if ($request->isMethod('Get')){
-           return new Response('Admin/tools.tpl');        
+           return new Response($this->view->fetch('Admin/tools.tpl'));        
         }        
 
         $this->checkCsrfToken();
