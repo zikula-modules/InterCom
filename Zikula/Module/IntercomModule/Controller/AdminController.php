@@ -30,6 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
 use Zikula\Module\IntercomModule\Util\Tools;
+use Zikula\Module\IntercomModule\Util\Settings;
 
 /**
  * @Route("/admin")
@@ -95,13 +96,52 @@ class AdminController extends \Zikula_AbstractController
         // Security check
         if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
-        }
-        
+        }      
         if ($request->isMethod('Post')){
             $this->checkCsrfToken();
-            
-            
-            
+             $s = array(
+            //general settings
+            'active'=> $request->query->get('active',false),
+            'maintain'=> $request->query->get('maintain',false),                 
+            //Limitations
+            'limitarchive'=> $request->query->get('limitarchive',false),
+            'limitoutbox'=> $request->query->get('limitoutbox',false),
+            'limitinbox'=> $request->query->get('limitinbox',false),
+            'perpage'=> $request->query->get('perpage',false),                 
+            //protection
+            'protection_on'=> $request->query->get('protection_on',false),
+            'protection_time'=> $request->query->get('protection_time',false),
+            'protection_amount'=> $request->query->get('protection_amount',false),
+            'protection_mail'=> $request->query->get('protection_mail',false),
+            //user prompt
+            'userprompt'=> $request->query->get('userprompt',false),
+            'userprompt_display'=> $request->query->get('userprompt_display',false),
+            //Welcome
+            'welcomemessagesender'=> $request->query->get('welcomemessagesender',false),
+            'welcomemessagesubject'=> $request->query->get('welcomemessagesubject',false),  
+            'welcomemessage'=> $request->query->get('welcomemessage',false),
+            'savewelcomemessage'=> $request->query->get('savewelcomemessage',false),
+            //Email
+            'allow_emailnotification'=> $request->query->get('allow_emailnotification',false),
+            'force_emailnotification'=> $request->query->get('force_emailnotification',false),
+            'mailsubject'=> $request->query->get('mailsubject',false),
+            'fromname'=> $request->query->get('fromname',false),
+            'from_email'=> $request->query->get('from_email',false),
+            //Other
+            'allowhtml'=> $request->query->get('allowhtml',false),
+            'allowsmilies'=> $request->query->get('allowsmilies',false),
+            //Autoreply
+            'allow_autoreply'=> $request->query->get('allow_autoreply',false),
+            );             
+            $settings = new Settings();
+            $settings->setNewData($s);
+            if (!$settings->isValid()){
+                $this->view->assign($settings->getNewData());
+                $this->view->assign('errors' ,$settings->getErrors());
+                return new Response($this->view->fetch('Admin/modifyconfig.tpl'));            
+            }                    
+            $settings->save();
+            return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_preferences', array(), RouterInterface::ABSOLUTE_URL));         
         }    
         // assign all the module vars
         $this->view->assign($this->getVars());

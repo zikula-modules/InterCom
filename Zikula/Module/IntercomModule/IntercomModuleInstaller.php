@@ -22,7 +22,7 @@ use DoctrineHelper;
 use System;
 use ZLanguage;
 use Zikula\Module\IntercomModule\Entity\MessageEntity;
-
+use Zikula\Module\IntercomModule\Util\Settings;
 
 class IntercomModuleInstaller extends \Zikula_AbstractInstaller
 {
@@ -36,38 +36,11 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
      */
     public static function getDefaultVars()
     {
-        $dom = ZLanguage::getModuleDomain(self::MODULENAME);
-
-        return array(
-            'limitarchive'=> '50',
-            'limitoutbox'=> '50',
-            'limitinbox'=> '50',
-            'allowhtml'=> false,
-            'allowsmilies'=> false,
-            'perpage'=> '25',
-            'allow_emailnotification'=> true,
-            'mailsubject'=> __('You have a new private message', $dom),
-            'fromname'=> '',
-            'from_email'=> '',
-            'allow_autoreply'=> true,
-            'userprompt'=> __('Welcome to the private messaging system', $dom),
-            'userprompt_display'=> false,
-            'active'=> true,
-            'maintain'=> __('Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.', $dom),
-            'protection_on'=> true,
-            'protection_time'=> '15',
-            'protection_amount'=> '15',
-            'protection_mail'=> false,
-            'welcomemessagesender'=> __('admin', $dom),
-            'welcomemessagesubject'=> __('Welcome to the private messaging system on %sitename%', $dom),  // quotes are important here!!
-            'welcomemessage'=> __('Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin', $dom), // quotes are important here!!!
-            'savewelcomemessage'=> false);
-    
+     return Settings::getDefault();
     }   
     
     public function install()
     {
-    
         try {
             DoctrineHelper::createSchema($this->entityManager, array('Zikula\Module\IntercomModule\Entity\MessageEntity'));
         } catch (\Exception $e) {
