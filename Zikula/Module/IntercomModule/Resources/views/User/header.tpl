@@ -8,7 +8,8 @@
 
 {*pageaddvar name="javascript" value="modules/InterCom/javascript/facebooklist.js"*}
 {*pageaddvar name="javascript" value="modules/InterCom/javascript/texpand.packed.js"*}
-{*pageaddvar name="stylesheet" value="modules/InterCom/style/facebooklist.css"*}
+{pageaddvar name="stylesheet" value="modules/Zikula/Module/IntercomModule/Resources/public/css/facebooklist.css"}
+{pageaddvar name="stylesheet" value="modules/Zikula/Module/IntercomModule/Resources/public/css/style.css"}
 {pagesetvar name=title value=$ictitle}
 <script type="text/javascript">
     //  ![CDATA[[
