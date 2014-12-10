@@ -47,7 +47,10 @@ class SettingsValidator {
     }    
     
     public function validate(){
-        $this->checkLimitinbox();       
+        $this->checkLimitinbox();
+        $this->checkLimitoutbox();
+        $this->checkLimitarchive();
+        $this->checkPerpage();
     }
     
     public function checkLimitinbox() {
@@ -57,5 +60,28 @@ class SettingsValidator {
             $this->errors['limitinbox'] = 'Inbox limit must be set';            
         }         
     }
-       
+    
+    public function checkLimitoutbox() {
+        $limitoutbox = $this->data['limitoutbox'];
+        if (empty($limitoutbox)){
+            $this->valid = false;    
+            $this->errors['limitoutbox'] = 'Outbox limit must be set';            
+        }         
+    }
+    
+    public function checkLimitarchive() {
+        $limitarchive = $this->data['limitarchive'];
+        if (empty($limitarchive)){
+            $this->valid = false;    
+            $this->errors['limitarchive'] = 'Archive limit must be set';            
+        }         
+    }
+    
+    public function checkPerpage() {
+        $perpage = $this->data['perpage'];
+        if (empty($perpage)){
+            $this->valid = false;    
+            $this->errors['perpage'] = 'Items per page limit must be set';            
+        }         
+    }        
 }
