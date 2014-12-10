@@ -63,8 +63,10 @@ class Settings {
         
     }
     
-    public function saveSettings() {
-        
+    public function save() {
+        if($this->isValid()){
+        ModUtil::setVars($this->name,  $this->_newsettings);
+        }
     }    
     
      /**

@@ -101,38 +101,45 @@ class AdminController extends \Zikula_AbstractController
             $this->checkCsrfToken();
              $s = array(
             //general settings
-            'active'=> $request->query->get('active',false),
-            'maintain'=> $request->query->get('maintain',false),                 
+            'active'=> $request->request->get('active',false),
+            'maintain'=> $request->request->get('maintain',false),
+            'allowhtml'=> $request->request->get('allowhtml',false),
+            'allowsmilies'=> $request->request->get('allowsmilies',false),
+            'disable_ajax'=> $request->request->get('disable_ajax',false),                 
             //Limitations
-            'limitarchive'=> $request->query->get('limitarchive',false),
-            'limitoutbox'=> $request->query->get('limitoutbox',false),
-            'limitinbox'=> $request->query->get('limitinbox',false),
-            'perpage'=> $request->query->get('perpage',false),                 
+            'limitarchive'=> $request->request->get('limitarchive',false),
+            'limitoutbox'=> $request->request->get('limitoutbox',false),
+            'limitinbox'=> $request->request->get('limitinbox',false),
+            'perpage'=> $request->request->get('perpage',false),                 
             //protection
-            'protection_on'=> $request->query->get('protection_on',false),
-            'protection_time'=> $request->query->get('protection_time',false),
-            'protection_amount'=> $request->query->get('protection_amount',false),
-            'protection_mail'=> $request->query->get('protection_mail',false),
+            'protection_on'=> $request->request->get('protection_on',false),
+            'protection_time'=> $request->request->get('protection_time',false),
+            'protection_amount'=> $request->request->get('protection_amount',false),
+            'protection_mail'=> $request->request->get('protection_mail',false),
             //user prompt
-            'userprompt'=> $request->query->get('userprompt',false),
-            'userprompt_display'=> $request->query->get('userprompt_display',false),
+            'userprompt'=> $request->request->get('userprompt',false),
+            'userprompt_display'=> $request->request->get('userprompt_display',false),
             //Welcome
-            'welcomemessagesender'=> $request->query->get('welcomemessagesender',false),
-            'welcomemessagesubject'=> $request->query->get('welcomemessagesubject',false),  
-            'welcomemessage'=> $request->query->get('welcomemessage',false),
-            'savewelcomemessage'=> $request->query->get('savewelcomemessage',false),
+            'welcomemessage_send'=> $request->request->get('welcomemessage_send',false),                 
+            'welcomemessagesender'=> $request->request->get('welcomemessagesender',false),
+            'welcomemessagesubject'=> $request->request->get('welcomemessagesubject',false),  
+            'welcomemessage'=> $request->request->get('welcomemessage',false),
+            'intlwelcomemessage'=> $request->request->get('intlwelcomemessage',false),
+            'savewelcomemessage'=> $request->request->get('savewelcomemessage',false),              
             //Email
-            'allow_emailnotification'=> $request->query->get('allow_emailnotification',false),
-            'force_emailnotification'=> $request->query->get('force_emailnotification',false),
-            'mailsubject'=> $request->query->get('mailsubject',false),
-            'fromname'=> $request->query->get('fromname',false),
-            'from_email'=> $request->query->get('from_email',false),
-            //Other
-            'allowhtml'=> $request->query->get('allowhtml',false),
-            'allowsmilies'=> $request->query->get('allowsmilies',false),
+            'allow_emailnotification'=> $request->request->get('allow_emailnotification',false),
+            'force_emailnotification'=> $request->request->get('force_emailnotification',false),
+            'mailsender'=> $request->request->get('mailsender',false),
+            'mailsubject'=> $request->request->get('mailsubject',false),
+            'fromname'=> $request->request->get('fromname',false),
+            'from_email'=> $request->request->get('from_email',false),
             //Autoreply
-            'allow_autoreply'=> $request->query->get('allow_autoreply',false),
-            );             
+            'allow_autoreply'=> $request->request->get('allow_autoreply',false),
+            ); 
+            /* 
+            echo('<pre>');
+            var_dump($s);
+            exit(0);*/
             $settings = new Settings();
             $settings->setNewData($s);
             if (!$settings->isValid()){
