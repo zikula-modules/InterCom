@@ -20,32 +20,32 @@
         <tr>
             <td><input type="checkbox" onclick="CheckCheckAll();" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].id}" /></td>
             <td>{if $messagearray[message].seen == null}
-                    <span tip="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
-                    <span tip="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span tip="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                                 
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                                 
                     {else}
                     {if $messagearray[message].replied !== NULL}
-                    <span tip="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
-                    <span tip="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span tip="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                   
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                   
                     {else}
-                    <span tip="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
-                    <span tip="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span tip="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span> 
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span> 
                     {/if}
                     {/if}
             </td>
             <td>
-                    <a class="noajax" href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
+                    <a class="noajax" href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
             </td>
             <td>
-                    <a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
+                    <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
             </td>
             <td>
-                    <a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
+                    <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
             </td>
             <td>
-                    <a href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].id}"> <span class="fa fa-eye" title="Read"> </span></a>            
+                    <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}"> <span class="fa fa-eye" title="Read"> </span></a>            
             </td>            
             </tr>
             <tr id="msgbody-{$messagearray[message].id}" class=" hide"><td colspan="6">
@@ -68,12 +68,12 @@
                 </div>
                 
                 <div class="col-sm-12">
-                    <a class="btn btn-default btn-sm " role="button" id="read-{$messagearray[message].id}" href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].id}"          title="{gt text='Read'}"><i class="fa fa-search"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="reply-{$messagearray[message].id}"   href="{modurl modname="InterCom" type="user" func="replyinbox" messageid=$messagearray[message].id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="forward-{$messagearray[message].id}" href="{modurl modname="InterCom" type="user" func="forwardinbox" messageid=$messagearray[message].id}"    title="{gt text='Forward'}"><i class="fa fa-forward"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="store-{$messagearray[message].id}"   href="{modurl modname="InterCom" type="user" func="storepm" messageid=$messagearray[message].id}"         title="{gt text='Save'}"><i class="fa fa-save"></i></a>
-                    <a  class="btn btn-default btn-sm " role="button"  id="print-{$messagearray[message].id}"   href="{modurl modname="InterCom" type="user" func="readinbox" messageid=$messagearray[message].id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
-                    <a  class="btn btn-default btn-sm " role="button" id="delete-{$messagearray[message].id}"   href="{modurl modname="InterCom" type="user" func="deletefrominbox" messageid=$messagearray[message].id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="read-{$messagearray[message].id}"    href="{route name='zikulaintercommodule_user_read'  id=$messagearray[message].id}"          title="{gt text='Read'}"><i class="fa fa-search"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="reply-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_reply' id=$messagearray[message].id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="forward-{$messagearray[message].id}" href="{route name='zikulaintercommodule_user_forward'  id=$messagearray[message].id}"    title="{gt text='Forward'}"><i class="fa fa-forward"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="store-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_store' id=$messagearray[message].id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
+                    <a  class="btn btn-default btn-sm " role="button"  id="print-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
+                    <a  class="btn btn-default btn-sm " role="button" id="delete-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_delete' id=$messagearray[message].id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>
                 </div>
                 <div id="information-{$messagearray[message].id}" class=" hide">&nbsp;</div>
 
@@ -83,11 +83,13 @@
             </tr>       
             {/section}
         </table> 
+    <div class="panel-footer">
         <div class="btn-group">
-            <button title="{gt text="Save marked messages"}"    type="submit" name="delete" class="btn btn-default"><i class="fa fa-save"></i></button>
-            <button title="{gt text="Mark as read"}"            type="submit" name="read"   class="btn btn-default"><i class="fa fa-check-square"></i></button>
-            <button title="{gt text="Delete marked messages"}"  type="submit" name="save"   class="btn btn-default"><i class="fa fa-trash"></i></button>
+            <button title="{gt text="Save marked messages"}"    type="submit" name="delete" class="btn btn-default btn-sm"><i class="fa fa-save"></i></button>
+            <button title="{gt text="Mark as read"}"            type="submit" name="read"   class="btn btn-default btn-sm"><i class="fa fa-check-square"></i></button>
+            <button title="{gt text="Delete marked messages"}"  type="submit" name="save"   class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
         </div>
+    </div> 
 </div>        
 
     {*if $getmessagecount.inboxlimitreached == 1 && !pnSecAuthAction(0, "InterCom", ".*",ACCESS_ADMIN)}

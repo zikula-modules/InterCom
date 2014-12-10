@@ -52,33 +52,8 @@ class UserController extends \Zikula_AbstractController
         $notauth = $this->checkuser($uid, ACCESS_READ);
         if ($notauth) return $notauth;
 
-        return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
-    }
+        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_inbox', array(), RouterInterface::ABSOLUTE_URL));         
 
-    /**
-     * Function to modify the user preferences
-     */
-    public function settingsAction()
-    {
-        $form = FormUtil::newForm('InterCom', $this);
-        return $form->execute('user/prefs.tpl', new InterCom_Form_Handler_User_Preferences());
-
-
-    }
-
-    /**
-     * Update the user preferences
-     */
-    public function modifyprefsAction()
-    {
-        // Security check
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
-
-        ModUtil::apiFunc('InterCom', 'user', 'updateprefs');
-        // This function generated no output, and so now it is complete we redirect
-        // the user to an appropriate page for them to carry on their work
-        return System::redirect(ModUtil::url('InterCom', 'user', 'settings'));
     }
 
     /**
@@ -93,59 +68,34 @@ class UserController extends \Zikula_AbstractController
         //// This is a user only module - redirect everyone else
         //$notauth = $this->checkuser($uid, ACCESS_READ);
         //if ($notauth) return $notauth;
-        $a = array();
-        // Get variables for autoreply
+        // Get variables for autoreply   
         $autoreply = 0;
         if ($this->getVar('allow_autoreply') == 1) {
             // and read the user data incl. the attributes
             $autoreply = UserUtil::getVar('ic_ar'); 
         }
-
+        $this->view->assign('autoreply',        $autoreply);
+        $a = array();
         // Get startnum and perpage parameter for pager
-        $startnum = $request->request->get('startnum',false);
-        $messagesperpage = $this->getVar('perpage', 25);
+        $a['startnum'] = $request->request->get('startnum',false);
+        $a['perpage'] = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
-        $sort = $request->request->get('sort',false);
+        $a['sort'] = $request->request->get('sort',false);
+        $a['sortby'] = $request->request->get('sortby',false);        
         
         $messages = new Messages();
         // Get the amount of messages within each box
         $totalarray = $messages->getmessagecount();
         $messagearray = $messages->getmessages($a);
                 
-         /*        
-                
-                ModUtil::apiFunc('InterCom', 'user', 'getmessages',
-                array('boxtype'  => 'msg_inbox',
-                'orderby'  => $sort,
-                'startnum' => $startnum,
-                'perpage'  => $messagesperpage));
-       
-        // inline js for language defines
-        $this->addinlinejs();
-
-        if(ModUtil::isHooked('BBSmile', 'InterCom')) {
-            PageUtil::addVar('javascript', 'prototype');
-            PageUtil::addVar('javascript', 'modules/BBSmile/javascript/dosmilie.js');
-            PageUtil::addVar('javascript', 'modules/BBSmile/javascript/control_modal.js');
-            PageUtil::addVar('stylesheet', ThemeUtil::getModuleStylesheet('BBSmile'));
-        }
-        if(ModUtil::isHooked('BBCode', 'InterCom')) {
-            PageUtil::addVar('javascript', 'prototype');
-            PageUtil::addVar('javascript', 'modules/BBCode/javascript/bbcode.js');
-            PageUtil::addVar('stylesheet', ThemeUtil::getModuleStylesheet('BBCode'));
-        }
-        */
-        // Create output object
-	//$this->view->setCaching(false); // not suitable for caching
-        //$this->view->add_core_data();
         $this->view->assign('boxtype',          'inbox');
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
         $this->view->assign('messagearray',     $messagearray);
         $this->view->assign('getmessagecount',  $totalarray);
         $this->view->assign('sortbar_target',   'inbox');
-        $this->view->assign('messagesperpage',  $messagesperpage);
-        $this->view->assign('autoreply',        $autoreply);
-        $this->view->assign('sort',             $sort);
+        $this->view->assign('messagesperpage',  $a['perpage']);
+        $this->view->assign('sort',             $a['sort']);
+        $this->view->assign('sortby',           $a['sortby']);        
         $this->view->assign('ictitle',          $this->__('Inbox'));
         // Return output object
         return new Response($this->view->fetch('User/view.tpl'));
@@ -158,7 +108,7 @@ class UserController extends \Zikula_AbstractController
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function outboxAction()
+    public function outboxAction(Request $request)
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -232,7 +182,7 @@ class UserController extends \Zikula_AbstractController
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function archiveAction()
+    public function archiveAction(Request $request)
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -281,13 +231,13 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * @Route("/preferences")
+     * @Route("/message/read/{id}")
      *
      * @return Response symfony response object
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function readinboxAction()
+    public function readAction(Request $request, $id)
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_READ);
@@ -333,105 +283,13 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * read outbox -
-     * This function shows a outbox message.
-     */
-    public function readoutboxAction()
-    {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
-
-        // Get parameters from whatever input we need.
-        $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
-
-        if ($messageid == 0) {
-            return LogUtil::registerArgsError;
-        }
-
-        $message = ModUtil::apiFunc('InterCom', 'user', 'getmessages',
-                array('boxtype'  => 'msg_outbox',
-                'msg_id'   => $messageid));
-
-        // no message? display error
-        if ($message == false) {
-            return LogUtil::registerError($this->__('Error! Could not find message text. Please check and try again.'), null, ModUtil::url('InterCom', 'user', 'outbox'));
-            // message exits? continue
-        } else {
-            // get additional informations about the poster of this message
-            // merge arrays
-            $message = array_merge($message, ModUtil::apiFunc('InterCom', 'user', 'getposterdata', array('uid' => $message['to_userid'])));
-
-            // Prepare text of mesage for display
-            $message['msg_text'] = ModUtil::apiFunc('InterCom', 'user', 'prepmessage_for_display',
-                    array ('msg_text' => $message['msg_text']));
-
-            // URL - the db may contain false urls, try to clean them
-            $message['url'] = ModUtil::apiFunc('InterCom', 'user', 'prepurl_for_display',
-                    array ('url' => $message['url']));
-
-            // Create output object
-            $this->view->setCaching(false); // not suitable for caching
-            $this->view->add_core_data();
-            $this->view->assign('currentuid', UserUtil::getVar('uid'));
-            $this->view->assign('boxtype', 'outbox');
-            $this->view->assign('message',  $message);
-            return $this->view->fetch('user/readpm.tpl');
-        }
-    }
-
-    /**
-     * read archive -
-     * This function shows an archive message.
+     * @Route("/message/reply/{id}")
      *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function readarchiveAction()
-    {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
-
-        // Get parameters from whatever input we need.
-        $messageid = (int) FormUtil::getPassedValue('messageid', 0, 'GETPOST');
-
-        if ($messageid == 0) {
-            return LogUtil::registerArgsError;
-        }
-
-        $message = ModUtil::apiFunc('InterCom', 'user', 'getmessages',
-                array('boxtype'  => 'msg_stored',
-                'msg_id'   => $messageid));
-
-        // no message? display error
-        if ($message == false) {
-            return LogUtil::registerError($this->__('Error! Could not find message text. Please check and try again.'), null, ModUtil::url('InterCom', 'user', 'archive'));
-            // message exits? continue
-        } else {
-            // get additional informations about the poster of this message
-            // merge arrays
-            $message = array_merge($message, ModUtil::apiFunc('InterCom', 'user', 'getposterdata', array('uid' => $message['from_userid'])));
-
-            // Prepare text of mesage for display
-            $message['msg_text'] = ModUtil::apiFunc('InterCom', 'user', 'prepmessage_for_display',
-                    array('msg_text' => $message['msg_text']));
-            // URL - the db may contain false urls, try to clean them
-            //$message['url'] = ModUtil::apiFunc('InterCom', 'user', 'prepurl_for_display',
-            //        array('url' => $message['url']));
-
-            // Create output object
-            $this->view->setCaching(false); // not suitable for caching
-            $this->view->add_core_data();
-            $this->view->assign('currentuid', UserUtil::getVar('uid'));
-            $this->view->assign('boxtype', 'archive');
-            $this->view->assign('message',  $message);
-            return $this->view->fetch('user/readpm.tpl');
-        }
-    }
-
-    /**
-     * reply inbox -
-     */
-    public function replyinboxAction()
+    public function replyAction(Request $request, $id)
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_COMMENT);
@@ -485,10 +343,13 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * new pm -
-     * This function shows the form for a new message.
+     * @Route("/message/new")
+     *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function newpmAction($args)
+    public function newAction(Request $request)
     {
         // This is a user only module - redirect everyone else
         $notauth = $this->checkuser($uid, ACCESS_COMMENT);
@@ -590,10 +451,13 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * Submit private message -
-     * This function stores a private message into the db.
-     */
-    public function submitpmAction()
+     * @ Route("/message/submit")
+     *
+     * @ return Response symfony response object
+     *
+     * @ throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+    
+    public function submitAction(Request $request)
     {
         // This is a user only module - redirect everone else
         $notauth = $this->checkuser($uid, ACCESS_COMMENT);
@@ -789,156 +653,16 @@ class UserController extends \Zikula_AbstractController
 
         return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
     }
-
-    /**
      */
-    public function switchactionAction()
-    {
-        // This is a user only module - redirect everone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
-
-        // Get parameters from whatever input we need.
-        // Chasm: messageid my be an array! no typecasting!
-        $msg_id     = FormUtil::getPassedValue('messageid');
-        $save       = FormUtil::getPassedValue('save', '', 'GETPOST');
-        $delete     = FormUtil::getPassedValue('delete', '', 'GETPOST');
-
-        if ($save != '') {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'storepm',
-                    array('messageid' => $msg_id)));
-        }
-        if ($delete != '') {
-            return System::redirect(ModUtil::url('InterCom', 'user', 'deletefrominbox',
-                    array('messageid' => $msg_id)));
-        }
-
-        return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
-    }
-
+    
     /**
-     */
-    public function deletefrominboxAction()
-    {
-        return $this->deletepm('msg_inbox', 'inbox');
-    }
-
-    /**
-     */
-    public function deletefromarchiveAction()
-    {
-        return $this->deletepm('msg_stored', 'archive');
-    }
-
-    /**
-     * delete a message from the outbox
-     */
-    public function deletefromoutboxAction()
-    {
-        return $this->deletepm('msg_outbox', 'outbox');
-    }
-
-    /**
-     * Delete private message -
-     * Marks a private message as deleted
-     */
-    protected function deletepmAction($msg_type, $forwardfunc)
-    {
-        // This is a user only module - redirect everone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
-
-        // Get parameters from whatever input we need.
-        // Chasm: messageid my be an array! no typecasting!
-        $msg_id = FormUtil::getPassedValue('messageid');
-
-        if (!is_array($msg_id)) {
-            // create a fake array
-            $msg_id = array($msg_id);
-        }
-
-        $status = false;
-        foreach ($msg_id as $single_msg_id) {
-            $status = ModUtil::apiFunc('InterCom', 'user', 'delete',
-                    array('msg_id'   => $single_msg_id,
-                    'msg_type' => $msg_type));
-            if (!$status) {
-                return LogUtil::registerError($this->__('Error! Could not delete the message. Please check the reason for this, resolve the problem and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-            }
-        }
-        LogUtil::registerStatus($this->__('Done! Message deleted.'));
-        return System::redirect(ModUtil::url('InterCom', 'user', $forwardfunc));
-    }
-
-    /**
-     * Store as pm in the archive
-     */
-    public function storepmAction()
-    {
-        // This is a user only module - redirect everone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
-
-        // Check if archivelimit is reached
-        if (!SecurityUtil::checkPermission("InterCom::", "::", ACCESS_ADMIN)) {
-            $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
-            if ($totalarray['totalarchive'] >= $this->getVar('messages_limitarchive')) {
-                return LogUtil::registerError( $this->__('Sorry! There are too many messages in the archive. Please delete some messages from the archive, to enable archiving of further messages.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-            }
-        }
-
-        // Get parameters from whatever input we need.
-        // Chasm: messageid may be an array! no typecasting!
-        $msg_id = FormUtil::getPassedValue('messageid');
-        if (!is_array($msg_id)) {
-            $msg_id = array($msg_id);
-        }
-        $status = false;
-        foreach ($msg_id as $single_msg_id) {
-            $status = ModUtil::apiFunc('InterCom', 'user', 'store',
-                    array('msg_id' => $single_msg_id));
-            if (!$status) {
-                return LogUtil::registerError($this->__('Error! Could not save your message. Please check the reason, resolve the problem and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-            }
-        }
-        LogUtil::registerStatus($this->__('Done! Message archived.'));
-        return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
-    }
-
-    /**
-     * messageinfo
-     * used in plugin function.messageinfo.php
-     * displays a ajax-window (Control.Modal) if a new message has arrived
-
-     */
-
-    public function messageinfoAction()
-    {
-        $out = '';
-        if(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
-            $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
-            $modname = ModUtil::getName();
-
-            if ($totalarray['popup'] >= 1 && $totalarray['unread'] >= 1 && $modname <> "InterCom") {
-                PageUtil::addVar('stylesheet', 'modules/InterCom/style/modal.css');
-                PageUtil::addVar('javascript', 'prototype');
-                PageUtil::addVar('javascript', 'modules/InterCom/javascript/control.modal.js');
-
-                ModUtil::apiFunc('InterCom', 'user', 'mark_popup', array('to_userid' => UserUtil::getVar('uid')));
-                $this->view->setCaching(false);
-                $this->view->assign('totalarray', $totalarray);
-                $out = $this->view->fetch('user/messageinfo.tpl');
-            }
-        }
-        return $out;
-    }
-
-    /**
-     * forward a message from the inbox
+     * @Route("/message/forward/{id}")
      *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-
-    public function forwardfrominboxAction()
+    public function forwardAction(Request $request, $id)
     {
         // Security check
         $notauth = $this->checkuser($uid, ACCESS_COMMENT);
@@ -977,12 +701,166 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('ictitle',      DataUtil::formatForDisplay($this->__('Forward message')));
 
         return $this->view->fetch('user/pm.tpl');
+    }    
+
+    /**
+     * @Route("/message/delete/{id}")
+     *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     */
+    protected function deleteAction(Request $request, $id)
+    {
+        // This is a user only module - redirect everone else
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
+
+        // Get parameters from whatever input we need.
+        // Chasm: messageid my be an array! no typecasting!
+        $msg_id = FormUtil::getPassedValue('messageid');
+
+        if (!is_array($msg_id)) {
+            // create a fake array
+            $msg_id = array($msg_id);
+        }
+
+        $status = false;
+        foreach ($msg_id as $single_msg_id) {
+            $status = ModUtil::apiFunc('InterCom', 'user', 'delete',
+                    array('msg_id'   => $single_msg_id,
+                    'msg_type' => $msg_type));
+            if (!$status) {
+                return LogUtil::registerError($this->__('Error! Could not delete the message. Please check the reason for this, resolve the problem and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
+            }
+        }
+        LogUtil::registerStatus($this->__('Done! Message deleted.'));
+        return System::redirect(ModUtil::url('InterCom', 'user', $forwardfunc));
     }
+
+    /**
+     * @Route("/message/store/{id}")
+     *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     */
+    public function storeAction(Request $request, $id)
+    {
+        // This is a user only module - redirect everone else
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
+
+        // Check if archivelimit is reached
+        if (!SecurityUtil::checkPermission("InterCom::", "::", ACCESS_ADMIN)) {
+            $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
+            if ($totalarray['totalarchive'] >= $this->getVar('messages_limitarchive')) {
+                return LogUtil::registerError( $this->__('Sorry! There are too many messages in the archive. Please delete some messages from the archive, to enable archiving of further messages.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
+            }
+        }
+
+        // Get parameters from whatever input we need.
+        // Chasm: messageid may be an array! no typecasting!
+        $msg_id = FormUtil::getPassedValue('messageid');
+        if (!is_array($msg_id)) {
+            $msg_id = array($msg_id);
+        }
+        $status = false;
+        foreach ($msg_id as $single_msg_id) {
+            $status = ModUtil::apiFunc('InterCom', 'user', 'store',
+                    array('msg_id' => $single_msg_id));
+            if (!$status) {
+                return LogUtil::registerError($this->__('Error! Could not save your message. Please check the reason, resolve the problem and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
+            }
+        }
+        LogUtil::registerStatus($this->__('Done! Message archived.'));
+        return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
+    }
+
+    /**
+     * @Route("/preferences")
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     * 
+     * @return Response
+     */
+    public function preferencesAction(Request $request)
+    {
+
+        
+        
+        return new Response($this->view->fetch('User/prefs.tpl'));
+
+    }
+
+    /**
+     * Update the user preferences
+     
+    public function modifyprefsAction()
+    {
+        // Security check
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
+
+        ModUtil::apiFunc('InterCom', 'user', 'updateprefs');
+        // This function generated no output, and so now it is complete we redirect
+        // the user to an appropriate page for them to carry on their work
+        return System::redirect(ModUtil::url('InterCom', 'user', 'settings'));
+    }    
+    */
+  
+    /**
+    
+    public function switchactionAction()
+    {
+        // This is a user only module - redirect everone else
+        $notauth = $this->checkuser($uid, ACCESS_READ);
+        if ($notauth) return $notauth;
+
+        // Get parameters from whatever input we need.
+        // Chasm: messageid my be an array! no typecasting!
+        $msg_id     = FormUtil::getPassedValue('messageid');
+        $save       = FormUtil::getPassedValue('save', '', 'GETPOST');
+        $delete     = FormUtil::getPassedValue('delete', '', 'GETPOST');
+
+        if ($save != '') {
+            return System::redirect(ModUtil::url('InterCom', 'user', 'storepm',
+                    array('messageid' => $msg_id)));
+        }
+        if ($delete != '') {
+            return System::redirect(ModUtil::url('InterCom', 'user', 'deletefrominbox',
+                    array('messageid' => $msg_id)));
+        }
+
+        return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
+    }
+
+    /**
+    
+    public function deletefrominboxAction()
+    {
+        return $this->deletepm('msg_inbox', 'inbox');
+    }
+
+    /**
+     
+    public function deletefromarchiveAction()
+    {
+        return $this->deletepm('msg_stored', 'archive');
+    }
+
+    /**
+     * delete a message from the outbox
+    
+    public function deletefromoutboxAction()
+    {
+        return $this->deletepm('msg_outbox', 'outbox');
+    }  
 
     /**
      * add inline js with language defines
      *
-     */
+    
     protected function addinlinejsAction()
     {
         // inline js for language defines
@@ -1004,46 +882,36 @@ var userdeleted = "' . DataUtil::formatfordisplay($this->__('Sorry! You cannot r
         PageUtil::addVar('header', $inlinejs); // rawtext => header
         return true;
     }
-    
-    /***
-     * Do all user checks in one method:
-     * Check if logged in, has correct access, and if site is disabled
-     * Returns the appropriate error/return value if failed, which can be
-     *          returned by calling method.
-     * Returns false if use has permissions.
-     * On exit, $uid has the user's UID if logged in.
-     */
+      * 
 
-    protected function checkuserAction(&$uid, $access = ACCESS_READ)
+    /**
+     * messageinfo
+     * used in plugin function.messageinfo.php
+     * displays a ajax-window (Control.Modal) if a new message has arrived
+
+     
+
+    public function messageinfoAction()
     {
+        $out = '';
+        if(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_READ)) {
+            $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
+            $modname = ModUtil::getName();
 
-        // If not logged in, redirect to login screen
-        if (!UserUtil::isLoggedIn())
-	{
-	    $url = ModUtil::url('users', 'user', 'login',
-		    array( 'returnpage' => urlencode(System::getCurrentUri()),
-			)
-	    );
-	    return System::redirect($url);
-	}
+            if ($totalarray['popup'] >= 1 && $totalarray['unread'] >= 1 && $modname <> "InterCom") {
+                PageUtil::addVar('stylesheet', 'modules/InterCom/style/modal.css');
+                PageUtil::addVar('javascript', 'prototype');
+                PageUtil::addVar('javascript', 'modules/InterCom/javascript/control.modal.js');
 
-        // Perform access check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', $access))
-        {
-            return LogUtil::registerPermissionError();
+                ModUtil::apiFunc('InterCom', 'user', 'mark_popup', array('to_userid' => UserUtil::getVar('uid')));
+                $this->view->setCaching(false);
+                $this->view->assign('totalarray', $totalarray);
+                $out = $this->view->fetch('user/messageinfo.tpl');
+            }
         }
-
-        // Maintenance message
-        if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-            $this->view->setCaching(false);
-            return $this->view->fetch('user/maintenance.tpl');
-        }
-
-        // Get the uid of the user
-        $uid = UserUtil::getVar('uid');
-
-        // Return false to signify everything is OK.
-        return false;
-    }
+        return $out;
+    }     * 
+     * 
+   */  
     
 }

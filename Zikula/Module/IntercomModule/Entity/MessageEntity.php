@@ -162,7 +162,12 @@ class MessageEntity extends EntityAccess
      */
     public function getSender()
     {
-        return $this->sender;
+        if(is_null($this->sender)){
+        $sender['uname'] = 'Deleted User';   
+        }else {
+        $sender = $this->sender;   
+        }
+        return $sender;
     }
     
     /**

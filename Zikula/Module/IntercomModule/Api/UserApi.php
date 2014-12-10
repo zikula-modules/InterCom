@@ -169,29 +169,29 @@ class UserApi extends \Zikula_AbstractApi
         $links = array();
         if (UserUtil::isLoggedIn()) {
             $links[] = array(
-                'url' => ModUtil::url('InterCom', 'user', 'inbox'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
                 'text' => $this->__('Inbox'),
                 'icon' => 'inbox'
             );
             $links[] = array(
-                'url' => ModUtil::url('InterCom', 'user', 'outbox'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_outbox'),
                 'text' => $this->__('Outbox'),
                 'icon' => 'external-link'
             );
             $links[] = array(
-                'url' => ModUtil::url('InterCom', 'user', 'archive'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_archive'),
                 'text' => $this->__('Archive'),
                 'icon' => 'wrench'
             );
-            if ($this->getVar('messages_allow_emailnotification')|| $this->getVar('messages_allow_autoreply')) {
+            if ($this->getVar('allow_emailnotification')|| $this->getVar('allow_autoreply')) {
                 $links[] = array(
-                    'url' => ModUtil::url('InterCom', 'user', 'settings'),
+                    'url' => $this->get('router')->generate('zikulaintercommodule_admin_index'),
                     'text' => $this->__('Settings'),
                     'class' => 'z-icon-es-config'
                 );
             }
             $links[] = array(
-                'url' => ModUtil::url('InterCom', 'user', 'newpm'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_new'),
                 'text' => $this->__('New message'),
                 'icon' => 'file'
             );
