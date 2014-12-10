@@ -15,7 +15,9 @@ namespace Zikula\Module\IntercomModule\Util;
 
 use ModUtil;
 use ServiceUtil;
+use SecurityUtil;
 use DataUtil;
+use UserUtil;
 use Zikula\Module\IntercomModule\Util\Validator;
 
 
@@ -48,12 +50,8 @@ class Messages {
             return LogUtil::registerPermissionError();;
         }
 
-        // Get DB
-        $pntable = DBUtil::getTables();
-        $messagestable  = $pntable['intercom'];
-        $messagescolumn = $pntable['intercom_column'];
-
         $uid = UserUtil::getVar('uid');
+        /*
         // Get items - prepare queries
         $sql_1 = "SELECT sum( $messagescolumn[msg_stored] ) msg_stored,
                      sum( $messagescolumn[msg_inbox] ) msg_inbox,
@@ -73,14 +71,31 @@ class Messages {
 
         $res2 = DBUtil::marshallObjects(DBUtil::executeSQL($sql_2),
                 array('totalout'));
-        $totalout = $res2[0]['totalout'];
+         * 
+         */
+        
+        $totalarchive = $this->entityManager
+                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('stored' => 1, 'countonly' => true, 'recipient' => $uid));
+        $totalin = $this->entityManager
+                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('inbox' => 1, 'countonly' => true, 'recipient' => $uid));
+        $read = $this->entityManager
+                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('inbox' => 1, 'seen'=> 'seen' ,'countonly' => true, 'recipient' => $uid));
+        $msg_popup = $this->entityManager
+                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('stored' => 1, 'notified' => 'notified', 'countonly' => true, 'recipient' => $uid));
+        $totalout = $this->entityManager
+                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('outbox' => 1, 'countonly' => true, 'sender' => $uid));
         $unread = $totalin - $read;
         $popup = $totalin - $msg_popup;
-
+        
         // prepare return variables
-        $limitin = ModUtil::getVar('InterCom', 'messages_limitinbox');
-        $limitout = ModUtil::getVar('InterCom', 'messages_limitoutbox');
-        $limitarchive = ModUtil::getVar('InterCom', 'messages_limitarchive');
+        $limitin = ModUtil::getVar($this->name, 'limitinbox');
+        $limitout = ModUtil::getVar($this->name, 'limitoutbox');
+        $limitarchive = ModUtil::getVar($this->name, 'limitarchive');
 
 	// This and totalarchive are set by the extract above.
 	if (empty($totalin)) {
@@ -145,5 +160,21 @@ class Messages {
 
         // Return the variable
         return $ReturnArray;
-    } 
+    }
+
+    /**
+     * This function returns the amount of Messages within the inbox, outbox, and the archives
+     *
+     * @author Chasm
+     * @param  $
+     * @return
+     */
+    public function getmessages($args)
+    {
+        $uid = UserUtil::getVar('uid');        
+        return $this->entityManager
+                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('inbox' => 1, 'recipient' => $uid));
+        
+    }  
 }

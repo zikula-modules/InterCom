@@ -93,9 +93,14 @@ class MessagesQueryBuilder extends QueryBuilder {
 
     public function filterSeen($seen) {
         if ($seen !== false) {
-            return $this
-                            ->andWhere('m.seen = :seen')
-                            ->setParameter('seen', $seen);
+        switch ($seen){
+            case 'seen':
+            return $this->andWhere($this->expr()->isNotNull('m.seen'));
+            break;
+            case 'unseen':
+            return $this->andWhere($this->expr()->isNull('m.seen'));
+            break;             
+        }
         }
     }
     
@@ -107,7 +112,14 @@ class MessagesQueryBuilder extends QueryBuilder {
     
     public function filterNotified($notified) {
         if ($notified !== false){
+        switch ($notified){
+            case 'notified':
+            return $this->andWhere($this->expr()->isNotNull('m.notified'));
+            break;
+            case 'notnotified':
             return $this->andWhere($this->expr()->isNull('m.notified'));
+            break;             
+        }
         }        
     }    
     

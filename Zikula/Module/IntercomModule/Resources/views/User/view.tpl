@@ -1,15 +1,15 @@
 {* $Id$ *}
 
-{include file="user/header.tpl" ictitle=$ictitle}
+{include file="User/header.tpl" ictitle=$ictitle}
 
 {if $boxtype eq "inbox"}
-{pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_inbox.js"}
+{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_inbox.js"*}
 {assign var="indicatorbar" value=$getmessagecount.indicatorbarin}
 {elseif $boxtype eq "outbox"}
-{pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_outbox.js"}
+{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_outbox.js"*}
 {assign var="indicatorbar" value=$getmessagecount.indicatorbarout}
 {elseif $boxtype eq "archive"}
-{pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_archive.js"}
+{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_archive.js"*}
 {assign var="indicatorbar" value=$getmessagecount.indicatorbararchive}
 {/if}
 
@@ -31,14 +31,14 @@
 {if $messagearray == FALSE}
 <div class="z-informationmsg">{gt text="You currently have no messages."}</div>
 {else}
-{include file="user/`$boxtype`_messages.tpl"}
+{include file="User/`$boxtype`_messages.tpl"}
 {/if}
 
 <div class="z-form">
     <fieldset>
         <legend>{gt text="Status"}</legend>
-        {include file="user/indicators.tpl"}
+        {include file="User/indicators.tpl"}
     </fieldset>
 </div>
 
-{include file="user/footer.tpl"}
+{include file="User/footer.tpl"}

@@ -29,6 +29,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
+use Zikula\Module\IntercomModule\Util\Messages;
+
 
 class UserController extends \Zikula_AbstractController
 {  
@@ -86,35 +88,38 @@ class UserController extends \Zikula_AbstractController
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function inboxAction()
+    public function inboxAction(Request $request)
     {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
-
+        //// This is a user only module - redirect everyone else
+        //$notauth = $this->checkuser($uid, ACCESS_READ);
+        //if ($notauth) return $notauth;
+        $a = array();
         // Get variables for autoreply
         $autoreply = 0;
-        if ($this->getVar('messages_allow_autoreply') == 1) {
+        if ($this->getVar('allow_autoreply') == 1) {
             // and read the user data incl. the attributes
             $autoreply = UserUtil::getVar('ic_ar'); 
         }
 
         // Get startnum and perpage parameter for pager
-        $startnum = (int)FormUtil::getPassedValue('startnum', 0, 'GETPOST');
-        $messagesperpage = $this->getVar('messages_perpage', 25);
-
+        $startnum = $request->request->get('startnum',false);
+        $messagesperpage = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
-        $sort = (int)FormUtil::getPassedValue('sort', 3, 'GETPOST');
-
+        $sort = $request->request->get('sort',false);
+        
+        $messages = new Messages();
         // Get the amount of messages within each box
-        $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
-
-        $messagearray = ModUtil::apiFunc('InterCom', 'user', 'getmessages',
+        $totalarray = $messages->getmessagecount();
+        $messagearray = $messages->getmessages($a);
+                
+         /*        
+                
+                ModUtil::apiFunc('InterCom', 'user', 'getmessages',
                 array('boxtype'  => 'msg_inbox',
                 'orderby'  => $sort,
                 'startnum' => $startnum,
                 'perpage'  => $messagesperpage));
-
+       
         // inline js for language defines
         $this->addinlinejs();
 
@@ -129,10 +134,10 @@ class UserController extends \Zikula_AbstractController
             PageUtil::addVar('javascript', 'modules/BBCode/javascript/bbcode.js');
             PageUtil::addVar('stylesheet', ThemeUtil::getModuleStylesheet('BBCode'));
         }
-
+        */
         // Create output object
-		$this->view->setCaching(false); // not suitable for caching
-        $this->view->add_core_data();
+	//$this->view->setCaching(false); // not suitable for caching
+        //$this->view->add_core_data();
         $this->view->assign('boxtype',          'inbox');
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
         $this->view->assign('messagearray',     $messagearray);
@@ -141,9 +146,9 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('messagesperpage',  $messagesperpage);
         $this->view->assign('autoreply',        $autoreply);
         $this->view->assign('sort',             $sort);
-        $this->view->assign('ictitle',          DataUtil::formatForDisplay($this->__('Inbox')));
+        $this->view->assign('ictitle',          $this->__('Inbox'));
         // Return output object
-        return $this->view->fetch('user/view.tpl');
+        return new Response($this->view->fetch('User/view.tpl'));
     }
 
     /**
