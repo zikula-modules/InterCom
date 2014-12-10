@@ -171,17 +171,17 @@ class UserApi extends \Zikula_AbstractApi
             $links[] = array(
                 'url' => ModUtil::url('InterCom', 'user', 'inbox'),
                 'text' => $this->__('Inbox'),
-                'class' => 'z-icon-es-inbox'
+                'icon' => 'inbox'
             );
             $links[] = array(
                 'url' => ModUtil::url('InterCom', 'user', 'outbox'),
                 'text' => $this->__('Outbox'),
-                'class' => 'z-icon-es-outbox'
+                'icon' => 'external-link'
             );
             $links[] = array(
                 'url' => ModUtil::url('InterCom', 'user', 'archive'),
                 'text' => $this->__('Archive'),
-                'class' => 'z-icon-es-gears'
+                'icon' => 'wrench'
             );
             if ($this->getVar('messages_allow_emailnotification')|| $this->getVar('messages_allow_autoreply')) {
                 $links[] = array(
@@ -193,7 +193,7 @@ class UserApi extends \Zikula_AbstractApi
             $links[] = array(
                 'url' => ModUtil::url('InterCom', 'user', 'newpm'),
                 'text' => $this->__('New message'),
-                'class' => 'z-icon-es-new'
+                'icon' => 'file'
             );
         }
         return $links;

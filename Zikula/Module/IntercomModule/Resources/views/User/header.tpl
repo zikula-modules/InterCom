@@ -25,5 +25,5 @@
         style="display:none;" />
     </h2>
 
-    {modulelinks modname='InterCom' type='user'}
+    {modulelinks modname='ZikulaIntercomModule' type='user'}
     {insert name="getstatusmsg"}
