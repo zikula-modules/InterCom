@@ -1,8 +1,8 @@
-{include file="user/header.tpl" ictitle=$ictitle}
-{pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_newmsg.js"}
+{include file="User/header.tpl" ictitle=$ictitle}
+{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_newmsg.js"}
 
 {if !empty($msg_preview)}
-{include file="user/previewpm.tpl"}
+{include file="User/previewpm.tpl"}
 {/if}
 
 {if $pmtype eq "reply"}
@@ -19,25 +19,32 @@
 {capture assign="messagetext"}{$message.forward_text|safetext}{/capture}
 {else}
 {capture assign="messagetext"}{$message.msg_text|safetext}{/capture}
-{/if}
+{/if*}
 
-<form id="post" class="z-form z-linear" action="{modurl modname="InterCom" type="user" func="submitpm"}" method="post" enctype="application/x-www-form-urlencoded">
-    <div>
-        {if $pmtype eq "reply"}
+<form id="post" class="form" action="{route name="zikulaintercommodule_user_new"}" method="post" enctype="application/x-www-form-urlencoded">
+        {*if $pmtype eq "reply"}
         <input type="hidden" name="msg_id" value="{$message.msg_id}" />
-        {/if}
-        <input type="hidden" name="from_uid" value="{$currentuid|safetext}" />
+        {/if*}
+        <input type="hidden" name="from_uid" value="{*$currentuid|safetext*}" />
         <input type="hidden" name="authid" value="{insert name='csrftoken'}" />
-        <fieldset>
-            <legend>{$ictitle}</legend>
-            <div class="z-formrow">
-                <ol>
-                    <li>
-                        <label for="username">{gt text="Individual recipient(s)"}</label>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">{$ictitle}</div>
+  <div class="panel-body">        
+        <div class="form-group col-lg-12 {if isset($errors.username)}has-error{/if}">
+        <label class="control-label col-lg-12" for="username">{gt text="Individual recipient(s)"}</label>
+        <div class="col-lg-12">
+        <input class="form-control input-sm" type="text" id="username" name="recipient"  size="5" type="text" value="{if isset($to_user_string)}{$to_user_string}{/if}"/>
+        </div>
+        <p class="help-block col-lg-12">{gt text="Notice: To send a private message to multiple individual recipients, enter their user names separated by commas."}</p>
+        {if isset($errors.username)}<p class="help-block col-lg-12">{$errors.username}</p>{/if} 
+        </div> 
+        {*
+        <label for="username"></label>
                         <div class="ic-inputbox-username">
-                            <input id="username" name="to_user" type="text" value="{if isset($to_user_string)}{$to_user_string}{/if}" />
+                            <input id="username" name="to_user" type="text" value="" />
                             <div id="list-user">
-                                <p class="default">{gt text="Notice: To send a private message to multiple individual recipients, enter their user names separated by commas."}</p>
+                                <p class="default"></p>
                                 <ul class="feed">
                                     {if !empty($to_user)}
                                     {foreach from=$to_user item=item}
@@ -50,16 +57,24 @@
                     </li>
                 </ol>
             </div>
-
-            {if $pmtype eq "new" && $msgtogroups eq true}
+        *}
+            {*if $pmtype eq "new" && $msgtogroups eq true*}
+        <div class="form-group col-lg-12 {if isset($errors.groupname)}has-error{/if}">
+        <label class="control-label col-lg-12" for="groupname">{gt text="Group recipient(s)"}</label>
+        <div class="col-lg-12">
+        <input class="form-control input-sm" type="text" id="groupname" name="groupname"  size="5" type="text" value="{if isset($to_user_string)}{$to_user_string}{/if}"/>
+        </div>
+        <p class="help-block col-lg-12">{gt text="Notice: To send a private message to multiple groups, enter the group names separated by commas."}</p>
+        {if isset($errors.groupname)}<p class="help-block col-lg-12">{$errors.groupname}</p>{/if} 
+        </div> {*            
             <div class="z-formrow">
                 <ol>
                     <li>
-                        <label for="groupname">{gt text="Group recipient(s)"}</label>
+                        <label for="groupname"></label>
                         <div class="ic-inputbox-groupname">
                             <input id="groupname" name="to_group" type="text" />
                             <div id="list-group">
-                                <p class="default">{gt text="Notice: To send a private message to multiple groups, enter the group names separated by commas."}</p>
+                                <p class="default"></p>
                                 <ul class="feed">
                                     {if !empty($to_group)}
                                     {foreach from=$to_group item=item}
@@ -71,9 +86,9 @@
                         </div>
                     </li>
                 </ol>
-            </div>
-            {/if}
-
+            </div>*}
+            
+            {*/if}
             <script type="text/javascript">
                 document.observe('dom:loaded', function() {
                     // init
@@ -83,22 +98,24 @@
                     {{/if}}
                 });
             </script>
-
-            <div class="z-formrow">
-                <label for="subject">{gt text="Subject line"}</label>
-                <span id="advice-required-subject" class="custom-advice" style="display:none">{gt text="Error! No subject line entered."}</span>
-                <input id="subject" class="required ic-subject" name="subject" type="text" maxlength="255" value="{$subject}" />
-            </div>
-
-            <div class="z-formrow">
-                <label for="message">{gt text="Message text"}</label>
-                <span id="advice-required-message" class="custom-advice" style="display:none">{gt text="Error! No message text entered."}</span>
-                <textarea id="message" class="required ic_texpand" name="message" cols="40" rows="5">{$messagetext}</textarea>
-            </div>
-
-            <div class="z-clearfix ic-margin">
-
-                {if $allowhtml eq 1 || $allowsmilies eq 1}
+            *}
+            
+        <div class="form-group col-lg-12 {if isset($errors.subject)}has-error{/if}">
+        <label class="control-label col-lg-12" for="subject">{gt text="Subject line"}</label>
+        <div class="col-lg-12">
+        <input class="form-control input-sm" type="text" id="subject" name="subject"  size="5" type="text" value="{if isset($to_user_string)}{$to_user_string}{/if}"/>
+        </div>
+        <p class="help-block col-lg-12">{gt text="Notice: To send a private message to multiple groups, enter the group names separated by commas."}</p>
+        {if isset($errors.subject)}<p class="help-block col-lg-12">{$errors.subject}</p>{/if} 
+        </div> 
+        <div class="form-group col-lg-12 {if isset($errors.text)}has-error{/if}">
+        <label class="control-label col-lg-12" for="text">{gt text="Welcome message text"}</label>
+        <div class="col-lg-12">
+        <textarea class="form-control" id="text" name="text" type="textarea">{*$text*}</textarea>
+        </div>
+        {if isset($errors.text)}<p class="help-block col-lg-12">{$errors.text}</p>{/if}
+        </div>  
+        {*if $allowhtml eq 1 || $allowsmilies eq 1}
                 <div class="ic-floatleft">
                     {if $allowsmilies eq 1}
                     {modfunc modname='BBSmile' func='bbsmiles' textfieldid='message'}
@@ -109,28 +126,27 @@
                     <input type="checkbox" id="html" name="html" value="1" {if $html eq 1}checked="true"{/if} />
                     {/if}
                 </div>
-                {/if}
+                {/if*}
 
-                {if $allowbbcode eq 1}
+                {*if $allowbbcode eq 1}
                 <div class="ic-floatright">
                     {modfunc modname='BBCode' type='user' func='bbcodes' textfieldid=message images=0}
                 </div>
-                {/if}
+                {/if*}
 
-            </div>
-
-            {if $allowhtml eq 1}
+            {*if $allowhtml eq 1}
             <div class="z-formnote z-warningmsg">{gt text="Permitted HTML tags:"}&nbsp;{intercom_allowedhtml}</div>
-            {/if}
-
-        </fieldset>
-
-        <div class="z-formbuttons ic-buttons">
-	        {button id='SendNow' src='button_ok.png' set='icons/extrasmall' name="mail_send" value="send" __alt='Send now' __title='Send now' __text='Send now'}
-	        {button id='Preview' src='mail_find.png' set='icons/extrasmall' name="mail_prev" value="preview" __alt='Preview message' __title='Preview message' __text='Preview message'}
-            <a href="{modurl modname=InterCom type=user func=inbox}" title="{gt text="Cancel"}">{img modname='core' src='button_cancel.png' set='icons/extrasmall' __alt="Cancel" __title="Cancel"}{gt text='Cancel'}</a>
+            {/if*}
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="form-group col-lg-12">
+        <div class="btn-group pull-right">
+            <a title="{gt text='Cancel'}"  href="{route name='zikulaintercommodule_user_index'}"   class="btn btn-default btn-sm"><i class="fa fa-close"> {gt text="Cancel"}</i></a>
+            <button title="{gt text="Preview"}" type="submit" name="preview"   class="btn btn-default btn-sm"><i class="fa fa-eye"></i> {gt text="Preview"}</button>
+            <button title="{gt text="Send"}"    type="submit" name="send" class="btn btn-default btn-sm"><i class="fa fa-save"></i> {gt text="Send"}</button>
         </div>
-
+        </div>
+    </div> 
     </div>
 </form>
 
@@ -138,4 +154,4 @@
     var valid = new Validation('post');
 </script>
 
-{include file="user/footer.tpl"}
+{include file="User/footer.tpl"}

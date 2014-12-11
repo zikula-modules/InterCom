@@ -30,6 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
 use Zikula\Module\IntercomModule\Util\Messages;
+use Zikula\Module\IntercomModule\Util\Message;
 use Zikula\Module\IntercomModule\Util\Access;
 
 
@@ -118,9 +119,7 @@ class UserController extends \Zikula_AbstractController
        if (!Access::checkAccess()) {
            throw new AccessDeniedException();
        }
-    
         $uid = UserUtil::getVar('uid');
-        
         $a = array();
         // Get startnum and perpage parameter for pager
         $a['startnum'] = $request->request->get('startnum',null);
@@ -222,48 +221,28 @@ class UserController extends \Zikula_AbstractController
      */
     public function readAction(Request $request, $id)
     {
-       // Permission check
-       if (!Access::checkAccess()) {
+        // Permission check
+        if (!Access::checkAccess()) {
            throw new AccessDeniedException();
-       }
-
-        // Get parameters from whatever input we need.
-        $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
-        if ($messageid == 0) {
-            return LogUtil::registerArgsError;
+        }
+        if ($id == 0) {
+            throw new NotFoundHttpException();
+        }
+        $a['id'] = $id;
+        $message = new Message();
+        $message->load($a);
+        if(!$message->exist()){
+            $this->request->getSession()->getFlashbag()->add('status', $this->__('Sorry. Message not found'));
+            // Redirect
+            return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
         }
 
-        $message = ModUtil::apiFunc('InterCom', 'user', 'getmessages',
-                array('boxtype'  => 'msg_inbox',
-                'msg_id'   => $messageid));
-
-        // Check if a message exists
-        if ($message == false) {
-            return LogUtil::registerError($this->__('Error! Could not find message text. Please check and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-        } else {
-            // Extract the info we need, unset the rest
-            // Get additional informations about the poster of this message
-            // Merge arrays
-            $message = array_merge($message, ModUtil::apiFunc('InterCom', 'user', 'getposterdata', array('uid' => $message['from_userid'])));
-
-            // Mark current message as read
-            ModUtil::apiFunc('InterCom', 'user', 'mark_read', array ('msg_id' => $message['msg_id']));
-
-            // Prepare text of message for display
-            $message['msg_text'] = ModUtil::apiFunc('InterCom', 'user', 'prepmessage_for_display',
-                    array('msg_text' => $message['msg_text']));
-            // URL - the db may contain false urls, try to clean them
-            //$message['url'] = ModUtil::apiFunc('InterCom', 'user', 'prepurl_for_display',
-            //        array('url' => $message['url']));
-
-            // Create output object
-            $this->view->setCaching(false); // not suitable for caching
-            $this->view->add_core_data();
-            $this->view->assign('currentuid', UserUtil::getVar('uid'));
-            $this->view->assign('boxtype', 'inbox');
-            $this->view->assign('message',  $message);
-            return $this->view->fetch('user/readpm.tpl');
-        }
+        // Create output object
+        $this->view->assign('currentuid', UserUtil::getVar('uid'));
+        $this->view->assign('boxtype', 'inbox');
+        $this->view->assign('message',  $message->toArray());
+        
+        return new Response($this->view->fetch('User/readpm.tpl'));
     }
 
     /**

@@ -2,15 +2,13 @@
     
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">{$ictitle}</div>
-  <div class="panel-body">
-    <p>...</p>
-  </div>        
+  <div class="panel-heading">{$ictitle}</div>     
         <table class="table table-striped table-hover">
         <tr>
             <th>#</th>
             <th></th>        
-            <th>{gt text="Subject"}</th>
+            <th>{gt text="Subject"}
+            </th>
             <th>{gt text="Date"}</th>
             <th>{gt text="Sender"}</th>
             <th></th>         
@@ -22,16 +20,16 @@
             <td>{if $messagearray[message].seen == null}
                     <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
                     <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                                 
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                                 
                     {else}
                     {if $messagearray[message].replied !== NULL}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope hide"> </span>
                     <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                   
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply"> </span>                   
                     {else}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
-                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span> 
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope hide"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-re hide"> </span> 
                     {/if}
                     {/if}
             </td>
@@ -45,7 +43,7 @@
                     <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}"> <span class="fa fa-eye" title="Read"> </span></a>            
+                    <a data-toggle="collapse" data-target="msgbody-{$messagearray[message].id}"  href="{*route name='zikulaintercommodule_user_read' id=$messagearray[message].id*}"> <span class="fa fa-eye" title="Read"> </span></a>            
             </td>            
             </tr>
             <tr id="msgbody-{$messagearray[message].id}" class=" hide"><td colspan="6">

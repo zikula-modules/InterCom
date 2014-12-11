@@ -1,64 +1,46 @@
 {* $Id$ *}
+{if $message.inbox eq 1}
 {gt text="Received message" assign=ictitle}
-{include file="user/header.tpl" ictitle=$ictitle}
+{else}
+{gt text="Message send" assign=ictitle}
+{/if} 
 
-<div id="ic-readform" class="z-form">
-    <fieldset>
-        <legend>{$ictitle}</legend>
+{include file="User/header.tpl" ictitle=$ictitle}
 
-        <div class="z-formrow">
-            {if $boxtype neq "outbox"}
-            <label>{gt text="Sender"}</label>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+            {$ictitle}
+           {if $message.inbox eq 1}
+            {gt text="from"} <strong>{$message.sender.uname}</strong> 
             {else}
-            <label>{gt text="Recipient"}</label>
-            {/if}
-            <span>
-                <strong>{$message.uname|profilelinkbyuname}</strong>
-                {modavailable modname="ContactList" assign="ContactListInstalled"}
-                {if $ContactListInstalled && $boxtype neq "outbox"}
-                <a href="{modurl modname="ContactList" type="user" func="create" uid=$message.from_userid}">{img modname="ContactList" src="user_add.png" __title="Add buddy" }</a>
-                {/if}
-            </span>
+            {gt text="to"} <strong>{$message.recipient.uname}</strong> 
+            {/if}      
+      <span class="pull-right">{gt text="Date"}: {$message.send|dateformat:"datetimebrief"}</span>
+  </div>
+  <div class="panel-body">
+        <div class=" col-lg-12">
+            <p><strong>{$message.subject}</strong></p>
         </div>
-
-        <div class="z-formrow">
-            <label>{gt text="Date"}</label>
-            <span>{$message.msg_time|dateformat:"datetimebrief"}</span>
+        <div class=" col-lg-12">          
+        {$message.text}
         </div>
-
-        <div class="z-formrow">
-            <label>{gt text="Subject line"}</label>
-            <span>{$message.msg_subject}</span>
+            {*if $message.signature != ""}<div class="signature z-formnote">{$message.signature|safehtml|nl2br}{* {$message.signature|safehtml|nl2br} }</div>{/if*}
+    </div>     
+    <div class="panel-footer">
+        <div class="btn-group">
+                    <a class="btn btn-default btn-sm " role="button" id="reply-{$message.id}"   href="{route name='zikulaintercommodule_user_reply' id=$message.id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="forward-{$message.id}" href="{route name='zikulaintercommodule_user_forward'  id=$message.id}"    title="{gt text='Forward'}"><i class="fa fa-forward"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="store-{$message.id}"   href="{route name='zikulaintercommodule_user_store' id=$message.id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
+                    <a  class="btn btn-default btn-sm " role="button"  id="print-{$message.id}"   href="{route name='zikulaintercommodule_user_read' id=$message.id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
+                    <a  class="btn btn-default btn-sm " role="button" id="delete-{$message.id}"   href="{route name='zikulaintercommodule_user_delete' id=$message.id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>
         </div>
+    </div> 
+</div>  
 
-    </fieldset>
-
-    <fieldset class="z-linear">
-        <legend>{gt text="Message text"}</legend>
-        <div class="z-formrow">
-            <div>
-                <div class="ic-readheaderright">{icuseravatar uid=$message.from_userid}</div>
-                {$message.msg_text}
-            </div>
-            {if $message.signature != ""}<div class="signature z-formnote">{$message.signature|safehtml|nl2br}{* {$message.signature|safehtml|nl2br} *}</div>{/if}
-        </div>
-    </fieldset>
-
-    <div class="z-formbuttons ic-buttons">
-        {if $boxtype eq "inbox"}
-        <a href="{modurl modname="InterCom" type="user" func="replyinbox" messageid=$message.msg_id}" title="{gt text='Reply'}">{img modname=core src=mail_reply.png set=icons/extrasmall __alt="Reply" __title="Reply"} {gt text="Reply"}</a>
-        <a href="{modurl modname="InterCom" type="user" func="forwardfrominbox" messageid=$message.msg_id}" title="{gt text="Forward"}">{img modname=core src=mail_forward.png set=icons/extrasmall __alt="Forward" __title="Forward"} {gt text="Forward"}</a>
-        <a href="{modurl modname="InterCom" type="user" func="storepm" messageid=$message.msg_id}" title="{gt text='Save'}">{img modname=InterCom src=save.png __alt="Save" __title="Save"} {gt text="Save"}</a>
-        {/if}
-        <a href="{modurl modname="InterCom" type="user" func="read`$boxtype`" messageid=$message.msg_id theme=printer}">{img modname='core' src='printer.png' set='icons/extrasmall' __alt="Print" __title="Print"} {gt text="Print"}</a>
-        <a href="{modurl modname="InterCom" type="user" func="deletefrom`$boxtype`" messageid=$message.msg_id}" title="{gt text='Delete'}">{img modname='core' src='14_layer_deletelayer.png' set='icons/extrasmall' __alt="Delete" __title="Delete"} {gt text="Delete"}</a>
-    </div>
-
-</div>
-
-{modavailable modname="ContactList" assign="ContactListInstalled"}
+{*modavailable modname="ContactList" assign="ContactListInstalled"}
 {if $ContactListInstalled}
 {modapifunc modname="ContactList" type="user" func="getFOAFLink" uid1=$message.to_userid uid2=$message.from_userid}
-{/if}
+{/if*}
 
-{include file="user/footer.tpl"}
+{include file="User/footer.tpl"}

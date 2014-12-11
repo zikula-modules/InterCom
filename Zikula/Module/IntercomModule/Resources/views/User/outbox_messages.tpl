@@ -1,93 +1,101 @@
-{* $Id$ *}
-
-<form id="msg_view" class="z-form z-linear" action="{modurl modname="InterCom" type="user" func="deletefromoutbox"}" method="post">
-    <fieldset>
-        <legend>{$ictitle}</legend>
-        <dl class="msg_header">
-            <dd class="msg_check"><input name="allbox" id="allbox" onclick="CheckAll();" type="checkbox" value="{gt text="Mark all"}" /></dd>
-            <dd class="msg_icon">&nbsp;</dd>
-            <dt class="msg_subject">{gt text="Subject"}
-                {if $sort neq 5}
-                <a href="{modurl modname="InterCom" type='user' func=outbox sort=5}">{img src="black_down.png"}</a>
-                {else}{img src="green_down.png"}{/if}
-                {if $sort neq 6}
-                <a href="{modurl modname="InterCom" type='user' func=outbox sort=6}">{img src="black_up.png"}</a>
-                {else}{img src="green_up.png"}{/if}
-            </dt>
-            <dd class="msg_time">{gt text="Date"}
-                {if $sort neq 3}
-                <a href="{modurl modname="InterCom" type='user' func=outbox sort=3}">{img src="black_down.png"}</a>
-                {else}{img src="green_down.png"}{/if}
-                {if $sort neq 4}
-                <a href="{modurl modname="InterCom" type='user' func=outbox sort=4}">{img src="black_up.png"}</a>
-                {else}{img src="green_up.png"}{/if}
-            </dd>
-            <dd class="msg_uname">{gt text="Recipient(s)"}
-                {if $sort neq 1}
-                <a href="{modurl modname="InterCom" type='user' func=outbox sort=1}">{img src="black_down.png"}</a>
-                {else}{img src="green_down.png"}{/if}
-                {if $sort neq 2}
-                <a href="{modurl modname="InterCom" type='user' func=outbox sort=2}">{img src="black_up.png"}</a>
-                {else}{img src="green_up.png"}{/if}
-            </dd>
-            <dd class="msg_view">&nbsp;</dd>
-        </dl>
-
-        <div id="msg_listing">
+﻿<form id="view" class="z-form z-linear" action="{modurl modname="InterCom" type="user" func="switchaction"}" method="post">
+    
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">{$ictitle}</div>
+  <div class="panel-body">
+    <p>...</p>
+  </div>        
+        <table class="table table-striped table-hover">
+        <tr>
+            <th>#</th>
+            <th></th>        
+            <th>{gt text="Subject"}</th>
+            <th>{gt text="Date"}</th>
+            <th>{gt text="Recipient(s)"}</th>
+            <th></th>         
+        </tr>
             {section name=message loop=$messagearray}
             {counter assign=zaehlen}
-            <dl id="msgheader-{$messagearray[message].msg_id}" class="msg_line {if $zaehlen is odd}odd{elseif $zaehlen is even}even{/if}">
-                <dd class="msg_check"><input type="checkbox" onclick="CheckCheckAll();" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].msg_id}" /></dd>
-                <dd id="msgicon{$messagearray[message].msg_id}" class="msg_icon clickable">
-                    {if $messagearray[message].msg_read == 0}
-                    {img modname=InterCom src="mail_outbox_unread.png" __title="not read by recipient" }
+        <tr>
+            <td><input type="checkbox" onclick="CheckCheckAll();" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].id}" /></td>
+            <td>{if $messagearray[message].seen == null}
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                                 
                     {else}
-                    {img modname=core src="mail_generic.png" set="icons/extrasmall" __title="already read by recipient" }
+                    {if $messagearray[message].replied !== NULL}
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                   
+                    {else}
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span> 
                     {/if}
-                </dd>
-                <dt class="msg_subject clickable">{if $messagearray[message].msg_subject}{$messagearray[message].msg_subject|truncate:30|safehtml}{else}{gt text="Error! No subject entered."}{/if}</dt>
-                <dd class="msg_time clickable">{$messagearray[message].msg_time|dateformat:"datetimebrief"}</dd>
-                <dd class="msg_uname clickable"><strong>{$messagearray[message].to_user|truncate:45|safehtml}</strong></dd>
-                <dd class="msg_view"><a href="{modurl modname="InterCom" type="user" func="readoutbox" messageid=$messagearray[message].msg_id}">{img modname=core src="demo.png" set="icons/extrasmall" __title="Read" }</a></dd>
-            </dl>
-
-            <div id="msgbody-{$messagearray[message].msg_id}" class="msg_body" style="display: none;">
-
-                <div class="z-clearfix">
-                    <div class="msg_avatar">
-                        {icuseravatar uid=$messagearray[message].from_userid assign='useravatar'}
+                    {/if}
+            </td>
+            <td>
+                    <a class="noajax" href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
+            </td>
+            <td>
+                    <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
+            </td>
+            <td>
+                    <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}"><strong>{$messagearray[message].recipient.uname}</strong></a>
+            </td>
+            <td>
+                    <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}"> <span class="fa fa-eye" title="Read"> </span></a>            
+            </td>            
+            </tr>
+            <tr id="msgbody-{$messagearray[message].id}" class=" hide"><td colspan="6">
+            <div class="row">
+                <div class="col-sm-3">
+                <a href="#" class="thumbnail">
+                        {*icuseravatar uid=$messagearray[message].from_userid assign=useravatar}
+                        {if isset($useravatar)}
                         {$messagearray[message].from_userid|profilelinkbyuid:'':$useravatar}
-                    </div>
-
-                    <div class="msg_text">
-                        {$messagearray[message].msg_text|safehtml|nl2br}{* {$messagearray[message].msg_text|safehtml|modcallhooks|nl2br} *}
-                        {if $messagearray[message].signature != ""}<div class="signature">{$messagearray[message].signature|safehtml|nl2br}</div>{/if}
-                    </div>
+                        {/if}
+                        {modavailable modname="ContactList" assign="ContactListInstalled"}
+                        {*if $ContactListInstalled}
+                        <p><a href="{modurl modname="ContactList" type="user" func="create" uid=$messagearray[message].from_userid}">{img modname="ContactList" src="user_add.png" __title="Add buddy" }</a></p>
+                        {/if*}
+                </a></div>
+                    
+                <div class="col-sm-9">
+                       {$messagearray[message].text|safehtml|nl2br} {* {$messagearray[message].text|safehtml|modcallhooks|nl2br} *}
+                        {*if $messagearray[message].signature != ""}<div class="signature">{$messagearray[message].signature|safehtml|nl2br}{* {$messagearray[message].signature|safehtml|nl2br} }</div>{/if*}
                 </div>
+                
+                <div class="col-sm-12">
+                    <a class="btn btn-default btn-sm " role="button" id="read-{$messagearray[message].id}"    href="{route name='zikulaintercommodule_user_read'  id=$messagearray[message].id}"          title="{gt text='Read'}"><i class="fa fa-search"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="reply-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_reply' id=$messagearray[message].id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="forward-{$messagearray[message].id}" href="{route name='zikulaintercommodule_user_forward'  id=$messagearray[message].id}"    title="{gt text='Forward'}"><i class="fa fa-forward"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="store-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_store' id=$messagearray[message].id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
+                    <a  class="btn btn-default btn-sm " role="button"  id="print-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
+                    <a  class="btn btn-default btn-sm " role="button" id="delete-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_delete' id=$messagearray[message].id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>
+                </div>
+                <div id="information-{$messagearray[message].id}" class=" hide">&nbsp;</div>
 
-                <ul class="msg_links">
-                    <li><a class="image view" href="{modurl modname="InterCom" type="user" func="readoutbox" messageid=$messagearray[message].msg_id}">{gt text="Read"}</a></li>
-                    <li><a id="print-{$messagearray[message].msg_id}" class="image printer" href="{modurl modname="InterCom" type="user" func="readoutbox" messageid=$messagearray[message].msg_id theme=printer}">{gt text="Print"}</a></li>
-                    <li><a id="delete-{$messagearray[message].msg_id}" class="image maildelete" href="{modurl modname="InterCom" type="user" func="deletefromoutbox" messageid=$messagearray[message].msg_id}">{gt text="Delete"}</a></li>
-                </ul>
-
-                <div id="information-{$messagearray[message].msg_id}" style="display: none;">&nbsp;</div>
-
-                <div id="msgaction-{$messagearray[message].msg_id}" class="msg_ajaxbody invisible">&nbsp;</div>
-            </div>
+                <div id="msgaction-{$messagearray[message].id}" class="ajaxbody invisible">&nbsp;</div>
+                </div>
+                </td>
+            </tr>       
             {/section}
+        </table> 
+    <div class="panel-footer">
+        <div class="btn-group">
+            <button title="{gt text="Save marked messages"}"    type="submit" name="delete" class="btn btn-default btn-sm"><i class="fa fa-save"></i></button>
+            <button title="{gt text="Mark as read"}"            type="submit" name="read"   class="btn btn-default btn-sm"><i class="fa fa-check-square"></i></button>
+            <button title="{gt text="Delete marked messages"}"  type="submit" name="save"   class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
         </div>
+    </div> 
+</div>        
 
-        <div class="ic-buttons msg_footer">
-            <input type="submit" name="delete" value="{gt text="Delete marked messages"}" />
-        </div>
-
-    </fieldset>
-
-    {if $getmessagecount.outboxlimitreached == 1 && !pnSecAuthAction(0, "InterCom", ".*",ACCESS_ADMIN)}
-    {pager show="page" rowcount=$getmessagecount.limitout limit=$messagesperpage posvar=startnum shift=0}
+    {*if $getmessagecount.inboxlimitreached == 1 && !pnSecAuthAction(0, "InterCom", ".*",ACCESS_ADMIN)}
+    {pager show="page" rowcount=$getmessagecount.limitin limit=$messagesperpage posvar=startnum shift=0}
     {else}
-    {pager show="page" rowcount=$getmessagecount.totalout limit=$messagesperpage posvar=startnum shift=0}
-    {/if}
+    {pager show="page" rowcount=$getmessagecount.totalin limit=$messagesperpage posvar=startnum shift=0}
+    {/if*}
 
 </form>
