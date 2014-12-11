@@ -18,6 +18,19 @@ use ServiceUtil;
 use Zikula\Module\IntercomModule\Util\Settings;
 
 class Tools {
+    
+  private $name;
+  public  $entityManager;
+
+    /**
+     * construct
+     */
+    public function __construct()
+    {
+        $this->name = 'ZikulaIntercomModule';
+        $this->entityManager = ServiceUtil::getService('doctrine.entitymanager');
+        
+    }    
 
     /**
      */
@@ -60,5 +73,31 @@ class Tools {
     {
         return true;
     }    
+    
+    /**
+     */
+    public function checkIntegrity()
+    {
+        
+        $connection = $this->entityManager->getConnection();
+        
+        $sql = 'UPDATE intercom m
+                LEFT JOIN users u
+                ON m.recipient = u.uid
+                SET m.recipient = null
+        WHERE u.uid is null AND m.recipient is not null';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        
+        $sql = 'UPDATE intercom m
+                LEFT JOIN users u
+                ON m.sender = u.uid
+                SET m.sender = null
+        WHERE u.uid is null AND m.sender is not null';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();        
+
+        return true;
+    }   
   
 }

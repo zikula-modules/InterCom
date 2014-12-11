@@ -35,6 +35,11 @@
       </h4>
     <p class="list-group-item-text">{gt text="Notice: This deletes all messages from the database that are not in someone's inbox."}</p>
   </a>
+  <a href="{route name='zikulaintercommodule_admin_tools' operation='check_integrity' }" class="list-group-item">
+      <h4 class="list-group-item-heading">{gt text="This tool check user integity against users table and sets null for those users that are not present"}         
+      </h4>
+    <p class="list-group-item-text">{gt text="Notice: This resets all settings to their default values."}</p>
+  </a> 
   <a href="{route name='zikulaintercommodule_admin_tools' operation='reset_to_defaults' }" class="list-group-item">
       <h4 class="list-group-item-heading">{gt text="Reset all settings to default values"}         
       </h4>

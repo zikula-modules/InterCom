@@ -215,6 +215,13 @@ class AdminController extends \Zikula_AbstractController
                     $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not optimise tables.'));
                 }
                 break;
+            case "check_integrity":
+                if ($tools->checkIntegrity()) {
+                    $request->getSession()->getFlashbag()->add('status', $this->__('Done! Integrity check succeed.'));  
+                } else {
+                    $request->getSession()->getFlashbag()->add('error', $this->__('Error! Integrity check failed.'));             
+                }                
+                break;                
             case "reset_to_defaults":
                 if ($tools->resetSettings()) {
                     $request->getSession()->getFlashbag()->add('status', $this->__('Done! Reset settings to default values.'));  
