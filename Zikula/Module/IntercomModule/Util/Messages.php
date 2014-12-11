@@ -174,7 +174,7 @@ class Messages {
         $uid = UserUtil::getVar('uid');        
         return $this->entityManager
                     ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
-                    ->getAll(array('inbox' => 1, 'recipient' => $uid));
+                    ->getAll($args);
         
     }  
 }
