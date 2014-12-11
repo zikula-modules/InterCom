@@ -36,14 +36,14 @@ class AccountApi extends \Zikula_AbstractApi
 
         // Create an array of links to return
         if(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_OVERVIEW)) {
-            $items = array(array('url'     => ModUtil::url('InterCom', 'user', 'settings'),
+            $items = array(array('url'     => $this->get('router')->generate('zikulaintercommodule_user_preferences'),
                             'title'   => $this->__('Private messaging settings'),
                             'text' => $this->__('Display messages settings'),                
                             'icon'    => 'userconfig.png'),
-                     array('url'     => ModUtil::url('InterCom', 'user', 'main'),
-                            'title'   => $this->__('Private messaging mailbox'),
-                            'text' => $this->__('Display messages'),                         
-                            'icon'    => 'viewinbox.png'));
+                     array('url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
+                           'text' => $this->__('Display messages'),
+                           'title'   => $this->__('Private messaging mailbox'),
+                           'icon' => 'viewinbox.png'));
         }
 
         // Return the items
