@@ -97,6 +97,7 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
         $this->view->assign('messagearray',     $messagearray);
         $this->view->assign('getmessagecount',  $totalarray);
+        $this->view->assign('indicatorbar',     $totalarray['indicatorbarin']);        
         $this->view->assign('sortbar_target',   'inbox');
         $this->view->assign('messagesperpage',  $a['perpage']);
         $this->view->assign('sort',             $a['sortorder']);
@@ -136,6 +137,7 @@ class UserController extends \Zikula_AbstractController
         $messagearray = $messages->getmessages($a);
 
         /*
+         * 
         for ($i = 1; $i <= $totalarray['totalout']; $i++) {
             if ($messagearray[$i -1]['seen'] == '1' && $messagearray[$i -1]['inbox'] == '1') {
                 $messagearray[$i -1]['checkit_img'] = '1';
@@ -154,7 +156,8 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('boxtype',          'outbox');
         $this->view->assign('currentuid',       $uid);
         $this->view->assign('messagearray',     $messagearray);
-//        $this->view->assign('getmessagecount',  $totalarray);
+        $this->view->assign('getmessagecount',  $totalarray);
+        $this->view->assign('indicatorbar',     $totalarray['indicatorbarout']);          
         $this->view->assign('sortbar_target',   'outbox');
         $this->view->assign('messagesperpage',  $a['perpage']);
         $this->view->assign('sort',             $a['sortorder']);
@@ -203,11 +206,12 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
         $this->view->assign('messagearray',     $messagearray);
         $this->view->assign('getmessagecount',  $totalarray);
+        $this->view->assign('indicatorbar',     $totalarray['indicatorbararchive']);   
         $this->view->assign('sortbar_target',   'archive');
         $this->view->assign('messagesperpage',  $a['perpage']);
         $this->view->assign('sort',             $a['sortorder']);
         $this->view->assign('sortby',           $a['sortby']);        
-        $this->view->assign('ictitle',          $this->__('Inbox'));
+        $this->view->assign('ictitle',          $this->__('Archive'));
         // Return output object
         return new Response($this->view->fetch('User/view.tpl'));
     }

@@ -34,13 +34,5 @@
 {include file="User/`$boxtype`_messages.tpl"}
 {/if}
 
-<div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading">{gt text="Status"}</div>
-  <div class="panel-body">
-    {*include file="User/indicators.tpl"*}
-  </div>
-
-
-
+{include file="User/indicators.tpl"}
 {include file="User/footer.tpl"}
