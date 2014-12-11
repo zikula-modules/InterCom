@@ -183,13 +183,12 @@ class UserApi extends \Zikula_AbstractApi
                 'text' => $this->__('Archive'),
                 'icon' => 'save'
             );
-            if ($this->getVar('allow_emailnotification')|| $this->getVar('allow_autoreply')) {
             $links[] = array(
-                'url' => $this->get('router')->generate('zikulaintercommodule_admin_index'),
-                'text' => $this->__('Settings'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_preferences'),
+                'text' => $this->__('Display messages settings'),
+                'title'   => $this->__('Private messaging settings'),                
                 'icon' => 'wrench'
-                );
-            }
+            );
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_new'),
                 'text' => $this->__('New message'),

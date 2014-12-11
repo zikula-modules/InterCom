@@ -742,10 +742,21 @@ class UserController extends \Zikula_AbstractController
     public function preferencesAction(Request $request)
     {
        // Permission check
-       if (!Access::checkAccess()) {
+        if (!Access::checkAccess()) {
            throw new AccessDeniedException();
-       }
-        
+        }
+        $uid = UserUtil::getVar('uid');
+        if ($request->isMethod('Post')){
+            $this->checkCsrfToken();
+            UserUtil::setVar('ic_note', $request->request->get('ic_note',false), $uid);
+            UserUtil::setVar('ic_ar', $request->request->get('ic_ar',false), $uid);
+            UserUtil::setVar('ic_art', $request->request->get('ic_art',false), $uid);       
+            $this->request->getSession()->getFlashbag()->add('status', $this->__('Preferences saved'));             
+        }     
+        $data['ic_note'] = UserUtil::getVar('ic_note',$uid);
+        $data['ic_ar'] = UserUtil::getVar('ic_ar',$uid);
+        $data['ic_art'] = UserUtil::getVar('ic_art',$uid);       
+        $this->view->assign($data);       
         return new Response($this->view->fetch('User/prefs.tpl'));
     }
 }
