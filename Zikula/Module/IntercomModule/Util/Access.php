@@ -16,6 +16,7 @@ use DataUtil;
 use ServiceUtil;
 use UserUtil;
 use SecurityUtil;
+use ModUtil;
 
 class Access {
    
@@ -28,7 +29,7 @@ class Access {
      * On exit, $uid has the user's UID if logged in.
     */  
 
-    protected function checkAccess($access = ACCESS_READ)
+    public static function checkAccess($access = ACCESS_READ)
     {
 
         // If not logged in, redirect to login screen
@@ -42,7 +43,7 @@ class Access {
             return false;
         }
         // Maintenance message
-        if ($this->getVar('active') == 0 && !SecurityUtil::checkPermission('ZikulaIntercomModule::', '::', ACCESS_ADMIN)) {
+        if (ModUtil::getVar('ZikulaIntercomModule','active') == 0 && !SecurityUtil::checkPermission('ZikulaIntercomModule::', '::', ACCESS_ADMIN)) {
             return false;
         }
 
