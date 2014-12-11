@@ -181,13 +181,13 @@ class UserApi extends \Zikula_AbstractApi
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_archive'),
                 'text' => $this->__('Archive'),
-                'icon' => 'wrench'
+                'icon' => 'save'
             );
             if ($this->getVar('allow_emailnotification')|| $this->getVar('allow_autoreply')) {
-                $links[] = array(
-                    'url' => $this->get('router')->generate('zikulaintercommodule_admin_index'),
-                    'text' => $this->__('Settings'),
-                    'class' => 'z-icon-es-config'
+            $links[] = array(
+                'url' => $this->get('router')->generate('zikulaintercommodule_admin_index'),
+                'text' => $this->__('Settings'),
+                'icon' => 'wrench'
                 );
             }
             $links[] = array(
@@ -198,5 +198,4 @@ class UserApi extends \Zikula_AbstractApi
         }
         return $links;
     }
-
 }
