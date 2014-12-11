@@ -89,7 +89,7 @@ class UserController extends \Zikula_AbstractController
         // Get the amount of messages within each box
         $totalarray = $messages->getmessagecount();
         $a['inbox'] = 1;
-        $a['sender'] = $uid;        
+        $a['recipient'] = $uid;        
         $messagearray = $messages->getmessages($a);
                 
         $this->view->assign('boxtype',          'inbox');
@@ -118,12 +118,6 @@ class UserController extends \Zikula_AbstractController
        if (!Access::checkAccess()) {
            throw new AccessDeniedException();
        }
-
-        // Maintenance message
-        if ($this->getVar('active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-            $this->view->setCaching(false);
-            return $this->view->fetch('user/maintenance.tpl');
-        }
     
         $uid = UserUtil::getVar('uid');
         
@@ -184,48 +178,39 @@ class UserController extends \Zikula_AbstractController
        if (!Access::checkAccess()) {
            throw new AccessDeniedException();
        }
-
+        
+        $uid = UserUtil::getVar('uid');
+        $autoreply = 0;
+        if ($this->getVar('allow_autoreply') == 1) {
+            // and read the user data incl. the attributes
+            $autoreply = UserUtil::getVar('ic_ar'); 
+        }
+        $this->view->assign('autoreply',        $autoreply);
+        $a = array();
         // Get startnum and perpage parameter for pager
-        $startnum = (int)FormUtil::getPassedValue('startnum', 0, 'GETPOST');
-
-        $messagesperpage = $this->getVar('messages_perpage');
-        if (empty ($messagesperpage) || !is_numeric($messagesperpage)) {
-            $messagesperpage = 25;
-        }
-
+        $a['startnum'] = $request->request->get('startnum',null);
+        $a['perpage'] = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
-        $sort = (int) FormUtil::getPassedValue('sort', 3, 'GETPOST');
-
-        if (!is_numeric($sort)) {
-            return LogUtil::registerArgsError;
-        }
-
+        $a['sortorder'] = $request->request->get('sortorder',null);
+        $a['sortby'] = $request->request->get('sortby',null);       
+        $messages = new Messages();
         // Get the amount of messages within each box
-        $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
-
-        $messagearray = ModUtil::apiFunc('InterCom', 'user', 'getmessages',
-                array('boxtype'  => 'msg_stored',
-                'orderby'  => $sort,
-                'startnum' => $startnum,
-                'perpage'  => $messagesperpage));
-
-        // inline js for language defines
-        $this->addinlinejs();
-
-        // Create output object
-		$this->view->setCaching(false); // not suitable for caching
-        $this->view->add_core_data();
-        $this->view->assign('boxtype',         'archive');
-        $this->view->assign('currentuid',      UserUtil::getVar('uid'));
-        $this->view->assign('messagearray',    $messagearray);
-        $this->view->assign('getmessagecount', $totalarray);
-        $this->view->assign('sortbar_target',  'archive');
+        $totalarray = $messages->getmessagecount();
+        $a['stored'] = 1;
+        $a['recipient'] = $uid;
+        $messagearray = $messages->getmessages($a);
+                
+        $this->view->assign('boxtype',          'archive');
+        $this->view->assign('currentuid',       UserUtil::getVar('uid'));
+        $this->view->assign('messagearray',     $messagearray);
+        $this->view->assign('getmessagecount',  $totalarray);
+        $this->view->assign('sortbar_target',   'archive');
         $this->view->assign('messagesperpage',  $a['perpage']);
         $this->view->assign('sort',             $a['sortorder']);
-        $this->view->assign('sortby',           $a['sortby']);
-        $this->view->assign('ictitle',          DataUtil::formatForDisplay($this->__('Archive')));
+        $this->view->assign('sortby',           $a['sortby']);        
+        $this->view->assign('ictitle',          $this->__('Inbox'));
         // Return output object
-        return $this->view->fetch('user/view.tpl');
+        return new Response($this->view->fetch('User/view.tpl'));
     }
 
     /**
