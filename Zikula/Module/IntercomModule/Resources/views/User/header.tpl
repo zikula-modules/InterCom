@@ -1,24 +1,9 @@
-{*pageaddvar name="javascript" value="prototype"*}
-{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom.js"*}
 
-{*if !isset($modvars.InterCom.disable_ajax) || !$modvars.InterCom.disable_ajax*}
-{*pageaddvar name="javascript" value="javascript/ajax/validation.min.js"*}
-{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_ajax.js*"}
-{/if}
-
-{*pageaddvar name="javascript" value="modules/InterCom/javascript/facebooklist.js"*}
-{*pageaddvar name="javascript" value="modules/InterCom/javascript/texpand.packed.js"*}
-{pageaddvar name="stylesheet" value="modules/Zikula/Module/IntercomModule/Resources/public/css/facebooklist.css"}
-{pageaddvar name="stylesheet" value="modules/Zikula/Module/IntercomModule/Resources/public/css/style.css"}
+{*if !isset($modvars.ZikulaIntercomModule.disable_ajax) || !$modvars.ZikulaIntercomModule.disable_ajax}
+{/if*}
+{*pageaddvar name="stylesheet" value="modules/Zikula/Module/IntercomModule/Resources/public/css/facebooklist.css"}
+{*pageaddvar name="stylesheet" value="modules/Zikula/Module/IntercomModule/Resources/public/css/style.css"*}
 {pagesetvar name=title value=$ictitle}
-<script type="text/javascript">
-    //  ![CDATA[[
-    Ajax.Responders.register({
-        onCreate: function(){ Element.show('spinner')},
-        onComplete: function(){Element.hide('spinner')}
-    });
-    // ]]
-</script>
 <div id="intercom">
     <h2>{gt text="Private messaging"}
     </h2>

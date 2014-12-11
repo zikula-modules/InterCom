@@ -1,7 +1,6 @@
 {* $Id$ *}
 {gt text="Messaging settings" assign=ictitle}
 {include file="user/header.tpl" ictitle=$ictitle}
-{* {pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_prefs.js"} *}
 <h3>{$ictitle}</h3>
 
 {form cssClass='z-form'}

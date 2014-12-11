@@ -1,11 +1,11 @@
 {include file="User/header.tpl" ictitle=$ictitle}
-{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_newmsg.js"}
 
-{if !empty($msg_preview)}
+
+{if !empty($preview)}
 {include file="User/previewpm.tpl"}
 {/if}
 
-{if $pmtype eq "reply"}
+{*if $pmtype eq "reply"}
 {capture assign="subject"}{replysubject subject=$message.msg_subject|replace:" ":""|truncate:3:"":true subjectclean=$message.msg_subject}{/capture}
 {elseif $pmtype eq "forward"}
 {capture assign="subject"}{forwardsubject subject=$message.msg_subject|replace:" ":""|truncate:3:"":true subjectclean=$message.msg_subject}{/capture}
@@ -88,18 +88,6 @@
                 </ol>
             </div>*}
             
-            {*/if}
-            <script type="text/javascript">
-                document.observe('dom:loaded', function() {
-                    // init
-                    tlist1 = new FacebookList('username', 'list-user', {fetchFile:'{{$baseurl}}ajax.php?module=InterCom&func=getusers'});
-                    {{if $pmtype eq "new" && $msgtogroups eq true}}
-                    tlist2 = new FacebookList('groupname', 'list-group', {fetchFile:'{{$baseurl}}ajax.php?module=InterCom&func=getgroups'});
-                    {{/if}}
-                });
-            </script>
-            *}
-            
         <div class="form-group col-lg-12 {if isset($errors.subject)}has-error{/if}">
         <label class="control-label col-lg-12" for="subject">{gt text="Subject line"}</label>
         <div class="col-lg-12">
@@ -149,9 +137,5 @@
     </div> 
     </div>
 </form>
-
-<script type="text/javascript">
-    var valid = new Validation('post');
-</script>
 
 {include file="User/footer.tpl"}

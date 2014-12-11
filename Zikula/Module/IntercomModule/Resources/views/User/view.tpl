@@ -3,13 +3,10 @@
 {include file="User/header.tpl" ictitle=$ictitle}
 
 {if $boxtype eq "inbox"}
-{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_inbox.js"*}
 {*assign var="indicatorbar" value=$getmessagecount.indicatorbarin*}
 {elseif $boxtype eq "outbox"}
-{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_outbox.js"*}
 {*assign var="indicatorbar" value=$getmessagecount.indicatorbarout*}
 {elseif $boxtype eq "archive"}
-{*pageaddvar name="javascript" value="modules/InterCom/javascript/intercom_archive.js"*}
 {*assign var="indicatorbar" value=$getmessagecount.indicatorbararchive*}
 {/if}
 
