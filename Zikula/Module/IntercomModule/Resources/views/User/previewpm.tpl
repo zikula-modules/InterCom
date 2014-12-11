@@ -1,12 +1,12 @@
 ﻿{* $Id$ *}
 
-<div id="ic-previewform" class="z-form z-linear">
+<div id="" class="">
     <fieldset>
         <legend>{gt text="Message preview"}</legend>
 
-        <div class="z-formrow z-clearfix">
+        <div class="">
             <label>{gt text="Recipient(s)"}</label>
-            <p class="ic-readtext">
+            <p class="">
                 {foreach from=$to_user item=item}
                 <strong>{$item|profilelinkbyuname}</strong>
                 {foreachelse}
@@ -15,23 +15,23 @@
             </p>
         </div>
 
-        <div class="z-formrow z-clearfix">
-            <div class="ic-floatleft">
+        <div class="">
+            <div class="">
                 <label>{gt text="Subject line"}</label>
-                <p class="ic-readtext">{$message.msg_subject}</p>
+                <p class="">{$message.msg_subject}</p>
             </div>
-            <div class="ic-floatright">
+            <div class="">
                 <label>{gt text="Date"}</label>
-                <p class="ic-readtext">{$smarty.now|dateformat:"datetimebrief"}</p>
+                <p class="">{$smarty.now|dateformat:"datetimebrief"}</p>
             </div>
         </div>
 
-        <div class="z-formrow">
+        <div class="">
             <label>{gt text="Message text"}</label>
-            <div class="ic-readtext ic-messagetext">
+            <div class="">
                 {$message.msg_text|nl2br}{* {$message.msg_text|nl2br|modcallhooks} *}
                 {usergetvar name="_SIGNATURE" assign="signature"}
-                {if $signature != ""}<div class="signature">{$signature|safehtml|nl2br}{* {$signature|safehtml|modcallhooks|nl2br} *}</div>{/if}
+                {if $signature != ""}<div class="">{$signature|safehtml|nl2br}{* {$signature|safehtml|modcallhooks|nl2br} *}</div>{/if}
             </div>
         </div>
 

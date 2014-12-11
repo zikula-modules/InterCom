@@ -1,4 +1,4 @@
-﻿<form id="view" class="z-form z-linear" action="{modurl modname="InterCom" type="user" func="switchaction"}" method="post">
+﻿<form class="form" action="{modurl modname="InterCom" type="user" func="switchaction"}" method="post">
     
 <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -37,7 +37,7 @@
                     {/if}
             </td>
             <td>
-                    <a class="noajax" href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
+                    <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
             </td>
             <td>
                     <a href="{route name='zikulaintercommodule_user_read' id=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
@@ -78,7 +78,7 @@
                 </div>
                 <div id="information-{$messagearray[message].id}" class=" hide">&nbsp;</div>
 
-                <div id="msgaction-{$messagearray[message].id}" class="ajaxbody invisible">&nbsp;</div>
+                <div id="msgaction-{$messagearray[message].id}" class=" hide">&nbsp;</div>
                 </div>
                 </td>
             </tr>       

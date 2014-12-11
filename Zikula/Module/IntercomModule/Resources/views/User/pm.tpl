@@ -21,7 +21,7 @@
 {capture assign="messagetext"}{$message.msg_text|safetext}{/capture}
 {/if*}
 
-<form id="post" class="form" action="{route name="zikulaintercommodule_user_new"}" method="post" enctype="application/x-www-form-urlencoded">
+<form class="form" action="{route name="zikulaintercommodule_user_new"}" method="post" enctype="application/x-www-form-urlencoded">
         {*if $pmtype eq "reply"}
         <input type="hidden" name="msg_id" value="{$message.msg_id}" />
         {/if*}
