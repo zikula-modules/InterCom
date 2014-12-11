@@ -14,6 +14,8 @@ namespace Zikula\Module\IntercomModule\Util;
 
 use DataUtil;
 use ServiceUtil;
+use UserUtil;
+use SecurityUtil;
 
 class Access {
    
@@ -24,40 +26,33 @@ class Access {
      *          returned by calling method.
      * Returns false if use has permissions.
      * On exit, $uid has the user's UID if logged in.
-     */
+    */  
 
-    protected function checkuserAction(&$uid, $access = ACCESS_READ)
+    protected function checkAccess($access = ACCESS_READ)
     {
 
         // If not logged in, redirect to login screen
         if (!UserUtil::isLoggedIn())
 	{
-	    $url = ModUtil::url('users', 'user', 'login',
-		    array( 'returnpage' => urlencode(System::getCurrentUri()),
-			)
-	    );
-	    return System::redirect($url);
+            return false;
 	}
-
         // Perform access check
-        if (!SecurityUtil::checkPermission('InterCom::', '::', $access))
+        if (!SecurityUtil::checkPermission('ZikulaIntercomModule::', '::', $access))
         {
-            return LogUtil::registerPermissionError();
+            return false;
         }
-
         // Maintenance message
-        if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
-            $this->view->setCaching(false);
-            return $this->view->fetch('user/maintenance.tpl');
+        if ($this->getVar('active') == 0 && !SecurityUtil::checkPermission('ZikulaIntercomModule::', '::', ACCESS_ADMIN)) {
+            return false;
         }
 
         // Get the uid of the user
         $uid = UserUtil::getVar('uid');
 
         // Return false to signify everything is OK.
-        return false;
+        return $uid;
     }    
-    
+   
     
     
     
