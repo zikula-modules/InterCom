@@ -98,7 +98,7 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('getmessagecount',  $totalarray);
         $this->view->assign('sortbar_target',   'inbox');
         $this->view->assign('messagesperpage',  $a['perpage']);
-        $this->view->assign('sort',             $a['sort']);
+        $this->view->assign('sort',             $a['sortorder']);
         $this->view->assign('sortby',           $a['sortby']);        
         $this->view->assign('ictitle',          $this->__('Inbox'));
         // Return output object
@@ -220,8 +220,9 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('messagearray',    $messagearray);
         $this->view->assign('getmessagecount', $totalarray);
         $this->view->assign('sortbar_target',  'archive');
-        $this->view->assign('messagesperpage', $messagesperpage);
-        $this->view->assign('sort',            $sort);
+        $this->view->assign('messagesperpage',  $a['perpage']);
+        $this->view->assign('sort',             $a['sortorder']);
+        $this->view->assign('sortby',           $a['sortby']);
         $this->view->assign('ictitle',          DataUtil::formatForDisplay($this->__('Archive')));
         // Return output object
         return $this->view->fetch('user/view.tpl');
