@@ -69,7 +69,7 @@ class MessageRepository extends EntityRepository
         //pager
         $startnum = isset($args['startnum']) ? $args['startnum'] : 1;
         $startnum      = $startnum < 1 ? 1 : $startnum;
-        $itemsperpage = isset($args['itemsperpage']) ? $args['itemsperpage'] : 25;    
+        $itemsperpage = isset($args['perpage']) ? $args['perpage'] : 25;    
         //sort
         $sortby = isset($args['sortby']) ? $args['sortby'] : 'send';    
         $sortorder = isset($args['sortorder']) ? $args['sortorder'] : 'DESC';     
