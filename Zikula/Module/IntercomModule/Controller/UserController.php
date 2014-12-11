@@ -30,30 +30,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
 use Zikula\Module\IntercomModule\Util\Messages;
+use Zikula\Module\IntercomModule\Util\Access;
 
 
 class UserController extends \Zikula_AbstractController
-{  
+{
+  
     public function postInitialize()
     {
         $this->view->setCaching(false);
     }
-
+    
     /**
      * @Route("")
      *
      * the main administration function
      *
      * @return RedirectResponse
-     */
+    */ 
     public function indexAction(Request $request)
     { 
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
-
+       // Permission check
+       if (!Access::checkAccess()) {
+           throw new AccessDeniedException();
+       }
         return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_inbox', array(), RouterInterface::ABSOLUTE_URL));         
-
     }
 
     /**
@@ -62,13 +63,15 @@ class UserController extends \Zikula_AbstractController
      * @return Response symfony response object
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */
+    */     
     public function inboxAction(Request $request)
     {
-        //// This is a user only module - redirect everyone else
-        //$notauth = $this->checkuser($uid, ACCESS_READ);
-        //if ($notauth) return $notauth;
-        // Get variables for autoreply   
+        // Permission check
+       if (!Access::checkAccess()) {
+           throw new AccessDeniedException();
+       }
+        
+        $uid = UserUtil::getVar('uid');
         $autoreply = 0;
         if ($this->getVar('allow_autoreply') == 1) {
             // and read the user data incl. the attributes
@@ -77,15 +80,16 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('autoreply',        $autoreply);
         $a = array();
         // Get startnum and perpage parameter for pager
-        $a['startnum'] = $request->request->get('startnum',false);
+        $a['startnum'] = $request->request->get('startnum',null);
         $a['perpage'] = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
-        $a['sort'] = $request->request->get('sort',false);
-        $a['sortby'] = $request->request->get('sortby',false);        
-        
+        $a['sortorder'] = $request->request->get('sortorder',null);
+        $a['sortby'] = $request->request->get('sortby',null);       
         $messages = new Messages();
         // Get the amount of messages within each box
         $totalarray = $messages->getmessagecount();
+        $a['inbox'] = 1;
+        $a['sender'] = $uid;        
         $messagearray = $messages->getmessages($a);
                 
         $this->view->assign('boxtype',          'inbox');
@@ -110,69 +114,61 @@ class UserController extends \Zikula_AbstractController
      */
     public function outboxAction(Request $request)
     {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
+       // Permission check
+       if (!Access::checkAccess()) {
+           throw new AccessDeniedException();
+       }
 
         // Maintenance message
-        if ($this->getVar('messages_active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
+        if ($this->getVar('active') == 0 && !SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             $this->view->setCaching(false);
             return $this->view->fetch('user/maintenance.tpl');
         }
-
+    
+        $uid = UserUtil::getVar('uid');
+        
+        $a = array();
         // Get startnum and perpage parameter for pager
-        $startnum = (int)FormUtil::getPassedValue('startnum', 0, 'GETPOST');
-
-        $messagesperpage = $this->getVar('messages_perpage');
-        if (empty ($messagesperpage) || !is_numeric($messagesperpage)) {
-            $messagesperpage = 25;
-        }
-
+        $a['startnum'] = $request->request->get('startnum',null);
+        $a['perpage'] = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
-        $sort = (int)FormUtil::getPassedValue('sort', 3, 'GETPOST');
-
-        if (!is_numeric($sort)) {
-            return LogUtil::registerArgsError;
-        }
-
+        $a['sortorder'] = $request->request->get('sortorder',null);
+        $a['sortby'] = $request->request->get('sortby',null);        
+        
+        $messages = new Messages();
         // Get the amount of messages within each box
-        $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
+        $totalarray = $messages->getmessagecount();
+        $a['outbox'] = 1;
+        $a['sender'] = $uid;
+        $messagearray = $messages->getmessages($a);
 
-        $messagearray = ModUtil::apiFunc('InterCom', 'user', 'getmessages',
-                array('boxtype'  => 'msg_outbox',
-                'orderby'  => $sort,
-                'startnum' => $startnum,
-                'perpage'  => $messagesperpage));
-
-
+        /*
         for ($i = 1; $i <= $totalarray['totalout']; $i++) {
-            if ($messagearray[$i -1]['msg_read'] == '1' && $messagearray[$i -1]['msg_inbox'] == '1') {
+            if ($messagearray[$i -1]['seen'] == '1' && $messagearray[$i -1]['inbox'] == '1') {
                 $messagearray[$i -1]['checkit_img'] = '1';
             }
-            if ($messagearray[$i -1]['msg_read'] == '0' && $messagearray[$i -1]['msg_inbox'] == '1') {
+            if ($messagearray[$i -1]['seen'] == '0' && $messagearray[$i -1]['inbox'] == '1') {
                 $messagearray[$i -1]['checkit_img'] = '2';
             }
-            if ($messagearray[$i -1]['msg_inbox'] == '0') {
+            if ($messagearray[$i -1]['inbox'] == '0') {
                 $messagearray[$i -1]['checkit_img'] = '3';
             }
         }
-
+        */
         // inline js for language defines
-        $this->addinlinejs();
+       // $this->addinlinejs();
 
-        // Create output object
-		$this->view->setCaching(false); // not suitable for caching
-        $this->view->add_core_data();
-        $this->view->assign('boxtype',         'outbox');
-        $this->view->assign('currentuid',      UserUtil::getVar('uid'));
-        $this->view->assign('messagearray',    $messagearray);
-        $this->view->assign('getmessagecount', $totalarray);
-        $this->view->assign('sortbar_target',  'outbox');
-        $this->view->assign('messagesperpage', $messagesperpage);
-        $this->view->assign('sort',            $sort);
-        $this->view->assign('ictitle',         DataUtil::formatForDisplay($this->__('Outbox')));
+        $this->view->assign('boxtype',          'outbox');
+        $this->view->assign('currentuid',       $uid);
+        $this->view->assign('messagearray',     $messagearray);
+//        $this->view->assign('getmessagecount',  $totalarray);
+        $this->view->assign('sortbar_target',   'outbox');
+        $this->view->assign('messagesperpage',  $a['perpage']);
+        $this->view->assign('sort',             $a['sortorder']);
+        $this->view->assign('sortby',           $a['sortby']);        
+        $this->view->assign('ictitle',          $this->__('Outbox'));
         // Return output object
-        return $this->view->fetch('user/view.tpl');
+        return new Response($this->view->fetch('User/view.tpl'));
     }
 
     /**
@@ -184,9 +180,10 @@ class UserController extends \Zikula_AbstractController
      */
     public function archiveAction(Request $request)
     {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
+       // Permission check
+       if (!Access::checkAccess()) {
+           throw new AccessDeniedException();
+       }
 
         // Get startnum and perpage parameter for pager
         $startnum = (int)FormUtil::getPassedValue('startnum', 0, 'GETPOST');
@@ -239,9 +236,10 @@ class UserController extends \Zikula_AbstractController
      */
     public function readAction(Request $request, $id)
     {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
+       // Permission check
+       if (!Access::checkAccess()) {
+           throw new AccessDeniedException();
+       }
 
         // Get parameters from whatever input we need.
         $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
@@ -291,9 +289,10 @@ class UserController extends \Zikula_AbstractController
      */
     public function replyAction(Request $request, $id)
     {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_COMMENT);
-        if ($notauth) return $notauth;
+       // Permission check
+       if (!Access::checkAccess(ACCESS_COMMENT)) {
+           throw new AccessDeniedException();
+       }
 
         // Get parameters from whatever input we need.
         $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
@@ -351,10 +350,11 @@ class UserController extends \Zikula_AbstractController
      */
     public function newAction(Request $request)
     {
-        // This is a user only module - redirect everyone else
-        $notauth = $this->checkuser($uid, ACCESS_COMMENT);
-        if ($notauth) return $notauth;
-
+       // Permission check
+       if (!Access::checkAccess(ACCESS_COMMENT)) {
+           throw new AccessDeniedException();
+       }
+       /*
         // Check if outboxlimit is reached
         if (!SecurityUtil::checkPermission("InterCom::", "::", ACCESS_ADMIN)) {
             $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
@@ -428,26 +428,26 @@ class UserController extends \Zikula_AbstractController
         }
 
         $this->addinlinejs();
-
+        */
         // Create output object
-		$this->view->setCaching(false); // not suitable for caching
-        $this->view->add_core_data();
-        $this->view->assign('pmtype',       'new');
-        $this->view->assign('currentuid',   $currentuid);
-        $this->view->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
-        $this->view->assign('allowbbcode',  ModUtil::isHooked('BBCode', 'InterCom'));
-        $this->view->assign('allowhtml',    $this->getVar('messages_allowhtml'));
-        $this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
-        $this->view->assign('msg_preview',  $msg_preview);
-        $this->view->assign('to_user',      $to_user_array);
-        $this->view->assign('to_user_string',$to_user);
-        $this->view->assign('to_group',     $to_group_array);
-        $this->view->assign('cl_buddies',   $cl_buddies);
-        $this->view->assign('message',      $message);
-        $this->view->assign('ictitle',      DataUtil::formatForDisplay($this->__('New message')));
+	//	$this->view->setCaching(false); // not suitable for caching
+        //$this->view->add_core_data();
+        //$this->view->assign('pmtype',       'new');
+        //$this->view->assign('currentuid',   $currentuid);
+        //$this->view->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
+        //$this->view->assign('allowbbcode',  ModUtil::isHooked('BBCode', 'InterCom'));
+       // $this->view->assign('allowhtml',    $this->getVar('messages_allowhtml'));
+        //$this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
+        //$this->view->assign('msg_preview',  $msg_preview);
+        //$this->view->assign('to_user',      $to_user_array);
+        //$this->view->assign('to_user_string',$to_user);
+        //$this->view->assign('to_group',     $to_group_array);
+        //$this->view->assign('cl_buddies',   $cl_buddies);
+        //$this->view->assign('message',      $message);
+        $this->view->assign('ictitle',      $this->__('New message'));
 
         // Return output object
-        return $this->view->fetch('user/pm.tpl');
+        return new Response($this->view->fetch('User/pm.tpl'));
     }
 
     /**
@@ -456,12 +456,13 @@ class UserController extends \Zikula_AbstractController
      * @ return Response symfony response object
      *
      * @ throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-    
+     */    
     public function submitAction(Request $request)
     {
-        // This is a user only module - redirect everone else
-        $notauth = $this->checkuser($uid, ACCESS_COMMENT);
-        if ($notauth) return $notauth;
+       // Permission check
+       if (!Access::checkAccess(ACCESS_COMMENT)) {
+           throw new AccessDeniedException();
+       }
 
         $from_uid = (int)FormUtil::getPassedValue('from_uid');
         $to_user  = FormUtil::getPassedValue('to_user', '', 'GETPOST');
@@ -653,7 +654,7 @@ class UserController extends \Zikula_AbstractController
 
         return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
     }
-     */
+    
     
     /**
      * @Route("/message/forward/{id}")
@@ -661,15 +662,15 @@ class UserController extends \Zikula_AbstractController
      * @return Response symfony response object
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */
+    */    
     public function forwardAction(Request $request, $id)
     {
-        // Security check
-        $notauth = $this->checkuser($uid, ACCESS_COMMENT);
-        if ($notauth) return $notauth;
+       // Permission check
+       if (!Access::checkAccess(ACCESS_COMMENT)) {
+           throw new AccessDeniedException();
+       }
 
-        $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
-        if ($messageid == 0) {
+        if ($id == 0) {
             return LogUtil::registerArgsError;
         }
 
@@ -702,7 +703,7 @@ class UserController extends \Zikula_AbstractController
 
         return $this->view->fetch('user/pm.tpl');
     }    
-
+    
     /**
      * @Route("/message/delete/{id}")
      *
@@ -712,9 +713,10 @@ class UserController extends \Zikula_AbstractController
      */
     protected function deleteAction(Request $request, $id)
     {
-        // This is a user only module - redirect everone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
+       // Permission check
+       if (!Access::checkAccess()) {
+           throw new AccessDeniedException();
+       }
 
         // Get parameters from whatever input we need.
         // Chasm: messageid my be an array! no typecasting!
@@ -747,9 +749,10 @@ class UserController extends \Zikula_AbstractController
      */
     public function storeAction(Request $request, $id)
     {
-        // This is a user only module - redirect everone else
-        $notauth = $this->checkuser($uid, ACCESS_READ);
-        if ($notauth) return $notauth;
+       // Permission check
+       if (!Access::checkAccess()) {
+           throw new AccessDeniedException();
+       }
 
         // Check if archivelimit is reached
         if (!SecurityUtil::checkPermission("InterCom::", "::", ACCESS_ADMIN)) {
@@ -786,11 +789,12 @@ class UserController extends \Zikula_AbstractController
      */
     public function preferencesAction(Request $request)
     {
-
-        
+       // Permission check
+       if (!Access::checkAccess()) {
+           throw new AccessDeniedException();
+       }
         
         return new Response($this->view->fetch('User/prefs.tpl'));
-
     }
 
     /**
