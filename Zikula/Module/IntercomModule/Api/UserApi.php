@@ -176,7 +176,7 @@ class UserApi extends \Zikula_AbstractApi
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_outbox'),
                 'text' => $this->__('Outbox'),
-                'icon' => 'external-link'
+                'icon' => 'upload'
             );
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_archive'),
