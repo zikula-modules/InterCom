@@ -80,11 +80,11 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('autoreply',        $autoreply);
         $a = array();
         // Get startnum and perpage parameter for pager
-        $a['startnum'] = $request->request->get('startnum',null);
+        $a['startnum'] = $request->query->get('startnum',null);
         $a['perpage'] = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
-        $a['sortorder'] = $request->request->get('sortorder',null);
-        $a['sortby'] = $request->request->get('sortby',null);       
+        $a['sortorder'] = $request->query->get('sortorder', 'DESC');
+        $a['sortby'] = $request->query->get('sortby','send');       
         $messages = new Messages();
         // Get the amount of messages within each box
         $totalarray = $messages->getmessagecount();
@@ -98,7 +98,7 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('indicatorbar',     $totalarray['indicatorbarin']);        
         $this->view->assign('sortbar_target',   'inbox');
         $this->view->assign('messagesperpage',  $a['perpage']);
-        $this->view->assign('sort',             $a['sortorder']);
+        $this->view->assign('sortorder',        $a['sortorder']);
         $this->view->assign('sortby',           $a['sortby']);        
         $this->view->assign('ictitle',          $this->__('Inbox'));
         // Return output object
@@ -121,11 +121,11 @@ class UserController extends \Zikula_AbstractController
         $uid = UserUtil::getVar('uid');
         $a = array();
         // Get startnum and perpage parameter for pager
-        $a['startnum'] = $request->request->get('startnum',null);
+        $a['startnum'] = $request->query->get('startnum',null);
         $a['perpage'] = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
-        $a['sortorder'] = $request->request->get('sortorder',null);
-        $a['sortby'] = $request->request->get('sortby',null);        
+        $a['sortorder'] = $request->query->get('sortorder', 'DESC');
+        $a['sortby'] = $request->query->get('sortby','send');       
         $messages = new Messages();
         // Get the amount of messages within each box
         $totalarray = $messages->getmessagecount();
@@ -139,7 +139,7 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('indicatorbar',     $totalarray['indicatorbarout']);          
         $this->view->assign('sortbar_target',   'outbox');
         $this->view->assign('messagesperpage',  $a['perpage']);
-        $this->view->assign('sort',             $a['sortorder']);
+        $this->view->assign('sortorder',         $a['sortorder']);
         $this->view->assign('sortby',           $a['sortby']);        
         $this->view->assign('ictitle',          $this->__('Outbox'));
         // Return output object
@@ -168,11 +168,11 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('autoreply',        $autoreply);
         $a = array();
         // Get startnum and perpage parameter for pager
-        $a['startnum'] = $request->request->get('startnum',null);
+        $a['startnum'] = $request->query->get('startnum',null);
         $a['perpage'] = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
-        $a['sortorder'] = $request->request->get('sortorder',null);
-        $a['sortby'] = $request->request->get('sortby',null);       
+        $a['sortorder'] = $request->query->get('sortorder', 'DESC');
+        $a['sortby'] = $request->query->get('sortby','send');      
         $messages = new Messages();
         // Get the amount of messages within each box
         $totalarray = $messages->getmessagecount();
@@ -186,7 +186,7 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('indicatorbar',     $totalarray['indicatorbararchive']);   
         $this->view->assign('sortbar_target',   'archive');
         $this->view->assign('messagesperpage',  $a['perpage']);
-        $this->view->assign('sort',             $a['sortorder']);
+        $this->view->assign('sortorder',        $a['sortorder']);
         $this->view->assign('sortby',           $a['sortby']);        
         $this->view->assign('ictitle',          $this->__('Archive'));
         // Return output object
@@ -234,7 +234,8 @@ class UserController extends \Zikula_AbstractController
                 $this->view->assign('mode',       $mode);
                 $this->view->assign('currentuid', UserUtil::getVar('uid'));
                 $this->view->assign('message',    $message->toArray());
-                $this->view->assign('ictitle',    $this->__('Read'));           
+                $this->view->assign('ictitle',    $this->__('Read'));
+                $message->setSeen();
                 return new Response($this->view->fetch('User/readpm.tpl'));                
                 break;
             case "new":

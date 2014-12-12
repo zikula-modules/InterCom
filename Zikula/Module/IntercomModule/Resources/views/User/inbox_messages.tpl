@@ -1,4 +1,5 @@
-﻿<form class="form" action="{modurl modname="InterCom" type="user" func="switchaction"}" method="post">
+<form class="form" action="{route name="zikulaintercommodule_user_inbox"}" method="post" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />    
     
 <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -8,17 +9,37 @@
             <th>#</th>
             <th></th>        
             <th>{gt text="Subject"}
+            {if $sortby eq 'subject'}
+            {if $sortorder eq 'ASC'}
+            <a href="{route name='zikulaintercommodule_user_inbox' sortby='subject' sortorder='DESC'}"><i class='fa fa-sort-desc'></i></a>             
+            {else}
+            <a href="{route name='zikulaintercommodule_user_inbox' sortby='subject' sortorder='ASC'}"><i class='fa fa-sort-asc'></i></a>                
+            {/if}    
+            {else}
+            <a href="{route name='zikulaintercommodule_user_inbox' sortby='subject' sortorder='ASC'}"><i class='fa fa-sort'></i></a>                
+            {/if}    
             </th>
-            <th>{gt text="Date"}</th>
+            <th>{gt text="Date"}
+            {if $sortby eq 'send'}
+            {if $sortorder eq 'ASC'}
+            <a href="{route name='zikulaintercommodule_user_inbox' sortby='send' sortorder='DESC'}"><i class='fa fa-sort-desc'></i></a>             
+            {else}
+            <a href="{route name='zikulaintercommodule_user_inbox' sortby='send' sortorder='ASC'}"><i class='fa fa-sort-asc'></i></a>                
+            {/if}    
+            {else}
+            <a href="{route name='zikulaintercommodule_user_inbox' sortby='send' sortorder='ASC'}"><i class='fa fa-sort'></i></a>                
+            {/if}            
+            </th>
             <th>{gt text="Sender"}</th>
             <th></th>         
         </tr>
             {section name=message loop=$messagearray}
-            {counter assign=zaehlen}
-        <tr>
+        <tr class="{if $messagearray[message].seen == NULL} warning bold{/if}">
             <td><input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].id}" /></td>
-            <td>{if $messagearray[message].seen == null}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+            <td>    
+                
+                    {if $messagearray[message].seen == NULL}
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope "> </span>
                     <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
                     <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                                 
                     {else}
@@ -83,9 +104,9 @@
         </table> 
     <div class="panel-footer">
         <div class="btn-group">
-            <button title="{gt text="Save marked messages"}"    type="submit" name="delete" class="btn btn-default btn-sm"><i class="fa fa-save"></i></button>
-            <button title="{gt text="Mark as read"}"            type="submit" name="read"   class="btn btn-default btn-sm"><i class="fa fa-check-square"></i></button>
-            <button title="{gt text="Delete marked messages"}"  type="submit" name="save"   class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
+            <button title="{gt text="Save marked messages"}"    type="submit" name="selected" value="save" class="btn btn-default btn-sm"><i class="fa fa-save"></i></button>
+            <button title="{gt text="Mark as read"}"            type="submit" name="selected" value="markread" class="btn btn-default btn-sm"><i class="fa fa-check-square"></i></button>
+            <button title="{gt text="Delete marked messages"}"  type="submit" name="selected" value="delete" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
         </div>
     </div> 
 </div>        

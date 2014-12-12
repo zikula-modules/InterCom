@@ -1,52 +1,71 @@
-﻿<form class="form" action="{modurl modname="InterCom" type="user" func="switchaction"}" method="post">
+<form class="form" action="{route name="zikulaintercommodule_user_archive"}" method="post" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />  
     
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">{$ictitle}</div>
-  <div class="panel-body">
-    <p>...</p>
-  </div>        
+  <div class="panel-heading">{$ictitle}</div>     
         <table class="table table-striped table-hover">
         <tr>
             <th>#</th>
             <th></th>        
-            <th>{gt text="Subject"}
+            <th>            <th>{gt text="Subject"}
+            {if $sortby eq 'subject'}
+            {if $sortorder eq 'ASC'}
+            <a href="{route name='zikulaintercommodule_user_archive' sortby='subject' sortorder='DESC'}"><i class='fa fa-sort-desc'></i></a>             
+            {else}
+            <a href="{route name='zikulaintercommodule_user_archive' sortby='subject' sortorder='ASC'}"><i class='fa fa-sort-asc'></i></a>                
+            {/if}    
+            {else}
+            <a href="{route name='zikulaintercommodule_user_archive' sortby='subject' sortorder='ASC'}"><i class='fa fa-sort'></i></a>                
+            {/if}    
             </th>
-            <th>{gt text="Date"}</th>
+            <th>{gt text="Date"}
+            {if $sortby eq 'send'}
+            {if $sortorder eq 'ASC'}
+            <a href="{route name='zikulaintercommodule_user_archive' sortby='send' sortorder='DESC'}"><i class='fa fa-sort-desc'></i></a>             
+            {else}
+            <a href="{route name='zikulaintercommodule_user_archive' sortby='send' sortorder='ASC'}"><i class='fa fa-sort-asc'></i></a>                
+            {/if}    
+            {else}
+            <a href="{route name='zikulaintercommodule_user_archive' sortby='send' sortorder='ASC'}"><i class='fa fa-sort'></i></a>                
+            {/if}            
+            </th>
             <th>{gt text="Sender"}</th>
             <th></th>         
         </tr>
             {section name=message loop=$messagearray}
-            {counter assign=zaehlen}
         <tr>
             <td><input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].id}" /></td>
-            <td>{if $messagearray[message].seen == null}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+        <tr class="{if $messagearray[message].seen == NULL} warning bold{/if}">
+            <td><input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].id}" /></td>
+            <td>                   
+                    {if $messagearray[message].seen == NULL}
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope "> </span>
                     <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                                 
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                                 
                     {else}
                     {if $messagearray[message].replied !== NULL}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope hide"> </span>
                     <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span>                   
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply"> </span>                   
                     {else}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope"> </span>
-                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-square hide"> </span> 
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope hide"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-re hide"> </span> 
                     {/if}
                     {/if}
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
+            <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
+            <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
+            <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"> <span class="fa fa-eye" title="Read"> </span></a>            
+            <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"> <span class="fa fa-eye" title="Read"> </span></a>            
             </td>            
             </tr>
             <tr id="msgbody-{$messagearray[message].id}" class=" hide"><td colspan="6">
@@ -86,9 +105,7 @@
         </table> 
     <div class="panel-footer">
         <div class="btn-group">
-            <button title="{gt text="Save marked messages"}"    type="submit" name="delete" class="btn btn-default btn-sm"><i class="fa fa-save"></i></button>
-            <button title="{gt text="Mark as read"}"            type="submit" name="read"   class="btn btn-default btn-sm"><i class="fa fa-check-square"></i></button>
-            <button title="{gt text="Delete marked messages"}"  type="submit" name="save"   class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
+            <button title="{gt text="Delete marked messages"}"  type="submit" name="selected" value="delete"  class="btn btn-default btn-sm"><i class="fa fa-trash"></i></button>
         </div>
     </div> 
 </div>        
