@@ -118,7 +118,7 @@ class Validator {
         $exist = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $sender);
         if (!$exist) {
             $this->valid = false;    
-            $this->errors['sender'] = 'Semder not fount';
+            $this->errors['sender'] = 'Sender not found';
             $this->data['sender']['uid'] = -1;
         return;    
         }else {
@@ -132,7 +132,7 @@ class Validator {
         if (empty($recipient) || !is_numeric($recipient)){
             $this->valid = false;    
             $this->errors['recipient'] = 'Recipient cannot be empty';
-            $this->data['recipient']['uid'] = -1;
+            //$this->data['recipient'] = ;
             return;    
         }
         // get entity manager
@@ -141,7 +141,7 @@ class Validator {
         if (!$exist) {
             $this->valid = false;    
             $this->errors['recipient'] = 'Recipient not fount';
-            $this->data['recipient']['uid'] = -1;
+            //$this->data['recipient']['uid'] = -1;
         return;    
         }else {
         $this->data['recipient'] = $exist;             

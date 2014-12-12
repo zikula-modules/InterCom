@@ -55,7 +55,7 @@ class UserController extends \Zikula_AbstractController
        if (!Access::checkAccess()) {
            throw new AccessDeniedException();
        }
-        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_inbox', array(), RouterInterface::ABSOLUTE_URL));         
+        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));         
     }
 
     /**
@@ -159,11 +159,10 @@ class UserController extends \Zikula_AbstractController
      */
     public function archiveAction(Request $request)
     {
-       // Permission check
-       if (!Access::checkAccess()) {
+        // Permission check
+        if (!Access::checkAccess()) {
            throw new AccessDeniedException();
-       }
-        
+        }
         $uid = UserUtil::getVar('uid');
         $autoreply = 0;
         if ($this->getVar('allow_autoreply') == 1) {
@@ -200,536 +199,194 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * @Route("/message/read/{id}")
+     * @Route("/message/{mode}")
      *
      * @return Response symfony response object
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function readAction(Request $request, $id)
+    public function messageAction(Request $request, $mode)
     {
         // Permission check
-        if (!Access::checkAccess()) {
-           throw new AccessDeniedException();
+        if (!Access::checkAccess()) {throw new AccessDeniedException();}
+        //id is comming both ways
+        $a['id'] = $request->query->get('id');
+        // save post data
+        if ($request->isMethod('Post')){
+                $this->checkCsrfToken();
+                $action =           $request->request->get('action',    false);                  
+                $a['id'] =          $request->request->get('id',        $a['id']);                              
+                $a['sender'] =      $request->request->get('sender',    false);
+                $a['recipient'] =   $request->request->get('recipient', false);
+                $a['group'] =       $request->request->get('group',     false);
+                $a['subject'] =     $request->request->get('subject',   false);
+                $a['text'] =        $request->request->get('text',      false);              
         }
-        if ($id == 0) {
-            throw new NotFoundHttpException();
-        }
-        $a['id'] = $id;
-        $message = new Message();
-        $message->load($a);
-        if(!$message->exist()){
-            $this->request->getSession()->getFlashbag()->add('status', $this->__('Sorry. Message not found'));
-            // Redirect
-            return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
-        }
-
-        // Create output object
-        $this->view->assign('currentuid', UserUtil::getVar('uid'));
-        $this->view->assign('boxtype', 'inbox');
-        $this->view->assign('message',  $message->toArray());
         
-        return new Response($this->view->fetch('User/readpm.tpl'));
-    }
-
-    /**
-     * @Route("/message/reply/{id}")
-     *
-     * @return Response symfony response object
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */
-    public function replyAction(Request $request, $id)
-    {
-       // Permission check
-       if (!Access::checkAccess(ACCESS_COMMENT)) {
-           throw new AccessDeniedException();
-       }
-
-        // Get parameters from whatever input we need.
-        $messageid = (int)FormUtil::getPassedValue('messageid', 0, 'GETPOST');
-        if ($messageid == 0) {
-            return LogUtil::registerArgsError;
-        }
-
-        $message = ModUtil::apiFunc('InterCom', 'user', 'getmessages',
-                array('boxtype'  => 'msg_inbox',
-                'msg_id'   => $messageid));
-
-        // Chasm: display errormessage if no message is returned
-        if ($message == false) {
-            return LogUtil::registerError($this->__('Error! Could not find message text. Please check and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-            // Chasm: message exits, go on
-        } else {
-            // Chasm: get details...
-            $fromuserdata = ModUtil::apiFunc('InterCom', 'user', 'getposterdata', array('uid' => $message['from_userid']));
-            $touserdata = ModUtil::apiFunc('InterCom', 'user', 'getposterdata', array('uid' => $message['to_userid']));
-            // Chasm: only the person who recived the PM may reply...
-            if (UserUtil::getVar('uid') != $touserdata['uid']) {
-                return LogUtil::registerError($this->__('Error! Message has no recipient. Do not try this again!'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-            }
-
-            // Prepare text of mesage for display
-            $message['msg_text'] = ModUtil::apiFunc('InterCom', 'user', 'prepmessage_for_form',
-                    array('msg_text' => $message['msg_text']));
-            // Create output object
-            $this->view->setCaching(false); // not suitable for caching
-            $this->view->add_core_data();
-            $this->view->assign('pmtype',       'reply');
-            $this->view->assign('currentuid',   UserUtil::getVar('uid'));
-            $this->view->assign('message',      $message);
-            $this->view->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
-            $this->view->assign('allowbbcode',  ModUtil::isHooked('BBCode', 'InterCom'));
-            $this->view->assign('allowhtml',    $this->getVar('messages_allowhtml'));
-            $this->view->assign('allowsmilies', $this->getVar('messages_smilies'));
-            $this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
-            $this->view->assign('to_user',      DataUtil::formatforDisplay($fromuserdata['uname']));
-            $this->view->assign('to_user_string', DataUtil::formatforDisplay($fromuserdata['uname']));
-            $this->view->assign('from_uname',   $touserdata['uname']);
-            $this->view->assign('from_uid',     UserUtil::getVar('uid'));
-            $this->view->assign('ictitle',      DataUtil::formatForDisplay($this->__('Send reply')));
-
-            return $this->view->fetch('user/pm.tpl');
-        }
-    }
-
-    /**
-     * @Route("/message/new")
-     *
-     * @return Response symfony response object
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */
-    public function newAction(Request $request)
-    {
-       // Permission check
-       if (!Access::checkAccess(ACCESS_COMMENT)) {
-           throw new AccessDeniedException();
-       }
-       /*
-        // Check if outboxlimit is reached
-        if (!SecurityUtil::checkPermission("InterCom::", "::", ACCESS_ADMIN)) {
-            $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
-            if ($totalarray['totalout'] >= $this->getVar('messages_limitoutbox')) {
-                return LogUtil::registerError($this->__('Sorry! There are too many messages in your outbox. Please delete some messages in the outbox, so that you can send further messages.'), null, ModUtil::url('InterCom', 'user', 'outbox'));
-            }
-        }
-
-        // Extract expected variables
-        $uid = (int)FormUtil::getPassedValue('uid', 0, 'GETPOST');
-        // if uname and uid are passed, uid always overrides uname, but uid must be > 1 (guest)
-        if ($uid > 1) {
-            $uname = UserUtil::getVar('uname', $uid);
-        } else {
-            $uname = FormUtil::getPassedValue('uname', '', 'GETPOST');
-            $uid = UserUtil::getIdFromName($uname);
-        }
-        // Check argument
-
-        if ((!empty($uname) && $uid==false) || $uid == 1) {
-            LogUtil::registerError($this->__('Error! Unknown user.') . DataUtil::formatForDisplay($uname));
-            unset($uname);
-            unset($uid);
-        }
-
-        // if to_user is not empty, we have been here before, this overrides the uid/uname we may have received
-        // format: user1,user2,user3
-        $to_user      = FormUtil::getPassedValue('to_user',     isset($args['to_user'])     ? $args['to_user']     : '', 'GETPOST');
-        $to_group     = FormUtil::getPassedValue('to_group',    isset($args['to_group'])    ? $args['to_group']    : '', 'GETPOST');
-        $msg_subject  = FormUtil::getPassedValue('subject',     isset($args['subject'])     ? $args['subject']     : '', 'GETPOST');
-        $msg_text     = FormUtil::getPassedValue('message',        isset($args['message'])     ? $args['message']     : '', 'GETPOST');
-        $msg_preview  = FormUtil::getPassedValue('msg_preview', isset($args['msg_preview']) ? $args['msg_preview'] :  0, 'GETPOST');
-        $html         = (int) FormUtil::getPassedValue('html',  isset($args['html'])        ? $args['html']         : 0, 'GETPOST');
-
-        // remove HTML if it isn't allowed or user doesn't want it
-        if ($this->getVar('messages_allowhtml', 0) == 0 || $html == 1) {
-            $msg_text = strip_tags($msg_text);
-        }
-
-        // Clean some variables
-        //$msg_preview = DataUtil::formatforDisplay($msg_preview);
-        $msg_subject = DataUtil::formatforDisplayHTML($msg_subject);
-        $msg_text    = DataUtil::formatforDisplayHTML($msg_text);
-
-        // Compose an array out of it
-        $message = compact('msg_subject', 'msg_text', 'html');
-        if (!$to_user == "") {
-            $uname .= $to_user;
-        }
-
-        // in the template we need an array fo the facebook style user selection
-        $to_user_array = array();
-        if (!empty($uname)) {
-            $to_user_array = explode(",", $uname);
-        }
-        // same for the group
-        $to_group_array = array();
-        if (!empty($to_group)) {
-            $to_group_array =explode(",", $to_group);
-        }
-
-        // get current users id
-        $currentuid = UserUtil::getVar('uid');
-
-        //check for contacts
-        $cl_buddies = array();
-        if (ModUtil::available('ContactList')) {
-            $cl_buddies = ModUtil::apiFunc('ContactList', 'user', 'getall',
-                    array ('bid'   => $currentuid,
-                    'state' => '1'));
-        }
-
-        $this->addinlinejs();
-        */
-        // Create output object
-	//	$this->view->setCaching(false); // not suitable for caching
-        //$this->view->add_core_data();
-        //$this->view->assign('pmtype',       'new');
-        //$this->view->assign('currentuid',   $currentuid);
-        //$this->view->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
-        //$this->view->assign('allowbbcode',  ModUtil::isHooked('BBCode', 'InterCom'));
-       // $this->view->assign('allowhtml',    $this->getVar('messages_allowhtml'));
-        //$this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
-        //$this->view->assign('msg_preview',  $msg_preview);
-        //$this->view->assign('to_user',      $to_user_array);
-        //$this->view->assign('to_user_string',$to_user);
-        //$this->view->assign('to_group',     $to_group_array);
-        //$this->view->assign('cl_buddies',   $cl_buddies);
-        //$this->view->assign('message',      $message);
-        $this->view->assign('ictitle',      $this->__('New message'));
-
-        // Return output object
-        return new Response($this->view->fetch('User/pm.tpl'));
-    }
-
-    /**
-     * @ Route("/message/submit")
-     *
-     * @ return Response symfony response object
-     *
-     * @ throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */    
-    public function submitAction(Request $request)
-    {
-       // Permission check
-       if (!Access::checkAccess(ACCESS_COMMENT)) {
-           throw new AccessDeniedException();
-       }
-
-        $from_uid = (int)FormUtil::getPassedValue('from_uid');
-        $to_user  = FormUtil::getPassedValue('to_user', '', 'GETPOST');
-        $to_group = FormUtil::getPassedValue('to_group', '', 'GETPOST');
-        $subject  = FormUtil::getPassedValue('subject', '', 'GETPOST');
-        $message  = FormUtil::getPassedValue('message', '', 'GETPOST');
-        $msg_id   = FormUtil::getPassedValue('msg_id', 0, 'GETPOST');
-        $html     = FormUtil::getPassedValue('html', 0, 'GETPOST');
-
-        if($from_uid <> UserUtil::getVar('uid')) {
-            return LogUtil::registerArgsError();
-        }
-        // Security check for messages to entire groups
-        //if (SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_MODERATE)) {
-        //    $to_group = FormUtil::getPassedValue('to_group');
-        //} else {
-        //    $to_group = '';
-        //}
-        if (FormUtil::getPassedValue('mail_prev', null, 'POST')) {
-            //return ModUtil::func('InterCom', 'user', 'newpm',
-             return $this->newpm('InterCom', 'user', 'newpm',
-                    array ('msg_preview' => '1',
-                    'to_user'     => $to_user,
-                    'to_group'    => $to_group,
-                    'msg_subject' => $subject,
-                    'msg_text'    => $message,
-                    'html'        => $html));
-        }
-
-        // Check the arguments
-        if ($to_user == '' && $to_group == '') {
-            LogUtil::registerError($this->__('Error! You did not enter a recipient. Please enter an recipient and try again.'), null);
-            return $this->newpm(array ('to_user'     => $to_user,
-                    'to_group'    => $to_group,
-                    'msg_subject' => $subject,
-                    'msg_text'    => $message,
-                    'html'        => $html));
-        }
-        if ($subject == '') {
-            return LogUtil::registerError($this->__('Error! Could not find the subject line. Please enter a subject line and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-        }
-        if ($message == '') {
-            return LogUtil::registerError($this->__('Error! Could not find the message text. Please enter message text and and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-        }
-        if ($this->getVar('messages_allowhtml') == 0 || (isset ($html))) {
-            $message = strip_tags($message);
-        }
-
-        $time = date("Y-m-d H:i:s");
-
-        // Get variables for spam protection
-        $protection_on     = $this->getVar('messages_protection_on');
-        $protection_time   = $this->getVar('messages_protection_time');
-        $protection_amount = $this->getVar('messages_protection_amount');
-        $protection_mail   = $this->getVar('messages_protection_mail');
-
-        // Initalize spam protection
-        $antispam_count = 0;
-
-        // Split $to_user in an array to allow more than one recipient
-        $recipients = explode(",", $to_user);
-
-        // count the messages that have been posted, it's better to say 'x messages posted" than sowing this x times
-        $post_message_count = 0;
-
-        // Send message to user(s)
-        if (!empty ($to_user)) {
-            foreach ($recipients as $recipient) {
-                $to_uid = UserUtil::getIdFromName($recipient);
-                //allow uid in recipient
-                if ($to_uid == "" and is_numeric($recipient)) {
-                    $to_uid = UserUtil::getVar('uid', $recipient);
+        $message = new Message();
+        
+        switch($mode){
+            case "read":
+                if(!$a['id']){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
+                    // Redirect
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));                     
+                }     
+                $message->load($a);//no post a so only id
+                if(!$message->exist()){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
+                    // Redirect
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
                 }
-                if ($to_uid == "") {
-                    LogUtil::registerError($this->__('Error! Unknown user.') . DataUtil::formatForDisplay($uname));
+                $this->view->assign('mode',       $mode);
+                $this->view->assign('currentuid', UserUtil::getVar('uid'));
+                $this->view->assign('message',    $message->toArray());
+                $this->view->assign('ictitle',    $this->__('Read'));           
+                return new Response($this->view->fetch('User/readpm.tpl'));                
+                break;
+            case "new":
+                if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                $this->view->assign('ictitle',    $this->__('New'));
+                $this->view->assign('action',      false);
+                $this->view->assign('mode',       'new');
+                $this->view->assign('currentuid', UserUtil::getVar('uid'));                  
+                if ($request->isMethod('Post')){
+                $this->checkCsrfToken();
+                $message->setNewData($a);
+                if (!$message->isValid()){
+                $this->view->assign($message->getNewData());
+                $this->view->assign('errors' ,$message->getErrors());                  
+                return new Response($this->view->fetch('User/pm.tpl'));            
                 }
-                if ($protection_on == 1) {
-                    $antispam_count++;
-                    $antispam_arr = SessionUtil::getVar('antispam');
-                    if ($antispam_arr == false) {
-                        $antispam_arr = array ();
-                    }
-
-                    foreach ($antispam_arr as $key => $value) {
-                        //delete entries, older then XX minutes
-                        if ($key < (mktime() - (60 * $protection_time)))
-                            unset ($antispam_arr[$key]);
-                    }
-                    //don't count messages to the same users more than once
-                    if (count(array_count_values($antispam_arr)) > $protection_amount) {
-                        $from_uname = UserUtil::getVar('uname', $from_uid);
-                        if ($protection_mail == 1) {
-                            $email_from = $this->getVar('messages_fromname');
-                            $email_fromname = System::getVar('sitename');
-                            $email_to = System::getVar('adminmail');
-                            $email_subject = System::getVar('sitename') . '' . $this->__('Spam alert');
-                            $message = $this->__('The user') . ' ' . $from_uname . ' (#' . $from_uid . ') ' . $this->__('tried to send too many private messages in too short a time. The private messaging system\'s spam prevention feature stopped the messages from being sent.');
-
-                            $args = array (
-                                    'fromname'    => $email_fromname,
-                                    'fromaddress' => $email_from,
-                                    'toname'      => $email_address,
-                                    'toaddress'   => $email_to,
-                                    'subject'     => $email_subject,
-                                    'body'        => $message,
-                                    'headers'     => array (
-                                            'X-Mailer: ' . $modinfo['name'] . ' ' . $modinfo['version']
-                                    )
-                            );
-                            ModUtil::apiFunc('Mailer', 'user', 'sendmessage', $args);
-                        }
-                        SessionUtil::setVar('antispam', $antispam_arr);
-                        return LogUtil::registerError($this->__('Sorry! You have triggered the private messaging system\'s spam prevention feature by trying to send messages to too many users in too short a time.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-                    }
-                    $antispam_arr[mktime() + $antispam_count] = $to_uid;
-                    SessionUtil::setVar('antispam', $antispam_arr);
+                if ($action == "send"){
+                //$message->send();
+                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'));                
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));          
                 }
-                //check if blocked in postBuddy
-                if (ModUtil::available('postBuddy')) {
-                    $buddy = ModUtil::apiFunc('postBuddy', 'user', 'get',
-                            array('uid' => $to_uid,
-                            'bid' => $from_uid));
-                    if ($buddy['state'] == 'DENIED') {
-                        LogUtil::registerStatus($this->__('Sorry! The recipient you entered has blocked the reception of messages from you. Unfortunately, your message will not be sent.'));
-                    }
+                if ($action == "preview"){
+                $this->view->assign('action',      $action);                
+                $this->view->assign($message->getNewData());
+                $this->view->assign('ictitle',    $this->__('Edit'));   
                 }
-                //check if blocked in ContactList
-                if (ModUtil::available('ContactList')) {
-                    $isIgnored = ModUtil::apiFunc('ContactList', 'user', 'isIgnored',
-                            array('uid'  => $to_uid,
-                            'iuid' => $from_uid));
-                    if ($isIgnored) {
-                        LogUtil::registerStatus($this->__('Sorry! The recipient you entered has blocked the reception of messages from you. Unfortunately, your message will not be sent.'));
-                    }
                 }
-                $from_uid = UserUtil::getVar('uid');
-                if (isset ($msg_id)) {
-                    ModUtil::apiFunc('InterCom', 'user', 'mark_replied',
-                            array ('msg_id'=> $msg_id));
+                $this->view->assign('mode',       'new');              
+                return new Response($this->view->fetch('User/pm.tpl'));                
+                break;                
+            case "reply":
+                if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                if(!$a['id']){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));                     
                 }
-                ModUtil::apiFunc('InterCom', 'user', 'store_message',
-                        array ('from_userid' => $from_uid,
-                        'to_userid'   => $to_uid,
-                        'msg_subject' => $subject,
-                        'msg_time'    => $time,
-                        'msg_text'    => $message,
-                        'msg_inbox'   => '1',
-                        'msg_outbox'  => '1',
-                        'msg_stored'  => '0'));
-                ModUtil::apiFunc('InterCom', 'user', 'autoreply',
-                        array ('to_uid'      => $to_uid,
-                        'from_uid'    => $from_uid,
-                        'subject'     => $subject));
-                $post_message_count++;
-            }
-        }
-
-        // Split $to_group in an array to allow more than one group
-        $grouprecipients = explode(",", $to_group);
-
-        // Send message to group(s)
-        if (!empty ($to_group)) {
-            foreach ($grouprecipients as $grouprecipient) {
-                $to_groupid = ModUtil::apiFunc('Groups', 'admin', 'getgidbyname', array ('name' => $grouprecipient));
-                if ($to_groupid == false) {
-                    LogUtil::registerError($this->__('Error! Unknown group.') . DataUtil::formatForDisplay($grouprecipient));
+                $message->load(array('id'=>$a['id']));
+                if(!$message->exist()){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
+                }                
+                $this->view->assign('ictitle',    $this->__('Reply'));
+                $this->view->assign('action',      false);
+                $this->view->assign('mode',       'reply');
+                $this->view->assign('id', $a['id']);
+                $this->view->assign('currentuid', UserUtil::getVar('uid')); 
+                if ($request->isMethod('Post')){
+                $this->checkCsrfToken();
+                $message->setNewData($a);
+                if (!$message->isValid()){
+                $this->view->assign($message->getNewData());
+                $this->view->assign('errors' ,$message->getErrors());                  
+                return new Response($this->view->fetch('User/pm.tpl'));            
                 }
-                $groupinfo = ModUtil::apiFunc('Groups', 'user', 'get', array('gid' => $to_groupid));
-                foreach ($groupinfo['members'] as $to_uid => $dummy) {
-                    $from_uid = UserUtil::getVar('uid');
-                    ModUtil::apiFunc('InterCom', 'user', 'store_message',
-                            array ('from_userid'  => $from_uid,
-                            'to_userid'    => $to_uid,
-                            'msg_subject'  => $subject,
-                            'msg_time'     => $time,
-                            'msg_text'     => $message,
-                            'msg_inbox'    => '1',
-                            'msg_outbox'   => '1',
-                            'msg_stored'   => '0'));
-                    //ModUtil::apiFunc('InterCom', 'user', 'autoreply', array('to_uid' => $to_uid, 'from_uid' => $from_uid, 'image' => $image, 'subject' => $subject));
-                    $post_message_count++;
+                if ($action == "send"){
+                //$message->reply();
+                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'));                
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));          
                 }
-            }
-        }
-
-        if($post_message_count > 0) {
-            LogUtil::registerStatus($this->_fn('Done! Sent %s message.', 'Done! Sent %s messages.', $post_message_count, $post_message_count));
-        }
-
-        return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
-    }
-    
-    
-    /**
-     * @Route("/message/forward/{id}")
-     *
-     * @return Response symfony response object
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-    */    
-    public function forwardAction(Request $request, $id)
-    {
-       // Permission check
-       if (!Access::checkAccess(ACCESS_COMMENT)) {
-           throw new AccessDeniedException();
-       }
-
-        if ($id == 0) {
-            return LogUtil::registerArgsError;
-        }
-
-        $message = ModUtil::apiFunc('InterCom', 'user', 'getmessages',
-                array('boxtype'  => 'msg_inbox',
-                'msg_id'   => $messageid));
-
-        // Prepare text of mesage for display
-        $message['msg_text'] = ModUtil::apiFunc('InterCom', 'user', 'prepmessage_for_form',
-                array('msg_text' => $message['msg_text']));
-
-        // Create output object
-        $this->view->setCaching(false); // not suitable for caching
-        $this->view->add_core_data();
-
-        $bbcode = ModUtil::isHooked('BBCode', 'InterCom');
-        $message['forward_text'] = DataUtil::formatForDisplay($message['msg_text']);
-        if ($bbcode == true) {
-            $message['forward_text'] = '[quote=' . UserUtil::getVar('uname', $message['from_userid']) . ']' . $message['forward_text'] . '[/quote]';
-        }
-
-        $this->view->assign('pmtype',       'forward');
-        $this->view->assign('currentuid',   UserUtil::getVar('uid'));
-        $this->view->assign('message',      $message);
-        $this->view->assign('allowsmilies', ModUtil::isHooked('BBSmile', 'InterCom'));
-        $this->view->assign('allowbbcode',  $bbcode);
-        $this->view->assign('allowhtml',    $this->getVar('messages_allowhtml'));
-        $this->view->assign('msgtogroups',  SecurityUtil::checkPermission('InterCom::', 'MsgToGroups::', ACCESS_COMMENT));
-        $this->view->assign('ictitle',      DataUtil::formatForDisplay($this->__('Forward message')));
-
-        return $this->view->fetch('user/pm.tpl');
-    }    
-    
-    /**
-     * @Route("/message/delete/{id}")
-     *
-     * @return Response symfony response object
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */
-    protected function deleteAction(Request $request, $id)
-    {
-       // Permission check
-       if (!Access::checkAccess()) {
-           throw new AccessDeniedException();
-       }
-
-        // Get parameters from whatever input we need.
-        // Chasm: messageid my be an array! no typecasting!
-        $msg_id = FormUtil::getPassedValue('messageid');
-
-        if (!is_array($msg_id)) {
-            // create a fake array
-            $msg_id = array($msg_id);
-        }
-
-        $status = false;
-        foreach ($msg_id as $single_msg_id) {
-            $status = ModUtil::apiFunc('InterCom', 'user', 'delete',
-                    array('msg_id'   => $single_msg_id,
-                    'msg_type' => $msg_type));
-            if (!$status) {
-                return LogUtil::registerError($this->__('Error! Could not delete the message. Please check the reason for this, resolve the problem and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-            }
-        }
-        LogUtil::registerStatus($this->__('Done! Message deleted.'));
-        return System::redirect(ModUtil::url('InterCom', 'user', $forwardfunc));
-    }
-
-    /**
-     * @Route("/message/store/{id}")
-     *
-     * @return Response symfony response object
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */
-    public function storeAction(Request $request, $id)
-    {
-       // Permission check
-       if (!Access::checkAccess()) {
-           throw new AccessDeniedException();
-       }
-
-        // Check if archivelimit is reached
-        if (!SecurityUtil::checkPermission("InterCom::", "::", ACCESS_ADMIN)) {
-            $totalarray = ModUtil::apiFunc('InterCom', 'user', 'getmessagecount', '');
-            if ($totalarray['totalarchive'] >= $this->getVar('messages_limitarchive')) {
-                return LogUtil::registerError( $this->__('Sorry! There are too many messages in the archive. Please delete some messages from the archive, to enable archiving of further messages.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-            }
-        }
-
-        // Get parameters from whatever input we need.
-        // Chasm: messageid may be an array! no typecasting!
-        $msg_id = FormUtil::getPassedValue('messageid');
-        if (!is_array($msg_id)) {
-            $msg_id = array($msg_id);
-        }
-        $status = false;
-        foreach ($msg_id as $single_msg_id) {
-            $status = ModUtil::apiFunc('InterCom', 'user', 'store',
-                    array('msg_id' => $single_msg_id));
-            if (!$status) {
-                return LogUtil::registerError($this->__('Error! Could not save your message. Please check the reason, resolve the problem and try again.'), null, ModUtil::url('InterCom', 'user', 'inbox'));
-            }
-        }
-        LogUtil::registerStatus($this->__('Done! Message archived.'));
-        return System::redirect(ModUtil::url('InterCom', 'user', 'inbox'));
+                if ($action == "preview"){
+                $this->view->assign('action',      $action);                
+                $this->view->assign($message->getNewData());
+                $this->view->assign('ictitle',    $this->__('Edit'));
+                return new Response($this->view->fetch('User/pm.tpl'));
+                }
+                }
+                $this->view->assign('mode',       'reply');
+                $this->view->assign($message->prepareForReply());                               
+                return new Response($this->view->fetch('User/pm.tpl'));                 
+                break;
+            case "forward":
+            if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                if(!$a['id']){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));                     
+                }
+                $message->load(array('id'=>$a['id']));
+                if(!$message->exist()){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
+                }                
+                $this->view->assign('ictitle',    $this->__('Forward'));
+                $this->view->assign('action',      false);
+                $this->view->assign('mode',       'forward');
+                $this->view->assign('id', $a['id']);
+                $this->view->assign('currentuid', UserUtil::getVar('uid')); 
+                //post only
+                if ($request->isMethod('Post')){
+                $this->checkCsrfToken();
+                $message->setNewData($a);
+                if (!$message->isValid()){
+                $this->view->assign($message->getNewData());
+                $this->view->assign('errors' ,$message->getErrors());                  
+                return new Response($this->view->fetch('User/pm.tpl'));            
+                }
+                if ($action == "send"){
+                //$message->forward();
+                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'));                
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));          
+                }
+                if ($action == "preview"){
+                $this->view->assign('action',      $action);                
+                $this->view->assign($message->getNewData());
+                $this->view->assign('ictitle',    $this->__('Edit'));
+                return new Response($this->view->fetch('User/pm.tpl'));               
+                }
+                }
+                $this->view->assign('mode',       'forward');
+                $this->view->assign($message->prepareForForward());                               
+                return new Response($this->view->fetch('User/pm.tpl'));
+                break;                
+            case "store":
+            if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                if(!$a['id']){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));                     
+                }
+                $message->load(array('id'=>$a['id']));
+                if(!$message->exist()){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
+                }                
+                //$message->store();
+                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message stored'));                
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_archive', array(), RouterInterface::ABSOLUTE_URL));          
+               
+                break;
+            case "delete":
+            if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                if(!$a['id']){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));                     
+                }
+                $message->load(array('id'=>$a['id']));
+                if(!$message->exist()){
+                    $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
+                    return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
+                }
+                //$message->delete();
+                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message deleted'));                
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));               
+                break;
+            default :                
+                break;
+        }       
     }
 
     /**

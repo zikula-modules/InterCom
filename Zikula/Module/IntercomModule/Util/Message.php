@@ -17,6 +17,7 @@ use ModUtil;
 use ServiceUtil;
 use DataUtil;
 use Zikula\Module\IntercomModule\Util\Validator;
+use Zikula\Module\IntercomModule\Entity\MessageEntity;
 
 
 class Message {
@@ -44,7 +45,7 @@ class Message {
      */
     public function create()
     {
-        $this->_message = new IntercomEntity();
+        $this->_message = new MessageEntity();
     }
     
     /**
@@ -157,6 +158,38 @@ class Message {
     {
         return $this->validator->getErrors();
     }
+    
+    /**
+     * return message array
+     *
+     * @return array
+     */
+    public function prepareForReply()
+    {
+        $reply = array();
+        $reply['id'] = $this->_message->getId();        
+        $reply['sender'] = $this->_message->getRecipient()->toArray();
+        $reply['recipient'] = $this->_message->getSender()->toArray();
+        $reply['subject'] = __('Re:').' '.$this->_message->getSubject();
+        $reply['text'] = __('Text').' '.$this->_message->getText();
+        return $reply;
+    }
+    
+    /**
+     * return message array
+     *
+     * @return array
+     */
+    public function prepareForForward()
+    {
+        $reply = array();
+        $reply['id'] = $this->_message->getId();        
+        $reply['sender'] = $this->_message->getRecipient()->toArray();
+        $reply['recipient'] = '';
+        $reply['subject'] = __('Fwd:').' '.$this->_message->getSubject();
+        $reply['text'] = __('Text').' '.$this->_message->getText();
+        return $reply;
+    }    
      
     /**
      * return message as array

@@ -190,7 +190,7 @@ class UserApi extends \Zikula_AbstractApi
                 'icon' => 'wrench'
             );
             $links[] = array(
-                'url' => $this->get('router')->generate('zikulaintercommodule_user_new'),
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_message',array('mode' => 'new')),
                 'text' => $this->__('New message'),
                 'icon' => 'file'
             );
