@@ -150,11 +150,10 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $sql = 'ALTER TABLE intercom MODIFY msg_popup DATETIME DEFAULT NULL';
         $stmt = $connection->prepare($sql);
         $stmt->execute();        
-        // sql UPDATE `module_vars` SET `modname`='ZikulaIntercomModule' WHERE `modname`='InterCom'
-        $sql = 'UPDATE module_vars SET modname = ZikulaIntercomModule WHERE modname = InterCom';
-        $stmt = $connection->prepare($sql);
-        $stmt->execute();         
         
+        if (!$this->upgrade_to_3_0_0_renameModuleVars()) {
+            return false;
+        }        
         if (!$this->upgrade_to_3_0_0_renameColumns()) {
             return false;
         }
@@ -200,8 +199,31 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
             }
         }
         return true;
-    }    
+    }
     
+    /**
+     * rename some table columns
+     * This must be done before updateSchema takes place
+     */
+    private function upgrade_to_3_0_0_renameModuleVars()
+    {
+        $connection = $this->entityManager->getConnection();
+        // sql UPDATE `module_vars` SET `modname`='ZikulaIntercomModule' WHERE `modname`='InterCom'
+        $sql = 'UPDATE module_vars SET modname = ZikulaIntercomModule WHERE modname = InterCom';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();   
+        $old_vars = $this->getVars();
+        $this->delVars();        
+        $vars = Settings::getDefault();
+        $key = array();
+        if(is_array($old_vars)){
+        foreach($vars as $var_name => $var){
+        $old_var_key[$varname] = 'messages_'.$var_name;    
+        $this->setVar($var_name, $old_vars[$old_var_key[$varname]]);
+        }    
+        }
+        return true;
+    }    
     public function uninstall()
     {
         try {
