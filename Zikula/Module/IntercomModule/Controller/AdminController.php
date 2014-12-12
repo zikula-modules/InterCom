@@ -169,59 +169,49 @@ class AdminController extends \Zikula_AbstractController
         if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }        
-
-        //$this->checkCsrfToken();
-        //$dom = ZLanguage::getModuleDomain('InterCom');
+        $tools = new Tools();
         // Get parameters
         $operation = $request->query->get('operation', false);
         if ($operation === false){
-           return new Response($this->view->fetch('Admin/tools.tpl'));        
+            //get check
+            $this->view->assign('users_check', $tools->checkIntegrityUsers());
+            $this->view->assign('orphaned', $tools->checkIntegrityOrphaned());
+            $this->view->assign('inboxes', $tools->checkIntegrityInbox());
+            $this->view->assign('outboxes', $tools->checkIntegrityOutbox());
+            $this->view->assign('archives', $tools->checkIntegrityArchive());      
+            return new Response($this->view->fetch('Admin/tools.tpl'));        
         }
-        $tools = new Tools();
+
         // to do: better information to the user if the action was successful or not! - DONE
         switch ($operation) {
-            case "delete_all":
-                if ($tools->delete_all()) {                   
-                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Deleted all messages.'));
+            case "fix_integrity_users":
+                if ($tools->fixIntegrityUsers()) {                   
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! users integrity fixed.'));
                 } else {
-                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not delete all messages.'));
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not fix users data integrity.'));
                 }
                 break;
-            case "delete_inboxes":
-                if ($tools->delete_inboxes()) {
-                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied inboxes.'));
+            case "fix_integrity_inbox":
+                if ($tools->fixIntegrityInbox()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! inboxes integrity fixed.'));
                 } else {
-                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty inboxes.'));
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not fix inbox data integrity..'));
                 }
                 break;
-            case "delete_outboxes":
-                if ($tools->delete_outboxes()) {
-                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied outboxes.'));
+            case "fix_integrity_outbox":
+                if ($tools->fixIntegrityOutbox()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! outboxes integrity fixed.'));
                 } else {
-                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty outboxes.'));
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not fix outbox data integrity.'));
                 }
                 break;
-            case "delete_archives":
-                if ($tools->delete_archives()) {
-                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied archives.'));
+            case "fix_integrity_archive":
+                if ($tools->fixIntegrityArchive()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! archives integrity fixed.'));
                 } else {
-                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty archives.'));
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not fix users archive integrity.'));
                 }
                 break;
-            case "optimize_db":
-                if ($tools->optimize_db()) {
-                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Optimised tables.'));
-                } else {
-                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not optimise tables.'));
-                }
-                break;
-            case "check_integrity":
-                if ($tools->checkIntegrity()) {
-                    $request->getSession()->getFlashbag()->add('status', $this->__('Done! Integrity check succeed.'));  
-                } else {
-                    $request->getSession()->getFlashbag()->add('error', $this->__('Error! Integrity check failed.'));             
-                }                
-                break;                
             case "reset_to_defaults":
                 if ($tools->resetSettings()) {
                     $request->getSession()->getFlashbag()->add('status', $this->__('Done! Reset settings to default values.'));  
@@ -229,11 +219,32 @@ class AdminController extends \Zikula_AbstractController
                     $request->getSession()->getFlashbag()->add('error', $this->__('Error! Could not reset settings to default values.'));             
                 }                
                 break;
-            case "import_form_native":
-                if ($tools->import_form_native()) {
-                    $request->getSession()->getFlashbag()->add('status',$this->__('Done! Imported messages from the \'Messages\' module.'));
+            case "delete_inboxes":
+                if ($tools->deleteInboxes()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied inboxes.'));
                 } else {
-                    $request->getSession()->getFlashbag()->add('error', $this->__('Error! Could not import messages from \'Messages\' module.'));
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty inboxes.'));
+                }              
+                break;                
+            case "delete_outboxes":
+                if ($tools->deleteOutboxes()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied outboxes.'));
+                } else {
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty outboxes.'));
+                }               
+                break;
+            case "delete_archive":
+                if ($tools->deleteArchive()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Emptied archives.'));
+                } else {
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not empty archives.'));
+                }
+                break;
+            case "delete_all":
+                if ($tools->deleteAll()) {
+                    $request->getSession()->getFlashBag()->add('status', $this->__('Done! Deleted all messages.'));
+                } else {
+                    $request->getSession()->getFlashBag()->add('error', $this->__('Error! Could not delete all messages.'));
                 }
                 break;
             default:
