@@ -6,9 +6,9 @@
   <div class="panel-heading">{$ictitle}</div>     
         <table class="table table-striped table-hover">
         <tr>
-            <th>#</th>
+            <th><input type="checkbox"/></th>
             <th></th>        
-            <th>            <th>{gt text="Subject"}
+            <th>{gt text="Subject"}
             {if $sortby eq 'subject'}
             {if $sortorder eq 'ASC'}
             <a href="{route name='zikulaintercommodule_user_archive' sortby='subject' sortorder='DESC'}"><i class='fa fa-sort-desc'></i></a>             
@@ -34,8 +34,6 @@
             <th></th>         
         </tr>
             {section name=message loop=$messagearray}
-        <tr>
-            <td><input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].id}" /></td>
         <tr class="{if $messagearray[message].seen == NULL} warning bold{/if}">
             <td><input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].id}" /></td>
             <td>                   
@@ -72,21 +70,10 @@
             <div class="row">
                 <div class="col-sm-3">
                 <a href="#" class="thumbnail">
-                        {*icuseravatar uid=$messagearray[message].from_userid assign=useravatar}
-                        {if isset($useravatar)}
-                        {$messagearray[message].from_userid|profilelinkbyuid:'':$useravatar}
-                        {/if}
-                        {modavailable modname="ContactList" assign="ContactListInstalled"}
-                        {*if $ContactListInstalled}
-                        <p><a href="{modurl modname="ContactList" type="user" func="create" uid=$messagearray[message].from_userid}">{img modname="ContactList" src="user_add.png" __title="Add buddy" }</a></p>
-                        {/if*}
-                </a></div>
-                    
+                </a></div>                   
                 <div class="col-sm-9">
-                       {$messagearray[message].text|safehtml|nl2br} {* {$messagearray[message].text|safehtml|modcallhooks|nl2br} *}
-                        {*if $messagearray[message].signature != ""}<div class="signature">{$messagearray[message].signature|safehtml|nl2br}{* {$messagearray[message].signature|safehtml|nl2br} }</div>{/if*}
-                </div>
-                
+                       {$messagearray[message].text|safehtml|nl2br}
+                </div>               
                 <div class="col-sm-12">
                     <a class="btn btn-default btn-sm " role="button" id="read-{$messagearray[message].id}"    href="{route name='zikulaintercommodule_user_message' mode='read'  id=$messagearray[message].id}"          title="{gt text='Read'}"><i class="fa fa-search"></i></a>
                     <a class="btn btn-default btn-sm " role="button" id="reply-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='reply' id=$messagearray[message].id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>

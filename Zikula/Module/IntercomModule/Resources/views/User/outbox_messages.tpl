@@ -6,7 +6,7 @@
   <div class="panel-heading">{$ictitle}</div>       
         <table class="table table-striped table-hover">
         <tr>
-            <th>#</th>
+            <th><input type="checkbox"/></th>
             <th></th>        
             <th>{gt text="Subject"}
             {if $sortby eq 'subject'}

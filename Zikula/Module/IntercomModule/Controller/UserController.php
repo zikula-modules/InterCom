@@ -240,6 +240,9 @@ class UserController extends \Zikula_AbstractController
                 break;
             case "new":
                 if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                $recipient['uid'] = $request->query->get('uid');
+                $recipient['uname'] = UserUtil::getVar('uname', $recipient['uid']);
+                $this->view->assign('recipient',      $recipient);
                 $this->view->assign('ictitle',    $this->__('New'));
                 $this->view->assign('action',      false);
                 $this->view->assign('mode',       'new');
