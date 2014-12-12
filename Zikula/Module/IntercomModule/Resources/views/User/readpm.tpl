@@ -29,11 +29,11 @@
     </div>     
     <div class="panel-footer">
         <div class="btn-group">
-        <a class="btn btn-default btn-sm " role="button" id="reply-{$message.id}"   href="{route name='zikulaintercommodule_user_message' mode='read' id=$message.id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
-        <a class="btn btn-default btn-sm " role="button" id="forward-{$message.id}" href="{route name='zikulaintercommodule_user_message' mode='read'  id=$message.id}"    title="{gt text='Forward'}"><i class="fa fa-forward"></i></a>
-        <a class="btn btn-default btn-sm " role="button" id="store-{$message.id}"   href="{route name='zikulaintercommodule_user_message' mode='read' id=$message.id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
+        <a class="btn btn-default btn-sm " role="button" id="reply-{$message.id}"   href="{route name='zikulaintercommodule_user_message' mode='reply' id=$message.id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
+        <a class="btn btn-default btn-sm " role="button" id="forward-{$message.id}" href="{route name='zikulaintercommodule_user_message' mode='forward'  id=$message.id}"    title="{gt text='Forward'}"><i class="fa fa-forward"></i></a>
+        <a class="btn btn-default btn-sm " role="button" id="store-{$message.id}"   href="{route name='zikulaintercommodule_user_message' mode='store' id=$message.id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
         <a class="btn btn-default btn-sm " role="button" id="print-{$message.id}"   href="{route name='zikulaintercommodule_user_message' mode='read' id=$message.id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
-        <a class="btn btn-default btn-sm " role="button" id="delete-{$message.id}"  href="{route name='zikulaintercommodule_user_message' mode='read' id=$message.id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>
+        <a class="btn btn-default btn-sm " role="button" id="delete-{$message.id}"  href="{route name='zikulaintercommodule_user_message' mode='delete' id=$message.id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>
         </div>
     </div> 
 </div>  

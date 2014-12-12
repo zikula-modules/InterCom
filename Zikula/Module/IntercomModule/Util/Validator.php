@@ -56,7 +56,8 @@ class Validator {
         $this->checkSeen();
         $this->checkSend();
         $this->checkSender();
-        $this->checkRecipient();        
+        $this->checkRecipient();
+        $this->checkGroup();
     }
     
 
@@ -146,5 +147,9 @@ class Validator {
         }else {
         $this->data['recipient'] = $exist;             
         }       
-    }       
+    }
+    
+    public function checkGroup() {
+     unset($this->data['group']); 
+    }    
 }

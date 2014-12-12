@@ -51,10 +51,10 @@ class UserController extends \Zikula_AbstractController
     */ 
     public function indexAction(Request $request)
     { 
-       // Permission check
-       if (!Access::checkAccess()) {
-           throw new AccessDeniedException();
-       }
+        // Permission check
+        if (!Access::checkAccess()) {
+            throw new AccessDeniedException();
+        }
         return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));         
     }
 
@@ -68,10 +68,9 @@ class UserController extends \Zikula_AbstractController
     public function inboxAction(Request $request)
     {
         // Permission check
-       if (!Access::checkAccess()) {
-           throw new AccessDeniedException();
-       }
-        
+        if (!Access::checkAccess()) {
+            throw new AccessDeniedException();
+        }       
         $uid = UserUtil::getVar('uid');
         $autoreply = 0;
         if ($this->getVar('allow_autoreply') == 1) {
@@ -91,8 +90,7 @@ class UserController extends \Zikula_AbstractController
         $totalarray = $messages->getmessagecount();
         $a['inbox'] = 1;
         $a['recipient'] = $uid;        
-        $messagearray = $messages->getmessages($a);
-                
+        $messagearray = $messages->getmessages($a);            
         $this->view->assign('boxtype',          'inbox');
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
         $this->view->assign('messagearray',     $messagearray);
@@ -128,14 +126,12 @@ class UserController extends \Zikula_AbstractController
         // Get parameters from whatever input we need.
         $a['sortorder'] = $request->request->get('sortorder',null);
         $a['sortby'] = $request->request->get('sortby',null);        
-        
         $messages = new Messages();
         // Get the amount of messages within each box
         $totalarray = $messages->getmessagecount();
         $a['outbox'] = 1;
         $a['sender'] = $uid;
         $messagearray = $messages->getmessages($a);
-
         $this->view->assign('boxtype',          'outbox');
         $this->view->assign('currentuid',       $uid);
         $this->view->assign('messagearray',     $messagearray);
@@ -182,8 +178,7 @@ class UserController extends \Zikula_AbstractController
         $totalarray = $messages->getmessagecount();
         $a['stored'] = 1;
         $a['recipient'] = $uid;
-        $messagearray = $messages->getmessages($a);
-                
+        $messagearray = $messages->getmessages($a);                
         $this->view->assign('boxtype',          'archive');
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
         $this->view->assign('messagearray',     $messagearray);
@@ -221,10 +216,8 @@ class UserController extends \Zikula_AbstractController
                 $a['group'] =       $request->request->get('group',     false);
                 $a['subject'] =     $request->request->get('subject',   false);
                 $a['text'] =        $request->request->get('text',      false);              
-        }
-        
-        $message = new Message();
-        
+        }       
+        $message = new Message();      
         switch($mode){
             case "read":
                 if(!$a['id']){
@@ -259,7 +252,7 @@ class UserController extends \Zikula_AbstractController
                 return new Response($this->view->fetch('User/pm.tpl'));            
                 }
                 if ($action == "send"){
-                //$message->send();
+                $message->send();
                 $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'));                
                 return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));          
                 }
@@ -297,7 +290,7 @@ class UserController extends \Zikula_AbstractController
                 return new Response($this->view->fetch('User/pm.tpl'));            
                 }
                 if ($action == "send"){
-                //$message->reply();
+                $message->reply();
                 $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'));                
                 return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));          
                 }
@@ -364,7 +357,7 @@ class UserController extends \Zikula_AbstractController
                     $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
                     return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
                 }                
-                //$message->store();
+                $message->store();
                 $this->request->getSession()->getFlashbag()->add('status', $this->__('Message stored'));                
                 return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_archive', array(), RouterInterface::ABSOLUTE_URL));          
                
@@ -380,7 +373,7 @@ class UserController extends \Zikula_AbstractController
                     $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
                     return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
                 }
-                //$message->delete();
+                $message->delete();
                 $this->request->getSession()->getFlashbag()->add('status', $this->__('Message deleted'));                
                 return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));               
                 break;

@@ -130,7 +130,10 @@ class MessageEntity extends EntityAccess
      */
     public function __construct()
     {
-
+        $this->seen = null;
+        $this->inbox = 1;
+        $this->outbox = 1;
+        $this->stored = 0;
     }
     
     /**

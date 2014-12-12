@@ -16,6 +16,7 @@ namespace Zikula\Module\IntercomModule\Util;
 use ModUtil;
 use ServiceUtil;
 use DataUtil;
+use UserUtil;
 use Zikula\Module\IntercomModule\Util\Validator;
 use Zikula\Module\IntercomModule\Entity\MessageEntity;
 
@@ -60,7 +61,7 @@ class Message {
     }    
     
     /**
-     * set new message data
+     * set new message array
      *
      * @return boolean
      */
@@ -68,10 +69,11 @@ class Message {
     {
         $this->validator->setData($p);
         $this->_new = $this->validator->getData();
+        return true;
     }
     
     /**
-     * return message as array
+     * return new message array
      *
      * @return boolean
      */
@@ -79,25 +81,9 @@ class Message {
     {
         return $this->_new;   
     }    
-    
+ 
     /**
-     * return message as array
-     *
-     * @param array $data Information data.
-     *
-     * @return boolean
-    
-    public function mergeWithErrors()
-    {    
-        //$this->prepareForSave();
-        unset($this->_new['id']);
-        $this->_message->merge($this->_new);
-        
-        return $this->toArray();
-    }
-     */
-    /**
-     * return message as array
+     * return message id
      *
      * @return array
     */
@@ -126,12 +112,11 @@ class Message {
         if (!$this->exist()) {
         return false;
         }
-        
         return $this->_message->toArray();
     }
     
     /**
-     * return message as array
+     * return exist status
      *
      * @return boolean
      */
@@ -141,7 +126,7 @@ class Message {
     }
     
     /**
-     * return message as array
+     * return validation status
      *
      * @return boolean
      */
@@ -149,10 +134,11 @@ class Message {
     {
         return $this->validator->isValid();
     }
+    
     /**
-     * return message as doctrine2 object
+     * return errors array
      *
-     * @return object
+     * @return array
      */
     public function getErrors()
     {
@@ -160,7 +146,20 @@ class Message {
     }
     
     /**
-     * return message array
+     * set seen status
+     *
+     * @return boolean
+     */
+    public function setSeen()
+    {
+       $this->_message->setSeen(new \DateTime('now'));
+       $this->entityManager->persist($this->_message);
+       $this->entityManager->flush();        
+       return true; 
+    }
+    
+    /**
+     * return reply message array
      *
      * @return array
      */
@@ -176,7 +175,7 @@ class Message {
     }
     
     /**
-     * return message array
+     * return forward message array
      *
      * @return array
      */
@@ -190,17 +189,79 @@ class Message {
         $reply['text'] = __('Text').' '.$this->_message->getText();
         return $reply;
     }    
-     
     /**
-     * return message as array
+     * perform send
      *
-     * @param array $data Information data.
+     * @return boolean
+     */
+    public function send()
+    {
+        $this->create(); 
+        return $this->save(); 
+    }  
+    /**
+     * perform reply
+     *
+     * @return boolean
+     */
+    public function reply()
+    {
+        $this->_message->setReplied(new \DateTime('now'));
+        $this->entityManager->persist($this->_message);
+        $this->entityManager->flush();
+        $this->create(); 
+        return $this->save(); 
+    }
+    
+    /**
+     * perform store
+     *
+     * @return boolean
+     */
+    public function store()
+    {
+        $inbox = $this->_message->getRecipient()->getUid() == UserUtil::getVar('uid') ? $this->_message->setInbox(0):1;
+        $outbox = $this->_message->getSender()->getUid() == UserUtil::getVar('uid') ? $this->_message->setOutbox(0):1;        
+        $this->_message->setStored(1);
+        $this->entityManager->persist($this->_message);
+        $this->entityManager->flush();
+        return true;
+    }
+    
+    /**
+     * perform delete
+     *
+     * @return boolean
+     */
+    public function delete()
+    {
+        $inbox = $this->_message->getRecipient()->getUid() == UserUtil::getVar('uid') ? $this->_message->setInbox(0):1;
+        $outbox = $this->_message->getSender()->getUid() == UserUtil::getVar('uid') ? $this->_message->setOutbox(0):1;
+        $this->entityManager->persist($this->_message);
+        $this->entityManager->flush();
+        return ($inbox || $outbox);
+    }     
+    
+    /**
+     * perform forward
+     *
+     * @return boolean
+     */
+    public function forward()
+    {
+        $this->create(); 
+        return $this->save();  
+    }
+    
+    /**
+     * perform save
      *
      * @return boolean
      */
     public function save()
     {  
         if (!$this->getId() && $this->_new && $this->isValid()){
+            unset($this->_new['id']);            
             $this->_message->merge($this->_new);
             $this->entityManager->persist($this->_message);
             $this->entityManager->flush();
@@ -215,7 +276,7 @@ class Message {
     }
     
     /**
-     * return message as array
+     * remove message compleatly
      *
      * @return boolean
      */
@@ -227,7 +288,7 @@ class Message {
     }
     
     /**
-     * Set a block's active state.
+     * Edit field.
      */
     public function editField($args)
     {
@@ -273,6 +334,4 @@ class Message {
         $this->entityManager->flush();
         return true; 
     }
-    
-    
 }
