@@ -10,6 +10,7 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">
+      <i class="fa fa-eye"> </i>  
             {$ictitle}
            {if $message.inbox eq 1}
             {gt text="from"} <strong>{$message.sender.uname}</strong> 

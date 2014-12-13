@@ -5,7 +5,7 @@
         <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">{$ictitle}</div>
+  <div class="panel-heading"><i class="fa fa-wrench"> </i> {$ictitle}</div>
   <div class="panel-body">
     {if $modvars.ZikulaIntercomModule.allow_emailnotification eq true}      
         <div class="form-group col-lg-12">    

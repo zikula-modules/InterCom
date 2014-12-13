@@ -171,17 +171,20 @@ class UserApi extends \Zikula_AbstractApi
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
                 'text' => $this->__('Inbox'),
+                'title'   => $this->__('Recived messages'),                 
                 'icon' => 'inbox'
             );
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_outbox'),
                 'text' => $this->__('Outbox'),
+                'title'   => $this->__('Messages send by you'),                 
                 'icon' => 'upload'
             );
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_archive'),
                 'text' => $this->__('Archive'),
-                'icon' => 'save'
+                'title'   => $this->__('Your saved messages'),                 
+                'icon' => 'archive'
             );
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_preferences'),
@@ -192,6 +195,7 @@ class UserApi extends \Zikula_AbstractApi
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_message',array('mode' => 'new')),
                 'text' => $this->__('New message'),
+                'title'   => $this->__('Click here to compose new message'),                 
                 'icon' => 'file'
             );
         }

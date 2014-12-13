@@ -1,6 +1,6 @@
 {adminheader}
 <h3>
-    <span class="fa fa-wrench"></span>
+    <span class="fa fa-magic"></span>
     {gt text="Utilities"}
 </h3>
 <div class="row">

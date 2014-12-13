@@ -27,14 +27,14 @@ class AdminApi extends \Zikula_AbstractApi
         if (SecurityUtil::checkPermission('InterCom::', '::', ACCESS_ADMIN)) {
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_admin_index'),
-                'text' => $this->__('Statistics'),
-                'title' => $this->__('Display statistics'),               
-                'icon' => 'list');
+                'text' => $this->__('Info'),
+                'title' => $this->__('Display informations'),               
+                'icon' => 'dashboard');
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_admin_tools'),
                 'text' => $this->__('Utilities'),
                 'title' => $this->__('Here you can manage your messages database'),                
-                'icon' => 'plus');
+                'icon' => 'magic');
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_admin_preferences'),
                 'text' => $this->__('Settings'),

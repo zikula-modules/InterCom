@@ -1,7 +1,7 @@
 {* $Id$ *}
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">{$ictitle} {gt text="status"} {gt text="used"} 
+  <div class="panel-heading"><i class="fa fa-tasks"> </i> {$ictitle} {gt text="status"} {gt text="used"} 
   {if $boxtype eq 'inbox'}{$getmessagecount.totalin} {gt text="of"} {$getmessagecount.limitin}   
   {elseif $boxtype eq 'outbox'}{$getmessagecount.totalout} {gt text="of"} {$getmessagecount.limitout}
   {elseif $boxtype eq 'archive'}{$getmessagecount.totalarchive} {gt text="of"} {$getmessagecount.limitarchive}   

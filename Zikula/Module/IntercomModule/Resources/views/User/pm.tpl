@@ -8,7 +8,7 @@
         <input type="hidden" name="sender" value="{if isset($sender)}{$sender.uid}{else}{$currentuid}{/if}" />
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">{$ictitle}</div>
+  <div class="panel-heading"><i class="fa fa-file-o"> </i>   {$ictitle}</div>
   <div class="panel-body">        
         <div class="form-group col-lg-12 {if isset($errors.recipient)}has-error{/if}">
         <label class="control-label col-lg-12" for="recipient">{gt text="Individual recipient(s)"}</label>

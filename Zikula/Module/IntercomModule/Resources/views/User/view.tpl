@@ -10,10 +10,10 @@
 {*assign var="indicatorbar" value=$getmessagecount.indicatorbararchive*}
 {/if}
 
-{modgetvar module="InterCom" name="messages_userprompt_display" assign=display}
+{modgetvar module="ZikulaIntercomModule" name="userprompt_display" assign=display}
 {if $display == 1}
 <div class="alert alert-info">
-    {modgetvar module="InterCom" name="messages_userprompt" assign=userprompt}
+    {modgetvar module="ZikulaIntercomModule" name="userprompt" assign=userprompt}
     {$userprompt|safehtml}
 </div>
 {/if}

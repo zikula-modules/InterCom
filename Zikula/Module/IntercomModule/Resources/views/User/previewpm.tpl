@@ -2,6 +2,7 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">
+      <i class="fa fa-eye"> </i>        
     {gt text="Preview"}
   </div>
   <div class="panel-body">

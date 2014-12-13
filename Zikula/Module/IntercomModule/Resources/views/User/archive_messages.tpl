@@ -3,7 +3,7 @@
     
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">{$ictitle}</div>     
+  <div class="panel-heading"><i class="fa fa-archive"> </i> {$ictitle}</div>     
         <table class="table table-striped table-hover">
         <tr>
             <th><input type="checkbox"/></th>
@@ -39,17 +39,17 @@
             <td>                   
                     {if $messagearray[message].seen == NULL}
                     <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope "> </span>
-                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                                 
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                                 
                     {else}
                     {if $messagearray[message].replied !== NULL}
                     <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope hide"> </span>
-                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply"> </span>                   
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-reply"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                   
                     {else}
                     <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope hide"> </span>
-                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-envelope-o"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-re hide"> </span> 
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-o"> </span> 
                     {/if}
                     {/if}
             </td>
