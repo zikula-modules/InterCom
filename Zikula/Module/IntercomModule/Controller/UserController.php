@@ -139,7 +139,7 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('indicatorbar',     $totalarray['indicatorbarout']);          
         $this->view->assign('sortbar_target',   'outbox');
         $this->view->assign('messagesperpage',  $a['perpage']);
-        $this->view->assign('sortorder',         $a['sortorder']);
+        $this->view->assign('sortorder',        $a['sortorder']);
         $this->view->assign('sortby',           $a['sortby']);        
         $this->view->assign('ictitle',          $this->__('Outbox'));
         // Return output object
