@@ -63,27 +63,35 @@
                     <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"><strong>{$messagearray[message].recipient.uname}</strong></a>
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"> <span class="fa fa-eye" title="Read"> </span></a>            
+                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"> <span class="fa fa-plus-square-o" title="Read"> </span></a>            
             </td>            
             </tr>
             <tr id="msgbody-{$messagearray[message].id}" class=" hide">
            <td colspan="6">
             <div class="row">
-                <div class="col-sm-3">
-                <a href="#" class="thumbnail">
-                </a></div>
-                    
-                <div class="col-sm-9">
+                <div class="col-sm-2">
+                <a href="#" class="thumbnail" style="height:60px;">
+                        {*icuseravatar uid=$messagearray[message].from_userid assign=useravatar}
+                        {if isset($useravatar)}
+                        {$messagearray[message].from_userid|profilelinkbyuid:'':$useravatar}
+                        {/if}
+                        {modavailable modname="ContactList" assign="ContactListInstalled"}
+                        {*if $ContactListInstalled}
+                        <p><a href="{modurl modname="ContactList" type="user" func="create" uid=$messagearray[message].from_userid}">{img modname="ContactList" src="user_add.png" __title="Add buddy" }</a></p>
+                        {/if*}
+                </a>
+                {$messagearray[message].sender.uname}
+                </div> 
+                <div class="col-sm-10">
                 {$messagearray[message].text|safehtml|nl2br}
                 </div>
                 
-                <div class="col-sm-12">
-                    <a class="btn btn-default btn-sm " role="button" id="read-{$messagearray[message].id}"    href="{route name='zikulaintercommodule_user_message' mode='read'  id=$messagearray[message].id}"      title="{gt text='Read'}"><i class="fa fa-search"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="reply-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='reply' id=$messagearray[message].id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="forward-{$messagearray[message].id}" href="{route name='zikulaintercommodule_user_message' mode='forward'  id=$messagearray[message].id}"    title="{gt text='Forward'}"><i class="fa fa-forward"></i></a>
+                <div class="col-sm-12 text-right">
+                   <a  class="btn btn-default btn-sm " role="button" id="delete-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='delete' id=$messagearray[message].id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>                    
+                    <a class="btn btn-default btn-sm " role="button" id="forward-{$messagearray[message].id}" href="{route name='zikulaintercommodule_user_message' mode='forward'  id=$messagearray[message].id}"    title="{gt text='Forward'}"><i class="fa fa-share"></i></a>
                     <a class="btn btn-default btn-sm " role="button" id="store-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='save' id=$messagearray[message].id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="print-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="delete-{$messagearray[message].id}"  href="{route name='zikulaintercommodule_user_message' mode='delete' id=$messagearray[message].id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>
+                    <a  class="btn btn-default btn-sm " role="button"  id="print-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="read-{$messagearray[message].id}"    href="{route name='zikulaintercommodule_user_message' mode='read'  id=$messagearray[message].id}"          title="{gt text='Read'}"><i class="fa fa-search"></i></a>               
                 </div>
                 <div id="information-{$messagearray[message].id}" class=" hide">&nbsp;</div>
 
