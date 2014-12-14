@@ -13,19 +13,19 @@
         <div class="form-group col-lg-12 {if isset($errors.recipient)}has-error{/if}">
         <label class="control-label col-lg-12" for="recipient">{gt text="Individual recipient(s)"}</label>
         <div class="col-lg-12">
-        <input class="form-control input-sm" type="text" id="recipient" name="recipient"  size="5" type="text" value="{if isset($recipient.uname)}{$recipient.uname}{/if}"/>
+        <input class="form-control input-sm" type="text" id="recipient" name="recipients[names]"  size="5" type="text" value="{if isset($recipients.names)}{$recipients.names}{/if}"/>
         </div>
+        {if isset($errors.recipient)}<p class="help-block col-lg-12">{$errors.recipient}</p>{/if}         
         <p class="help-block col-lg-12">{gt text="Notice: To send a private message to multiple individual recipients, enter their user names separated by commas."}</p>
-        {if isset($errors.recipient)}<p class="help-block col-lg-12">{$errors.recipient}</p>{/if} 
         </div> 
         {*if $pmtype eq "new" && $msgtogroups eq true*}
         <div class="form-group col-lg-12 {if isset($errors.group)}has-error{/if}">
         <label class="control-label col-lg-12" for="group">{gt text="Group recipient(s)"}</label>
         <div class="col-lg-12">
-        <input class="form-control input-sm" type="text" id="group" name="group"  size="5" type="text" value="{if isset($group)}{$group}{/if}"/>
+        <input class="form-control input-sm" type="text" id="group" name="recipients[groups]"  size="5" type="text" value="{if isset($recipients.groups)}{$recipients.groups}{/if}"/>
         </div>
+        {if isset($errors.group)}<p class="help-block col-lg-12">{$errors.group}</p>{/if}         
         <p class="help-block col-lg-12">{gt text="Notice: To send a private message to multiple groups, enter the group names separated by commas."}</p>
-        {if isset($errors.group)}<p class="help-block col-lg-12">{$errors.group}</p>{/if} 
         </div>
             
         <div class="form-group col-lg-12 {if isset($errors.subject)}has-error{/if}">
@@ -33,8 +33,8 @@
         <div class="col-lg-12">
         <input class="form-control input-sm" type="text" id="subject" name="subject"  size="5" type="text" value="{if isset($subject)}{$subject}{/if}"/>
         </div>
+        {if isset($errors.subject)}<p class="help-block col-lg-12">{$errors.subject}</p>{/if}         
         <p class="help-block col-lg-12">{gt text="Notice: To send a private message to multiple groups, enter the group names separated by commas."}</p>
-        {if isset($errors.subject)}<p class="help-block col-lg-12">{$errors.subject}</p>{/if} 
         </div> 
         <div class="form-group col-lg-12 {if isset($errors.text)}has-error{/if}">
         <label class="control-label col-lg-12" for="text">{gt text="Message text"}</label>
@@ -49,7 +49,7 @@
         <div class="btn-group pull-right">
             <a title="{gt text='Cancel'}"  href="{route name='zikulaintercommodule_user_index'}"   class="btn btn-default btn-sm"><i class="fa fa-close"> {gt text="Cancel"}</i></a>
             <button title="{gt text="Preview"}" type="submit" name="action"   value="preview"   class="btn btn-default btn-sm"><i class="fa fa-eye"></i> {gt text="Preview"}</button>
-            <button title="{gt text="Send"}"    type="submit" name="action"   value="send"   class="btn btn-default btn-sm"><i class="fa fa-save"></i> {gt text="Send"}</button>
+            <button title="{gt text="Send"}"    type="submit" name="action"   value="send"   class="btn btn-default btn-sm"><i class="fa fa-send"></i> {gt text="Send"}</button>
         </div>
         </div>
     </div> 

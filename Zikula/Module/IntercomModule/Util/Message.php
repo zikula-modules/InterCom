@@ -288,18 +288,46 @@ class Message {
     }
     
     /**
+     * remove message compleatly
+     *
+     * @return boolean
+     */
+    public function isMultiple()
+    {
+        if(is_array($this->_new['multiple'])){
+        return true;
+        }
+        return false;
+    }
+    
+    /**
+     * remove message compleatly
+     *
+     * @return boolean
+     */
+    public function sendMultiple()
+    {
+        $multiple = $this->_new['multiple'];
+        unset($this->_new['multiple']);
+        unset($this->_new['recipients']);
+        foreach($multiple as $key => $recipient){
+        $this->_new['recipient'] = $recipient;
+        $this->send();          
+        }
+        return true;
+    }    
+    
+    /**
      * Edit field.
      */
     public function editField($args)
     {
         if (!isset($args['id']) || !is_numeric($args['id'])) {
             throw new \InvalidArgumentException(__('Invalid arguments array received'));
-        }
-        
+        }      
         if (!isset($args['field']) || !is_string($args['field'])) {
             throw new \InvalidArgumentException(__('Invalid arguments array received'));
-        }
-        
+        }   
         $id = $args['id'];
         $field = $args['field'];
         $value = $args['value'];

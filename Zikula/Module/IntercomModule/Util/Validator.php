@@ -13,6 +13,8 @@
 namespace Zikula\Module\IntercomModule\Util;
 
 use DataUtil;
+use ModUtil;
+use UserUtil;
 use ServiceUtil;
 
 class Validator {
@@ -57,7 +59,6 @@ class Validator {
         $this->checkSend();
         $this->checkSender();
         $this->checkRecipient();
-        $this->checkGroup();
     }
     
 
@@ -129,27 +130,90 @@ class Validator {
     
     public function checkRecipient() {
         
-        $recipient = $this->data['recipient'];
-        if (empty($recipient) || !is_numeric($recipient)){
+        $recipients = $this->data['recipients'];
+        if (empty($recipients)){
             $this->valid = false;    
             $this->errors['recipient'] = 'Recipient cannot be empty';
-            //$this->data['recipient'] = ;
             return;    
         }
         // get entity manager
         $em = ServiceUtil::get('doctrine.entitymanager');
-        $exist = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $recipient);
-        if (!$exist) {
-            $this->valid = false;    
-            $this->errors['recipient'] = 'Recipient not fount';
-            //$this->data['recipient']['uid'] = -1;
-        return;    
-        }else {
-        $this->data['recipient'] = $exist;             
-        }       
+        
+        if ($recipients['groups'] !== ''){
+          //handle groups here
+            $this->handleGroups();
+            return;
+        }
+        unset($recipients['groups']);    
+        //usernames 
+        if (isset($recipients['names'])){
+            $recipients['names'] = str_replace(' ', '', $recipients['names']);
+            $uname_array = explode(',', $recipients['names']);
+            $this->data['recipients']['names'] = '';
+            if(count($uname_array) > 0){               
+                foreach ($uname_array as $key => $uname) {
+                $oneuid[$key] = UserUtil::getIdFromName($uname);               
+                $exist[$key] = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $oneuid[$key]);
+                if (!$exist[$key]) {
+                        $this->valid = false;
+                        $this->data['recipients']['names'] == ''
+                        ? $this->data['recipients']['names'] .= '!'.$uname
+                        : $this->data['recipients']['names'] .= ',!'.$uname;
+                        $this->errors['recipient'] = 'Recipients with exclamation sign not found';   
+                } else {
+                    if (count($uname_array) >1){
+                        $this->data['recipients']['names'] == ''
+                        ? $this->data['recipients']['names'] .= ''.$uname
+                        : $this->data['recipients']['names'] .= ','.$uname;                    
+                        $this->data['multiple'][$key] = $exist[$key];               
+                    }else{
+                        $this->data['recipients']['names'] = $uname;                    
+                        $this->data['recipient'] = $exist[$key];
+                    //var_dump($this->data['recipient']);
+                    //exit(0);                         
+                    }                          
+                }             
+                }
+              return; 
+            }           
+        }
+        $this->valid = false;    
+        $this->errors['recipient'] = 'Recipient cannot be empty';
+        return;         
     }
     
-    public function checkGroup() {
-     unset($this->data['group']); 
-    }    
+    public function handleGroups() {
+
+                // get entity manager
+        $em = ServiceUtil::get('doctrine.entitymanager');
+        $recipients = $this->data['recipients'];
+        $recipients['groups'] = str_replace(' ', '', $recipients['groups']);
+            $groups_array = explode(',', $recipients['groups']);
+            $this->data['recipients']['groups'] = '';
+            if(count($groups_array) > 0){               
+                foreach ($groups_array as $key => $gname) {
+                $exist[$key] = ModUtil::apiFunc('Groups', 'admin', 'getgidbyname', array ('name' => $gname));
+                if (!$exist[$key]) {
+                        $this->valid = false;
+                        $this->data['recipients']['groups'] == ''
+                        ? $this->data['recipients']['groups'] .= '!'.$gname
+                        : $this->data['recipients']['groups'] .= ',!'.$gname;
+                        $this->errors['group'] = 'Groups with exclamation sign not found';   
+                } else {
+                        $this->data['recipients']['groups'] == ''
+                        ? $this->data['recipients']['groups'] .= ''.$gname
+                        : $this->data['recipients']['groups'] .= ','.$gname;                                       
+                        $uids = \UserUtil::getUsersForGroup($exist[$key]);
+                        foreach ($uids as $ukey => $userid){
+                        $user[$ukey] = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $userid);                            
+                        $this->data['multiple'][$ukey] = $user[$ukey];    
+                        }
+                }             
+                }
+              return;
+        }     
+        $this->valid = false;    
+        $this->errors['recipient'] = 'Recipient cannot be empty';
+        return;   
+    }
 }

@@ -6,7 +6,7 @@
     {gt text="Preview"}
   </div>
   <div class="panel-body">
-        <div class=" col-lg-12">{gt text="To"} <strong>{$recipient.uname}</strong>
+        <div class=" col-lg-12">{gt text="To"} <strong>{if isset($recipients.groups)}{$recipients.groups}{else}{$recipients.names}{/if}</strong>
         </div>
         <div class=" col-lg-12">
         {gt text="Subject"} <strong>{$subject}</strong>       

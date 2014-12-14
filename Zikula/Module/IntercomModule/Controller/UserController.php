@@ -197,7 +197,9 @@ class UserController extends \Zikula_AbstractController
      * @Route("/message/{mode}")
      *
      * @return Response symfony response object
-     *
+     * 
+     * @todo this is too long
+     * 
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
     public function messageAction(Request $request, $mode)
@@ -212,8 +214,8 @@ class UserController extends \Zikula_AbstractController
                 $action =           $request->request->get('action',    false);                  
                 $a['id'] =          $request->request->get('id',        $a['id']);                              
                 $a['sender'] =      $request->request->get('sender',    false);
-                $a['recipient'] =   $request->request->get('recipient', false);
-                $a['group'] =       $request->request->get('group',     false);
+                $a['recipients'] =   $request->request->get('recipients', false);
+//                $a['group'] =       $request->request->get('group',     false);
                 $a['subject'] =     $request->request->get('subject',   false);
                 $a['text'] =        $request->request->get('text',      false);              
         }       
@@ -240,9 +242,9 @@ class UserController extends \Zikula_AbstractController
                 break;
             case "new":
                 if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
-                $recipient['uid'] = $request->query->get('uid');
-                $recipient['uname'] = UserUtil::getVar('uname', $recipient['uid']);
-                $this->view->assign('recipient',      $recipient);
+                $recipients['uid'] = $request->query->get('uid');
+                $recipients['names'] = UserUtil::getVar('uname', $recipients['uid']);
+                $this->view->assign('recipients',      $recipients);
                 $this->view->assign('ictitle',    $this->__('New'));
                 $this->view->assign('action',      false);
                 $this->view->assign('mode',       'new');
@@ -256,9 +258,17 @@ class UserController extends \Zikula_AbstractController
                 return new Response($this->view->fetch('User/pm.tpl'));            
                 }
                 if ($action == "send"){
-                $message->send();
-                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'));                
-                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));          
+                if ($message->isMultiple()){
+                $message->sendMultiple()
+                ? $this->request->getSession()->getFlashbag()->add('status', $this->__('Messages send'))
+                : $this->request->getSession()->getFlashbag()->add('error', $this->__('Messages not send'));        
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));                    
+                }else{
+                $message->send()
+                ? $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'))
+                : $this->request->getSession()->getFlashbag()->add('error', $this->__('Message not send'));        
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));                     
+                }    
                 }
                 if ($action == "preview"){
                 $this->view->assign('action',      $action);                
@@ -294,9 +304,10 @@ class UserController extends \Zikula_AbstractController
                 return new Response($this->view->fetch('User/pm.tpl'));            
                 }
                 if ($action == "send"){
-                $message->reply();
-                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'));                
-                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));          
+                $message->reply()
+                ? $this->request->getSession()->getFlashbag()->add('status', $this->__('Reply send'))
+                : $this->request->getSession()->getFlashbag()->add('error', $this->__('Reply not send'));        
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));       
                 }
                 if ($action == "preview"){
                 $this->view->assign('action',      $action);                
@@ -335,9 +346,10 @@ class UserController extends \Zikula_AbstractController
                 return new Response($this->view->fetch('User/pm.tpl'));            
                 }
                 if ($action == "send"){
-                //$message->forward();
-                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message send'));                
-                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));          
+                $message->forward()
+                ? $this->request->getSession()->getFlashbag()->add('status', $this->__('Message forwarded'))
+                : $this->request->getSession()->getFlashbag()->add('error', $this->__('Message not forwarded'));        
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_outbox', array(), RouterInterface::ABSOLUTE_URL));         
                 }
                 if ($action == "preview"){
                 $this->view->assign('action',      $action);                
@@ -361,9 +373,10 @@ class UserController extends \Zikula_AbstractController
                     $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
                     return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
                 }                
-                $message->store();
-                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message stored'));                
-                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_archive', array(), RouterInterface::ABSOLUTE_URL));          
+                $message->store()
+                ? $this->request->getSession()->getFlashbag()->add('status', $this->__('Message stored'))
+                : $this->request->getSession()->getFlashbag()->add('error', $this->__('Message not stored'));        
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_archive', array(), RouterInterface::ABSOLUTE_URL));        
                
                 break;
             case "delete":
@@ -377,9 +390,10 @@ class UserController extends \Zikula_AbstractController
                     $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found'));
                     return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));         
                 }
-                $message->delete();
-                $this->request->getSession()->getFlashbag()->add('status', $this->__('Message deleted'));                
-                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));               
+                $message->delete()
+                ? $this->request->getSession()->getFlashbag()->add('status', $this->__('Message deleted'))
+                : $this->request->getSession()->getFlashbag()->add('error', $this->__('Message not deleted'));        
+                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));              
                 break;
             default :                
                 break;
