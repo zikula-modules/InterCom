@@ -15,14 +15,14 @@
  * Intercom module installer.
  */
 
-namespace Zikula\Module\IntercomModule;
+namespace Zikula\IntercomModule;
 
 use DoctrineHelper;
 //use EventUtil;
 use System;
 use ZLanguage;
-use Zikula\Module\IntercomModule\Entity\MessageEntity;
-use Zikula\Module\IntercomModule\Util\Settings;
+use Zikula\IntercomModule\Entity\MessageEntity;
+use Zikula\IntercomModule\Util\Settings;
 
 class IntercomModuleInstaller extends \Zikula_AbstractInstaller
 {
@@ -42,7 +42,7 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
     public function install()
     {
         try {
-            DoctrineHelper::createSchema($this->entityManager, array('Zikula\Module\IntercomModule\Entity\MessageEntity'));
+            DoctrineHelper::createSchema($this->entityManager, array('Zikula\IntercomModule\Entity\MessageEntity'));
         } catch (\Exception $e) {
             $this->request->getSession()->getFlashBag()->add('error', $e->getMessage());
             return false;
@@ -159,7 +159,7 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         }
         // update all the tables to 3.0.0
         try {
-            DoctrineHelper::updateSchema($this->entityManager, array('Zikula\Module\IntercomModule\Entity\MessageEntity'));
+            DoctrineHelper::updateSchema($this->entityManager, array('Zikula\IntercomModule\Entity\MessageEntity'));
             sleep(1);
         } catch (Exception $e) {
             $this->request->getSession()->getFlashBag()->add('error', $e->getMessage());
@@ -227,7 +227,7 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
     public function uninstall()
     {
         try {
-            DoctrineHelper::dropSchema($this->entityManager, array('Zikula\Module\IntercomModule\Entity\MessageEntity'));
+            DoctrineHelper::dropSchema($this->entityManager, array('Zikula\IntercomModule\Entity\MessageEntity'));
         } catch (\PDOException $e) {
             $this->request->getSession()->getFlashBag()->add('error', $e->getMessage());
             return false;

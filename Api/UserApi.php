@@ -10,7 +10,7 @@
  * Please see the CREDITS.txt file distributed with this source code for further
  * information regarding copyright.
  */
-namespace Zikula\Module\IntercomModule\Api;
+namespace Zikula\IntercomModule\Api;
 
 use ModUtil;
 use UserUtil;

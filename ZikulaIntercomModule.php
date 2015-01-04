@@ -1,6 +1,6 @@
 <?php
 
-namespace Zikula\Module\IntercomModule;
+namespace Zikula\IntercomModule;
 
 use Zikula\Core\AbstractModule;
 

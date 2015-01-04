@@ -10,7 +10,7 @@
  * Please see the CREDITS.txt file distributed with this source code for further
  * information regarding copyright.
  */
-namespace Zikula\Module\IntercomModule\Block;
+namespace Zikula\IntercomModule\Block;
 
 use SecurityUtil;
 use ModUtil;

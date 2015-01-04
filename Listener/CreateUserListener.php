@@ -11,7 +11,7 @@
  * information regarding copyright.
  */
 
-namespace Zikula\Module\IntercomModule\Listener;
+namespace Zikula\IntercomModule\Listener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use SecurityUtil;

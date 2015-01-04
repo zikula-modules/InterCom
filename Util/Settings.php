@@ -10,14 +10,14 @@
  * Please see the CREDITS.txt file distributed with this source code for further
  * information regarding copyright.
  */
-namespace Zikula\Module\IntercomModule\Util;
+namespace Zikula\IntercomModule\Util;
 
 use DataUtil;
 use ServiceUtil;
 use ZLanguage;
 use ModUtil;
 
-use Zikula\Module\IntercomModule\Util\SettingsValidator;
+use Zikula\IntercomModule\Util\SettingsValidator;
 
 
 class Settings {

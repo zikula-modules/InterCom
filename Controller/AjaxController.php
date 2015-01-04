@@ -11,7 +11,7 @@
  * information regarding copyright.
  */
 
-namespace Zikula\Module\IntercomModule\Controller;
+namespace Zikula\IntercomModule\Controller;
 
 use ModUtil;
 use UserUtil;

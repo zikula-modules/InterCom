@@ -11,7 +11,7 @@
  * information regarding copyright.
  */
 
-namespace Zikula\Module\IntercomModule\Controller;
+namespace Zikula\IntercomModule\Controller;
 
 use ModUtil;
 use System;
@@ -29,9 +29,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
-use Zikula\Module\IntercomModule\Util\Messages;
-use Zikula\Module\IntercomModule\Util\Message;
-use Zikula\Module\IntercomModule\Util\Access;
+use Zikula\IntercomModule\Util\Messages;
+use Zikula\IntercomModule\Util\Message;
+use Zikula\IntercomModule\Util\Access;
 
 
 class UserController extends \Zikula_AbstractController

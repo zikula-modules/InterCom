@@ -9,11 +9,11 @@
  * @package Intercom
  */
 
-namespace Zikula\Module\IntercomModule\Entity\Repository;
+namespace Zikula\IntercomModule\Entity\Repository;
 
 use ServiceUtil;
 use Doctrine\ORM\EntityRepository;
-use Zikula\Module\IntercomModule\Entity\MessagesQueryBuilder;
+use Zikula\IntercomModule\Entity\MessagesQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class MessageRepository extends EntityRepository
@@ -35,7 +35,7 @@ class MessageRepository extends EntityRepository
     
         $qb = $this->build();    
         $qb->select('m');  
-        $qb->from('Zikula\Module\IntercomModule\Entity\MessageEntity', 'm');
+        $qb->from('Zikula\IntercomModule\Entity\MessageEntity', 'm');
         //filters
         $qb->addFilters($f);
         //search

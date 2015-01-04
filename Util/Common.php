@@ -10,7 +10,7 @@
  * Please see the CREDITS.txt file distributed with this source code for further
  * information regarding copyright.
  */
-namespace Zikula\Module\IntercomModule\Util;
+namespace Zikula\IntercomModule\Util;
 
 use DataUtil;
 use ServiceUtil;

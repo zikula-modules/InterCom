@@ -9,7 +9,7 @@
  * @package Intercom
  */
 
-namespace Zikula\Module\IntercomModule\Entity;
+namespace Zikula\IntercomModule\Entity;
 
 use UserUtil;
 use Doctrine\ORM\QueryBuilder;

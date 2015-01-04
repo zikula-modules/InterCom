@@ -11,14 +11,14 @@
  * message regarding copyright.
  */
 
-namespace Zikula\Module\IntercomModule\Util;
+namespace Zikula\IntercomModule\Util;
 
 use ModUtil;
 use ServiceUtil;
 use DataUtil;
 use UserUtil;
-use Zikula\Module\IntercomModule\Util\Validator;
-use Zikula\Module\IntercomModule\Entity\MessageEntity;
+use Zikula\IntercomModule\Util\Validator;
+use Zikula\IntercomModule\Entity\MessageEntity;
 
 
 class Message {
@@ -56,7 +56,7 @@ class Message {
     public function load($p)
     {
         $this->_message = $this->entityManager
-            ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+            ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
             ->getOneBy($p);
     }    
     
@@ -333,7 +333,7 @@ class Message {
         $value = $args['value'];
         
         $em = \ServiceUtil::get('doctrine.entitymanager');
-        $item = $em->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+        $item = $em->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
             ->getOneBy(array('id' => $id));
         
         if (!$item){

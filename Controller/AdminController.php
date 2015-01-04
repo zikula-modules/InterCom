@@ -11,7 +11,7 @@
  * information regarding copyright.
  */
 
-namespace Zikula\Module\IntercomModule\Controller;
+namespace Zikula\IntercomModule\Controller;
 
 use ModUtil;
 use System;
@@ -29,8 +29,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
-use Zikula\Module\IntercomModule\Util\Tools;
-use Zikula\Module\IntercomModule\Util\Settings;
+use Zikula\IntercomModule\Util\Tools;
+use Zikula\IntercomModule\Util\Settings;
 
 /**
  * @Route("/admin")
@@ -57,20 +57,20 @@ class AdminController extends \Zikula_AbstractController
         }
         
         $inbox = $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('inbox' => 1, 'countonly' => true));
         if(is_null($inbox) || !$inbox) {
             $inbox = 0;
         }
    
         $outbox  = $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('outbox' => 1, 'countonly' => true));
         if(is_null($outbox) || !$outbox) {
             $outbox = 0;
         }
         $archive = $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('stored' => 1, 'countonly' => true));
         if(is_null($archive) || !$archive) {
             $archive = 0;

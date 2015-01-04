@@ -11,14 +11,14 @@
  * message regarding copyright.
  */
 
-namespace Zikula\Module\IntercomModule\Util;
+namespace Zikula\IntercomModule\Util;
 
 use ModUtil;
 use ServiceUtil;
 use SecurityUtil;
 use DataUtil;
 use UserUtil;
-use Zikula\Module\IntercomModule\Util\Validator;
+use Zikula\IntercomModule\Util\Validator;
 
 
 class Messages {
@@ -75,19 +75,19 @@ class Messages {
          */
         
         $totalarchive = $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('stored' => 1, 'countonly' => true, 'recipient' => $uid));
         $totalin = $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('inbox' => 1, 'countonly' => true, 'recipient' => $uid));
         $read = $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('inbox' => 1, 'seen'=> 'seen' ,'countonly' => true, 'recipient' => $uid));
         $msg_popup = $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('stored' => 1, 'notified' => 'notified', 'countonly' => true, 'recipient' => $uid));
         $totalout = $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('outbox' => 1, 'countonly' => true, 'sender' => $uid));
         $unread = $totalin - $read;
         $popup = $totalin - $msg_popup;
@@ -173,7 +173,7 @@ class Messages {
     {
         $uid = UserUtil::getVar('uid');        
         return $this->entityManager
-                    ->getRepository('Zikula\Module\IntercomModule\Entity\MessageEntity')
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll($args);
         
     }  
