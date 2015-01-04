@@ -133,10 +133,23 @@ class MessageEntity extends EntityAccess
     private $storedbyrecipient;
 
     /**
+     * @ORM\ManyToOne(targetEntity="MessageEntity", inversedBy="conversation")
+     * @ORM\JoinColumn(name="conversationid", referencedColumnName="id")
+     **/
+    private $conversationid; 
+    
+    /**
+     * @ORM\OneToMany(targetEntity="MessageEntity", mappedBy="conversationid")
+     **/
+    private $conversation;    
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->conversationid = null;        
+        $this->conversation = new \Doctrine\Common\Collections\ArrayCollection();        
         $this->seen = null;
         $this->inbox = 1;
         $this->outbox = 1;
@@ -379,9 +392,9 @@ class MessageEntity extends EntityAccess
     } 
     
     /**
-     * Set stored status
+     * Set stored status for sender
      *
-     * @param $stored
+     * @param $storedbysender
      * @return $this
      */
     public function setStoredbysender($storedbysender)
@@ -391,7 +404,7 @@ class MessageEntity extends EntityAccess
     }
     
     /**
-     * Get stored status
+     * Get stored status for sender
      *
      * @return boolean 
      */
@@ -401,9 +414,9 @@ class MessageEntity extends EntityAccess
     }
     
     /**
-     * Set stored status
+     * Set stored status for recipient
      *
-     * @param $stored
+     * @param $storedbyrecipient
      * @return $this
      */
     public function setStoredbyrecipient($storedbyrecipient)
@@ -413,12 +426,52 @@ class MessageEntity extends EntityAccess
     }    
     
     /**
-     * Get stored status
+     * Get stored status for recipient
      *
      * @return boolean 
      */
     public function getStoredbyrecipient()
     {
         return $this->storedbyrecipient;
-    }         
+    }
+    
+    /**
+     * get the conversation parent id
+     *
+     * @return int the message id
+     */
+    public function getConversationid()
+    {
+        return $this->conversationid;
+    }
+
+    /**
+     * set the conversation parent id
+     *
+     * @param MessageEntity the parent conversation id
+     */
+    public function setConversationid(MessageEntity $conversationid = null)
+    {
+        $this->conversationid = $conversationid;
+    }
+
+    /**
+     * get the messages for conversation
+     *
+     * @return array the conversation messages
+     */
+    public function getConversation()
+    {
+        return $this->conversation;
+    }
+
+    /**
+     * set the messages for conversation
+     *
+     * @param array $conversation the child categories
+     */
+    public function setConversation($conversation)
+    {
+        $this->conversation = $conversation;
+    }    
 }
