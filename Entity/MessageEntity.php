@@ -119,11 +119,18 @@ class MessageEntity extends EntityAccess
     private $outbox;
     
     /**
-     * stored
+     * storedbysender
      *
      * @ORM\Column(type="boolean")
      */
-    private $stored;
+    private $storedbysender;
+    
+    /**
+     * storedbyrecipient
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $storedbyrecipient;
 
     /**
      * Constructor
@@ -133,7 +140,8 @@ class MessageEntity extends EntityAccess
         $this->seen = null;
         $this->inbox = 1;
         $this->outbox = 1;
-        $this->stored = 0;
+        $this->storedbysender = 0;
+        $this->storedbyrecipient = 0;
     }
     
     /**
@@ -376,9 +384,9 @@ class MessageEntity extends EntityAccess
      * @param $stored
      * @return $this
      */
-    public function setStored($stored)
+    public function setStoredbysender($storedbysender)
     {
-        $this->stored = $stored;  
+        $this->storedbysender = $storedbysender;  
         return $this;
     }
     
@@ -387,9 +395,30 @@ class MessageEntity extends EntityAccess
      *
      * @return boolean 
      */
-    public function getStored()
+    public function getStoredbysender()
     {
-        return $this->stored;
-    }     
-
+        return $this->storedbysender;
+    }
+    
+    /**
+     * Set stored status
+     *
+     * @param $stored
+     * @return $this
+     */
+    public function setStoredbyrecipient($storedbyrecipient)
+    {
+        $this->storedbyrecipient = $storedbyrecipient;  
+        return $this;
+    }    
+    
+    /**
+     * Get stored status
+     *
+     * @return boolean 
+     */
+    public function getStoredbyrecipient()
+    {
+        return $this->storedbyrecipient;
+    }         
 }
