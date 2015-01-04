@@ -254,6 +254,18 @@ class Message {
     }
     
     /**
+     * prepare for save
+     *
+     * @return boolean
+     */
+    public function prepareForSave()
+    {
+        unset($this->_new['id']);
+        unset($this->_new['recipients']);
+        unset($this->_new['multiple']);        
+    }    
+    
+    /**
      * perform save
      *
      * @return boolean
@@ -261,14 +273,14 @@ class Message {
     public function save()
     {  
         if (!$this->getId() && $this->_new && $this->isValid()){
-            unset($this->_new['id']);            
+            $this->prepareForSave();
             $this->_message->merge($this->_new);
             $this->entityManager->persist($this->_message);
             $this->entityManager->flush();
             return true;
         }
         if ($this->getId() && $this->_new && $this->isValid()){
-            unset($this->_new['id']);
+            $this->prepareForSave();
             $this->_message->merge($this->_new);
             $this->entityManager->flush();
             return true;

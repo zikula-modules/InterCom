@@ -76,7 +76,8 @@ class MessageRepository extends EntityRepository
         //filter's
         $f['inbox'] = isset($args['inbox']) && $args['inbox'] !== '' ? $args['inbox'] : false;
         $f['outbox'] = isset($args['outbox']) && $args['outbox'] !== '' ? $args['outbox'] : false;
-        $f['stored'] = isset($args['stored']) && $args['stored'] !== '' ? $args['stored'] : false;
+        $f['storedbysender'] = isset($args['storedbysender']) && $args['storedbysender'] !== '' ? $args['storedbysender'] : false;
+        $f['storedbyrecipient'] = isset($args['storedbyrecipient']) && $args['storedbyrecipient'] !== '' ? $args['storedbyrecipient'] : false;        
         $f['notified'] = isset($args['notified']) && $args['notified'] !== '' ? $args['notified'] : false;
         $f['replied'] = isset($args['replied']) && $args['replied'] !== '' ? $args['replied'] : false;
         $f['seen'] = isset($args['seen']) && $args['seen'] !== '' ? $args['seen'] : false;

@@ -117,7 +117,7 @@ class Validator {
         
         // get entity manager
         $em = ServiceUtil::get('doctrine.entitymanager');
-        $exist = $em->find('Zikula\UsersModule\Entity\UserEntity', $sender);
+        $exist = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $sender);
         if (!$exist) {
             $this->valid = false;    
             $this->errors['sender'] = 'Sender not found';
@@ -153,7 +153,7 @@ class Validator {
             if(count($uname_array) > 0){               
                 foreach ($uname_array as $key => $uname) {
                 $oneuid[$key] = UserUtil::getIdFromName($uname);               
-                $exist[$key] = $em->find('Zikula\UsersModule\Entity\UserEntity', $oneuid[$key]);
+                $exist[$key] = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $oneuid[$key]);
                 if (!$exist[$key]) {
                         $this->valid = false;
                         $this->data['recipients']['names'] == ''
@@ -169,6 +169,7 @@ class Validator {
                     }else{
                         $this->data['recipients']['names'] = $uname;                    
                         $this->data['recipient'] = $exist[$key];
+                        $this->data['multiple'] = false;
                     //var_dump($this->data['recipient']);
                     //exit(0);                         
                     }                          
@@ -205,7 +206,7 @@ class Validator {
                         : $this->data['recipients']['groups'] .= ','.$gname;                                       
                         $uids = \UserUtil::getUsersForGroup($exist[$key]);
                         foreach ($uids as $ukey => $userid){
-                        $user[$ukey] = $em->find('Zikula\UsersModule\Entity\UserEntity', $userid);                            
+                        $user[$ukey] = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $userid);                            
                         $this->data['multiple'][$ukey] = $user[$ukey];    
                         }
                 }             

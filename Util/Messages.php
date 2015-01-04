@@ -76,7 +76,7 @@ class Messages {
         
         $totalarchive = $this->entityManager
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                    ->getAll(array('stored' => 1, 'countonly' => true, 'recipient' => $uid));
+                    ->getAll(array('storedbyrecipient' => 1, 'countonly' => true, 'recipient' => $uid));
         $totalin = $this->entityManager
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('inbox' => 1, 'countonly' => true, 'recipient' => $uid));
@@ -85,7 +85,7 @@ class Messages {
                     ->getAll(array('inbox' => 1, 'seen'=> 'seen' ,'countonly' => true, 'recipient' => $uid));
         $msg_popup = $this->entityManager
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                    ->getAll(array('stored' => 1, 'notified' => 'notified', 'countonly' => true, 'recipient' => $uid));
+                    ->getAll(array('storedbyrecipient' => 1, 'notified' => 'notified', 'countonly' => true, 'recipient' => $uid));
         $totalout = $this->entityManager
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('outbox' => 1, 'countonly' => true, 'sender' => $uid));
