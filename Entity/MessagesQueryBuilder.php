@@ -44,13 +44,23 @@ class MessagesQueryBuilder extends QueryBuilder {
         }
     }
     
-    public function filterStored($stored) {
-        if ($stored !== false) {
+    public function filterStoredbysender($storedbysender) {
+        if ($storedbysender !== false) {
             return $this
-                            ->andWhere('m.stored = :stored')
-                            ->setParameter('stored', $stored);
+                            ->andWhere('m.storedbysender = :storedbysender')
+                            ->setParameter('storedbysender', $storedbysender);
+        }
+    }
+    
+    
+    public function filterStoredbyrecipient($storedbyrecipient) {
+        if ($storedbyrecipient !== false) {
+            return $this
+                            ->andWhere('m.storedbyrecipient = :storedbyrecipient')
+                            ->setParameter('storedbyrecipient', $storedbyrecipient);
         }
     }    
+
 
     public function filterSender($sender) {
         if ($sender !== false) {
