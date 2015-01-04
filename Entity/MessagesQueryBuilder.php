@@ -120,6 +120,12 @@ class MessagesQueryBuilder extends QueryBuilder {
         }        
     }
     
+    public function filterConversations($conversations) {
+        if ($conversations !== false){
+            return $this->andWhere($this->expr()->isNull('m.conversationid'));
+        }        
+    }    
+    
     public function filterNotified($notified) {
         if ($notified !== false){
         switch ($notified){

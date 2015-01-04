@@ -57,7 +57,55 @@ class UserController extends \Zikula_AbstractController
         }
         return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));         
     }
-
+    
+    /**
+     * @Route("/conversations")
+     *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+    */     
+    public function conversationsAction(Request $request)
+    {
+        // Permission check
+        if (!Access::checkAccess()) {
+            throw new AccessDeniedException();
+        }       
+        $uid = UserUtil::getVar('uid');
+        $autoreply = 0;
+        if ($this->getVar('allow_autoreply') == 1) {
+            // and read the user data incl. the attributes
+            $autoreply = UserUtil::getVar('ic_ar'); 
+        }
+        $this->view->assign('autoreply',        $autoreply);
+        $a = array();
+        // Get startnum and perpage parameter for pager
+        $a['startnum'] = $request->query->get('startnum',null);
+        $a['perpage'] = $this->getVar('perpage', 25);
+        // Get parameters from whatever input we need.
+        $a['sortorder'] = $request->query->get('sortorder', 'DESC');
+        $a['sortby'] = $request->query->get('sortby','send');       
+        $messages = new Messages();
+        // Get the amount of messages within each box
+        $totalarray = $messages->getmessagecount();
+        $a['inbox'] = 1;
+        $a['recipient'] = $uid;
+        $a['conversations'] = true;        
+        $messagearray = $messages->getmessages($a);            
+        $this->view->assign('boxtype',          'conversation');
+        $this->view->assign('currentuid',       UserUtil::getVar('uid'));
+        $this->view->assign('messagearray',     $messagearray);
+        $this->view->assign('getmessagecount',  $totalarray);
+        $this->view->assign('indicatorbar',     $totalarray['indicatorbarin']);        
+        $this->view->assign('sortbar_target',   'inbox');
+        $this->view->assign('messagesperpage',  $a['perpage']);
+        $this->view->assign('sortorder',        $a['sortorder']);
+        $this->view->assign('sortby',           $a['sortby']);        
+        $this->view->assign('ictitle',          $this->__('Conversations'));
+        // Return output object
+        return new Response($this->view->fetch('User/view.tpl'));
+    }
+    
     /**
      * @Route("/inbox")
      *

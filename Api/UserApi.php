@@ -169,6 +169,12 @@ class UserApi extends \Zikula_AbstractApi
         $links = array();
         if (UserUtil::isLoggedIn()) {
             $links[] = array(
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_conversations'),
+                'text' => $this->__('Conversations'),
+                'title'   => $this->__('New conversation mode'),                 
+                'icon' => 'coffee'
+            );            
+            $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
                 'text' => $this->__('Inbox'),
                 'title'   => $this->__('Recived messages'),                 
