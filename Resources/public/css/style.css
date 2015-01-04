@@ -1,0 +1,516 @@
+﻿/**
+* $Id$
+*
+* InterCom - an advanced private messaging solution for Zikula
+*
+*/
+/*******************************************************************************/
+/* INBOX - OUTBOX - ARCHIVE
+/*******************************************************************************/
+
+#view #listing {
+  clear:both;
+  margin:0;
+  padding:0;
+}
+#view .header {
+  background:#E5E5E5;
+  border-bottom:2px solid #CCCCCC;
+  color:#000000;
+  float:left;
+  font-weight:bold;
+  margin:0;
+  padding:0;
+  width:100%;
+}
+#view .footer {
+  clear:both;
+  background:#E5E5E5;
+  border:1px solid #ccc;
+  margin:5px 0;
+  padding:3px;
+  text-align:center;
+}
+#view .header a {
+  color:#000;
+  font-weight:bold;
+  text-decoration:underline;
+}
+#view .odd {
+  background:#FFFFFF;
+}
+#view .even {
+  background:#EEEEEE;
+}
+#view .line {
+  clear:both;
+  float:left;
+  margin:0;
+  padding:0;
+  width:100%;
+}
+#view .line:hover {
+  background:#DDDDDD;
+}
+#view .header .check,
+#view .line .check {
+  float:left;
+  margin:0 0 0 0.5em;
+  padding:5px 0;
+  width:25px;
+}
+#view .header .icon,
+#view .line .icon {
+  float:left;
+  margin:0;
+  padding:5px 0;
+  width:30px;
+}
+#view .header .subject,
+#view .line .subject {
+  float:left;
+  margin:0;
+  padding:5px 0;
+  width:32%;
+}
+#view .header .time,
+#view .line .time {
+  float:left;
+  margin:0;
+  padding:5px 0;
+  width:23%;
+}
+#view .header .uname,
+#view .line .uname {
+  float:left;
+  margin:0;
+  padding:5px 0;
+  width:28%;
+}
+#view .header .view,
+#view .line .view {
+  float:right;
+  margin:0;
+  padding:5px 0;
+  width:3%;
+}
+#view .body {
+  background:#FFFCF0;
+  border-bottom:1px solid #CCCCCC;
+  border-top:1px solid #CCCCCC;
+  height:1%;
+  clear:both;
+  margin:0;
+  padding:0;
+}
+#view .body .avatar {
+    float:right;
+    padding:5px;
+}
+#view .body .text {
+  height:auto !important;
+  margin:0 0 0 60px;
+  max-height:15em;
+  overflow:auto;
+  padding:3px;
+}
+#view .body .links {
+  clear:both;
+  border-top:1px dashed #ccc;
+  list-style-image:none;
+  list-style-position:outside;
+  list-style-type:none;
+  margin:2px 0 2px 60px;
+  padding:5px 0;
+}
+#view .body .links li {
+  display:inline;
+  list-style-image:none;
+  list-style-position:outside;
+  list-style-type:none;
+  margin:0pt;
+  padding:0pt;
+}
+#view .ajaxbody {
+  clear:both;
+  margin:5px 0 5px 60px;
+}
+#intercom .z-pager {
+  margin:1em 0;
+  text-align:center;
+}
+.clickable {
+  /* do not delete me */
+}
+.invisible {
+  display:none;
+}
+
+/*******************************************************************************/
+/* GENERAL
+/*******************************************************************************/
+
+#intercom .indicatorbar {
+  float: right;
+  width: 48%;
+}
+#intercom ul.indicators {
+  float: left;
+  width: 48%;
+  list-style-type: none;
+  margin: 0 0.4em;
+}
+#intercom ul.indicators li.ic-limitreached {
+  background: url(../../../images/icons/extrasmall/redled.png) no-repeat 0 50%;
+  padding: 2px 0 2px 22px;
+  margin:0;
+}
+#intercom ul.indicators li.ic-limitnotreached {
+  background: url(../../../images/icons/extrasmall/greenled.png) no-repeat 0 50%;
+  padding: 2px 0 2px 22px;
+  margin:0;
+}
+#intercom .ibar {
+  background-color: #F00;
+  height: 1em;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4);
+}
+#intercom .signature {
+  border-top:1px dotted #999;
+  display:block;
+  font-style:italic;
+  margin:0.5em 0;
+  padding:0.5em 0 0;
+}
+#intercom .ic_footer,
+#intercomadmin .ic_footer {
+  font-size:0.8em;
+  margin-top:3em;
+  text-align:center;
+}
+
+/*******************************************************************************/
+/* CSS for block
+/*******************************************************************************/
+
+.intercomblock {
+  /* don't delete me */
+}
+.intercomblock ul li {
+  list-style-type: none;
+}
+.intercomblock dl {
+  margin:0.5em 0 !important;
+  padding:0 !important;
+}
+.intercomblock dl dd,
+.intercomblock dl dt {
+  margin:0.3em 0 !important;
+  padding:0 !important;
+}
+
+/*******************************************************************************/
+/* CSS for validation.js
+/*******************************************************************************/
+
+#intercom .custom-advice {
+  color: #FF3300 !important;
+}
+
+#intercom .validation-failed {
+  border: 1px solid #FF3300 !important;
+}
+
+/*******************************************************************************/
+/* Styling of links and buttons with images
+/*******************************************************************************/
+
+#intercom a.image,
+#intercom button.image,
+#intercomadmin a.image,
+#intercomadmin button.image,
+.intercomblock a.image {
+  margin: 0 0.5em;
+  font-size: 1em;
+  padding: 2px 0 2px 19px; /* 16px image + spacer */
+}
+#intercom a.view {
+  background: url(../../../images/icons/extrasmall/demo.png) no-repeat 0 50%;
+}
+#intercom a.mailreply {
+  background: url(../../../images/icons/extrasmall/mail_reply.png) no-repeat 0 50%;
+}
+#intercom a.mailforward {
+  background: url(../../../images/icons/extrasmall/mail_forward.png) no-repeat 0 50%;
+}
+#intercom a.printer {
+  background: url(../../../images/icons/extrasmall/printer1.png) no-repeat 0 50%;
+}
+#intercom a.maildelete {
+  background: url(../../../images/icons/extrasmall/mail_delete.png) no-repeat 0 50%;
+}
+#intercom a.profile {
+  background: url(../../../images/icons/extrasmall/personal.png) no-repeat 0 50%;
+}
+#intercom a.mailsend {
+  background: url(../../../images/icons/extrasmall/mail_send.png) no-repeat 0 50%;
+}
+#intercom a.homepage {
+  background: url(../../../images/icons/extrasmall/network.png) no-repeat 0 50%;
+}
+#intercom a.inbox,
+.intercomblock a.inbox {
+  background: url(../../../images/icons/extrasmall/inbox.png) no-repeat 0 50%;
+}
+
+#intercom a.outbox {
+  background: url(../../../images/icons/extrasmall/folder_outbox.png) no-repeat 0 50%;
+}
+#intercom a.memberlist,
+.intercomblock a.memberlist {
+  background: url(../../../images/icons/extrasmall/agt_forum.png) no-repeat 0 50%;
+}
+#intercom a.userpref {
+  background: url(../../../images/icons/extrasmall/exec.png) no-repeat 0 50%;
+}
+#intercom a.configure {
+  background: url(../../../images/icons/extrasmall/package_system.png) no-repeat 0 50%;
+}
+#intercom a.ok {
+  background: url(../../../images/icons/extrasmall/button_ok.png) no-repeat 0 50%;
+}
+#intercom a.cancel {
+  background: url(../../../images/icons/extrasmall/button_cancel.png) no-repeat 0 50%;
+}
+.intercomblock a.mailread {
+  background: url(../../../images/icons/extrasmall/mail_generic.png) no-repeat 0 50%;
+}
+#intercom a.newmsg,
+.intercomblock a.newmsg {
+  background: url(../../../images/icons/extrasmall/mail_new.png) no-repeat 0 50%;
+}
+.intercomblock a.mailunread {
+  background: url(../images/mail_unread.png) no-repeat 0 50%;
+}
+#intercom a.mailsave {
+  background: url(../images/save.gif) no-repeat 0 50%;
+}
+#intercom a.icq {
+  /* inline css */
+}
+#intercom a.aim {
+  background: url(../images/aim.png) no-repeat 0 50%;
+}
+#intercom a.ym {
+  background: url(../images/Ym.png) no-repeat 0 50%;
+}
+#intercom a.msn {
+  background: url(../images/msn.png) no-repeat 0 50%;
+}
+
+#intercom div.ic-informationtext-working {
+  background:transparent url(../../../images/ajax/indicator_arrows.png) no-repeat scroll 0 50%;
+  padding:0 0 0 22px;
+  font-weight: bold;
+  line-height:2em;
+  margin:0 0 0 60px;
+}
+
+#intercom div.ic-informationtext-error {
+  padding:0 0 0 22px;
+  background: transparent url(../../../images/icons/extrasmall/error.png) no-repeat 0 50%;
+  font-weight: bold;
+  color: red;
+  line-height:2em;
+  margin:0 0 0 60px;
+}
+
+#intercom div.ic-informationtext-info {
+  padding:0 0 0 22px;
+  background: transparent url(../../../images/icons/extrasmall/info.png) no-repeat 0 50%;
+  font-weight: bold;
+  line-height:2em;
+  margin:0 0 0 60px;
+}
+
+.z-icon-es-inbox {
+    background: url("../../../images/icons/extrasmall/inbox.png") no-repeat scroll 0 50% transparent;
+    padding: 2px 0 2px 20px;
+}
+
+.z-icon-es-outbox {
+    background: url("../../../images/icons/extrasmall/folder_outbox.png") no-repeat scroll 0 50% transparent;
+    padding: 2px 0 2px 20px;
+}
+
+/*******************************************************************************/
+/* InterCom Form-CSS (based on pnForm)
+/*******************************************************************************/
+/*
+#intercom .ic-form {
+  margin:15px 0 10px;
+}
+#intercom .ic-fieldset {
+  border:1px solid #D9DAD5;
+  margin:0.5em 0;
+  padding:0.5em;
+}
+#intercom .ic-fieldset legend {
+  background-color:inherit;
+  color:#0074B0;
+  font-size:1.1em;
+  font-weight:bold;
+  padding:2px 5px;
+}
+#intercom .ic-text {
+  background:#fbfbfb;
+  border:1px solid #999999;
+  margin-left:0;
+  padding:6px 3px;
+  text-align:left;
+  width:99%;
+  display:block;
+  white-space:pre;
+}
+#intercom .ic-readtext {
+  background:#FBFBFB;
+  border:1px solid #999999;
+  margin:0;
+  padding:4px 3px;
+  display:block;
+}
+#intercom #ic-previewform .ic-readtext {
+  border:1px dashed #999999;
+}
+#intercom .ic-messagetext {
+  min-height:5em;
+  padding:1em;
+}
+#intercom .ic-buttons {
+  text-align:center;
+  line-height:2em;
+}
+*/
+
+#intercom .ic-subject {
+    padding: 0.6em 0.3em;
+}
+
+#intercom .ic-margin {
+  margin:1.5em 0;
+}
+#intercom .ic-floatleft {
+  width:48%;
+  float:left;
+}
+#intercom .ic-floatright {
+  width:48%;
+  float:right;
+}
+#intercom .ic-readheaderleft {
+  float: left;
+  width:75%;
+}
+#intercom .ic-readheaderright {
+  float:right;
+  margin:5px;
+}
+
+/*******************************************************************************/
+/* INIT
+/*******************************************************************************/
+
+#intercom.ic-init {
+  border: 1px dotted #ccc;
+  padding:1em;
+}
+
+#intercom.ic-init ul {
+  list-style-image:none;
+  list-style-position:outside;
+  list-style-type:none;
+}
+
+
+
+/******************************************************************************/
+/* InterCom Buttons styles (based on the Zikula 1.3 css
+/******************************************************************************/
+
+.ic-buttons .ic-button,
+.ic-buttons a,
+.ic-buttons input,
+.ic-buttons button {
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    line-height:130%;
+    font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    text-decoration: none !important;
+    text-align: center;
+    font-weight: bold;
+    margin: 0 5px 0 0;
+    padding: 5px 10px 6px 10px;
+    color: #444;
+    border-color:#CCCCCC #B9B9B9 #B9B9B9 #CCCCCC;
+    border-style: solid;
+    border-width: 1px;
+    background: #f5f5f5;
+    background: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5), to(#dedede));
+    background: -moz-linear-gradient(top,  #F5F5F5, #dedede);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F5F5F5', endColorstr='#dedede');
+}
+
+.ic-buttons input[type=image] {
+    float: left;
+}
+
+.ic-buttons button {
+    width: auto;
+    overflow: visible;
+    padding: 4px 10px 3px 10px; /* IE6 */
+}
+.ic-buttons button[type] {
+    padding: 5px 10px 5px 10px; /* Firefox */
+    line-height: 17px; /* Safari */
+}
+*:first-child+html button[type] {
+    padding: 4px 10px 3px 10px; /* IE7 */
+}
+
+.ic-buttons .ic-button:hover,
+.ic-buttons a:hover,
+.ic-buttons input:hover,
+.ic-buttons button:hover {
+    text-decoration: none !important;
+    background: #616161;
+    background: -webkit-gradient(linear, left top, left bottom, from(#dedede), to(#F5F5F5));
+    background: -moz-linear-gradient(top,  #dedede, #F5F5F5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#F5F5F5');
+}
+
+.ic-buttons .ic-button:active,
+.ic-buttons a:active,
+.ic-buttons input:active,
+.ic-buttons button:active {
+    background: #d0d0d0;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d0d0d0), to(#f0f0f0));
+    background: -moz-linear-gradient(top,  #d0d0d0, #f0f0f0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d0d0d0', endColorstr='#f0f0f0');
+}
+
+.ic-buttons .ic-button img,
+.ic-buttons button img,
+.ic-buttons a img {
+    margin: 0 3px -3px 0 !important;
+    padding: 0;
+    border: none;
+    height: 16px;
+    width: 16px;
+}

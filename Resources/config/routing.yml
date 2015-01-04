@@ -1,0 +1,3 @@
+zikulaintercommodule:
+    resource: "@ZikulaIntercomModule/Controller"
+    type:     annotation
