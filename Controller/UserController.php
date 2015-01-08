@@ -228,7 +228,7 @@ class UserController extends \Zikula_AbstractController
         $messages = new Messages();
         // Get the amount of messages within each box
         $totalarray = $messages->getmessagecount();
-        $a['stored'] = 1;
+        $a['stored'] = 'all';
         $a['recipient'] = $uid;
         $messagearray = $messages->getmessages($a);                
         $this->view->assign('boxtype',          'archive');

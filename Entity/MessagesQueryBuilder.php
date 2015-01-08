@@ -44,23 +44,26 @@ class MessagesQueryBuilder extends QueryBuilder {
         }
     }
     
-    public function filterStoredbysender($storedbysender) {
-        if ($storedbysender !== false) {
+    public function filterStored($stored) {
+        if ($stored == false) {
+            return $this;
+        }
+        switch ($stored){
+            case 'all':
+            return $this
+                             ->andWhere($this->expr()->orx(
+                                        $this->expr()->eq('m.storedbysender', 1),
+                                        $this->expr()->eq('m.storedbyrecipient', 1)));
+            case 'bysender':
             return $this
                             ->andWhere('m.storedbysender = :storedbysender')
-                            ->setParameter('storedbysender', $storedbysender);
-        }
-    }
-    
-    
-    public function filterStoredbyrecipient($storedbyrecipient) {
-        if ($storedbyrecipient !== false) {
+                            ->setParameter('storedbysender', 1);
+            case 'byrecipient':
             return $this
                             ->andWhere('m.storedbyrecipient = :storedbyrecipient')
-                            ->setParameter('storedbyrecipient', $storedbyrecipient);
+                            ->setParameter('storedbyrecipient', 1);
         }
-    }    
-
+    }
 
     public function filterSender($sender) {
         if ($sender !== false) {

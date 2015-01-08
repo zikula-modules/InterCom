@@ -217,6 +217,8 @@ class Message {
      * perform store
      *
      * @return boolean
+     * 
+     * @todo Implement new storage system
      */
     public function store()
     {
@@ -358,9 +360,6 @@ class Message {
             case 'outbox':
             $item->setOutbox($value);
             break;            
-            case 'stored':
-            $item->setStored($value);
-            break;
             case 'notified':
             $item->setNotified(new \DateTime());
             break;
