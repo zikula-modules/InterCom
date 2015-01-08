@@ -298,7 +298,7 @@
     </div>
     </div>
     </div>
-    <div class="{if $active eq "0" } col-lg-12{else} col-lg-6{/if}">        
+    <div class="col-lg-6 {if $active eq "0" } hide{else}{/if}">         
     <div class="panel panel-default">
         <div class="panel-heading">{gt text="Mode"}</div>  
         <div class="panel-body"> 
