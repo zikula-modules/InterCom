@@ -54,22 +54,22 @@
                     {/if}
             </td>
             <td>
-            <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
+                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
             </td>
             <td>
-            <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
+                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
             </td>
             <td>
-            <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
+                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
             </td>
             <td>
-            <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"> <span class="fa fa-plus-square-o" title="Read"> </span></a>            
+                    <a data-toggle="collapse" data-target="#msgbody-{$messagearray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id*}"> <span class="fa fa-plus-square-o" title="Read"> </span></a>            
             </td>            
             </tr>
-            <tr id="msgbody-{$messagearray[message].id}" class=" hide"><td colspan="6">
+            <tr id="msgbody-{$messagearray[message].id}" class="collapse"><td colspan="6">
             <div class="row">
                 <div class="col-sm-2">
-                <a href="#" class="thumbnail" style="height:60px;">
+                <a href="#" class="thumbnail" style="height:40px;width:40px;">
                         {*icuseravatar uid=$messagearray[message].from_userid assign=useravatar}
                         {if isset($useravatar)}
                         {$messagearray[message].from_userid|profilelinkbyuid:'':$useravatar}

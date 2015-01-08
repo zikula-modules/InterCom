@@ -69,7 +69,7 @@
             <tr id="msgbody-{$messagearray[message].id}" class="collapse"><td colspan="6">
             <div class="row">
                 <div class="col-sm-2">
-                <a href="#" class="thumbnail" style="height:60px;">
+                <a href="#" class="thumbnail" style="height:40px;width:40px;">
                         {*icuseravatar uid=$messagearray[message].from_userid assign=useravatar}
                         {if isset($useravatar)}
                         {$messagearray[message].from_userid|profilelinkbyuid:'':$useravatar}
