@@ -103,7 +103,7 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('sortby',           $a['sortby']);        
         $this->view->assign('ictitle',          $this->__('Conversations'));
         // Return output object
-        return new Response($this->view->fetch('User/view.tpl'));
+        return new Response($this->view->fetch('User/conversations.tpl'));
     }
     
     /**
