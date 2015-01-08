@@ -26,7 +26,7 @@ class AccountApi extends \Zikula_AbstractApi
     public function getall($args)
     {
         // the array that will hold the options
-        $items = null;
+        $items = array();
 
         // show link for users only
         if(!UserUtil::isLoggedIn()) {
@@ -36,14 +36,23 @@ class AccountApi extends \Zikula_AbstractApi
 
         // Create an array of links to return
         if(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_OVERVIEW)) {
-            $items = array(array('url'     => $this->get('router')->generate('zikulaintercommodule_user_preferences'),
+            
+            $items[] = array('url'     => $this->get('router')->generate('zikulaintercommodule_user_preferences'),
                             'title'   => $this->__('Private messaging settings'),
                             'text' => $this->__('Display messages settings'),                
-                            'icon'    => 'userconfig.png'),
-                     array('url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
+                            'icon'    => 'userconfig.png');
+            
+            if($this->getVar('mode') == 1){                
+            $items[] = array('url' => $this->get('router')->generate('zikulaintercommodule_user_conversations'),
+                           'text' => $this->__('Display Conversations'),
+                           'title'   => $this->__('Conversations list'),
+                           'icon' => 'viewinbox.png');
+            }else{
+            $items[] = array('url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
                            'text' => $this->__('Display messages'),
                            'title'   => $this->__('Private messaging mailbox'),
-                           'icon' => 'viewinbox.png'));
+                           'icon' => 'viewinbox.png');                                      
+            }         
         }
 
         // Return the items

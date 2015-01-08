@@ -111,7 +111,9 @@ class Settings {
             'protection_on'=> true,
             'protection_time'=> '15',
             'protection_amount'=> '15',
-            'protection_mail'=> false);    
+            'protection_mail'=> false,
+            //modes
+            'mode'=> 0);    
     }
     
     

@@ -63,7 +63,7 @@
         </div>
     </div>
     </div>
-    </div>
+    </div>     
     <div class="col-lg-6 {if $active eq "0" } hide{else}{/if}">        
     <div class="panel panel-default">
         <div class="panel-heading">{gt text="Limitations"}</div>  
@@ -297,7 +297,26 @@
         </div>             
     </div>
     </div>
-    </div>            
+    </div>
+    <div class="{if $active eq "0" } col-lg-12{else} col-lg-6{/if}">        
+    <div class="panel panel-default">
+        <div class="panel-heading">{gt text="Mode"}</div>  
+        <div class="panel-body"> 
+        <div class="form-group col-lg-12">    
+        <label class="control-label col-lg-6" for="mode">{gt text="Switch beetween modes"}</label>      
+        <div class="btn-group col-lg-6" data-toggle="buttons">
+        <label class="btn btn-default btn-sm {if $mode eq "0" } active{else}{/if}">
+        <input id="mode" name="mode" type="radio" value="0" {if $mode eq "0" } checked="checked"{else}{/if}> {gt text="Generic"}
+         </label>
+        <label class="btn btn-default btn-sm {if $mode eq "1" } active{else}{/if}">
+        <input id="mode" name="mode" type="radio" value="1" {if $mode eq "1" } checked="checked"{else}{/if}> {gt text="Conversation"}
+        </label>      
+        </div>
+        <p class="help-block col-lg-12">{gt text="Here you can switch beetween InterCom working modes. Warning Conversation mode its still in beta stage"}</p>
+        </div> 
+        </div>
+    </div>
+    </div>          
     </div>         
     <div class="row">            
         <div class="form-group pull-right">

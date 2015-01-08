@@ -55,7 +55,11 @@ class UserController extends \Zikula_AbstractController
         if (!Access::checkAccess()) {
             throw new AccessDeniedException();
         }
-        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));         
+        if($this->getVar('mode') == 1){        
+        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_conversations', array(), RouterInterface::ABSOLUTE_URL));
+        }else{
+        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));            
+        }   
     }
     
     /**

@@ -167,13 +167,8 @@ class UserApi extends \Zikula_AbstractApi
     public function getLinks()
     {
         $links = array();
-        if (UserUtil::isLoggedIn()) {
-            $links[] = array(
-                'url' => $this->get('router')->generate('zikulaintercommodule_user_conversations'),
-                'text' => $this->__('Conversations'),
-                'title'   => $this->__('New conversation mode'),                 
-                'icon' => 'coffee'
-            );            
+        if (UserUtil::isLoggedIn()) {           
+            if($this->getVar('mode') == 0){
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
                 'text' => $this->__('Inbox'),
@@ -191,19 +186,46 @@ class UserApi extends \Zikula_AbstractApi
                 'text' => $this->__('Archive'),
                 'title'   => $this->__('Your saved messages'),                 
                 'icon' => 'archive'
-            );
+            );   
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_preferences'),
                 'text' => $this->__('Display messages settings'),
                 'title'   => $this->__('Private messaging settings'),                
                 'icon' => 'wrench'
-            );
+            );      
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_message',array('mode' => 'new')),
                 'text' => $this->__('New message'),
                 'title'   => $this->__('Click here to compose new message'),                 
                 'icon' => 'file'
+            );   
+            }
+            if($this->getVar('mode') == 1){
+            $links[] = array(
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_conversations'),
+                'text' => $this->__('Conversations'),
+                'title'   => $this->__('See all of your conversations'),                 
+                'icon' => 'coffee'
             );
+            $links[] = array(
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_archive'),
+                'text' => $this->__('Archive'),
+                'title'   => $this->__('Your saved conversations'),                 
+                'icon' => 'archive'
+            );             
+            $links[] = array(
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_preferences'),
+                'text' => $this->__('Display messages settings'),
+                'title'   => $this->__('Private messaging settings'),                
+                'icon' => 'wrench'
+            );      
+            $links[] = array(
+                'url' => $this->get('router')->generate('zikulaintercommodule_user_conversations'),
+                'text' => $this->__('Start new conversation'),
+                'title'   => $this->__('New conversation'),                 
+                'icon' => 'file'
+            );            
+            }
         }
         return $links;
     }

@@ -135,6 +135,8 @@ class AdminController extends \Zikula_AbstractController
             'from_email'=> $request->request->get('from_email',false),
             //Autoreply
             'allow_autoreply'=> $request->request->get('allow_autoreply',false),
+            //Mode
+            'mode'=> $request->request->get('mode',0),     
             ); 
             /* 
             echo('<pre>');
