@@ -140,6 +140,7 @@ class MessageEntity extends EntityAccess
     
     /**
      * @ORM\OneToMany(targetEntity="MessageEntity", mappedBy="conversationid")
+     * @ORM\OrderBy({"send" = "ASC"})
      **/
     private $conversation;    
 
