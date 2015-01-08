@@ -63,10 +63,10 @@
                     <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
             </td>
             <td>
-                    <a data-toggle="collapse" data-target="msgbody-{$messagearray[message].id}"  href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"> <span class="fa fa-plus-square-o" title="Read"> </span></a>            
+                    <a data-toggle="collapse" data-target="#msgbody-{$messagearray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id*}"> <span class="fa fa-plus-square-o" title="Read"> </span></a>  
             </td>            
             </tr>
-            <tr id="msgbody-{$messagearray[message].id}" class="hide"><td colspan="6">
+            <tr id="msgbody-{$messagearray[message].id}" class="collapse"><td colspan="6">
             <div class="row">
                 <div class="col-sm-2">
                 <a href="#" class="thumbnail" style="height:60px;">
