@@ -124,32 +124,42 @@ class UserController extends \Zikula_AbstractController
             throw new AccessDeniedException();
         }       
         $uid = UserUtil::getVar('uid');
+        
+        /*
+         *todo
         $autoreply = 0;
         if ($this->getVar('allow_autoreply') == 1) {
             // and read the user data incl. the attributes
             $autoreply = UserUtil::getVar('ic_ar'); 
         }
-        $this->view->assign('autoreply',        $autoreply);
+        $this->view->assign('autoreply',        $autoreply);        
+         * 
+        
+        //
+        // Get the amount of messages within each box
+        //$totalarray = $messages->getmessagecount();
+        //$a['inbox'] = 1;
+        //$a['recipient'] = $uid;        
+        //         * 
+         */
         $a = array();
+        $messages = new Messages();         
         // Get startnum and perpage parameter for pager
-        $a['startnum'] = $request->query->get('startnum',null);
-        $a['perpage'] = $this->getVar('perpage', 25);
+        $a['page'] = $request->query->get('page',null);
+        $a['limit'] = $this->getVar('limit', 25);
         // Get parameters from whatever input we need.
         $a['sortorder'] = $request->query->get('sortorder', 'DESC');
         $a['sortby'] = $request->query->get('sortby','send');       
-        $messages = new Messages();
-        // Get the amount of messages within each box
-        $totalarray = $messages->getmessagecount();
-        $a['inbox'] = 1;
-        $a['recipient'] = $uid;        
-        $messagearray = $messages->getmessages($a);            
+        $messages->load($a);
+        $total = $messages->getmessages_counts();
         $this->view->assign('boxtype',          'inbox');
         $this->view->assign('currentuid',       UserUtil::getVar('uid'));
-        $this->view->assign('messagearray',     $messagearray);
-        $this->view->assign('getmessagecount',  $totalarray);
-        $this->view->assign('indicatorbar',     $totalarray['indicatorbarin']);        
+        $this->view->assign('messagesarray',     $messages->getmessages_array());
+        $this->view->assign('getmessagecount',  $messages->getmessages_count());
+        $this->view->assign('indicatorbar',     round(($total['inbox']['count'] / $total['inbox']['limit']) * 100));
+        $this->view->assign('total',     $total); 
         $this->view->assign('sortbar_target',   'inbox');
-        $this->view->assign('messagesperpage',  $a['perpage']);
+        $this->view->assign('limit',  $a['limit']);
         $this->view->assign('sortorder',        $a['sortorder']);
         $this->view->assign('sortby',           $a['sortby']);        
         $this->view->assign('ictitle',          $this->__('Inbox'));

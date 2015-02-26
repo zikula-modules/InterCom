@@ -25,7 +25,7 @@
 {if $boxtype eq "archive" && $getmessagecount.indicatorbararchive>$getmessagecount.limitarchive}<div class="alert alert-warning">{gt text="There are too many messages in the archive. Please delete some messages in the archive, so that you can again store messages there."}<br /></div>{/if}
 {/if*}
 
-{if $messagearray == FALSE}
+{if $messagesarray == FALSE}
 <div class="alert alert-info">{gt text="You currently have no messages."}</div>
 {else}
 {include file="User/`$boxtype`_messages.tpl"}

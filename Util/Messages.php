@@ -25,6 +25,7 @@ class Messages {
 
   private $name;
   public  $entityManager;
+  private $messages;
 
     /**
      * construct
@@ -33,8 +34,79 @@ class Messages {
     {
         $this->name = 'ZikulaIntercomModule';
         $this->entityManager = ServiceUtil::getService('doctrine.entitymanager');
-        
+                
     }
+    
+    /**
+     *  load messages
+     */
+    public function load($args)
+    {       
+        $this->messages = $this->entityManager
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
+                    ->getAll($args);
+    }    
+    
+    /**
+     *  get messages
+     */
+    public function getmessages()
+    {       
+        return $this->messages;
+    } 
+    
+    /**
+     *  get messages
+     */
+    public function getmessages_array()
+    {       
+        $messages_array = array();
+        foreach ($this->messages as $key => $message) {
+            $messages_array[$key] = $message;    
+        }        
+        return $messages_array;
+    }
+    
+    /**
+     *  get messages count
+     */
+    public function getmessages_count()
+    {       
+        return $this->messages->count();
+    }
+    
+    /**
+     *  get user messages counts
+     */
+    public function getmessages_counts()
+    {     
+        $uid = UserUtil::getVar('uid');
+        $total = array();
+        
+        $inbox = $this->entityManager
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('inbox' => 1, 'recipient' => $uid));
+        $total['inbox']['count'] = $inbox->count();        
+        $total['inbox']['limit'] = 50;
+        
+        $outbox = $this->entityManager
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('outbox' => 1, 'sender' => $uid));       
+        $total['outbox']['count'] = $outbox->count();        
+        $total['outbox']['limit'] = 50;   
+        
+        $stored = $this->entityManager
+                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
+                    ->getAll(array('stored' => 'all', 'recipient' => $uid, 'sender' => $uid));
+        
+        $total['stored']['count'] = $stored->count();
+        $total['stored']['limit'] = 50;     
+        
+        return $total;
+    }    
+    
+}
+
 
     /**
      * This function returns the amount of Messages within the inbox, outbox, and the archives
@@ -42,7 +114,7 @@ class Messages {
      * @author Chasm
      * @param  $
      * @return
-     */
+     
     public function getmessagecount()
     {
         // Security check
@@ -72,7 +144,7 @@ class Messages {
         $res2 = DBUtil::marshallObjects(DBUtil::executeSQL($sql_2),
                 array('totalout'));
          * 
-         */
+        
         
         $totalarchive = $this->entityManager
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
@@ -161,20 +233,3 @@ class Messages {
         // Return the variable
         return $ReturnArray;
     }
-
-    /**
-     * This function returns the amount of Messages within the inbox, outbox, and the archives
-     *
-     * @author Chasm
-     * @param  $
-     * @return
-     */
-    public function getmessages($args)
-    {
-        $uid = UserUtil::getVar('uid');        
-        return $this->entityManager
-                    ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                    ->getAll($args);
-        
-    }  
-}

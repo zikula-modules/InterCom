@@ -33,70 +33,70 @@
             <th>{gt text="Sender"}</th>
             <th></th>         
         </tr>
-            {section name=message loop=$messagearray}
-        <tr class="{if $messagearray[message].seen == NULL} warning bold{/if}">
-            <td><input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagearray[message].id}" /></td>
+            {section name=message loop=$messagesarray}
+        <tr class="{if $messagesarray[message].seen == NULL} warning bold{/if}">
+            <td><input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagesarray[message].id}" /></td>
             <td>                    
-                    {if $messagearray[message].seen == NULL}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope "> </span>
-                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-o hide"> </span>                                 
+                    {if $messagesarray[message].seen == NULL}
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagesarray[message].id`" class="fa fa-envelope "> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagesarray[message].id`" class="fa fa-reply hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagesarray[message].id`" class="fa fa-envelope-o hide"> </span>                                 
                     {else}
-                    {if $messagearray[message].replied !== NULL}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope hide"> </span>
-                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-reply"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                   
+                    {if $messagesarray[message].replied !== NULL}
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagesarray[message].id`" class="fa fa-envelope hide"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagesarray[message].id`" class="fa fa-reply"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagesarray[message].id`" class="fa fa-reply hide"> </span>                   
                     {else}
-                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagearray[message].id`" class="fa fa-envelope hide"> </span>
-                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagearray[message].id`" class="fa fa-reply hide"> </span>                    
-                    <span title="{gt text="Read"}"  id="msg-read-`$messagearray[message].id`" class="fa fa-envelope-o"> </span> 
+                    <span title="{gt text="Unread"}"  id="msg-unread-`$messagesarray[message].id`" class="fa fa-envelope hide"> </span>
+                    <span title="{gt text="Answered"}"  id="msg-answered-`$messagesarray[message].id`" class="fa fa-reply hide"> </span>                    
+                    <span title="{gt text="Read"}"  id="msg-read-`$messagesarray[message].id`" class="fa fa-envelope-o"> </span> 
                     {/if}
                     {/if}
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{if $messagearray[message].subject}{$messagearray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
+                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id}">{if $messagesarray[message].subject}{$messagesarray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>               
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}">{$messagearray[message].send|dateformat:"datetimebrief"}</a>            
+                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id}">{$messagesarray[message].send|dateformat:"datetimebrief"}</a>            
             </td>
             <td>
-                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id}"><strong>{$messagearray[message].sender.uname}</strong></a>
+                    <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id}"><strong>{$messagesarray[message].sender.uname}</strong></a>
             </td>
             <td>
-                    <a data-toggle="collapse" data-target="#msgbody-{$messagearray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id*}"> <span class="fa fa-plus-square-o" title="Read"> </span></a>  
+                    <a data-toggle="collapse" data-target="#msgbody-{$messagesarray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-plus-square-o" title="Read"> </span></a>  
             </td>            
             </tr>
-            <tr id="msgbody-{$messagearray[message].id}" class="collapse"><td colspan="6">
+            <tr id="msgbody-{$messagesarray[message].id}" class="collapse"><td colspan="6">
             <div class="row">
                 <div class="col-sm-2">
                 <a href="#" class="thumbnail" style="height:40px;width:40px;">
-                        {*icuseravatar uid=$messagearray[message].from_userid assign=useravatar}
+                        {*icuseravatar uid=$messagesarray[message].from_userid assign=useravatar}
                         {if isset($useravatar)}
-                        {$messagearray[message].from_userid|profilelinkbyuid:'':$useravatar}
+                        {$messagesarray[message].from_userid|profilelinkbyuid:'':$useravatar}
                         {/if}
                         {modavailable modname="ContactList" assign="ContactListInstalled"}
                         {*if $ContactListInstalled}
-                        <p><a href="{modurl modname="ContactList" type="user" func="create" uid=$messagearray[message].from_userid}">{img modname="ContactList" src="user_add.png" __title="Add buddy" }</a></p>
+                        <p><a href="{modurl modname="ContactList" type="user" func="create" uid=$messagesarray[message].from_userid}">{img modname="ContactList" src="user_add.png" __title="Add buddy" }</a></p>
                         {/if*}
                 </a>
-                {$messagearray[message].sender.uname}
+                {$messagesarray[message].sender.uname}
                 </div>                    
                 <div class="col-sm-10">
-                       {$messagearray[message].text|safehtml|nl2br} {* {$messagearray[message].text|safehtml|modcallhooks|nl2br} *}
-                        {*if $messagearray[message].signature != ""}<div class="signature">{$messagearray[message].signature|safehtml|nl2br}{* {$messagearray[message].signature|safehtml|nl2br} }</div>{/if*}
+                       {$messagesarray[message].text|safehtml|nl2br} {* {$messagearray[message].text|safehtml|modcallhooks|nl2br} *}
+                        {*if $messagesarray[message].signature != ""}<div class="signature">{$messagesarray[message].signature|safehtml|nl2br}{* {$messagesarray[message].signature|safehtml|nl2br} }</div>{/if*}
                 </div>
                 
                 <div class="col-sm-12 text-right">
-                    <a  class="btn btn-default btn-sm " role="button" id="delete-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='delete' id=$messagearray[message].id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>                    
-                    <a class="btn btn-default btn-sm " role="button" id="reply-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='reply' id=$messagearray[message].id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="forward-{$messagearray[message].id}" href="{route name='zikulaintercommodule_user_message' mode='forward'  id=$messagearray[message].id}"    title="{gt text='Forward'}"><i class="fa fa-share"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="store-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='save' id=$messagearray[message].id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
-                    <a  class="btn btn-default btn-sm " role="button"  id="print-{$messagearray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagearray[message].id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
-                    <a class="btn btn-default btn-sm " role="button" id="read-{$messagearray[message].id}"    href="{route name='zikulaintercommodule_user_message' mode='read'  id=$messagearray[message].id}"          title="{gt text='Read'}"><i class="fa fa-search"></i></a>               
+                    <a  class="btn btn-default btn-sm " role="button" id="delete-{$messagesarray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='delete' id=$messagesarray[message].id}" title="{gt text='Delete'}"><i class="fa fa-trash"></i></a>                    
+                    <a class="btn btn-default btn-sm " role="button" id="reply-{$messagesarray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='reply' id=$messagesarray[message].id}"      title="{gt text='Reply'}"><i class="fa fa-reply"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="forward-{$messagesarray[message].id}" href="{route name='zikulaintercommodule_user_message' mode='forward'  id=$messagesarray[message].id}"    title="{gt text='Forward'}"><i class="fa fa-share"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="store-{$messagesarray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='save' id=$messagesarray[message].id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
+                    <a  class="btn btn-default btn-sm " role="button"  id="print-{$messagesarray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
+                    <a class="btn btn-default btn-sm " role="button" id="read-{$messagesarray[message].id}"    href="{route name='zikulaintercommodule_user_message' mode='read'  id=$messagesarray[message].id}"          title="{gt text='Read'}"><i class="fa fa-search"></i></a>               
                 </div>
-                <div id="information-{$messagearray[message].id}" class=" hide">&nbsp;</div>
+                <div id="information-{$messagesarray[message].id}" class=" hide">&nbsp;</div>
 
-                <div id="msgaction-{$messagearray[message].id}" class=" hide">&nbsp;</div>
+                <div id="msgaction-{$messagesarray[message].id}" class=" hide">&nbsp;</div>
                 </div>
                 </td>
             </tr>       
@@ -114,7 +114,7 @@
     {*if $getmessagecount.inboxlimitreached == 1 && !pnSecAuthAction(0, "InterCom", ".*",ACCESS_ADMIN)}
     {pager show="page" rowcount=$getmessagecount.limitin limit=$messagesperpage posvar=startnum shift=0}
     {else*}
-    {pager show="page" rowcount=$getmessagecount.totalin limit=$messagesperpage posvar=startnum shift=0}
+    {pager show="page" rowcount=$getmessagecount limit=$limit posvar=startnum shift=0}
     {*/if*}
 
 </form>
