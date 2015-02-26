@@ -74,8 +74,7 @@ class MessageRepository extends EntityRepository
         $sortby = isset($args['sortby']) ? $args['sortby'] : 'send';    
         $sortorder = isset($args['sortorder']) ? $args['sortorder'] : 'DESC';     
         //filter's
-        $f['inbox'] = isset($args['inbox']) && $args['inbox'] !== '' ? $args['inbox'] : false;
-        $f['outbox'] = isset($args['outbox']) && $args['outbox'] !== '' ? $args['outbox'] : false;
+        $f['deleted'] = isset($args['deleted']) && $args['deleted'] !== '' ? $args['deleted'] : false;
         $f['stored'] = isset($args['stored']) && $args['stored'] !== '' ? $args['stored'] : false;        
         $f['conversations'] = isset($args['conversations']) && $args['conversations'] !== '' ? $args['conversations'] : false;        
         $f['notified'] = isset($args['notified']) && $args['notified'] !== '' ? $args['notified'] : false;

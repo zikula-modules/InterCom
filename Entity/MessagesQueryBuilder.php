@@ -15,7 +15,7 @@ use UserUtil;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * 
+ * Query builder with own filter definitions
  *
  */
 class MessagesQueryBuilder extends QueryBuilder {
@@ -28,19 +28,24 @@ class MessagesQueryBuilder extends QueryBuilder {
         }
     }    
 
-    public function filterInbox($inbox) {
-        if ($inbox !== false) {
-            return $this
-                            ->andWhere('m.inbox = :inbox')
-                            ->setParameter('inbox', $inbox);
+    public function filterDeleted($deleted) {
+        if ($deleted !== false) {
+            return $this;
         }
-    }
-    
-    public function filterOutbox($outbox) {
-        if ($outbox !== false) {
+        switch ($deleted){
+            case 'all':
             return $this
-                            ->andWhere('m.outbox = :outbox')
-                            ->setParameter('outbox', $outbox);
+                             ->andWhere($this->expr()->orx(
+                                        $this->expr()->eq('m.deletedbysender', 1),
+                                        $this->expr()->eq('m.deletedbyrecipient', 1)));
+            case 'bysender':
+            return $this
+                            ->andWhere('m.deletedbysender = :deletedbysender')
+                            ->setParameter('deletedbysender', 1);
+            case 'byrecipient':
+            return $this
+                            ->andWhere('m.deletedbyrecipient = :deletedbyrecipient')
+                            ->setParameter('deletedbyrecipient', 1);
         }
     }
     

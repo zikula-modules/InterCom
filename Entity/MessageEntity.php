@@ -105,20 +105,6 @@ class MessageEntity extends EntityAccess
     private $notified;
     
     /**
-     * inbox
-     *
-     * @ORM\Column(type="boolean")
-     */
-    private $inbox;
-    
-    /**
-     * outbox
-     *
-     * @ORM\Column(type="boolean")
-     */
-    private $outbox;
-    
-    /**
      * storedbysender
      *
      * @ORM\Column(type="boolean")
@@ -131,6 +117,20 @@ class MessageEntity extends EntityAccess
      * @ORM\Column(type="boolean")
      */
     private $storedbyrecipient;
+    
+    /**
+     * deletedbysender
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $deletedbysender;
+    
+    /**
+     * deletedbyrecipient
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $deletedbyrecipient;    
 
     /**
      * @ORM\ManyToOne(targetEntity="MessageEntity", inversedBy="conversation")
@@ -156,6 +156,9 @@ class MessageEntity extends EntityAccess
         $this->outbox = 1;
         $this->storedbysender = 0;
         $this->storedbyrecipient = 0;
+        $this->deletedbysender = 0;
+        $this->deletedbyrecipient = 0;
+        
     }
     
     /**
@@ -349,47 +352,47 @@ class MessageEntity extends EntityAccess
     }
     
     /**
-     * Set inbox status
+     * Set deleted by sender status
      *
-     * @param $inbox
+     * @param $deletedbysender
      * @return $this
      */
-    public function setInbox($inbox)
+    public function setDeletedbysender($deletedbysender)
     {
-        $this->inbox = $inbox;  
+        $this->deletedbysender = $deletedbysender;  
         return $this;
     }
     
     /**
-     * Get inbox status
+     * Get deleted by sender status
      *
      * @return boolean 
      */
-    public function getInbox()
+    public function getDeletedbysender()
     {
-        return $this->inbox;
+        return $this->deletedbysender;
     }
     
     /**
-     * Set outbox status
+     * Set deleted by recipient status
      *
-     * @param $outbox
+     * @param $deletedbyrecipient
      * @return $this
      */
-    public function setOutbox($outbox)
+    public function setDeletedbyrecipient($deletedbyrecipient)
     {
-        $this->outbox = $outbox;  
+        $this->deletedbyrecipient = $deletedbyrecipient;  
         return $this;
     }
     
     /**
-     * Get outbox
+     * Get deleted by recipient status
      *
      * @return boolean  
      */
-    public function getOutbox()
+    public function getDeletedbyrecipient()
     {
-        return $this->outbox;
+        return $this->deletedbyrecipient;
     } 
     
     /**
