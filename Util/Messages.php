@@ -99,8 +99,8 @@ class Messages {
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                     ->getAll(array('stored' => 'all', 'recipient' => $uid, 'sender' => $uid));
         
-        $total['stored']['count'] = $stored->count();
-        $total['stored']['limit'] = 50;     
+        $total['archive']['count'] = $stored->count();
+        $total['archive']['limit'] = 50;     
         
         return $total;
     }    
