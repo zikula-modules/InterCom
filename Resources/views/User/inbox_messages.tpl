@@ -37,7 +37,7 @@
                 {gt text="Status"}                    
             </div>      
             <div class="col-lg-2 pull-right text-right">                
-                {gt text="Options"} <input type="checkbox" name="messageid" value="" /> 
+                {gt text="Select all"} <input type="checkbox" name="messageid" value="" /> 
             </div>
         </div>
         {if $messagesarray == FALSE}
@@ -75,7 +75,7 @@
                 <input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagesarray[message].id}" /> 
                 </div>                 
                 <div class="col-lg-1 pull-right text-right">
-                <a data-toggle="collapse" data-target="#msgbody-{$messagesarray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-angle-down fa-3x" title="{gt text='Read'}"> </span></a>   
+                <a data-toggle="collapse" data-target="#msgbody-{$messagesarray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-angle-down fa-2x" title="{gt text='Read'}"> </span></a>   
                 </div>               
                 
                 <div id="msgbody-{$messagesarray[message].id}" class="col-lg-12 collapse" >
@@ -105,6 +105,7 @@
                     <a class="btn btn-default btn-sm " role="button" id="store-{$messagesarray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='save' id=$messagesarray[message].id}" title="{gt text='Save'}"><i class="fa fa-save"></i></a>
                     <a  class="btn btn-default btn-sm " role="button"  id="print-{$messagesarray[message].id}"   href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id theme=printer}" title="{gt text='Print'}"><i class="fa fa-print"></i></a>
                     <a class="btn btn-default btn-sm " role="button" id="read-{$messagesarray[message].id}"    href="{route name='zikulaintercommodule_user_message' mode='read'  id=$messagesarray[message].id}"          title="{gt text='Read'}"><i class="fa fa-search"></i></a>               
+                {gt text="Options"}
                 </div>
                 <div id="information-{$messagesarray[message].id}" class=" hide">&nbsp;</div>
 

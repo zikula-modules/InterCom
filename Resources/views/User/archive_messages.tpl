@@ -75,7 +75,7 @@
                 <input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagesarray[message].id}" /> 
                 </div>                 
                 <div class="col-lg-1 pull-right text-right">
-                <a data-toggle="collapse" data-target="#msgbody-{$messagesarray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-angle-down fa-3x" title="{gt text='Read'}"> </span></a>   
+                <a data-toggle="collapse" data-target="#msgbody-{$messagesarray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-angle-down fa-2x" title="{gt text='Read'}"> </span></a>   
                 </div>               
                 
                 <div id="msgbody-{$messagesarray[message].id}" class="col-lg-12 collapse" >

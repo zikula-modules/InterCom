@@ -29,23 +29,23 @@ class MessagesQueryBuilder extends QueryBuilder {
     }    
 
     public function filterDeleted($deleted) {
-        if ($deleted !== false) {
+        if ($deleted == false) {
             return $this;
         }
         switch ($deleted){
             case 'all':
             return $this
                              ->andWhere($this->expr()->orx(
-                                        $this->expr()->eq('m.deletedbysender', 1),
-                                        $this->expr()->eq('m.deletedbyrecipient', 1)));
+                                        $this->expr()->eq('m.deletedbysender', 0),
+                                        $this->expr()->eq('m.deletedbyrecipient', 0)));
             case 'bysender':
             return $this
                             ->andWhere('m.deletedbysender = :deletedbysender')
-                            ->setParameter('deletedbysender', 1);
+                            ->setParameter('deletedbysender', 0);
             case 'byrecipient':
             return $this
                             ->andWhere('m.deletedbyrecipient = :deletedbyrecipient')
-                            ->setParameter('deletedbyrecipient', 1);
+                            ->setParameter('deletedbyrecipient', 0);
         }
     }
     

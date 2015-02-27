@@ -82,10 +82,10 @@ class UserController extends \Zikula_AbstractController
             $autoreply = UserUtil::getVar('ic_ar'); 
         }
         $this->view->assign('autoreply',        $autoreply);
-        $a = array();
+        $f = array();
         // Get startnum and perpage parameter for pager
-        $a['startnum'] = $request->query->get('startnum',null);
-        $a['perpage'] = $this->getVar('perpage', 25);
+        $f['startnum'] = $request->query->get('startnum',null);
+        $f['perpage'] = $this->getVar('perpage', 25);
         // Get parameters from whatever input we need.
         $a['sortorder'] = $request->query->get('sortorder', 'DESC');
         $a['sortby'] = $request->query->get('sortby','send');       
@@ -124,16 +124,17 @@ class UserController extends \Zikula_AbstractController
             throw new AccessDeniedException();
         }       
         
-        $a = array();
+        $f = array();
         $messages = new Messages();         
         // Get parameter's for pager
-        $a['page'] = $request->query->get('page',null);
-        $a['limit'] = $this->getVar('limit', 5);
+        $f['page'] = $request->query->get('page',null);
+        $f['limit'] = $this->getVar('limit', 5);
         // Get parameters from whatever input we need.
-        $a['sortorder'] = $request->query->get('sortorder', 'DESC');
-        $a['sortby'] = $request->query->get('sortby','send');
-        
-        $messages->load($a);
+        $f['sortorder'] = $request->query->get('sortorder', 'DESC');
+        $f['sortby'] = $request->query->get('sortby','send');
+        $f['recipient'] = UserUtil::getVar('uid');
+        $f['deleted'] = 'byrecipient';
+        $messages->load($f);
         $total = $messages->getmessages_counts();
         
         $this->view->assign('ictitle',          $this->__('Inbox'));        
@@ -144,9 +145,9 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('indicatorbar',     round(($total['inbox']['count'] / $total['inbox']['limit']) * 100));
         $this->view->assign('total',            $total); 
         $this->view->assign('sortbar_target',   'inbox');
-        $this->view->assign('limit',            $a['limit']);
-        $this->view->assign('sortorder',        $a['sortorder']);
-        $this->view->assign('sortby',           $a['sortby']);        
+        $this->view->assign('limit',            $f['limit']);
+        $this->view->assign('sortorder',        $f['sortorder']);
+        $this->view->assign('sortby',           $f['sortby']);        
         // Return output object
         return new Response($this->view->fetch('User/view.tpl'));
     }
@@ -165,16 +166,17 @@ class UserController extends \Zikula_AbstractController
             throw new AccessDeniedException();
         }       
         
-        $a = array();
+        $f = array();
         $messages = new Messages();         
         // Get parameter's for pager
-        $a['page'] = $request->query->get('page',null);
-        $a['limit'] = $this->getVar('limit', 2);
+        $f['page'] = $request->query->get('page',null);
+        $f['limit'] = $this->getVar('limit', 5);
         // Get parameters from whatever input we need.
-        $a['sortorder'] = $request->query->get('sortorder', 'DESC');
-        $a['sortby'] = $request->query->get('sortby','send');
-        
-        $messages->load($a);
+        $f['sortorder'] = $request->query->get('sortorder', 'DESC');
+        $f['sortby'] = $request->query->get('sortby','send');
+        $f['sender'] = UserUtil::getVar('uid');
+        $f['deleted'] = 'bysender';        
+        $messages->load($f);
         $total = $messages->getmessages_counts();
         
         $this->view->assign('ictitle',          $this->__('Outbox'));        
@@ -185,9 +187,9 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('indicatorbar',     round(($total['outbox']['count'] / $total['outbox']['limit']) * 100));
         $this->view->assign('total',            $total); 
         $this->view->assign('sortbar_target',   'outbox');
-        $this->view->assign('limit',            $a['limit']);
-        $this->view->assign('sortorder',        $a['sortorder']);
-        $this->view->assign('sortby',           $a['sortby']);        
+        $this->view->assign('limit',            $f['limit']);
+        $this->view->assign('sortorder',        $f['sortorder']);
+        $this->view->assign('sortby',           $f['sortby']);        
         // Return output object
         return new Response($this->view->fetch('User/view.tpl'));
     }
@@ -206,16 +208,17 @@ class UserController extends \Zikula_AbstractController
             throw new AccessDeniedException();
         }       
         
-        $a = array();
+        $f = array();
         $messages = new Messages();         
         // Get parameter's for pager
-        $a['page'] = $request->query->get('page',null);
-        $a['limit'] = $this->getVar('limit', 2);
+        $f['page'] = $request->query->get('page',null);
+        $f['limit'] = $this->getVar('limit', 5);
         // Get parameters from whatever input we need.
-        $a['sortorder'] = $request->query->get('sortorder', 'DESC');
-        $a['sortby'] = $request->query->get('sortby','send');
-        
-        $messages->load($a);
+        $f['sortorder'] = $request->query->get('sortorder', 'DESC');
+        $f['sortby'] = $request->query->get('sortby','send');
+        $f['recipient'] = UserUtil::getVar('uid');
+        $f['stored'] = 'byrecipient';        
+        $messages->load($f);
         $total = $messages->getmessages_counts();
         
         $this->view->assign('ictitle',          $this->__('Archive'));        
@@ -226,9 +229,9 @@ class UserController extends \Zikula_AbstractController
         $this->view->assign('indicatorbar',     round(($total['archive']['count'] / $total['archive']['limit']) * 100));
         $this->view->assign('total',            $total); 
         $this->view->assign('sortbar_target',   'archive');
-        $this->view->assign('limit',            $a['limit']);
-        $this->view->assign('sortorder',        $a['sortorder']);
-        $this->view->assign('sortby',           $a['sortby']);        
+        $this->view->assign('limit',            $f['limit']);
+        $this->view->assign('sortorder',        $f['sortorder']);
+        $this->view->assign('sortby',           $f['sortby']);        
         // Return output object
         return new Response($this->view->fetch('User/view.tpl'));
     }

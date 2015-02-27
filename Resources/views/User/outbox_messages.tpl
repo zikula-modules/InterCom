@@ -7,7 +7,7 @@
         </div>
         <div class="list-group-item col-lg-12" style="background: #eee;">
             <div class="col-lg-1">
-                {gt text="Sender"}                    
+                {gt text="Recipient"}                    
             </div>
             <div class="col-lg-4">
                 {gt text="Subject"}
@@ -46,7 +46,7 @@
         {section name=message loop=$messagesarray}               
         <div class="list-group-item col-lg-12 {if $messagesarray[message].seen == NULL} warning bold{/if}" {if $messagesarray[message].seen == NULL} style="background:#fcf0ba"{/if}>
                 <div class="col-lg-1">                 
-                <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id}"><strong>{$messagesarray[message].sender.uname}</strong></a>
+                <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id}"><strong>{$messagesarray[message].recipient.uname}</strong></a>
                 </div>
                 <div class="col-lg-4">    
                 <a href="{route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id}">{if $messagesarray[message].subject}{$messagesarray[message].subject}{else}{gt text="Error! No subject line."}{/if}</a>  
@@ -75,7 +75,7 @@
                 <input type="checkbox" name="messageid[{$smarty.section.message.index}]" value="{$messagesarray[message].id}" /> 
                 </div>                 
                 <div class="col-lg-1 pull-right text-right">
-                <a data-toggle="collapse" data-target="#msgbody-{$messagesarray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-angle-down fa-3x" title="{gt text='Read'}"> </span></a>   
+                <a data-toggle="collapse" data-target="#msgbody-{$messagesarray[message].id}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-angle-down fa-2x" title="{gt text='Read'}"> </span></a>   
                 </div>               
                 
                 <div id="msgbody-{$messagesarray[message].id}" class="col-lg-12 collapse" >
