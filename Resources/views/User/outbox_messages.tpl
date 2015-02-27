@@ -3,7 +3,7 @@
 
     <div class="list-group clearfix">
         <div class="list-group-item col-lg-12" style="background: #F2F8FF;">
-                    <div class="col-sm-1"><i class="fa fa-inbox"> </i> {$ictitle}</div>                   
+                    <div class="col-sm-1"><i class="fa fa-upload"> </i> {$ictitle}</div>                   
         </div>
         <div class="list-group-item col-lg-12" style="background: #eee;">
             <div class="col-lg-1">

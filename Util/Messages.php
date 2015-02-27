@@ -85,13 +85,13 @@ class Messages {
         
         $inbox = $this->entityManager
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                    ->getAll(array('inbox' => 1, 'recipient' => $uid));
+                    ->getAll(array('deleted' => 'byrecipient', 'recipient' => $uid));
         $total['inbox']['count'] = $inbox->count();        
         $total['inbox']['limit'] = 50;
         
         $outbox = $this->entityManager
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                    ->getAll(array('outbox' => 1, 'sender' => $uid));       
+                    ->getAll(array('deleted' => 'bysender', 'sender' => $uid));       
         $total['outbox']['count'] = $outbox->count();        
         $total['outbox']['limit'] = 50;   
         
