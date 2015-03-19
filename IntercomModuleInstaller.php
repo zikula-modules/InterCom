@@ -149,7 +149,16 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $stmt->execute();
         $sql = 'ALTER TABLE intercom MODIFY msg_popup DATETIME DEFAULT NULL';
         $stmt = $connection->prepare($sql);
+        $stmt->execute();    
+        //inbox invert value
+        $sql = 'UPDATE intercom SET msg_inbox = NOT msg_inbox';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        //inbox invert value
+        $sql = 'UPDATE intercom SET msg_outbox = NOT msg_outbox';
+        $stmt = $connection->prepare($sql);
         $stmt->execute();        
+        
         
         if (!$this->upgrade_to_3_0_0_renameModuleVars()) {
             return false;
@@ -186,8 +195,8 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $sqls[] = 'ALTER TABLE intercom CHANGE msg_read seen DATETIME DEFAULT NULL';
         $sqls[] = 'ALTER TABLE intercom CHANGE msg_replied replied DATETIME DEFAULT NULL';
         $sqls[] = 'ALTER TABLE intercom CHANGE msg_popup notified DATETIME DEFAULT NULL';
-        $sqls[] = 'ALTER TABLE intercom CHANGE msg_inbox inbox TINYINT(1) DEFAULT 0';
-        $sqls[] = 'ALTER TABLE intercom CHANGE msg_outbox outbox TINYINT(1) DEFAULT 0';
+        $sqls[] = 'ALTER TABLE intercom CHANGE msg_inbox deletedbysender TINYINT(1) DEFAULT 0';
+        $sqls[] = 'ALTER TABLE intercom CHANGE msg_outbox deletedbyrecipient TINYINT(1) DEFAULT 0';
         $sqls[] = 'ALTER TABLE intercom CHANGE msg_stored stored TINYINT(1) DEFAULT 0';        
         foreach ($sqls as $sql) {
             $stmt = $connection->prepare($sql);
@@ -223,7 +232,8 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         }    
         }
         return true;
-    }    
+    } 
+    
     public function uninstall()
     {
         try {
