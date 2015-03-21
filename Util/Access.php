@@ -52,10 +52,6 @@ class Access {
 
         // Return false to signify everything is OK.
         return $uid;
-    }    
-   
-    
-    
-    
+    } 
     
 }
