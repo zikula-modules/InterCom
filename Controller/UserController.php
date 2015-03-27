@@ -405,7 +405,7 @@ class UserController extends \Zikula_AbstractController
                 $this->view->assign($message->prepareForForward());                               
                 return new Response($this->view->fetch('User/pm.tpl'));
                 break;                
-            case "store":
+            case "save":
                 if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
                 if(!$a['id']){
                     $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
