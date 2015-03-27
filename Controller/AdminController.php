@@ -43,6 +43,18 @@ class AdminController extends \Zikula_AbstractController
     }
 
     /**
+     * Route not needed here because this is a legacy-only method
+     * 
+     * The default entrypoint.
+     *
+     * @return RedirectResponse
+     */
+    public function mainAction()
+    {
+        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_view', array(), RouterInterface::ABSOLUTE_URL));
+    }
+    
+    /**
      * @Route("")
      *
      * the main administration function

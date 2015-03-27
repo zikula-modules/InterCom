@@ -43,6 +43,20 @@ class UserController extends \Zikula_AbstractController
     }
     
     /**
+     * Route not needed here because this is a legacy-only method
+     *
+     * The default entry point.
+     *
+     * This redirects back to the default entry point for the Intercom module.
+     *
+     * @return RedirectResponse
+     */
+    public function mainAction()
+    {
+        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_view', array(), RouterInterface::ABSOLUTE_URL));
+    }    
+    
+    /**
      * @Route("")
      *
      * the main administration function
