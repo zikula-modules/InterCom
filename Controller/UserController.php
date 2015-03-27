@@ -262,7 +262,7 @@ class UserController extends \Zikula_AbstractController
                 $a['subject'] =     $request->request->get('subject',   false);
                 $a['text'] =        $request->request->get('text',      false);              
         }       
-        $message = new Message();      
+            $message = new Message();      
         switch($mode){
             case "read":
                 if(!$a['id']){
@@ -364,7 +364,7 @@ class UserController extends \Zikula_AbstractController
                 return new Response($this->view->fetch('User/pm.tpl'));                 
                 break;
             case "forward":
-            if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
                 if(!$a['id']){
                     $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
                     return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));                     
@@ -406,7 +406,7 @@ class UserController extends \Zikula_AbstractController
                 return new Response($this->view->fetch('User/pm.tpl'));
                 break;                
             case "store":
-            if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
                 if(!$a['id']){
                     $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
                     return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));                     
@@ -423,7 +423,7 @@ class UserController extends \Zikula_AbstractController
                
                 break;
             case "delete":
-            if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
+                if (!Access::checkAccess(ACCESS_COMMENT)) {throw new AccessDeniedException();}
                 if(!$a['id']){
                     $this->request->getSession()->getFlashbag()->add('error', $this->__('Sorry. Message not found missing id'));
                     return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_index', array(), RouterInterface::ABSOLUTE_URL));                     
