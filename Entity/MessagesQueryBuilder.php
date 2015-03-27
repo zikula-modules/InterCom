@@ -20,6 +20,10 @@ use Doctrine\ORM\QueryBuilder;
  */
 class MessagesQueryBuilder extends QueryBuilder {
     
+    /**
+     * Filter by id
+     * @param $id false/userid
+     */    
     public function filterId($id) {
         if ($id !== false) {
             return $this
@@ -28,6 +32,14 @@ class MessagesQueryBuilder extends QueryBuilder {
         }
     }    
 
+    /**
+     * Filter deleted
+     * @param $deleted string
+     * 
+     * all
+     * bysender
+     * byrecipient 
+     */     
     public function filterDeleted($deleted) {
         if ($deleted == false) {
             return $this;
@@ -49,6 +61,14 @@ class MessagesQueryBuilder extends QueryBuilder {
         }
     }
     
+    /**
+     * Filter stored
+     * @param $stored string
+     * 
+     * all
+     * bysender
+     * byrecipient 
+     */     
     public function filterStored($stored) {
         if ($stored == false) {
             return $this;
@@ -69,7 +89,12 @@ class MessagesQueryBuilder extends QueryBuilder {
                             ->setParameter('storedbyrecipient', 1);
         }
     }
-
+    
+    /**
+     * Filter sender
+     * @param $sender false/userid
+     * 
+     */     
     public function filterSender($sender) {
         if ($sender !== false) {
             return $this
@@ -78,6 +103,11 @@ class MessagesQueryBuilder extends QueryBuilder {
         }
     }
     
+    /**
+     * Filter recipient
+     * @param $recipient false/userid
+     * 
+     */     
     public function filterRecipient($recipient) {
         if ($recipient !== false) {
             return $this
@@ -86,7 +116,11 @@ class MessagesQueryBuilder extends QueryBuilder {
         }
     }    
     
-
+    /**
+     * Filter subject
+     * @param $subject false/string
+     * 
+     */ 
     public function filterSubject($subject) {
         if ($subject !== false) {
             return $this
@@ -94,13 +128,23 @@ class MessagesQueryBuilder extends QueryBuilder {
                             ->setParameter('subject', $subject);
         }
     }
-    
+
+    /**
+     * Filter send
+     * @param $send false/string
+     *  
+     */     
     public function filterSend($send) {
         if ($send !== false){
             return $this->andWhere($this->expr()->isNull('m.send'));
         }        
     }
-    
+
+    /**
+     * Filter text
+     * @param $text false/string
+     * 
+     */     
     public function filterText($text) {
         if ($text !== false) {
             return $this
@@ -109,31 +153,53 @@ class MessagesQueryBuilder extends QueryBuilder {
         }
     }
 
+    /**
+     * Filter seen
+     * @param $seen false/string
+     * 
+     * seen
+     * unseen
+     */     
     public function filterSeen($seen) {
         if ($seen !== false) {
         switch ($seen){
             case 'seen':
             return $this->andWhere($this->expr()->isNotNull('m.seen'));
-            break;
             case 'unseen':
-            return $this->andWhere($this->expr()->isNull('m.seen'));
-            break;             
+            return $this->andWhere($this->expr()->isNull('m.seen'));           
         }
         }
     }
-    
+
+    /**
+     * Filter replied
+     * @param $replied string
+     *  
+     */     
     public function filterReplied($replied) {
         if ($replied !== false){
             return $this->andWhere($this->expr()->isNull('m.replied'));
         }        
     }
     
+    /**
+     * Filter conversations
+     * @param $conversations false/conversationid
+     * 
+     */     
     public function filterConversations($conversations) {
         if ($conversations !== false){
             return $this->andWhere($this->expr()->isNull('m.conversationid'));
         }        
     }    
     
+    /**
+     * Filter notified
+     * @param $notified string
+     * 
+     * notified
+     * notnotified
+     */     
     public function filterNotified($notified) {
         if ($notified !== false){
         switch ($notified){
@@ -145,21 +211,41 @@ class MessagesQueryBuilder extends QueryBuilder {
             break;             
         }
         }        
-    }    
+    } 
     
+    /**
+     * Add single filter
+     * @param string $field Field name to filter
+     * @param mix $filter Mixed filter data
+     * 
+     */     
     public function addFilter($field, $filter) {  
         $fn = 'filter'.ucfirst($field);
         if (method_exists($this,$fn)) { 
             $this->$fn($filter);
         }    
     }
-    
+ 
+    /**
+     * Add multiple filters
+     * @param array $f Array of filters
+     * 
+     */     
     public function addFilters($f) {
         foreach ($f as $field => $filter) {
             $this->addFilter($field, $filter);
         }
     }
-    
+
+    /**
+     * Add search
+     * @param array $s
+     * 
+     * sender
+     * recipient
+     * subject
+     * text
+     */     
     public function addSearch($s) {
         
         $search = $s['search'];
@@ -197,10 +283,13 @@ class MessagesQueryBuilder extends QueryBuilder {
                             ->andWhere('m.text LIKE :search')
                             ->setParameter('search', '%'.$search.'%');   
         }
-        
-        
     }
- 
+
+    /**
+     * Add sort
+     * @param string $sortBy Field name to sort by
+     * @param string $sortOrder sort order ASC/DESC
+     */     
     public function sort($sortBy, $sortOrder) {
         return $this->orderBy('m.' . $sortBy, $sortOrder);
     }    

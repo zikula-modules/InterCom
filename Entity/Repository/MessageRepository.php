@@ -101,7 +101,7 @@ class MessageRepository extends EntityRepository
      */
     public function getAll($args = array())
     {
-        //internall
+        //internal
         $onlyone = isset($args['onlyone']) ? $args['onlyone'] : false;
         //pager
         $page = isset($args['page']) ? $args['page'] : 1;
@@ -144,7 +144,7 @@ class MessageRepository extends EntityRepository
      * object
      */ 
     public function getOneBy($a){ 
-        //set internall
+        //set internal
         $a['onlyone'] = true;
         return $this
           ->getAll($a);        
