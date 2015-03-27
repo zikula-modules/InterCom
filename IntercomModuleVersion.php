@@ -33,16 +33,13 @@ class IntercomModuleVersion extends \Zikula_AbstractVersion
         $meta['dependencies'] = array(
                 array( 'modname'    => 'ContactList',
                         'minversion' => '1.0.0', 'maxversion' => '',
-                        'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
-                        'reason' => $this->__('Contact list allows to organize users in contacts'),
+                        'status'     => ModUtil::DEPENDENCY_RECOMMENDED), //'reason' => $this->__('Contact list allows to organize users in contacts'),
                 array( 'modname'    => 'BBCode',
                         'minversion' => '3.0.0', 'maxversion' => '',
-                        'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
-                        'reason' => $this->__('BBCode allows bracket-tag markup in post text.'),            
+                        'status'     => ModUtil::DEPENDENCY_RECOMMENDED), // 'reason' => $this->__('BBCode allows bracket-tag markup in post text.'),            
                 array( 'modname'    => 'BBSmile',
                         'minversion' => '3.0.0', 'maxversion' => '',
-                        'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
-                        'reason' => $this->__('BBSmile allows addition of smilies to post text.')            
+                        'status'     => ModUtil::DEPENDENCY_RECOMMENDED), // 'reason' => $this->__('BBSmile allows addition of smilies to post text.')            
         );
 
         // This one adds the info to the DB, so that users can click on the
