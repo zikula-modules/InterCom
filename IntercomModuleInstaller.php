@@ -91,14 +91,14 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $sql = 'ALTER TABLE intercom MODIFY from_userid INT DEFAULT NULL';
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        $sql = 'UPDATE intercom SET from_userid = NULL WHERE from_userid = 0';
+        $sql = 'UPDATE intercom SET from_userid = 2 WHERE from_userid = 0';
         $stmt = $connection->prepare($sql);
         $stmt->execute();        
         //recipient
         $sql = 'ALTER TABLE intercom MODIFY to_userid INT DEFAULT NULL';
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        $sql = 'UPDATE intercom SET to_userid = NULL WHERE to_userid = 0';
+        $sql = 'UPDATE intercom SET to_userid = 2 WHERE to_userid = 0';
         $stmt = $connection->prepare($sql);
         $stmt->execute();
         
@@ -168,14 +168,15 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
             $this->request->getSession()->getFlashBag()->add('error', 'Renaming module vars filed');
             return false;
         }         
-        /*
-        // update all the tables to 3.0.0 disabled due to cli upgrade
+        
+        // update all the tables to 3.0.0
         try {
             DoctrineHelper::updateSchema($this->entityManager, array('Zikula\IntercomModule\Entity\MessageEntity'));
         } catch (Exception $e) {
             $this->request->getSession()->getFlashBag()->add('error', $e);
             return false;
-        } */          
+        }          
+        
       return true;
     }
     
