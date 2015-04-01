@@ -12,8 +12,6 @@
  */
 namespace Zikula\IntercomModule\Util;
 
-use DataUtil;
-use ServiceUtil;
 use UserUtil;
 use SecurityUtil;
 use ModUtil;
@@ -50,12 +48,8 @@ class Access {
         // Get the uid of the user
         $uid = UserUtil::getVar('uid');
 
-        // Return false to signify everything is OK.
+        // Return user uid to signify everything is OK.
         return $uid;
-    }    
-   
-    
-    
-    
+    } 
     
 }

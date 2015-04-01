@@ -18,6 +18,12 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class MessageRepository extends EntityRepository
 {
+    
+    /**
+     * Helper function to build custom query builder
+     *
+     * @param MessagesQueryBuilder $qb
+     */    
     public function build()
     {
        $em = ServiceUtil::getService('doctrine.entitymanager'); 
@@ -26,11 +32,11 @@ class MessageRepository extends EntityRepository
     }
     
     /**
-     * Get all or count all or get one
+     * Get all or count all function
      *
-     * @param integer $id
+     * @param array
      */
-    public function getOrCountAll($onlyone = false, $countonly = false, $f, $s, $sortby, $sortorder, $startnum = 1, $itemsperpage = 15)
+    public function getOneOrAll($onlyone = false, $f, $s, $sortby, $sortorder, $page = 1, $limit)
     {           
     
         $qb = $this->build();    
@@ -49,33 +55,63 @@ class MessageRepository extends EntityRepository
             $item = $query->getOneOrNullResult();  
             return $item;          
         }
+        $paginator = $this->paginate($query, $page, $limit);  
 
-        $query->setFirstResult($startnum -1)->setMaxResults($itemsperpage);        
-        
-        if ($countonly){
-            $paginator = new Paginator($query, false);
-            $items = $paginator->count(); 
-        }else{
-            $items = $query->getResult();  
-        }
-        return $items;
+        return $paginator;
+    }
+       
+    /**
+     * Paginator Helper
+     *
+     * Pass through a query object, current page & limit
+     * the offset is calculated from the page and limit
+     * returns an `Paginator` instance, which you can call the following on:
+     *
+     *     $paginator->getIterator()->count() # Total fetched (ie: `5` posts)
+     *     $paginator->count() # Count of ALL posts (ie: `20` posts)
+     *     $paginator->getIterator() # ArrayIterator
+     *
+     * @param Doctrine\ORM\Query $dql   DQL Query Object
+     * @param integer            $page  Current page (defaults to 1)
+     * @param integer            $limit The total number per page (defaults to 5)
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    public function paginate($dql, $page = 1, $limit = 15)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
     }
     
-    public function getAll($args) {
-        
-        //internal switch
-        $countonly = isset($args['countonly']) ? $args['countonly'] : false;
+    /**
+     * Get all in one function 
+     * @param array              $args
+     * @param integer            $onlyone  Internal switch
+     * @param integer            $page  Current page
+     * @param integer            $limit The total number per page
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     * or
+     * object
+     */
+    public function getAll($args = array())
+    {
+        //internal
         $onlyone = isset($args['onlyone']) ? $args['onlyone'] : false;
         //pager
-        $startnum = isset($args['startnum']) ? $args['startnum'] : 1;
-        $startnum      = $startnum < 1 ? 1 : $startnum;
-        $itemsperpage = isset($args['perpage']) ? $args['perpage'] : 25;    
+        $page = isset($args['page']) ? $args['page'] : 1;
+        $page      = $page < 1 ? 1 : $page;
+        $limit = isset($args['limit']) ? $args['limit'] : 25;    
         //sort
         $sortby = isset($args['sortby']) ? $args['sortby'] : 'send';    
         $sortorder = isset($args['sortorder']) ? $args['sortorder'] : 'DESC';     
         //filter's
-        $f['inbox'] = isset($args['inbox']) && $args['inbox'] !== '' ? $args['inbox'] : false;
-        $f['outbox'] = isset($args['outbox']) && $args['outbox'] !== '' ? $args['outbox'] : false;
+        $f['deleted'] = isset($args['deleted']) && $args['deleted'] !== '' ? $args['deleted'] : false;
         $f['stored'] = isset($args['stored']) && $args['stored'] !== '' ? $args['stored'] : false;        
         $f['conversations'] = isset($args['conversations']) && $args['conversations'] !== '' ? $args['conversations'] : false;        
         $f['notified'] = isset($args['notified']) && $args['notified'] !== '' ? $args['notified'] : false;
@@ -86,27 +122,31 @@ class MessageRepository extends EntityRepository
         $f['id'] = isset($args['id']) && $args['id'] !== '' ? $args['id'] : false;
         $f['subject'] = isset($args['subject']) && $args['subject'] !== '' ? $args['subject'] : false;
         $f['text'] = isset($args['text']) && $args['text'] !== '' ? $args['text'] : false;
-        $f['send'] = isset($args['send']) && $args['send'] !== '' ? $args['send'] : false;        
-       //search
+        $f['send'] = isset($args['send']) && $args['send'] !== '' ? $args['send'] : false;       
+        //search
         $s['search'] = isset($args['search']) && $args['search'] !== '' ? $args['search'] : false;
         $s['search_field'] = isset($args['search_field']) && $args['search_field'] !== '' ? $args['search_field'] : false;      
        
         return $this
-          ->getOrCountAll($onlyone, $countonly, $f, $s, $sortby, $sortorder, $startnum, $itemsperpage);
+          ->getOneOrAll($onlyone, $f, $s, $sortby, $sortorder, $page, $limit);
     }
     
-    public function getCount($a) {
-       
-       $a['countonly'] = true;
-       return $this
-          ->getAll($a); 
-    }
-    
+    /**
+     * Shortcut to get one item
+     *  
+     * @param array              $args
+     * @param integer            $onlyone  Internal switch
+     * @param integer            $page  Current page
+     * @param integer            $limit The total number per page
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     * or
+     * object
+     */ 
     public function getOneBy($a){ 
-        
+        //set internal
         $a['onlyone'] = true;
         return $this
           ->getAll($a);        
-    }
-    
+    }  
 }

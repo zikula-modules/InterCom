@@ -12,7 +12,6 @@
  */
 namespace Zikula\IntercomModule\Util;
 
-use DataUtil;
 use ModUtil;
 use UserUtil;
 use ServiceUtil;
@@ -50,8 +49,6 @@ class Validator {
     public function validate(){
         $this->checkSubject();
         $this->checkText();
-        $this->checkInbox();
-        $this->checkOutbox();
         $this->checkStored();
         $this->checkNotified();
         $this->checkReplied();
@@ -59,6 +56,7 @@ class Validator {
         $this->checkSend();
         $this->checkSender();
         $this->checkRecipient();
+        $this->checkDeleted();
     }
     
 
@@ -77,11 +75,7 @@ class Validator {
         } 
     }
     
-    public function checkInbox() {
-        
-    }
-
-    public function checkOutbox() {
+    public function checkDeleted() {
         
     }
 
@@ -185,7 +179,7 @@ class Validator {
     
     public function handleGroups() {
 
-                // get entity manager
+        // get entity manager
         $em = ServiceUtil::get('doctrine.entitymanager');
         $recipients = $this->data['recipients'];
         $recipients['groups'] = str_replace(' ', '', $recipients['groups']);

@@ -222,12 +222,11 @@ class Message {
      */
     public function store()
     {
-        $inbox = $this->_message->getRecipient()->getUid() == UserUtil::getVar('uid') ? $this->_message->setInbox(0):1;
-        $outbox = $this->_message->getSender()->getUid() == UserUtil::getVar('uid') ? $this->_message->setOutbox(0):1;        
-        $this->_message->setStored(1);
+        $recipient = $this->_message->getRecipient()->getUid() == UserUtil::getVar('uid') ? $this->_message->setStoredbyrecipient(1):1;
+        $sender = $this->_message->getSender()->getUid() == UserUtil::getVar('uid') ? $this->_message->setStoredbysender(1):1;
         $this->entityManager->persist($this->_message);
         $this->entityManager->flush();
-        return true;
+        return ($recipient || $sender);
     }
     
     /**
@@ -237,11 +236,11 @@ class Message {
      */
     public function delete()
     {
-        $inbox = $this->_message->getRecipient()->getUid() == UserUtil::getVar('uid') ? $this->_message->setInbox(0):1;
-        $outbox = $this->_message->getSender()->getUid() == UserUtil::getVar('uid') ? $this->_message->setOutbox(0):1;
+        $recipient = $this->_message->getRecipient()->getUid() == UserUtil::getVar('uid') ? $this->_message->setDeletedbyrecipient(1):1;
+        $sender = $this->_message->getSender()->getUid() == UserUtil::getVar('uid') ? $this->_message->setDeletedbysender(1):1;
         $this->entityManager->persist($this->_message);
         $this->entityManager->flush();
-        return ($inbox || $outbox);
+        return ($recipient || $sender);
     }     
     
     /**
@@ -354,10 +353,10 @@ class Message {
             return false;    
         }
         switch($field){
-            case 'inbox':
+            case 'deletedbysender':
             $item->setInbox($value);
             break;
-            case 'outbox':
+            case 'deletedbyrecipient':
             $item->setOutbox($value);
             break;            
             case 'notified':

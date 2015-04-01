@@ -12,7 +12,6 @@
  */
 namespace Zikula\IntercomModule\Util;
 
-use DataUtil;
 use ServiceUtil;
 
 use Zikula\IntercomModule\Util\Settings;

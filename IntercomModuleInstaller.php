@@ -91,14 +91,14 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $sql = 'ALTER TABLE intercom MODIFY from_userid INT DEFAULT NULL';
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        $sql = 'UPDATE intercom SET from_userid = NULL WHERE from_userid = 0';
+        $sql = 'UPDATE intercom SET from_userid = 2 WHERE from_userid = 0';
         $stmt = $connection->prepare($sql);
         $stmt->execute();        
         //recipient
         $sql = 'ALTER TABLE intercom MODIFY to_userid INT DEFAULT NULL';
         $stmt = $connection->prepare($sql);
         $stmt->execute();
-        $sql = 'UPDATE intercom SET to_userid = NULL WHERE to_userid = 0';
+        $sql = 'UPDATE intercom SET to_userid = 2 WHERE to_userid = 0';
         $stmt = $connection->prepare($sql);
         $stmt->execute();
         
@@ -149,23 +149,35 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $stmt->execute();
         $sql = 'ALTER TABLE intercom MODIFY msg_popup DATETIME DEFAULT NULL';
         $stmt = $connection->prepare($sql);
+        $stmt->execute();    
+        //inbox invert value
+        $sql = 'UPDATE intercom SET msg_inbox = NOT msg_inbox';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+        //inbox invert value
+        $sql = 'UPDATE intercom SET msg_outbox = NOT msg_outbox';
+        $stmt = $connection->prepare($sql);
         $stmt->execute();        
+               
+        if (!$this->upgrade_to_3_0_0_renameColumns()) {
+            $this->request->getSession()->getFlashBag()->add('error', 'Renaming columns filed');
+            return false;
+        }    
         
         if (!$this->upgrade_to_3_0_0_renameModuleVars()) {
+            $this->request->getSession()->getFlashBag()->add('error', 'Renaming module vars filed');
             return false;
-        }        
-        if (!$this->upgrade_to_3_0_0_renameColumns()) {
-            return false;
-        }
+        }         
+        
         // update all the tables to 3.0.0
         try {
             DoctrineHelper::updateSchema($this->entityManager, array('Zikula\IntercomModule\Entity\MessageEntity'));
-            sleep(1);
         } catch (Exception $e) {
-            $this->request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            $this->request->getSession()->getFlashBag()->add('error', $e);
             return false;
-        }    
-        return true;
+        }          
+        
+      return true;
     }
     
     /**
@@ -186,9 +198,15 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
         $sqls[] = 'ALTER TABLE intercom CHANGE msg_read seen DATETIME DEFAULT NULL';
         $sqls[] = 'ALTER TABLE intercom CHANGE msg_replied replied DATETIME DEFAULT NULL';
         $sqls[] = 'ALTER TABLE intercom CHANGE msg_popup notified DATETIME DEFAULT NULL';
-        $sqls[] = 'ALTER TABLE intercom CHANGE msg_inbox inbox TINYINT(1) DEFAULT 0';
-        $sqls[] = 'ALTER TABLE intercom CHANGE msg_outbox outbox TINYINT(1) DEFAULT 0';
-        $sqls[] = 'ALTER TABLE intercom CHANGE msg_stored stored TINYINT(1) DEFAULT 0';        
+        $sqls[] = 'ALTER TABLE intercom CHANGE msg_inbox deletedbysender TINYINT(1) DEFAULT 0';
+        $sqls[] = 'ALTER TABLE intercom CHANGE msg_outbox deletedbyrecipient TINYINT(1) DEFAULT 0';
+        $sqls[] = 'ALTER TABLE intercom CHANGE msg_stored storedbysender TINYINT(1) DEFAULT 0';
+        //new collumns
+        $sqls[] = 'ALTER TABLE intercom ADD storedbyrecipient TINYINT(1) DEFAULT 0 AFTER storedbysender';
+        //copy stored data
+        $sqls[] = 'UPDATE intercom SET storedbyrecipient = storedbysender';
+        $sqls[] = 'ALTER TABLE intercom ADD conversationid INT(11) DEFAULT NULL AFTER storedbyrecipient';       
+                
         foreach ($sqls as $sql) {
             $stmt = $connection->prepare($sql);
             try {
@@ -207,23 +225,25 @@ class IntercomModuleInstaller extends \Zikula_AbstractInstaller
      */
     private function upgrade_to_3_0_0_renameModuleVars()
     {
-        $connection = $this->entityManager->getConnection();
-        // sql UPDATE `module_vars` SET `modname`='ZikulaIntercomModule' WHERE `modname`='InterCom'
-        $sql = 'UPDATE module_vars SET modname = ZikulaIntercomModule WHERE modname = InterCom';
-        $stmt = $connection->prepare($sql);
-        $stmt->execute();   
-        $old_vars = $this->getVars();
-        $this->delVars();        
-        $vars = Settings::getDefault();
-        $key = array();
-        if(is_array($old_vars)){
-        foreach($vars as $var_name => $var){
-        $old_var_key[$varname] = 'messages_'.$var_name;    
-        $this->setVar($var_name, $old_vars[$old_var_key[$varname]]);
-        }    
+
+        $mixed = array();
+        // clear old modvars
+        // use manual method because getVars() is not available during system upgrade
+        $modVarEntities = $this->entityManager->getRepository('Zikula\Core\Doctrine\Entity\ExtensionVarEntity')->findBy(array('modname' => $this->name));
+        $old_vars = array();
+        foreach ($modVarEntities as $ovar) {
+            $old_vars[$ovar['name']] = $ovar['value'];
         }
+        $this->delVars();
+        $vars =  self::getDefaultVars();
+        foreach($vars as $var_name => $var){
+        $old_var_key[$var_name] = 'messages_'.$var_name;    
+        $mixed[$var_name]  = array_key_exists($old_var_key[$var_name], $old_vars) ? $old_vars[$old_var_key[$var_name]] : $var; 
+        }    
+        $this->setVars($mixed);
         return true;
-    }    
+    } 
+    
     public function uninstall()
     {
         try {
