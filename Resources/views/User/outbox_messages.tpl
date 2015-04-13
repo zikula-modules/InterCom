@@ -79,7 +79,7 @@
                     {/if}                
                 </div>
                 
-                <div id="msgbody-{$messagesarray[message].id}" class="col-md-12 collapse" >
+                <div id="msgbody-{$messagesarray[message].id}" class="col-md-12 collapse">
                     <div class="col-xs-3 col-md-1">
                     <a href="#" class="thumbnail" style="height:40px;width:40px;">
                             {*icuseravatar uid=$messagesarray[message].from_userid assign=useravatar}
