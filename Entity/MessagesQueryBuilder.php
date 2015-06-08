@@ -91,6 +91,19 @@ class MessagesQueryBuilder extends QueryBuilder {
     }
     
     /**
+     * Filter mtype
+     * @param $mtype false/mtype
+     *
+     */
+    public function filterMtype($mtype) {
+        if ($mtype !== false) {
+            return $this
+            ->andWhere('m.mtype = :mtype')
+            ->setParameter('mtype', $mtype);
+        }
+    }    
+    
+    /**
      * Filter sender
      * @param $sender false/userid
      * 

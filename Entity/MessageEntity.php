@@ -160,6 +160,7 @@ class MessageEntity extends EntityAccess
         $this->conversationid = null;        
         $this->conversation = new \Doctrine\Common\Collections\ArrayCollection();        
         $this->seen = null;
+        $this->mtype = 'normal';
         $this->storedbysender = 0;
         $this->storedbyrecipient = 0;
         $this->deletedbysender = 0;

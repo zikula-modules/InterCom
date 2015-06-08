@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Intercom
  *
@@ -8,7 +7,6 @@
  * @license GNU/GPL - http://www.gnu.org/copyleft/gpl.html
  * @package Intercom
  */
-
 namespace Zikula\IntercomModule\Entity\Repository;
 
 use ServiceUtil;
@@ -122,6 +120,7 @@ class MessageRepository extends EntityRepository
         $f['id'] = isset($args['id']) && $args['id'] !== '' ? $args['id'] : false;
         $f['subject'] = isset($args['subject']) && $args['subject'] !== '' ? $args['subject'] : false;
         $f['text'] = isset($args['text']) && $args['text'] !== '' ? $args['text'] : false;
+        $f['mtype'] = isset($args['mtype']) && $args['mtype'] !== '' ? $args['mtype'] : 'normal';
         $f['send'] = isset($args['send']) && $args['send'] !== '' ? $args['send'] : false;       
         //search
         $s['search'] = isset($args['search']) && $args['search'] !== '' ? $args['search'] : false;
