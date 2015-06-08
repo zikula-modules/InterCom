@@ -13,12 +13,12 @@ namespace Zikula\IntercomModule\Entity;
 
 use ServiceUtil;
 use ModUtil;
-use DateTime;
 use UserUtil;
 use System;
 use Zikula\Core\Doctrine\EntityAccess;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Message entity class
@@ -82,6 +82,14 @@ class MessageEntity extends EntityAccess
      * @ORM\Column(type="text")
      */
     private $text = '';
+    
+    /**
+     * message type
+     * 
+     * @ORM\Column(type="string", options={"default": "normal"})
+     * @Assert\Choice(choices = {"normal", "system"}, message = "Choose message type.")
+     */
+    private $mtype;
     
     /**
      * seen
@@ -188,6 +196,7 @@ class MessageEntity extends EntityAccess
      */
     public function getSender()
     {
+        $sender = array();
         if(is_null($this->sender)){
         $sender['uname'] = 'Deleted User';   
         }else {
@@ -217,6 +226,7 @@ class MessageEntity extends EntityAccess
     {
         return $this->recipient;
     }
+    
     /**
      * Set subject
      *
@@ -282,6 +292,28 @@ class MessageEntity extends EntityAccess
     {
         return $this->text;
     }
+    
+    /**
+     * Set message type
+     *
+     * @param string $mtype
+     * @return $this
+     */
+    public function setMtype($mtype)
+    {
+        $this->mtype = $mtype;
+        return $this;
+    }
+    
+    /**
+     * Get message type
+     *
+     * @return string
+     */
+    public function getMtype()
+    {
+        return $this->mtype;
+    }    
     
     /**
      * Set seen status
