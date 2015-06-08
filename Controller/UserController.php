@@ -10,7 +10,6 @@
  * Please see the CREDITS.txt file distributed with this source code for further
  * information regarding copyright.
  */
-
 namespace Zikula\IntercomModule\Controller;
 
 use ModUtil;
@@ -251,7 +250,7 @@ class UserController extends \Zikula_AbstractController
     }
 
     /**
-     * @Route("/message/{mode}")
+     * @Route("/message/{mode}" , defaults={"mode" = "new"})
      *
      * @return Response symfony response object
      * 
