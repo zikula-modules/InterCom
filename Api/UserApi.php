@@ -25,6 +25,7 @@ class UserApi extends \Zikula_AbstractApi
      * @author chaos
      * @version
      * @return
+     * @todo migrate to mailer service
      */
     public function emailnotification($args)
     {
@@ -167,7 +168,8 @@ class UserApi extends \Zikula_AbstractApi
     public function getLinks()
     {
         $links = array();
-        if (UserUtil::isLoggedIn()) {           
+        if (UserUtil::isLoggedIn()) {    
+                   
             if($this->getVar('mode') == 0){
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
@@ -200,6 +202,7 @@ class UserApi extends \Zikula_AbstractApi
                 'icon' => 'file'
             );   
             }
+            
             if($this->getVar('mode') == 1){
             $links[] = array(
                 'url' => $this->get('router')->generate('zikulaintercommodule_user_conversations'),
@@ -227,6 +230,7 @@ class UserApi extends \Zikula_AbstractApi
             );            
             }
         }
+        
         return $links;
     }
 }
