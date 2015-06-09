@@ -1,0 +1,138 @@
+{{ render(controller('ZikulaAdminModule:Admin:adminheader')) }}
+{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig',
+    'ZikulaIntercomModule:Form:radio.html.twig'
+] %}
+<div class="container-fluid">
+    <div class="row">
+        <h3>
+	       <span class="fa fa-wrench"></span> {{ __('Preferences')}}
+        </h3>
+        {{ showflashes() }}
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <fieldset>
+            <legend>{{ __('General settings') }}</legend>
+            {{ form_row(form.active,
+            {'label': 'Enable private messaging',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.maintain,
+            {'label': 'Disabled reason message',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.mode, 
+            {'label': 'Chose view mode',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.allowsmilies, 
+            {'label': 'Allow smilies in messages',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.allowhtml, 
+            {'label': 'Allow html in messages',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.disable_ajax, 
+            {'label': 'Disable ajax functionality',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+        </fieldset>
+        
+        <fieldset>
+            <legend>{{ __('Limits') }}</legend>
+            {{ form_row(form.limitarchive,
+            {'label': 'Limit archive',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.limitoutbox,
+            {'label': 'Limit outbox',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.limitinbox, 
+            {'label': 'Limit inbox',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.perpage, 
+            {'label': 'Items per page',
+			'attr': {'class': '' }}) }}
+        </fieldset>
+        
+        <fieldset>
+            <legend>{{ __('Protection') }}</legend>
+            {{ form_row(form.protection_on,
+            {'label': 'Enable protection',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.protection_time,
+            {'label': 'Protection time',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.protection_amount, 
+            {'label': 'Protection amount',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.protection_mail, 
+            {'label': 'Protection email',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+        </fieldset>
+        
+        <fieldset>
+            <legend>{{ __('User prompt') }}</legend>
+            {{ form_row(form.userprompt_display,
+            {'label': 'Display message to all users',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.userprompt,
+            {'label': 'Message content',
+			'attr': {'class': '' }}) }}
+        </fieldset>
+        
+        <fieldset>
+            <legend>{{ __('Welcome') }}</legend>
+            {{ form_row(form.welcomemessage_send,
+            {'label': 'Enable welcome message',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.welcomemessagesender,
+            {'label': 'Sender name',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.welcomemessagesubject, 
+            {'label': 'Message subject',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.welcomemessage, 
+            {'label': 'Message content',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.intlwelcomemessage, 
+            {'label': 'International content',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.savewelcomemessage, 
+            {'label': 'Save welcome message to inbox',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+        </fieldset>  
+        
+        <fieldset>
+            <legend>{{ __('Email') }}</legend>
+            {{ form_row(form.allow_emailnotification,
+            {'label': 'Enable email notification',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.force_emailnotification,
+            {'label': 'Force email notification settings for all users',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            {{ form_row(form.mailsender, 
+            {'label': 'Email sender',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.mailsubject, 
+            {'label': 'Email subject',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.fromname, 
+            {'label': 'Email from name',
+			'attr': {'class': '' }}) }}
+            {{ form_row(form.from_email, 
+            {'label': 'Email',
+			'attr': {'class': '' }}) }}
+        </fieldset>        
+                
+        <fieldset>
+            <legend>{{ __('Auto reply') }}</legend>
+            {{ form_row(form.allow_autoreply, 
+            {'label': 'Enable autoreply functionality',
+			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+        </fieldset>          
+        
+                     
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-9">
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}, 'icon':'fa-check'}) }}
+                {{ form_widget(form.cancel, {'attr': {'class': 'btn btn-default'}, icon:'fa-times'}) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{{ render(controller('ZikulaAdminModule:Admin:adminfooter')) }}                
