@@ -1,5 +1,6 @@
 {{ render(controller('ZikulaAdminModule:Admin:adminheader')) }}
-{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig',
+{% form_theme form with ['bootstrap_3_layout.html.twig',
+    'ZikulaFormExtensionBundle:Form:bootstrap_3_zikula_admin_layout.html.twig',
     'ZikulaIntercomModule:Form:radio.html.twig'
 ] %}
 <div class="container-fluid">
@@ -12,24 +13,40 @@
         {{ form_errors(form) }}
         <fieldset>
             <legend>{{ __('General settings') }}</legend>
-            {{ form_row(form.active,
-            {'label': 'Enable private messaging',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.maintain,
-            {'label': 'Disabled reason message',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.mode, 
-            {'label': 'Chose view mode',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.allowsmilies, 
-            {'label': 'Allow smilies in messages',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.allowhtml, 
-            {'label': 'Allow html in messages',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.disable_ajax, 
-            {'label': 'Disable ajax functionality',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            <div class="col-xs-12 col-md-4">           
+                <div class="row">                 
+                {{ form_label(form.active,'Enable private messaging',{ 'label_attr': {'class': 'col-md-5'} }) }}
+                {{ form_errors(form.active) }}                  
+                {{ form_widget(form.active,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                </div>
+                <div class="row"> 
+                {{ form_label(form.maintain,'Disabled reason message',{ 'label_attr': {'class': ''} }) }}
+                {{ form_errors(form.maintain) }}      
+                {{ form_widget(form.maintain,{ 'label_attr': {'class': ''} }) }}                         
+                </div>
+            </div>                        
+            <div class="col-xs-12 col-md-4">
+                <div class="row">            
+                {{ form_label(form.allowsmilies,'Allow smilies in messages',{ 'label_attr': {'class': 'col-md-5'} }) }}
+                {{ form_errors(form.allowsmilies) }}      
+                {{ form_widget(form.allowsmilies,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}     
+                </div>
+                <div class="row">        
+                {{ form_label(form.allowhtml,'Allow html in messages',{ 'label_attr': {'class': 'col-md-5'} }) }}
+                {{ form_errors(form.allowhtml) }}      
+                {{ form_widget(form.allowhtml,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}             
+                </div>
+                <div class="row">            
+                {{ form_label(form.disable_ajax,'Disable ajax functionality',{ 'label_attr': {'class': 'col-md-5'} }) }}
+                {{ form_errors(form.disable_ajax) }}      
+                {{ form_widget(form.disable_ajax,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}             
+    			</div>
+			</div>			            
+            <div class="col-xs-12 col-md-4">  
+                {{ form_label(form.mode,'View mode',{ 'label_attr': {'class': 'col-md-5'} }) }}
+                {{ form_errors(form.mode) }}      
+                {{ form_widget(form.mode,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}                
+            </div>
         </fieldset>
         
         <fieldset>

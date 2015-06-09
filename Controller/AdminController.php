@@ -106,7 +106,7 @@ class AdminController extends AbstractController
                                                 'multiple' => false,
                                                 'expanded' => true,
                                                 'required' => true))
-                ->add('maintain', 'text', array('label' => __('Display additional information'), 'required' => false))
+                ->add('maintain', 'text', array('required' => false))
                 ->add('allowhtml', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
                                                 'multiple' => false,
                                                 'expanded' => true,
@@ -196,10 +196,10 @@ class AdminController extends AbstractController
             if ($form->isValid()) {
                 if ($form->get('save')->isClicked()) {
                     \ModUtil::setVars('ZikulaIntercomModule', $form->getData());
-                    $this->addFlash('status', __('Done! Module configuration updated.'));
+                    $this->addFlash('status', $this->__('Done! Module configuration updated.'));
                 }
                 if ($form->get('cancel')->isClicked()) {
-                    $this->addFlash('status', __('Operation cancelled.'));
+                    $this->addFlash('status', $this->__('Operation cancelled.'));
                 }
                 return $this->redirect($this->generateUrl('zikulaintercommodule_admin_preferences'));
             }
@@ -210,39 +210,26 @@ class AdminController extends AbstractController
     }
     
     /**
-     * @Route("/tools")
+     * @Route("/tools/{operation}", defaults={"operation" = "status"})
      *
      * @return Response symfony response object
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function toolsAction(Request $request)
+    public function toolsAction(Request $request, $operation)
     {
         // Security check
         if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }        
         $tools = new Tools();
-        // Get parameters
-        $operation = $request->query->get('operation', false);
-        if ($operation === false){
-            //get check    
-            $request->attributes->set('_legacy', true); // forces template to render inside old theme
-            return $this->render('ZikulaIntercomModule:Admin:tools.html.twig', array(
-                    'users_check' => $tools->checkIntegrityUsers(),
-                    'orphaned' => $tools->checkIntegrityOrphaned(),
-                    'inboxes' => $tools->checkIntegrityInbox(),
-                    'outboxes' => $tools->checkIntegrityOutbox(),
-                    'archives' => $tools->checkIntegrityArchive(), 
-            ));    
-        }
-        
+
         switch ($operation) {
             case "fix_integrity_users":
                 if ($tools->fixIntegrityUsers()) {                   
-                    $this->addFlash('status', __('Done! users integrity fixed.'));
+                    $this->addFlash('status', $this->__('Done! users integrity fixed.'));
                 } else {
-                    $this->addFlash('error', __('Error! Could not fix users data integrity.'));
+                    $this->addFlash('error', $this->__('Error! Could not fix users data integrity.'));
                 }
                 break;
             case "fix_integrity_inbox":
@@ -302,8 +289,16 @@ class AdminController extends AbstractController
                 }
                 break;
             default:
-                return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_tools', array(), RouterInterface::ABSOLUTE_URL));
-        }
-        return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_admin_tools', array(), RouterInterface::ABSOLUTE_URL));        
+                break;
+       }
+        
+       $request->attributes->set('_legacy', true); // forces template to render inside old theme
+       return $this->render('ZikulaIntercomModule:Admin:tools.html.twig', array(
+                    'users_check' => $tools->checkIntegrityUsers(),
+                    'orphaned' => $tools->checkIntegrityOrphaned(),
+                    'inboxes' => $tools->checkIntegrityInbox(),
+                    'outboxes' => $tools->checkIntegrityOutbox(),
+                    'archives' => $tools->checkIntegrityArchive(),
+      ));   
     }
 }
