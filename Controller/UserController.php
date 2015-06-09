@@ -33,7 +33,7 @@ use Zikula\IntercomModule\Util\Message;
 use Zikula\IntercomModule\Util\Access;
 
 
-class UserController extends \Zikula_AbstractController
+class UserController extends AbstractController
 {
   
     public function postInitialize()
@@ -68,59 +68,12 @@ class UserController extends \Zikula_AbstractController
         if (!Access::checkAccess()) {
             throw new AccessDeniedException();
         }
-        if($this->getVar('mode') == 1){        
+        
+        if(ModUtil::getVar($this->name, 'mode') == 1){        
         return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_conversations', array(), RouterInterface::ABSOLUTE_URL));
         }else{
         return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));            
         }   
-    }
-    
-    /**
-     * @Route("/conversations")
-     *
-     * @return Response symfony response object
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-    */     
-    public function conversationsAction(Request $request)
-    {
-        // Permission check
-        if (!Access::checkAccess()) {
-            throw new AccessDeniedException();
-        }       
-        $uid = UserUtil::getVar('uid');
-        $autoreply = 0;
-        if ($this->getVar('allow_autoreply') == 1) {
-            // and read the user data incl. the attributes
-            $autoreply = UserUtil::getVar('ic_ar'); 
-        }
-        $this->view->assign('autoreply',        $autoreply);
-        $f = array();
-        // Get startnum and perpage parameter for pager
-        $f['startnum'] = $request->query->get('startnum',null);
-        $f['perpage'] = $this->getVar('perpage', 25);
-        // Get parameters from whatever input we need.
-        $a['sortorder'] = $request->query->get('sortorder', 'DESC');
-        $a['sortby'] = $request->query->get('sortby','send');       
-        $messages = new Messages();
-        // Get the amount of messages within each box
-        $totalarray = $messages->getmessagecount();
-        $a['inbox'] = 1;
-        $a['recipient'] = $uid;
-        $a['conversations'] = true;        
-        $messagearray = $messages->getmessages($a);            
-        $this->view->assign('boxtype',          'conversation');
-        $this->view->assign('currentuid',       UserUtil::getVar('uid'));
-        $this->view->assign('messagearray',     $messagearray);
-        $this->view->assign('getmessagecount',  $totalarray);
-        $this->view->assign('indicatorbar',     $totalarray['indicatorbarin']);        
-        $this->view->assign('sortbar_target',   'inbox');
-        $this->view->assign('messagesperpage',  $a['perpage']);
-        $this->view->assign('sortorder',        $a['sortorder']);
-        $this->view->assign('sortby',           $a['sortby']);        
-        $this->view->assign('ictitle',          $this->__('Conversations'));
-        // Return output object
-        return new Response($this->view->fetch('User/conversations.tpl'));
     }
     
     /**
@@ -137,32 +90,33 @@ class UserController extends \Zikula_AbstractController
             throw new AccessDeniedException();
         }       
         
+        $messages = new Messages();
         $f = array();
-        $messages = new Messages();         
         // Get parameter's for pager
         $f['page'] = $request->query->get('page',null);
-        $f['limit'] = $this->getVar('limit', 5);
+        $f['limit'] = $request->query->get('limit', 5);
         // Get parameters from whatever input we need.
         $f['sortorder'] = $request->query->get('sortorder', 'DESC');
         $f['sortby'] = $request->query->get('sortby','send');
         $f['recipient'] = UserUtil::getVar('uid');
         $f['deleted'] = 'byrecipient';
         $messages->load($f);
-        $total = $messages->getmessages_counts();
         
-        $this->view->assign('ictitle',          $this->__('Inbox'));        
-        $this->view->assign('boxtype',          'inbox');
-        $this->view->assign('currentuid',       UserUtil::getVar('uid'));
-        $this->view->assign('messagesarray',     $messages->getmessages_array());
-        $this->view->assign('messagescount',     $messages->getmessages_count());
-        $this->view->assign('indicatorbar',     round(($total['inbox']['count'] / $total['inbox']['limit']) * 100));
-        $this->view->assign('total',            $total); 
-        $this->view->assign('sortbar_target',   'inbox');
+        /**
+               
+
         $this->view->assign('limit',            $f['limit']);
         $this->view->assign('sortorder',        $f['sortorder']);
         $this->view->assign('sortby',           $f['sortby']);        
         // Return output object
         return new Response($this->view->fetch('User/view.tpl'));
+        **/
+        
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme
+        
+        return $this->render('ZikulaIntercomModule:User:inbox.html.twig', array(
+            'messages'              => $messages )); 
+        
     }
 
     /**

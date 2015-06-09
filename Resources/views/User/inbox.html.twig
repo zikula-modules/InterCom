@@ -1,0 +1,36 @@
+{% stylesheets '@ZikulaIntercomModule/Resources/public/css/*' filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+<div class="container-fluid">
+    <div class="row">
+        <h1><i class="fa fa-inbox"></i> {{ __('Inbox') }}</h1>
+    </div>
+ 
+ 
+    <div class="list-group clearfix">   
+    {% for message in messages %}
+        <div class="list-group-item col-md-12" style="background: #F2F8FF;">
+            <div class="col-md-1"><i class="fa fa-user"> </i>         
+    		{{ message.sender.uname == 0 ? message.recipient.uname : message.sender.uname }}      
+            </div>
+            <div class="col-md-1"><i class="fa fa-time"> </i> {{ message.send|date("m/d/Y") }}</div>                       
+            <div class="col-md-3"><i class="fa fa-comment"> </i> {{ message.subject }}</div>          
+            <div class="col-md-2"><i class="fa fa-time"> </i> </div>               
+            <div class="col-xs-1 col-md-1 pull-right text-right">
+                <a data-toggle="collapse" data-target="#msgbody-{{ message.id }}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-angle-down fa-2x" title="{gt text='Read'}"> </span></a>   
+            </div> 
+          <div id="msgbody-{{ message.id }}" class="col-md-12 collapse" >          
+          </div> 
+		</div>      
+    {% endfor %}   
+    
+    
+    
+    
+    
+    
+</div>
+{# jquery autoincluded see \JCSSUtil::prepareJavascripts #}
+{% javascripts '@ZikulaIntercomModule/Resources/public/js/*' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
