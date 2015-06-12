@@ -2,11 +2,11 @@
 <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
 
-{{ pageSetVar('title', __('Inbox')) }}
+{{ pageSetVar('title', __('Outbox')) }}
 
 <div class="container-fluid">
     <div class="row">
-        <h1><i class="fa fa-inbox"></i> {{ __('Inbox') }}</h1>
+        <h1><i class="fa fa-upload"></i> {{ __('Outbox') }}</h1>
     </div>
  
     <div class="list-group clearfix">  
@@ -54,7 +54,7 @@
             <div class="col-md-3"><i class="fa fa-comment"> </i> {{ message.subject }}</div>          
             <div class="col-md-2"><i class="fa fa-time"> </i> </div>               
             <div class="col-xs-1 col-md-1 pull-right text-right">
-                <a data-toggle="collapse" data-target="#msgbody-{{ message.id }}"  href="#{*route name='zikulaintercommodule_user_message' mode='read' id=$messagesarray[message].id*}"> <span class="fa fa-angle-down fa-2x" title="{gt text='Read'}"> </span></a>   
+                <a data-toggle="collapse" data-target="#msgbody-{{ message.id }}"  href="#"> <span class="fa fa-angle-down fa-2x" title="{gt text='Read'}"> </span></a>   
             </div> 
           <div id="msgbody-{{ message.id }}" class="col-md-12 collapse" >          
           </div> 

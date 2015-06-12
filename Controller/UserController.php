@@ -86,37 +86,27 @@ class UserController extends AbstractController
     public function inboxAction(Request $request)
     {
         // Permission check
-        if (!Access::checkAccess()) {
-            throw new AccessDeniedException();
-        }       
+        if (!Access::checkAccess()) { throw new AccessDeniedException();}       
         
-        $messages = new Messages();
-        $f = array();
-        // Get parameter's for pager
-        $f['page'] = $request->query->get('page',null);
-        $f['limit'] = $request->query->get('limit', 5);
-        // Get parameters from whatever input we need.
-        $f['sortorder'] = $request->query->get('sortorder', 'DESC');
-        $f['sortby'] = $request->query->get('sortby','send');
-        $f['recipient'] = UserUtil::getVar('uid');
-        $f['deleted'] = 'byrecipient';
-        $messages->load($f);
-        
-        /**
-               
+        $f = array('page' => $request->query->get('page', null),
+            'limit' => $request->query->get('limit', 25),
+            // Get parameters from whatever input we need.
+            'sortorder' => $request->query->get('sortorder', 'DESC'),
+            'sortby' => $request->query->get('sortby','send'),
+            'recipient' => UserUtil::getVar('uid'),
+            'deleted' => 'byrecipient'
+        );
 
-        $this->view->assign('limit',            $f['limit']);
-        $this->view->assign('sortorder',        $f['sortorder']);
-        $this->view->assign('sortby',           $f['sortby']);        
-        // Return output object
-        return new Response($this->view->fetch('User/view.tpl'));
-        **/
+        $messages = new Messages();     
+        $messages->load($f);        
         
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
-        
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme        
         return $this->render('ZikulaIntercomModule:User:inbox.html.twig', array(
-            'messages'              => $messages )); 
-        
+            'messages'  => $messages->getmessages(),
+            'limit'    => $f['limit'],
+            'sortorder' => $f['sortorder'],
+            'sortby'    => $f['sortby']            
+        ));         
     }
 
     /**
@@ -132,33 +122,26 @@ class UserController extends AbstractController
         if (!Access::checkAccess()) {
             throw new AccessDeniedException();
         }       
-        
-        $f = array();
-        $messages = new Messages();         
-        // Get parameter's for pager
-        $f['page'] = $request->query->get('page',null);
-        $f['limit'] = $this->getVar('limit', 5);
-        // Get parameters from whatever input we need.
-        $f['sortorder'] = $request->query->get('sortorder', 'DESC');
-        $f['sortby'] = $request->query->get('sortby','send');
-        $f['sender'] = UserUtil::getVar('uid');
-        $f['deleted'] = 'bysender';        
+
+        $f = array('page' => $request->query->get('page', null),
+            'limit' => $request->query->get('limit', 25),
+            // Get parameters from whatever input we need.
+            'sortorder' => $request->query->get('sortorder', 'DESC'),
+            'sortby' => $request->query->get('sortby','send'),
+            'recipient' => UserUtil::getVar('uid'),
+            'deleted' => 'bysender'
+        );
+                
+        $messages = new Messages();        
         $messages->load($f);
-        $total = $messages->getmessages_counts();
         
-        $this->view->assign('ictitle',          $this->__('Outbox'));        
-        $this->view->assign('boxtype',          'outbox');
-        $this->view->assign('currentuid',       UserUtil::getVar('uid'));
-        $this->view->assign('messagesarray',     $messages->getmessages_array());
-        $this->view->assign('messagescount',     $messages->getmessages_count());
-        $this->view->assign('indicatorbar',     round(($total['outbox']['count'] / $total['outbox']['limit']) * 100));
-        $this->view->assign('total',            $total); 
-        $this->view->assign('sortbar_target',   'outbox');
-        $this->view->assign('limit',            $f['limit']);
-        $this->view->assign('sortorder',        $f['sortorder']);
-        $this->view->assign('sortby',           $f['sortby']);        
-        // Return output object
-        return new Response($this->view->fetch('User/view.tpl'));
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme
+        return $this->render('ZikulaIntercomModule:User:outbox.html.twig', array(
+            'messages'  => $messages->getmessages(),
+            'limit'    => $f['limit'],
+            'sortorder' => $f['sortorder'],
+            'sortby'    => $f['sortby']
+        ));        
     }
 
     /**
@@ -174,33 +157,26 @@ class UserController extends AbstractController
         if (!Access::checkAccess()) {
             throw new AccessDeniedException();
         }       
-        
-        $f = array();
-        $messages = new Messages();         
-        // Get parameter's for pager
-        $f['page'] = $request->query->get('page',null);
-        $f['limit'] = $this->getVar('limit', 5);
-        // Get parameters from whatever input we need.
-        $f['sortorder'] = $request->query->get('sortorder', 'DESC');
-        $f['sortby'] = $request->query->get('sortby','send');
-        $f['recipient'] = UserUtil::getVar('uid');
-        $f['stored'] = 'byrecipient';        
+       
+        $f = array('page' => $request->query->get('page', null),
+            'limit' => $request->query->get('limit', 25),
+            // Get parameters from whatever input we need.
+            'sortorder' => $request->query->get('sortorder', 'DESC'),
+            'sortby' => $request->query->get('sortby','send'),
+            'recipient' => UserUtil::getVar('uid'),
+            'stored' => 'byrecipient'
+        );
+                
+        $messages = new Messages();        
         $messages->load($f);
-        $total = $messages->getmessages_counts();
         
-        $this->view->assign('ictitle',          $this->__('Archive'));        
-        $this->view->assign('boxtype',          'archive');
-        $this->view->assign('currentuid',       UserUtil::getVar('uid'));
-        $this->view->assign('messagesarray',     $messages->getmessages_array());
-        $this->view->assign('messagescount',     $messages->getmessages_count());
-        $this->view->assign('indicatorbar',     round(($total['archive']['count'] / $total['archive']['limit']) * 100));
-        $this->view->assign('total',            $total); 
-        $this->view->assign('sortbar_target',   'archive');
-        $this->view->assign('limit',            $f['limit']);
-        $this->view->assign('sortorder',        $f['sortorder']);
-        $this->view->assign('sortby',           $f['sortby']);        
-        // Return output object
-        return new Response($this->view->fetch('User/view.tpl'));
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme
+        return $this->render('ZikulaIntercomModule:User:archive.html.twig', array(
+            'messages'  => $messages->getmessages(),
+            'limit'    => $f['limit'],
+            'sortorder' => $f['sortorder'],
+            'sortby'    => $f['sortby']
+        ));        
     }
 
     /**
@@ -211,11 +187,13 @@ class UserController extends AbstractController
      * @todo this is too long
      * 
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */
+     
     public function messageAction(Request $request, $mode)
     {
         // Permission check
         if (!Access::checkAccess()) {throw new AccessDeniedException();}
+        
+        $a = array();
         //id is comming both ways
         $a['id'] = $request->query->get('id');
         // save post data
@@ -409,32 +387,51 @@ class UserController extends AbstractController
                 break;
         }       
     }
-
+*/
     /**
      * @Route("/preferences")
      *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     * 
-     * @return Response
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function preferencesAction(Request $request)
     {
-       // Permission check
-        if (!Access::checkAccess()) {
-           throw new AccessDeniedException();
+    
+        // Security check
+        if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+            throw new AccessDeniedException();
         }
-        $uid = UserUtil::getVar('uid');
-        if ($request->isMethod('Post')){
-            $this->checkCsrfToken();
-            UserUtil::setVar('ic_note', $request->request->get('ic_note',false), $uid);
-            UserUtil::setVar('ic_ar', $request->request->get('ic_ar',false), $uid);
-            UserUtil::setVar('ic_art', $request->request->get('ic_art',false), $uid);       
-            $this->request->getSession()->getFlashbag()->add('status', $this->__('Preferences saved'));             
-        }     
-        $data['ic_note'] = UserUtil::getVar('ic_note',$uid);
-        $data['ic_ar'] = UserUtil::getVar('ic_ar',$uid);
-        $data['ic_art'] = UserUtil::getVar('ic_art',$uid);       
-        $this->view->assign($data);       
-        return new Response($this->view->fetch('User/prefs.tpl'));
-    }
+    
+        $form = $this->createFormBuilder(\ModUtil::getVar('ZikulaIntercomModule'))
+        //general settings        
+        ->add('ic_note', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
+            'multiple' => false,
+            'expanded' => true,
+            'required' => true))
+        ->add('ic_ar', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
+            'multiple' => false,
+            'expanded' => true,
+            'required' => true))
+        ->add('ic_art', 'textarea', array('required' => false))      
+        ->add('save', 'submit')
+        ->add('cancel', 'submit')
+        ->getForm();
+        
+        $form->handleRequest($request);
+        if ($form->isValid()) {                            
+            if ($form->get('save')->isClicked()) {
+                \ModUtil::setVars('ZikulaIntercomModule', $form->getData());
+                $this->addFlash('status', $this->__('Done! preferences updated.'));
+            }
+            if ($form->get('cancel')->isClicked()) {     
+                $this->addFlash('status', $this->__('Operation cancelled.'));
+            }
+        return $this->redirect($this->generateUrl('zikulaintercommodule_user_preferences'));
+        }
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme
+        return $this->render('ZikulaIntercomModule:User:preferences.html.twig', array(
+                'form' => $form->createView(),
+                'modvars' => \ModUtil::getModvars() // @todo temporary solution
+        ));
+    }    
 }
