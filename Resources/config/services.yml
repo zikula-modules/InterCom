@@ -1,6 +1,11 @@
 services:
-    pages.form.type.message:
+    zikulaintercommodule.form.type.message:
         class: Zikula\IntercomModule\Form\Type\MessageType
         tags:
             - { name: form.type, alias: messageform }
-            
+    zikulaintercommodule.link_container:
+	class: Zikula\SpecModule\Container\LinkContainer
+	lazy:  true
+	tags:
+	    - { name: zikula.link_container }
+	arguments: ["@router", "@translator"]
