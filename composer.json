@@ -1,6 +1,6 @@
 {
 	"name" : "zikula/intercom-module",
-	"version": "3.0.0",
+	"version" : "3.0.0",
 	"description" : "Provides a private messaging system with an individual mailbox for each user, incorporating integration with the user account panel and with various other modules and blocks.",
 	"type" : "zikula-module",
 	"license" : "LGPL-3.0+",
@@ -17,26 +17,35 @@
 	"require" : {
 		"php" : ">5.3.3"
 	},
-	"suggest": {
-	    "ContactList:>1.0.0": "Contact list allows to organize users in contacts",
-	    "BBCode:>3.0.0": "BBCode allows bracket-tag markup in post text.",
-	    "BBSmile:>1.0.0": "BBSmile allows addition of smilies to post text."	    	    
-	},	
+	"suggest" : {
+		"ContactList:>1.0.0" : "Contact list allows to organize users in contacts",
+		"BBCode:>3.0.0" : "BBCode allows bracket-tag markup in post text.",
+		"BBSmile:>1.0.0" : "BBSmile allows addition of smilies to post text."
+	},
 	"extra" : {
-	    "zikula": {
-			"core-compatibility": ">=1.4.1",
-	      	"class": "Zikula\\IntercomModule\\ZikulaIntercomModule",
-	      	"displayname": "InterCom",
-	      	"url": "messages",
-	      	"oldnames": ["Messages"],
-	      	"capabilities": {
-		        "message": {"route": "zikulaintercommodule_user_index"},	      	    
-		        "user": {"route": "zikulaintercommodule_user_index"},
-		        "admin": {"route": "zikulaintercommodule_admin_index"}
-	      	},
-	      	"securityschema": {
-		        "ZikulaIntercomModule::": "::"
-		    }    
-	     }			
+		"zikula" : {
+			"core-compatibility" : ">=1.4.1",
+			"class" : "Zikula\\IntercomModule\\ZikulaIntercomModule",
+			"displayname" : "InterCom",
+			"url" : "messages",
+			"oldnames" : [
+				"Messages"
+			],
+			"capabilities" : {
+				"message" : {
+					"route" : "zikulaintercommodule_user_index",
+					"version": "1.0"
+				},
+				"user" : {
+					"route" : "zikulaintercommodule_user_index"
+				},
+				"admin" : {
+					"route" : "zikulaintercommodule_admin_index"
+				}
+			},
+			"securityschema" : {
+				"ZikulaIntercomModule::" : "::"
+			}
+		}
 	}
 }
