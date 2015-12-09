@@ -87,7 +87,7 @@ class MessageEntity extends EntityAccess
      * message type
      * 
      * @ORM\Column(type="string", options={"default": "normal"})
-     * @Assert\Choice(choices = {"normal", "system"}, message = "Choose message type.")
+     * @Assert\Choice(choices = {"normal", "system", "admin"}, message = "Choose message type.")
      */
     private $mtype;
     
