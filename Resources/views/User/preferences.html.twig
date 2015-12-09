@@ -14,7 +14,7 @@
             <legend>{{ __('Email notifications') }}</legend>          
             <div class="col-xs-12">           
                 <div class="row">
-                {% if modvars.ZikulaIntercomModule.allow_emailnotification %}              
+                {% if modvars.allow_emailnotification %}              
                 {% endif %}                                 
                 {{ form_label(form.ic_note,'Enable email notifications',{ 'label_attr': {'class': ''} }) }}
                 {{ form_errors(form.ic_note) }}                  
@@ -25,7 +25,7 @@
         <fieldset>
             <legend>{{ __('Autoreply') }}</legend>            
             <div class="col-xs-12"> 
-                {% if modvars.ZikulaIntercomModule.allow_autoreply %}            
+                {% if modvars.allow_autoreply %}            
                 {% endif %}
                 <div class="row">                 
                 {{ form_label(form.ic_ar,'Enable autoreply',{ 'label_attr': {'class': ''} }) }}

@@ -12,14 +12,8 @@
  */
 namespace Zikula\IntercomModule\Controller;
 
-use ModUtil;
-use System;
-use SecurityUtil;
-use ServiceUtil;
-use UserUtil;
 use Zikula\Core\Controller\AbstractController;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotations - do not remove
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
@@ -30,7 +24,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 use Zikula\IntercomModule\Util\Messages;
 use Zikula\IntercomModule\Util\Message;
-use Zikula\IntercomModule\Util\Access;
 
 
 class UserController extends AbstractController
@@ -63,13 +56,8 @@ class UserController extends AbstractController
      * @return RedirectResponse
     */ 
     public function indexAction(Request $request)
-    { 
-        // Permission check
-        if (!Access::checkAccess()) {
-            throw new AccessDeniedException();
-        }
-        
-        if(ModUtil::getVar($this->name, 'mode') == 1){        
+    {        
+        if($this->getVar('mode') == 1){        
         return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_conversations', array(), RouterInterface::ABSOLUTE_URL));
         }else{
         return new RedirectResponse($this->get('router')->generate('zikulaintercommodule_user_inbox', array(), RouterInterface::ABSOLUTE_URL));            
@@ -86,26 +74,25 @@ class UserController extends AbstractController
     public function inboxAction(Request $request)
     {
         // Permission check
-        if (!Access::checkAccess()) { throw new AccessDeniedException();}       
+        if (!$this->get('zikulaintercommodule.access_manager')->hasPermission()) { throw new AccessDeniedException();}       
         
-        $f = array('page' => $request->query->get('page', null),
-            'limit' => $request->query->get('limit', 25),
-            // Get parameters from whatever input we need.
-            'sortorder' => $request->query->get('sortorder', 'DESC'),
-            'sortby' => $request->query->get('sortby','send'),
-            'recipient' => UserUtil::getVar('uid'),
-            'deleted' => 'byrecipient'
+        $filter = array('page' => $request->query->get('page', null),
+			            'limit' => $request->query->get('limit', 25),
+			            'sortorder' => $request->query->get('sortorder', 'DESC'),
+			            'sortby' => $request->query->get('sortby','send'),
+			            'recipient' => \UserUtil::getVar('uid'),
+			            'deleted' => 'byrecipient'
         );
 
         $messages = new Messages();     
-        $messages->load($f);        
+        $messages->load($filter);        
         
         $request->attributes->set('_legacy', true); // forces template to render inside old theme        
         return $this->render('ZikulaIntercomModule:User:inbox.html.twig', array(
             'messages'  => $messages->getmessages(),
-            'limit'    => $f['limit'],
-            'sortorder' => $f['sortorder'],
-            'sortby'    => $f['sortby']            
+            'limit'    => $filter['limit'],
+            'sortorder' => $filter['sortorder'],
+            'sortby'    => $filter['sortby']            
         ));         
     }
 
@@ -118,30 +105,27 @@ class UserController extends AbstractController
      */
     public function outboxAction(Request $request)
     {
-        // Permission check
-        if (!Access::checkAccess()) {
-            throw new AccessDeniedException();
-        }       
-
-        $f = array('page' => $request->query->get('page', null),
-            'limit' => $request->query->get('limit', 25),
-            // Get parameters from whatever input we need.
-            'sortorder' => $request->query->get('sortorder', 'DESC'),
-            'sortby' => $request->query->get('sortby','send'),
-            'recipient' => UserUtil::getVar('uid'),
-            'deleted' => 'bysender'
-        );
-                
-        $messages = new Messages();        
-        $messages->load($f);
+    	// Permission check
+        if (!$this->get('zikulaintercommodule.access_manager')->hasPermission()) { throw new AccessDeniedException();}        
         
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
+        $filter = array('page' => $request->query->get('page', null),
+			            'limit' => $request->query->get('limit', 25),
+			            'sortorder' => $request->query->get('sortorder', 'DESC'),
+			            'sortby' => $request->query->get('sortby','send'),
+			            'recipient' => \UserUtil::getVar('uid'),
+			            'deleted' => 'bysender'
+        );
+
+        $messages = new Messages();     
+        $messages->load($filter);        
+        
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme        
         return $this->render('ZikulaIntercomModule:User:outbox.html.twig', array(
             'messages'  => $messages->getmessages(),
-            'limit'    => $f['limit'],
-            'sortorder' => $f['sortorder'],
-            'sortby'    => $f['sortby']
-        ));        
+            'limit'    => $filter['limit'],
+            'sortorder' => $filter['sortorder'],
+            'sortby'    => $filter['sortby']            
+        ));         
     }
 
     /**
@@ -153,30 +137,27 @@ class UserController extends AbstractController
      */
     public function archiveAction(Request $request)
     {
-        // Permission check
-        if (!Access::checkAccess()) {
-            throw new AccessDeniedException();
-        }       
-       
-        $f = array('page' => $request->query->get('page', null),
-            'limit' => $request->query->get('limit', 25),
-            // Get parameters from whatever input we need.
-            'sortorder' => $request->query->get('sortorder', 'DESC'),
-            'sortby' => $request->query->get('sortby','send'),
-            'recipient' => UserUtil::getVar('uid'),
-            'stored' => 'byrecipient'
-        );
-                
-        $messages = new Messages();        
-        $messages->load($f);
+		// Permission check
+        if (!$this->get('zikulaintercommodule.access_manager')->hasPermission()) { throw new AccessDeniedException();}     
         
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
+        $filter = array('page' => $request->query->get('page', null),
+			            'limit' => $request->query->get('limit', 25),
+			            'sortorder' => $request->query->get('sortorder', 'DESC'),
+			            'sortby' => $request->query->get('sortby','send'),
+			            'recipient' => \UserUtil::getVar('uid'),
+			            'deleted' => 'byrecipient'
+        );
+
+        $messages = new Messages();     
+        $messages->load($filter);        
+        
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme        
         return $this->render('ZikulaIntercomModule:User:archive.html.twig', array(
             'messages'  => $messages->getmessages(),
-            'limit'    => $f['limit'],
-            'sortorder' => $f['sortorder'],
-            'sortby'    => $f['sortby']
-        ));        
+            'limit'    => $filter['limit'],
+            'sortorder' => $filter['sortorder'],
+            'sortby'    => $filter['sortby']            
+        ));         
     }
 
     /**
@@ -395,14 +376,11 @@ class UserController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function preferencesAction(Request $request)
-    {
+    {    
+            // Permission check
+        if (!$this->get('zikulaintercommodule.access_manager')->hasPermission()) { throw new AccessDeniedException();}   
     
-        // Security check
-        if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
-            throw new AccessDeniedException();
-        }
-    
-        $form = $this->createFormBuilder(\ModUtil::getVar('ZikulaIntercomModule'))
+        $form = $this->createFormBuilder($this->getVars())
         //general settings        
         ->add('ic_note', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
             'multiple' => false,
@@ -420,7 +398,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isValid()) {                            
             if ($form->get('save')->isClicked()) {
-                \ModUtil::setVars('ZikulaIntercomModule', $form->getData());
+                $this->setVars('ZikulaIntercomModule', $form->getData());
                 $this->addFlash('status', $this->__('Done! preferences updated.'));
             }
             if ($form->get('cancel')->isClicked()) {     
@@ -431,7 +409,7 @@ class UserController extends AbstractController
         $request->attributes->set('_legacy', true); // forces template to render inside old theme
         return $this->render('ZikulaIntercomModule:User:preferences.html.twig', array(
                 'form' => $form->createView(),
-                'modvars' => \ModUtil::getModvars() // @todo temporary solution
+                'modvars' => $this->getVars() // @todo temporary solution
         ));
     }    
 }
