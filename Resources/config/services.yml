@@ -9,3 +9,5 @@ services:
         tags:
             - { name: zikula.link_container }
         arguments: [@router, @translator]
+    zikulaintercommodule.access_manager:
+        class: Zikula\IntercomModule\Security\AccessManager
