@@ -4,8 +4,8 @@ services:
         tags:
             - { name: form.type, alias: messageform }
     zikulaintercommodule.link_container:
-	class: Zikula\SpecModule\Container\LinkContainer
-	lazy:  true
-	tags:
-	    - { name: zikula.link_container }
-	arguments: ["@router", "@translator"]
+        class: Zikula\IntercomModule\Container\LinkContainer
+        lazy: true
+        tags:
+            - { name: zikula.link_container }
+        arguments: [@router, @translator]

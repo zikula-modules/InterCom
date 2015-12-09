@@ -32,7 +32,7 @@ class LinkContainer implements LinkContainerInterface
      */
     private $router;
 
-    public function __construct($translator, RouterInterface $router)
+    public function __construct(RouterInterface $router, $translator)
     {
         $this->translator = $translator;
         $this->router = $router;
