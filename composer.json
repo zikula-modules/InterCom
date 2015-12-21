@@ -29,7 +29,8 @@
 			"displayname" : "InterCom",
 			"url" : "messages",
 			"oldnames" : [
-				"Messages"
+				"Messages",
+                                "InterCom"
 			],
 			"capabilities" : {
 				"message" : {
