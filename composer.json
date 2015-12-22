@@ -34,11 +34,11 @@
 			],
 			"capabilities" : {
 				"message" : {
-					"route" : "zikulaintercommodule_user_index",
+					"route" : "zikulaintercommodule_message_new",
 					"version": "1.0"
 				},
 				"user" : {
-					"route" : "zikulaintercommodule_user_index"
+					"route" : "zikulaintercommodule_inbox_view"
 				},
 				"admin" : {
 					"route" : "zikulaintercommodule_admin_index"

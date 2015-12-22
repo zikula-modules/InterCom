@@ -43,12 +43,12 @@ class AccountApi extends \Zikula_AbstractApi
                             'icon'    => 'userconfig.png');
             
             if($this->getVar('mode') == 1){                
-                $items[] = array('url' => $this->get('router')->generate('zikulaintercommodule_user_conversations'),
+                $items[] = array('url' => $this->get('router')->generate('zikulaintercommodule_conversations_list'),
                            'text' => $this->__('Display Conversations'),
                            'title'   => $this->__('Conversations list'),
                            'icon' => 'viewinbox.png');
             }else{
-                $items[] = array('url' => $this->get('router')->generate('zikulaintercommodule_user_inbox'),
+                $items[] = array('url' => $this->get('router')->generate('zikulaintercommodule_inbox_view'),
                            'text' => $this->__('Display messages'),
                            'title'   => $this->__('Private messaging mailbox'),
                            'icon' => 'viewinbox.png');                                      

@@ -1,0 +1,12 @@
+{% block header %}
+
+{% endblock %}
+
+<h1>{% block title %}{% endblock %}</h1>
+{{ pageSetVar('title', block('title')) }}
+
+{% block content %}{% endblock %}
+
+{% block footer %}
+  
+{% endblock %}

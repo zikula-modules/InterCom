@@ -1,0 +1,25 @@
+{% block header %}
+{{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/style.css')) }}
+{{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.settings.js')) }}
+<script>
+(function($) {
+	$(function(){
+            Zikula.Intercom.settings.set({{ settings|json_encode|raw }});
+	});
+})(jQuery);
+</script>
+{% endblock %}
+{% block title %}
+<div id="intercom_title" class="row">
+    <div class="col-md-12">
+        <h1>{{ title_icon|raw }} {{ title }}</h1>
+        {{ pageSetVar('title', title) }}
+    </div>
+</div>
+{% endblock %}       
+{% block content %}
+    
+{% endblock %}
+{% block footer %}
+    
+{% endblock %}

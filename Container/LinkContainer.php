@@ -94,19 +94,19 @@ class LinkContainer implements LinkContainerInterface
             if (UserUtil::isLoggedIn()) {        	 
         	if($this->getVar('mode') == 0){
         		$links[] = array(
-        				'url' => $this->router->generate('zikulaintercommodule_user_inbox'),
+        				'url' => $this->router->generate('zikulaintercommodule_inbox_view'),
         				'text' => $this->translator->__('Inbox'),
         				'title'   => $this->translator->__('Recived messages'),
         				'icon' => 'inbox'
         		);
         		$links[] = array(
-        				'url' => $this->router->generate('zikulaintercommodule_user_outbox'),
+        				'url' => $this->router->generate('zikulaintercommodule_send_list'),
         				'text' => $this->translator->__('Outbox'),
         				'title'   => $this->translator->__('Messages send by you'),
         				'icon' => 'upload'
         		);
         		$links[] = array(
-        				'url' => $this->router->generate('zikulaintercommodule_user_archive'),
+        				'url' => $this->router->generate('zikulaintercommodule_archive_list'),
         				'text' => $this->translator->__('Archive'),
         				'title'   => $this->translator->__('Your saved messages'),
         				'icon' => 'archive'
@@ -118,7 +118,7 @@ class LinkContainer implements LinkContainerInterface
         				'icon' => 'wrench'
         		);
         		$links[] = array(
-        				'url' => $this->router->generate('zikulaintercommodule_user_message',array('mode' => 'new')),
+        				'url' => $this->router->generate('zikulaintercommodule_message_new'),
         				'text' => $this->translator->__('New message'),
         				'title'   => $this->translator->__('Click here to compose new message'),
         				'icon' => 'file'
@@ -126,13 +126,13 @@ class LinkContainer implements LinkContainerInterface
         	}        
         	if($this->getVar('mode') == 1){
         		$links[] = array(
-        				'url' => $this->router->generate('zikulaintercommodule_user_conversations'),
+        				'url' => $this->router->generate('zikulaintercommodule_conversations_list'),
         				'text' => $this->translator->__('Conversations'),
         				'title'   => $this->translator->__('See all of your conversations'),
         				'icon' => 'coffee'
         		);
         		$links[] = array(
-        				'url' => $this->router->generate('zikulaintercommodule_user_archive'),
+        				'url' => $this->router->generate('zikulaintercommodule_archive_list'),
         				'text' => $this->translator->__('Archive'),
         				'title'   => $this->translator->__('Your saved conversations'),
         				'icon' => 'archive'
@@ -144,7 +144,7 @@ class LinkContainer implements LinkContainerInterface
         				'icon' => 'wrench'
         		);
         		$links[] = array(
-        				'url' => $this->router->generate('zikulaintercommodule_user_conversations'),
+        				'url' => $this->router->generate('zikulaintercommodule_conversations_list'),
         				'text' => $this->translator->__('Start new conversation'),
         				'title'   => $this->translator->__('New conversation'),
         				'icon' => 'file'

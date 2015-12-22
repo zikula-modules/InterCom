@@ -1,0 +1,27 @@
+{% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
+{% block header %}
+    {% set settings='test' %}
+    {{ parent() }}
+    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
+{% endblock %} 
+{% block title %}
+    {% set title_icon="<i class='fa fa-inbox'></i>" %}
+    {% set title=__('Inbox') %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <div id="intercom_inbox_content" class="row">   
+        <div class="col-md-12">    
+            <div class="list-group clearfix">  
+                {{ include('ZikulaIntercomModule:Inbox:list.header.html.twig') }}
+                {{ include('ZikulaIntercomModule:Inbox:list.html.twig') }}
+                {{ include('ZikulaIntercomModule:Inbox:list.footer.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ dump() }}
+{% endblock %}
