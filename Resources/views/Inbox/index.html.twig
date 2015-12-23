@@ -10,15 +10,23 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <div id="intercom_inbox" class="col-md-12">    
-        <div id="conversations" class="conversations-list list-group clearfix">  
+    <div id="intercom_inbox" class="col-md-12 clearfix">   
             {{ include('ZikulaIntercomModule:Inbox:list.header.html.twig') }}
-            {{ include('ZikulaIntercomModule:Inbox:list.html.twig') }}
+            {#render#}
+            <div id="conversations" class="conversations-list list-group clearfix"> 
+             {{ render(controller('ZikulaIntercomModule:Inbox:conversations', { 'page': page, 'sortby': sortby, 'sortorder': sortorder})) }}
+            </div>    
             {{ include('ZikulaIntercomModule:Inbox:list.footer.html.twig') }}
-        </div>
     </div>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
     {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
+    <script>
+    (function($) {
+            $(function(){
+                Zikula.Intercom.InboxManager.init();  
+            });
+    })(jQuery);
+    </script>
 {% endblock %}

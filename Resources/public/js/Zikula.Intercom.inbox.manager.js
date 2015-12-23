@@ -25,6 +25,8 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
       manager.pages = 10;
       manager.conversations = [];
       manager.selected = [];
+      manager.busy = false;
+      
     /*
      * manager functions  
      * 
@@ -33,10 +35,9 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
         // view as singelton init
         manager.view = view.getInstance();  	
         //load data true ajax false view
-        loadData(false);
+        manager.loadData(false);
         console.log('Zikula.Intercom.InboxManager initiated');
-        
-        console.log($(this));
+        console.log(manager);
     };
 
 
@@ -44,7 +45,7 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
      * manager config  
      * 
      */
-    function loadData(useAjax) {
+    manager.loadData = function(useAjax) {
 
         if (useAjax) {
             //console.log('load data using ajax');   		
@@ -52,9 +53,34 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
             //console.log('load data from view');
             manager.view.getDataFromView();
         }
-        console.log('Zikula.Intercom.InboxManager data loaded');
-        console.log(manager);
     };
+
+    manager.reload = function(url) { 
+        
+        manager.busy = true;
+        manager.view.showBusy();
+        $.ajax({
+            type: "GET",
+            url: url
+        }).success(function (result) {
+            var html = result;
+            manager.conversations = [];
+            manager.view.setConversations(html);
+            manager.busy = false;
+            manager.view.hideBusy();
+        }).error(function (result) {
+            //manager.view.displayError( result.status + ': ' + result.statusText);
+             //manager.view.openModal();
+        }).always(function () {
+            //manager.view.hideBusy();           
+        });
+        
+        
+    };
+    
+    manager.checkAll = function() {      
+        
+    };   
 
     /*
      * manager.view
@@ -69,10 +95,11 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
              * manager.view properties
              */
             //container
-            var $manager = $('div#intercom_inbox');
+            var $manager = $('#intercom_inbox');
             //var manager.selected = [];
-            var $conversations_holder = $manager.find('div#conversations.conversations-list');
+            var $conversations_holder = $manager.find('#conversations');
             
+            console.log($conversations_holder);
             //modal
             //var $modal = $('#intercom_inbox_modal');
             /*
@@ -82,36 +109,48 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
             bindViewEvents();
                        
             console.log('Zikula.Intercom.InboxManager.view initialised');
-            
-            
+                      
             /*
              * manager.view functions 
              */
             function bindViewEvents() {
+                /* bind pager events */
+                $manager.find('.pager-actions a').each(function () {
+                    //console.log($(this));
+                    $(this).on('click', function (e) {
+                        e.preventDefault();
+                        if(manager.busy){
+                          return false;  
+                        }
+                        //manager.editLanguage(false);
+                        var path = $(this).attr('href');
+                        manager.reload(path.replace("view", "conversations"));
+                    });
+                });
+                
                 /* bind conversation list header events */
-                $('a.conversation-details').each(function () {
-                    console.log($(this));
+                $manager.find('a.conversation-details').each(function () {
                     $(this).on('click', function (e) {
                         //e.preventDefault();
                         //manager.editLanguage(false);
                         console.log($(this));
                     });
                 });
-                /* bind add language event 
+                /* bind check all action
                 $manager.find('a.edit_language').each(function () {
                     $(this).on('click', function (e) {
                         e.preventDefault();
                         manager.editLanguage($(this).data('languagecode'));
                     });
-                });*/
-                /* bind add language event 
-                $manager.find('a.remove_language').each(function () {
+                });
+                /* bind add language event */
+                $manager.find('.checkall').each(function () {
                     $(this).on('click', function (e) {
                         e.preventDefault();
-                        manager.removetLanguage($(this).data('languagecode'));
+                        manager.checkAll();
                     });
                 });
-              */
+              
                 console.log('Zikula.Languages.Manager.view events binded');
             }
 
@@ -121,17 +160,22 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
              */
             function getDataFromView() {
                 
-                console.log($manager);
-                
-                $( "li.active" ).css( "border", "13px solid red" );
-                manager.page = $manager.find('li.active.page-active').data('page');
-                $conversations_holder.find("div.conversations").each( function () {
-                  manager.conversations.push('11');
-                  console.log($(this));
-                });
-                console.log('Zikula.Languages.Manager.view data loaded 2');
+                manager.page = $manager.find('.page-active').data('page');
+                //console.log($conversations_holder);
+                $conversations_holder.find("div.conversation").each( function () {
+                  manager.conversations.push($(this).data('id'));
+                });            
+                console.log(manager);
+                console.log('Zikula.Intercom.InboxManager data loaded');
             }
 
+            //modal
+            function setConversations(html) {
+                $conversations_holder.html( html );
+                manager.loadData(false);
+                //start listening for actions
+                bindViewEvents();
+            }
             //modal
             function openModal() {
                 $modal.modal('show');
@@ -159,18 +203,18 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
             
             //overlay
             function getOverlay() {
-                //return $("<div id='overlay'><i class='fa fa-circle-o-notch fa-spin'></i></div>");
+                return $("<div id='overlay'><i class='fa fa-circle-o-notch fa-spin fa-5x'></i></div>");
             }
             function removeOverlay() {
-                //$('#overlay').remove();
+                $('#overlay').remove();
             }
 
             // busy
             function showBusy() {
-                //$('#kmgallery_manager').append(getOverlay());
+                $conversations_holder.prepend(getOverlay());
             }
             function hideBusy() {
-                //$('#overlay').remove();
+                $('#overlay').remove();
             }
             
             //errors
@@ -193,7 +237,8 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
                 getDataFromView: getDataFromView,
                 showBusy: showBusy,
                 hideBusy: hideBusy,
-                displayError: displayError
+                displayError: displayError,
+                setConversations: setConversations
             };
         }
         ;
@@ -210,7 +255,5 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
         };
 
     })();
-    
-    $(document).ready(manager.init());
     
 }(Zikula.Intercom.InboxManager,Zikula.Intercom.settings, jQuery));

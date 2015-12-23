@@ -19,7 +19,7 @@
 <div class="footer-pager clearfix" >
     <nav>
         {% if maxPages > 1 %}
-            <ul class="pagination pagination-sm">
+            <ul class="pager-actions pagination pagination-sm">
                 {# `«` arrow  #}
                 <li {{ thisPage == 1 ? 'class="disabled"' }}>
                     <a href="{{ path('zikulaintercommodule_inbox_view', {page: thisPage-1 < 1 ? 1 : thisPage-1, 'sortby': sortby, 'sortorder': sortorder }) }}">«</a>
