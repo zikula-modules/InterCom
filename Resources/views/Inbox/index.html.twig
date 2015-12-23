@@ -3,7 +3,6 @@
     {% set settings='test' %}
     {{ parent() }}
     {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
 {% endblock %} 
 {% block title %}
     {% set title_icon="<i class='fa fa-inbox'></i>" %}
@@ -11,17 +10,15 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <div id="intercom_inbox_content" class="row">   
-        <div class="col-md-12">    
-            <div class="list-group clearfix">  
-                {{ include('ZikulaIntercomModule:Inbox:list.header.html.twig') }}
-                {{ include('ZikulaIntercomModule:Inbox:list.html.twig') }}
-                {{ include('ZikulaIntercomModule:Inbox:list.footer.html.twig') }}
-            </div>
+    <div id="intercom_inbox" class="col-md-12">    
+        <div id="conversations" class="conversations-list list-group clearfix">  
+            {{ include('ZikulaIntercomModule:Inbox:list.header.html.twig') }}
+            {{ include('ZikulaIntercomModule:Inbox:list.html.twig') }}
+            {{ include('ZikulaIntercomModule:Inbox:list.footer.html.twig') }}
         </div>
     </div>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
-    {{ dump() }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
 {% endblock %}

@@ -1,4 +1,5 @@
-<div id="intercom_inbox_actions" class="list-group-item clearfix" style="background: #eee;">
+<div class="conversations-footer list-group-item clearfix" style="background: #eee;">
+<div class="footer-actions  clearfix" >
     <div class="pull-right col-xs-12 col-md-3" role="group" aria-label="...">
         <div class="btn-group btn-group-sm pull-right">  
             <button type="button" class="btn text-danger" title="{{ __('Delete selected') }}"><i class='fa fa-trash'></i> </button>
@@ -7,7 +8,7 @@
             <button type="button" class="btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </button>
         </div>
     </div>
-    <div id="intercom_inbox_statusbar" class="col-xs-12 col-md-9">
+    <div class="footer-status-bar col-xs-12 col-md-9">
         <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
                 60%
@@ -15,7 +16,7 @@
         </div>
     </div>   
 </div>
-<div id="intercom_inbox_pager" class="list-group-item clearfix" style="background: #eee;">
+<div class="footer-pager clearfix" >
     <nav>
         {% if maxPages > 1 %}
             <ul class="pagination pagination-sm">
@@ -26,7 +27,7 @@
 
                 {# Render each page number #}
                 {% for i in 1..maxPages %}
-                    <li {{ thisPage == i ? 'class="active"' }}>
+                    <li {{ thisPage == i ? 'class="active page-active"' }} data-page="{{ i }}">
                         <a href="{{ path('zikulaintercommodule_inbox_view', {page: i, 'sortby': sortby, 'sortorder': sortorder}) }}">{{ i }}</a>
                     </li>
                 {% endfor %}
@@ -38,4 +39,5 @@
             </ul>
         {% endif %}       
     </nav>
+</div>
 </div>

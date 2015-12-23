@@ -1,3 +1,4 @@
+<div id="intercom">
 {% block header %}
 {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/style.css')) }}
 {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.settings.js')) }}
@@ -16,10 +17,11 @@
         {{ pageSetVar('title', title) }}
     </div>
 </div>
-{% endblock %}       
-{% block content %}
-    
+{% endblock %} 
+<div id="intercom_content" class="row">
+{% block content %}       
 {% endblock %}
+</div>
 {% block footer %}
-    
 {% endblock %}
+</div>
