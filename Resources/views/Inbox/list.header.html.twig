@@ -4,34 +4,31 @@
     </div>
     <div class="col-md-5">
         {{ __('Subject') }}
-        {%  if sortby == 'subject' %}
-            {%  if sortorder == 'ASC' %}
-                <a href="{{ path('zikulaintercommodule_inbox_view', {page:thisPage, 'sortby':'subject', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>             
-                {% else %}
-                <a href="{{ path('zikulaintercommodule_inbox_view', {page:thisPage, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>                
-                {% endif %}    
+        {%  if filter.sortby == 'subject' %}
+            {%  if filter.sortorder == 'ASC' %}
+                <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_inbox_view', {page:pager.page, 'sortby':'subject', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>             
             {% else %}
-            <a href="{{ path('zikulaintercommodule_inbox_view', {page:thisPage, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>                
-            {% endif %}   
+                <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_inbox_view', {page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>                
+            {% endif %}    
+        {% else %}
+            <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_inbox_view', {page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>                
+        {% endif %}   
     </div>             
     <div class="col-md-2">
         {{ __('Date') }}
-        {%  if sortby == 'send' %}
-            {%  if sortorder == 'ASC' %}
-                <a href="{{ path('zikulaintercommodule_inbox_view', {page:thisPage, 'sortby':'send', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>             
+        {%  if filter.sortby == 'send' %}
+            {%  if filter.sortorder == 'ASC' %}
+                <a class="header-action orderby-send" href="{{ path('zikulaintercommodule_inbox_view', {page:pager.page, 'sortby':'send', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>             
                 {% else %}
-                <a href="{{ path('zikulaintercommodule_inbox_view', {page:thisPage, 'sortby':'send', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>                
+                <a class="header-action orderby-send" href="{{ path('zikulaintercommodule_inbox_view', {page:pager.page, 'sortby':'send', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>                
                 {% endif %}  
             {% else %}
-            <a href="{{ path('zikulaintercommodule_inbox_view', {page:thisPage, 'sortby':'send', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>                
+            <a class="header-action orderby-send" href="{{ path('zikulaintercommodule_inbox_view', {page:pager.page, 'sortby':'send', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>                
             {% endif %}                   
     </div>    
     <div class="col-md-3 text-right">     
         <div class="btn-group btn-group-sm pull-right">  
-            <button type="button" class="btn text-danger" title="{{ __('Delete selected') }}"><i class='fa fa-trash'></i> </button>
-            <button type="button" class="btn text-default" title="{{ __('Mark selected as read') }}"><i class='fa fa-eye'></i> </button>
-            <button type="button" class="btn text-success" title="{{ __('Save selected') }}"><i class='fa fa-save'></i> </button>
-            <button type="button" class="checkall btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </button>
+            <button type="button" data-action="toggle-select" class="multi-toggle-select btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </button>
         </div>
     </div>
 </div>

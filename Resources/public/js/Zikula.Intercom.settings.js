@@ -6,21 +6,19 @@
 var Zikula = Zikula || {};
 Zikula.Intercom = Zikula.Intercom || {};
 Zikula.Intercom.settings = {};
-
+Zikula.Intercom.settings.data = Zikula.Intercom.settings.data || {};
 
 (function ($) {
 
-    var settings = [];
-
     Zikula.Intercom.settings.set = function ($settings)
     {
-        settings = $settings;
+        Zikula.Intercom.settings.data = $settings;
         console.log('Intercom:init:0: module set settings');
     };
     
-    Zikula.Intercom.settings.get = function ()
+    Zikula.Intercom.settings.get = function (var_name)
     {
-         return settings;
+         return Zikula.Intercom.settings.data[var_name];
     };   
 
 })(jQuery);

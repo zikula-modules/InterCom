@@ -10,6 +10,6 @@
         <a class="btn text-muted" title="{{ __('Message is not saved')}}"><i class='fa fa-save'></i> </a> 
     {% endif %}   
 
-    <div class="btn"><input class="conversation-selected" name="selectable[{{ message.id }}]" type="checkbox"></div>
+    <div class="btn"><input class="conversation-select" data-id="{{ message.id }}" name="selectable[{{ message.id }}]" type="checkbox"></div>
     <a data-toggle="collapse" class="conversation-details" data-target="#conversation-body-{{ message.id }}" > <span class="fa fa-angle-down fa-2x" title="{gt text='Read'}"> </span></a>   
 </div>

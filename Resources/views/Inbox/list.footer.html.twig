@@ -2,39 +2,30 @@
 <div class="footer-actions  clearfix" >
     <div class="pull-right col-xs-12 col-md-3" role="group" aria-label="...">
         <div class="btn-group btn-group-sm pull-right">  
-            <button type="button" class="btn text-danger" title="{{ __('Delete selected') }}"><i class='fa fa-trash'></i> </button>
-            <button type="button" class="btn text-default" title="{{ __('Mark selected as read') }}"><i class='fa fa-eye'></i> </button>
-            <button type="button" class="btn text-success" title="{{ __('Save selected') }}"><i class='fa fa-save'></i> </button>
-            <button type="button" class="btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </button>
+            <button type="button" class="multi-togglle-select btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </button>
         </div>
     </div>
-    <div class="footer-status-bar col-xs-12 col-md-9">
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                60%
-            </div>
-        </div>
-    </div>   
+        {{ render(controller('ZikulaIntercomModule:User:usagestatus', {'box':'inbox'})) }}
 </div>
 <div class="footer-pager clearfix" >
     <nav>
-        {% if maxPages > 1 %}
+        {% if pager.total > 1 %}
             <ul class="pager-actions pagination pagination-sm">
                 {# `«` arrow  #}
-                <li {{ thisPage == 1 ? 'class="disabled"' }}>
-                    <a href="{{ path('zikulaintercommodule_inbox_view', {page: thisPage-1 < 1 ? 1 : thisPage-1, 'sortby': sortby, 'sortorder': sortorder }) }}">«</a>
+                <li {{ pager.page == 1 ? 'class="disabled"' }}>
+                    <a href="{{ path('zikulaintercommodule_inbox_view', {page: pager.page-1 < 1 ? 1 : pager.page-1, 'sortby': filter.sortby, 'sortorder': filter.sortorder }) }}">«</a>
                 </li>
 
                 {# Render each page number #}
-                {% for i in 1..maxPages %}
-                    <li {{ thisPage == i ? 'class="active page-active"' }} data-page="{{ i }}">
-                        <a href="{{ path('zikulaintercommodule_inbox_view', {page: i, 'sortby': sortby, 'sortorder': sortorder}) }}">{{ i }}</a>
+                {% for i in 1..pager.total %}
+                    <li {{ pager.page == i ? 'class="active page-active"' }} data-page="{{ i }}">
+                        <a href="{{ path('zikulaintercommodule_inbox_view', {page: i, 'sortby': filter.sortby, 'sortorder': filter.sortorder}) }}">{{ i }}</a>
                     </li>
                 {% endfor %}
 
                 {# `»` arrow #}
-                <li {{ thisPage == maxPages ? 'class="disabled"' }}>
-                    <a href="{{ path('zikulaintercommodule_inbox_view', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage, 'sortby': sortby, 'sortorder': sortorder}) }}">»</a>
+                <li {{ pager.page == pager.total ? 'class="disabled"' }}>
+                    <a href="{{ path('zikulaintercommodule_inbox_view', {page: pager.page+1 <= pager.total ? pager.page+1 : pager.page, 'sortby': filter.sortby, 'sortorder': filter.sortorder}) }}">»</a>
                 </li>
             </ul>
         {% endif %}       

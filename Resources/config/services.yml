@@ -1,13 +1,18 @@
 services:
-    zikulaintercommodule.form.type.message:
+    zikula_intercom_module.form.type.message:
         class: Zikula\IntercomModule\Form\Type\MessageType
         tags:
             - { name: form.type, alias: messageform }
-    zikulaintercommodule.link_container:
+    zikula_intercom_module.link_container:
         class: Zikula\IntercomModule\Container\LinkContainer
         lazy: true
         tags:
             - { name: zikula.link_container }
         arguments: [@router, @translator]
-    zikulaintercommodule.access_manager:
+    zikula_intercom_module.access_manager:
         class: Zikula\IntercomModule\Security\AccessManager
+    zikula_intercom_module.manager.messages:
+        class: Zikula\IntercomModule\Manager\Messages
+        tags:
+            - { name: zikula.intercom.manager }
+        arguments: [@doctrine.entitymanager]

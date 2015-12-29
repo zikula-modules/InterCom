@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotatio
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Zikula\IntercomModule\Util\Messages;
 
 /**
@@ -29,68 +30,47 @@ use Zikula\IntercomModule\Util\Messages;
 class InboxController extends AbstractController {
 
     /**
-     * @Route("/view/{page}/{sortby}/{sortorder}", requirements={"page" = "\d*"}, defaults={"page" = 1,"sortby" = "send", "sortorder" = "DESC"})
+     * @Route("/view/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 0})
      *
      * @return Response symfony response object
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function viewAction(Request $request, $page, $sortby, $sortorder) {
+    public function viewAction(Request $request, $page, $sortby, $sortorder, $limit) {
         // Permission check
-        if (!$this->get('zikulaintercommodule.access_manager')->hasPermission()) {
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
             throw new AccessDeniedException();
         }
-        
+
         $filter = ['page' => $page,
-            'limit' => $request->query->get('limit', $this->getVar('messages_perpage')),
+            'limit' => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
             'sortorder' => $sortorder,
             'sortby' => $sortby,
             'recipient' => \UserUtil::getVar('uid'),
             'deleted' => 'byrecipient'
         ];
 
-        $messages = new Messages();
-        $messages->load($filter);
+        $messages = $this->get('zikula_intercom_module.manager.messages')->load($filter);
+
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData(array(
+                'filter' => $filter,
+                'pager' => $messages->getPager(),
+                'html' => $this->renderView('ZikulaIntercomModule:Inbox:list.html.twig', array(
+                    'messages' => $messages->getmessages()
+                ))
+            ));
+
+            return $response;
+        }
 
         $request->attributes->set('_legacy', true); // forces template to render inside old theme        
         return $this->render('ZikulaIntercomModule:Inbox:index.html.twig', array(
-                    'sortorder' => $sortorder,
-                    'sortby' => $sortby,
-                    'page' => $page,
-                    'limit' => $filter['limit'],
-                    'thisPage' => $filter['page'],
-                    'maxPages' => ceil($messages->getmessages_count() / $filter['limit'])
+                    'filter' => $filter,
+                    'pager' => $messages->getPager(),
+                    'messages' => $messages->getmessages(),
+                    'settings' => $this->getVars()
         ));
     }
-    
-    /**
-     * @Route("/conversations/{page}/{sortby}/{sortorder}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"page" = 1,"sortby" = "send", "sortorder" = "DESC"})
-     *
-     * @return Response symfony response object
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
-     */
-    public function conversationsAction(Request $request, $page, $sortby, $sortorder) {
-        // Permission check
-        if (!$this->get('zikulaintercommodule.access_manager')->hasPermission()) {
-            throw new AccessDeniedException();
-        }
-
-        $filter = array('page' => $page,
-            'limit' => $request->query->get('limit', $this->getVar('messages_perpage')),
-            'sortorder' => $sortorder,
-            'sortby' => $sortby,
-            'recipient' => \UserUtil::getVar('uid'),
-            'deleted' => 'byrecipient'
-        );
-
-        $messages = new Messages();
-        $messages->load($filter);
-
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme        
-        return $this->render('ZikulaIntercomModule:Inbox:list.html.twig', array(
-                    'messages' => $messages->getmessages()
-        ));
-    }
-
 }

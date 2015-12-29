@@ -1,6 +1,6 @@
 {% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
 {% block header %}
-    {% set settings='test' %}
+    {% set settings=settings %}
     {{ parent() }}
     {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }}
 {% endblock %} 
@@ -12,9 +12,10 @@
 {% block content %}
     <div id="intercom_inbox" class="col-md-12 clearfix">   
             {{ include('ZikulaIntercomModule:Inbox:list.header.html.twig') }}
+            {{ include('ZikulaIntercomModule:Inbox:list.selected.html.twig') }}
             {#render#}
             <div id="conversations" class="conversations-list list-group clearfix"> 
-             {{ render(controller('ZikulaIntercomModule:Inbox:conversations', { 'page': page, 'sortby': sortby, 'sortorder': sortorder})) }}
+             {{ include('ZikulaIntercomModule:Inbox:list.html.twig') }}
             </div>    
             {{ include('ZikulaIntercomModule:Inbox:list.footer.html.twig') }}
     </div>
@@ -29,4 +30,5 @@
             });
     })(jQuery);
     </script>
+    {#{ dump() }#}
 {% endblock %}

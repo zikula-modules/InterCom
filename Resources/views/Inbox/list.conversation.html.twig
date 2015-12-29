@@ -15,10 +15,10 @@
                     <div class="col-xs-12 col-md-12">
                         <span class="small text-muted">{{ __('Conversation options') }}</span>
                         <div class="btn-group btn-group-sm text-center"> 
-                            <a class="btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>                    
-                            <a class="btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
-                            <a class="btn text-success" role="button"  title="{{ __('Save') }}"><i class="fa fa-save"></i></a>
-                            <a class="btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a> 
+                            <a data-id="{{ message.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>                    
+                            <a data-id="{{ message.id }}" class="forward-conversation btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
+                            <a data-id="{{ message.id }}" class="save-conversation btn text-success" role="button"  title="{{ __('Save') }}"><i class="fa fa-save"></i></a>
+                            <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a> 
                         </div>
                     </div>         
                 </div>    
@@ -32,8 +32,8 @@
                         <textarea class="form-control" rows="3"></textarea>
                         <div class="col-xs-12 col-md-12">
                             <div class="btn-group btn-group-sm pull-right"> 
-                                <a class="btn text-danger" role="button" title="{{ __('Cancel') }}">{{ __('Cancel') }} <i class="fa fa-undo"></i></a>                            
-                                <a class="btn text-success" role="button"  title="{{ __('Send') }}">{{ __('Send') }} <i class="fa fa-share-square"></i></a>
+                                <a data-id="{{ message.id }}" class="cancel-reply btn text-danger" role="button" title="{{ __('Cancel') }}">{{ __('Cancel') }} <i class="fa fa-undo"></i></a>                            
+                                <a data-id="{{ message.id }}" class="send-reply btn text-success" role="button"  title="{{ __('Send') }}">{{ __('Send') }} <i class="fa fa-share-square"></i></a>
                             </div>
                         </div>                          
                     </div>

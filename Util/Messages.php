@@ -26,6 +26,7 @@ class Messages {
   private $name;
   public  $entityManager;
   private $messages;
+  private $filters;
 
     /**
      * construct
@@ -40,11 +41,13 @@ class Messages {
     /**
      *  load messages
      */
-    public function load($args)
+    public function load($filters)
     {       
         $this->messages = $this->entityManager
                     ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                    ->getAll($args);
+                    ->getAll($filters);
+        
+        $this->filters = $filters;
     }    
     
     /**
@@ -74,6 +77,15 @@ class Messages {
     {       
         return $this->messages->count();
     }
+    
+    /**
+     *  get messages count
+     */
+    public function getPager()
+    {       
+        return ['page' => $this->filters['page'],
+                'total' => ceil($this->getmessages_count() / $this->filters['limit'])];
+    }   
     
     /**
      *  get user messages counts

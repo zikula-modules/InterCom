@@ -33,7 +33,7 @@ class UserController extends AbstractController {
      */
     public function preferencesAction(Request $request) {
         // Permission check
-        if (!$this->get('zikulaintercommodule.access_manager')->hasPermission()) {
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
             throw new AccessDeniedException();
         }
 
@@ -67,6 +67,62 @@ class UserController extends AbstractController {
         return $this->render('ZikulaIntercomModule:User:preferences.html.twig', array(
                     'form' => $form->createView(),
                     'modvars' => $this->getVars() // @todo temporary solution
+        ));
+    }
+
+    /**
+     * @Route("/usagestatus/{box}", options={"expose"=true}, defaults={"box"="inbox"})
+     *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     */
+    public function usagestatusAction(Request $request, $box) {
+        // Permission check
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+            throw new AccessDeniedException();
+        }
+
+        $uid = \UserUtil::getVar('uid');
+        
+        switch ($box){
+            case 'inbox':
+            $filter = ['deleted' => 'byrecipient', 'recipient' => $uid];               
+            break;
+            case 'send':
+            $filter = ['deleted' => 'bysender', 'sender' => $uid];               
+            break;
+            case 'saved':
+            $filter = ['stored' => 'all', 'recipient' => $uid, 'sender' => $uid];               
+            break;        
+        default :
+            $filter = ['deleted' => 'byrecipient', 'recipient' => $uid];
+            break;
+        }
+          
+        $manager = $this->get('zikula_intercom_module.manager.messages')->load($filter);
+        
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData(array(
+                'box' => $box,
+                'total' => $manager->count(),
+                'settings' => $this->getVars(),
+                'html' => $this->renderView('ZikulaIntercomModule:User:usagestatus.html.twig', array(
+                    'box' => $box,
+                    'total' => $manager->count(),
+                    'settings' => $this->getVars(),
+                ))
+            ));
+
+            return $response;
+        }
+
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme        
+        return $this->render('ZikulaIntercomModule:User:usagestatus.html.twig', array(
+                    'box' => $box,
+                    'total' => $manager->count(),
+                    'settings' => $this->getVars()
         ));
     }
 
