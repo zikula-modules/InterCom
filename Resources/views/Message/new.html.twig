@@ -1,43 +1,28 @@
-{% form_theme form with ['bootstrap_3_layout.html.twig',
-    'ZikulaFormExtensionBundle:Form:bootstrap_3_zikula_admin_layout.html.twig',
-    'ZikulaIntercomModule:Form:radio.html.twig'
-] %}
-<div class="container-fluid">
-    <div class="row">
-        <h3>
-	       <span class="fa fa-wrench"></span> {{ __('New message')}}
-        </h3>
-        {{ showflashes() }}
-        {{ form_start(form) }}
-        {{ form_errors(form) }} 
-        
-        <fieldset>
-            <legend>{{ __('Compose new message') }}</legend>         
-            <div class="col-xs-12">           
-                <div class="row">                                
-                {{ form_label(form.recipient,'Select recipient',{ 'label_attr': {'class': ''} }) }}
-                {{ form_errors(form.recipient) }}                  
-                {{ form_widget(form.recipient,{'attr': {'class': '' }}) }}
-                </div>
-            </div>
-            <div class="col-xs-12"> 
-                <div class="row">                 
-                {{ form_label(form.subject,'Subject',{ 'label_attr': {'class': ''} }) }}
-                {{ form_errors(form.subject) }}                  
-                {{ form_widget(form.subject,{'attr': {'class': '' }}) }}
-                </div>
-                <div class="row"> 
-                {{ form_label(form.text,'Text',{ 'label_attr': {'class': ''} }) }}
-                {{ form_errors(form.text) }}      
-                {{ form_widget(form.text,{ 'attr': {'class': ''} }) }}                         
-                </div>
-            </div>
-        </fieldset>         
-           <div class="form-group">
-                <div class="col-lg-offset-3 col-lg-9">
-                    {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}, 'icon':'fa-check'}) }}
-                </div>
-            </div>
-        {{ form_end(form) }}
+{% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
+{% block header %}
+    {% set settings=settings %}
+    {{ parent() }}
+    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }}
+{% endblock %} 
+{% block title %}
+    {% set title_icon="<i class='fa fa-sticky-note-o'></i>" %}
+    {% set title=__('Compose new message') %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <div id="intercom_inbox" class="col-md-12 clearfix">   
+       {{ include('ZikulaIntercomModule:Message:form.html.twig') }}
     </div>
-</div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {#{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
+    <script>
+    (function($) {
+            $(function(){
+                Zikula.Intercom.InboxManager.init();  
+            });
+    })(jQuery);
+    </script>
+    {#{ dump() }#}
+{% endblock %}

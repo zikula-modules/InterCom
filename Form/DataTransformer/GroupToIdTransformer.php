@@ -8,7 +8,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class UserToIdTransformer implements DataTransformerInterface
+class GroupToIdTransformer implements DataTransformerInterface
 {
 
     /**
@@ -50,16 +50,16 @@ class UserToIdTransformer implements DataTransformerInterface
      */
     public function reverseTransform($uname)
     {
-        if (!$uname) {
+        if (! $uname) {
             return null;
         }
-        
+        return null;
         $user = $this->om->getRepository('Zikula\Module\UsersModule\Entity\UserEntity')->findOneBy(array(
             'uname' => $uname
         ));
         
         if (null === $user) {
-            throw new TransformationFailedException(sprintf('A user with uname "%s" does not exist!', $uname));
+            throw new TransformationFailedException(sprintf('A user with uid "%s" does not exist!', $uname));
         }
         
         return $user;

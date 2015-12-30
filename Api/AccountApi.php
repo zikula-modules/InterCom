@@ -12,10 +12,6 @@
  */
 namespace Zikula\IntercomModule\Api;
 
-use ModUtil;
-use UserUtil;
-use SecurityUtil;
-
 class AccountApi extends \Zikula_AbstractApi
 {
     /**
@@ -29,13 +25,13 @@ class AccountApi extends \Zikula_AbstractApi
         $items = array();
 
         // show link for users only
-        if(!UserUtil::isLoggedIn()) {
+        if(!\UserUtil::isLoggedIn()) {
             // not logged in
             return $items;
         }
 
         // Create an array of links to return
-        if(SecurityUtil::checkPermission('InterCom::', '::', ACCESS_OVERVIEW) && $this->getVar('active') == 1) {
+        if(\SecurityUtil::checkPermission('InterCom::', '::', ACCESS_OVERVIEW) && $this->getVar('active') == 1) {
             
             $items[] = array('url'     => $this->get('router')->generate('zikulaintercommodule_user_preferences'),
                             'title'   => $this->__('Private messaging settings'),

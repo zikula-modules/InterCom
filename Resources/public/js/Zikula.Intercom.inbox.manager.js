@@ -236,8 +236,11 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
             
             function bindContentEvents() {
                 /* bind conversation details click */
-                $manager.find('a.conversation-details').each(function () {
+                $manager.find('.conversation-details').each(function () {
                     $(this).on('click', function (e) {
+                        if ($(this).data('seen') === false){
+                            manager.markreadConversation($(this).data('id'));
+                        }
                     });
                 });
                 /* bind conversation select */

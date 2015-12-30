@@ -3,6 +3,7 @@ services:
         class: Zikula\IntercomModule\Form\Type\MessageType
         tags:
             - { name: form.type, alias: messageform }
+        arguments: [@doctrine.entitymanager]           
     zikula_intercom_module.link_container:
         class: Zikula\IntercomModule\Container\LinkContainer
         lazy: true
@@ -13,6 +14,11 @@ services:
         class: Zikula\IntercomModule\Security\AccessManager
     zikula_intercom_module.manager.messages:
         class: Zikula\IntercomModule\Manager\Messages
+        tags:
+            - { name: zikula.intercom.manager }
+        arguments: [@doctrine.entitymanager]
+    zikula_intercom_module.manager.message:
+        class: Zikula\IntercomModule\Manager\Message
         tags:
             - { name: zikula.intercom.manager }
         arguments: [@doctrine.entitymanager]

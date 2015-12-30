@@ -12,16 +12,11 @@
  */
 namespace Zikula\IntercomModule\Block;
 
-use SecurityUtil;
-use ModUtil;
-use BlockUtil;
-use UserUtil;
-
 class MessagesBlock extends \Zikula_Controller_AbstractBlock
 {
     public function init()
     {
-        SecurityUtil::registerPermissionSchema('InterCom:messagesblock:', 'Block title::');
+        \SecurityUtil::registerPermissionSchema('InterCom:messagesblock:', 'Block title::');
     }
 
     public function info()
@@ -38,19 +33,19 @@ class MessagesBlock extends \Zikula_Controller_AbstractBlock
 
     public function display($blockinfo)
     {
-        if (!SecurityUtil::checkPermission('InterCom:messagesblock:', '::', ACCESS_OVERVIEW)) {
+        if (!\SecurityUtil::checkPermission('InterCom:messagesblock:', '::', ACCESS_OVERVIEW)) {
             return false;
         }
 
-        if (!ModUtil::available('InterCom')) {
+        if (!\ModUtil::available('InterCom')) {
             return false;
         }
 
-        if (!UserUtil::isLoggedIn()) {
+        if (!\UserUtil::isLoggedIn()) {
             return false;
         }
 
-        $vars = BlockUtil::varsFromContent($blockinfo['content']);
+        $vars = \BlockUtil::varsFromContent($blockinfo['content']);
 
         $this->view->add_core_data()->setCaching(false);
 
@@ -60,12 +55,12 @@ class MessagesBlock extends \Zikula_Controller_AbstractBlock
 
         $blockinfo['content'] = $this->view->fetch(trim($vars['pn_template']));
 
-        return BlockUtil::themesideblock($blockinfo);
+        return \BlockUtil::themesideblock($blockinfo);
     }
 
     public function modify($blockinfo)
     {
-        $vars = BlockUtil::varsFromContent($blockinfo['content']);
+        $vars = \BlockUtil::varsFromContent($blockinfo['content']);
         if(!isset($vars['pn_template']) || empty($vars['pn_template']))   {
             $vars['pn_template']   = 'block/messages.tpl';
         }
@@ -76,9 +71,9 @@ class MessagesBlock extends \Zikula_Controller_AbstractBlock
 
     public function update($blockinfo)
     {
-        $vars = BlockUtil::varsFromContent($blockinfo['content']);
-        $vars['pn_template'] = FormUtil::getPassedValue('pn_template', 'block/messages.tpl', 'POST');
-        $blockinfo['content'] = BlockUtil::varsToContent($vars);
+        $vars = \BlockUtil::varsFromContent($blockinfo['content']);
+        $vars['pn_template'] = \FormUtil::getPassedValue('pn_template', 'block/messages.tpl', 'POST');
+        $blockinfo['content'] = \BlockUtil::varsToContent($vars);
         return $blockinfo;
     }
 }

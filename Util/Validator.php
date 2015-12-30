@@ -12,10 +12,6 @@
  */
 namespace Zikula\IntercomModule\Util;
 
-use ModUtil;
-use UserUtil;
-use ServiceUtil;
-
 class Validator {
 
     private $valid;
@@ -49,14 +45,14 @@ class Validator {
     public function validate(){
         $this->checkSubject();
         $this->checkText();
-        $this->checkStored();
-        $this->checkNotified();
-        $this->checkReplied();
-        $this->checkSeen();
-        $this->checkSend();
-        $this->checkSender();
-        $this->checkRecipient();
-        $this->checkDeleted();
+        //$this->checkStored();
+        //$this->checkNotified();
+        //$this->checkReplied();
+        //$this->checkSeen();
+        //$this->checkSend();
+        //$this->checkSender();
+        //$this->checkRecipient();
+        //$this->checkDeleted();
     }
     
 
@@ -110,7 +106,7 @@ class Validator {
         }
         
         // get entity manager
-        $em = ServiceUtil::get('doctrine.entitymanager');
+        $em = \ServiceUtil::get('doctrine.entitymanager');
         $exist = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $sender);
         if (!$exist) {
             $this->valid = false;    
@@ -131,7 +127,7 @@ class Validator {
             return;    
         }
         // get entity manager
-        $em = ServiceUtil::get('doctrine.entitymanager');
+        $em = \ServiceUtil::get('doctrine.entitymanager');
         
         if ($recipients['groups'] !== ''){
           //handle groups here
@@ -146,7 +142,7 @@ class Validator {
             $this->data['recipients']['names'] = '';
             if(count($uname_array) > 0){               
                 foreach ($uname_array as $key => $uname) {
-                $oneuid[$key] = UserUtil::getIdFromName($uname);               
+                $oneuid[$key] = \UserUtil::getIdFromName($uname);               
                 $exist[$key] = $em->find('Zikula\Module\UsersModule\Entity\UserEntity', $oneuid[$key]);
                 if (!$exist[$key]) {
                         $this->valid = false;
@@ -180,14 +176,14 @@ class Validator {
     public function handleGroups() {
 
         // get entity manager
-        $em = ServiceUtil::get('doctrine.entitymanager');
+        $em = \ServiceUtil::get('doctrine.entitymanager');
         $recipients = $this->data['recipients'];
         $recipients['groups'] = str_replace(' ', '', $recipients['groups']);
             $groups_array = explode(',', $recipients['groups']);
             $this->data['recipients']['groups'] = '';
             if(count($groups_array) > 0){               
                 foreach ($groups_array as $key => $gname) {
-                $exist[$key] = ModUtil::apiFunc('Groups', 'admin', 'getgidbyname', array ('name' => $gname));
+                $exist[$key] = \ModUtil::apiFunc('Groups', 'admin', 'getgidbyname', array ('name' => $gname));
                 if (!$exist[$key]) {
                         $this->valid = false;
                         $this->data['recipients']['groups'] == ''

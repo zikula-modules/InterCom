@@ -14,11 +14,6 @@
 
 namespace Zikula\IntercomModule\Controller;
 
-use ModUtil;
-use System;
-use SecurityUtil;
-use ServiceUtil;
-use UserUtil;
 use Zikula\Core\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -46,7 +41,7 @@ class AdminController extends AbstractController {
      */
     public function indexAction(Request $request) {
         // Security check
-        if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+        if (!\SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
 
@@ -75,7 +70,7 @@ class AdminController extends AbstractController {
     public function preferencesAction(Request $request) {
 
         // Security check
-        if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+        if (!\SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
 
@@ -197,7 +192,7 @@ class AdminController extends AbstractController {
      */
     public function toolsAction(Request $request, $operation) {
         // Security check
-        if (!SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+        if (!\SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
         $tools = new Tools();
