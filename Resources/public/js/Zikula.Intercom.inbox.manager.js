@@ -117,9 +117,9 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
         manager.view.readSelected();
         manager.view.setSelectIcon();
     };
-    
-    manager.performMultiAction = function (action) {      
-        switch(action){
+
+    manager.performMultiAction = function (action) {
+        switch (action) {
             case 'unselect-selected':
                 manager.toggleSelect();
                 break;
@@ -135,39 +135,105 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
                 break;
         }
 
-    };   
-    
+    };
+
+    //Multi
     manager.saveSelected = function () {
-        console.log('save');
+        manager.view.setModalTitle('Save selected messages');
+        manager.view.setModalContent('<p>Click continue to save selected messages or cancel to abort.</p>');
+        manager.view.addModalButton('Save', 'btn-success', 'fa fa-save', 'selected' ,manager.performMultiSave);
+        manager.view.openModal();
     };
     manager.markreadSelected = function () {
-        console.log('marked');
+        manager.view.setModalTitle('Mark selected messages');
+        manager.view.setModalContent('<p>Click continue to save selected messages or cancel to abort.</p>');
+        manager.view.addModalButton('Save', 'btn-success', 'fa fa-save', 'selected' ,manager.performMultiMark);
+        manager.view.openModal();
     };
     manager.deleteSelected = function () {
-        console.log('deleted');
+        manager.view.setModalTitle('Delete selected messages');
+        manager.view.setModalContent('<p>Click continue to save selected messages or cancel to abort.</p>');
+        manager.view.addModalButton('Save', 'btn-success', 'fa fa-save', 'selected' ,manager.performMultiDelete);
+        manager.view.openModal();
+    };    
+       
+    manager.performMultiSave = function (items) {
+        if (items === 'selected') {
+            console.log('save selected');
+        } else {
+            console.log('save' + items);
+        }
     };
+    manager.performMultiMark = function (items) {
+        if (items === 'selected') {
+            console.log('save selected');
+        } else {
+            console.log('save' + items);
+        }
+    };
+    manager.performMultiDelete = function (items) {
+        if (items === 'selected') {
+            console.log('save selected');
+        } else {
+            console.log('save' + items);
+        }
+    };   
+    //Conversation
     manager.saveConversation = function (id) {
-        console.log('save ' + id);
+        manager.view.setModalTitle('Save selected messages');
+        manager.view.setModalContent('<p>Click continue to save selected messages or cancel to abort.</p>');
+        manager.view.addModalButton('Save', 'btn-success', 'fa fa-save', id ,manager.performSaveConversation);
+        manager.view.openModal();
     };
     manager.markreadConversation = function (id) {
-        console.log('mark read ' + id);
+        manager.performMarkreadConversation(id);
     };
     manager.deleteConversation = function (id) {
-        console.log('delete ' + id);
-    };
+        manager.view.setModalTitle('Delete conversation?');
+        manager.view.setModalContent('<p>Click continue to delete conversation or cancel to abort.</p>');
+        manager.view.addModalButton('Delete', ' btn-warning', 'fa fa-trash', id, manager.performDeleteConversation);
+        manager.view.openModal();
+    };    
     manager.forwardConversation = function (id) {
-        console.log('forward ' + id);
-    };
+        manager.view.setModalTitle('Forward conversation');
+        manager.view.setModalContent('<p>Click continue to save selected messages or cancel to abort.</p>');
+        manager.view.addModalButton('Save', 'btn-success', 'fa fa-save', id ,manager.performForwardConversation);
+        manager.view.openModal();
+    };    
     manager.printConversation = function (id) {
-        console.log('print ' + id);
+        manager.view.setModalTitle('Print conversation');
+        manager.view.setModalContent('<p>Click continue to save selected messages or cancel to abort.</p>');
+        manager.view.addModalButton('Save', 'btn-success', 'fa fa-save', id ,manager.performPrintConversation);
+        manager.view.openModal();
     };
     manager.sendReply = function (id) {
-        console.log('send reply ' + id);
-    };
+        manager.performSendReply(id);
+    };    
     manager.cancelReply = function (id) {
-        console.log('cancel reply ' + id);
+        manager.performCancelReply(id);
     };
     
+    manager.performSaveConversation = function (id) {
+        console.log('save ' + id);
+    };
+    manager.performMarkreadConversation = function (id) {
+        console.log('mark ' + id);
+    };
+    manager.performDeleteConversation = function (id) {
+        console.log('delete ' + id);
+    };
+    manager.performForwardConversation = function (id) {
+        console.log('forward ' + id);
+    };   
+    manager.performPrintConversation = function (id) {
+        console.log('print ' + id);
+    };    
+    manager.performSendReply= function (id) {
+        console.log('reply ' + id);
+    };    
+    manager.performCancelReply = function (id) {
+        console.log('cancel ' + id);
+    };
     /*
      * manager.view
      */
@@ -180,6 +246,10 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
              * manager.view properties
              */
             var $manager = $('#intercom_inbox');
+            var $modal = $('#intercom_module_modal');
+            $modal.on('hidden.bs.modal', function () {
+                closeModal();
+            });
             /*
              * manager.view init
              */
@@ -233,12 +303,12 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
                 bindContentEvents();
                 //console.log('Zikula.Languages.Manager.view events binded');
             }
-            
+
             function bindContentEvents() {
                 /* bind conversation details click */
                 $manager.find('.conversation-details').each(function () {
                     $(this).on('click', function (e) {
-                        if ($(this).data('seen') === false){
+                        if ($(this).data('seen') === false) {
                             manager.markreadConversation($(this).data('id'));
                         }
                     });
@@ -256,46 +326,46 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
                         showSelected();
                     });
                 });
-                
+
                 /* bind conversation options */
                 $manager.find('.delete-conversation').each(function () {
                     $(this).on('click', function (e) {
-                      manager.deleteConversation($(this).data('id'));  
+                        manager.deleteConversation($(this).data('id'));
                     });
                 });
                 /* bind conversation options */
                 $manager.find('.save-conversation').each(function () {
                     $(this).on('click', function (e) {
-                      manager.saveConversation($(this).data('id'));  
+                        manager.saveConversation($(this).data('id'));
                     });
-                }); 
+                });
                 /* bind conversation options */
                 $manager.find('.forward-conversation').each(function () {
                     $(this).on('click', function (e) {
-                      manager.forwardConversation($(this).data('id'));  
+                        manager.forwardConversation($(this).data('id'));
                     });
-                }); 
+                });
                 /* bind conversation options */
                 $manager.find('.print-conversation').each(function () {
                     $(this).on('click', function (e) {
-                      manager.printConversation($(this).data('id'));  
+                        manager.printConversation($(this).data('id'));
                     });
-                }); 
+                });
                 /* bind conversation options */
                 $manager.find('.send-reply').each(function () {
                     $(this).on('click', function (e) {
-                      manager.sendReply($(this).data('id'));  
+                        manager.sendReply($(this).data('id'));
                     });
-                }); 
+                });
                 /* bind conversation options */
                 $manager.find('.cancel-reply').each(function () {
                     $(this).on('click', function (e) {
-                      manager.cancelReply($(this).data('id'));  
+                        manager.cancelReply($(this).data('id'));
                     });
-                }); 
+                });
             }
-            
-            
+
+
             /*
              * manager.view functions 
              * Data
@@ -348,18 +418,18 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
                 $selected.find('.selected-messages-count').html(manager.selected.length);
                 if (manager.selected.length > 0) {
                     $selected.removeClass('hide');
-                } else {                   
+                } else {
                     $selected.addClass('hide');
                 }
-            }          
+            }
             function setSelectIcon() {
                 var $select = $manager.find('.multi-toggle-select');
-                if(manager.selectAll){
-                  $select.find('i').removeClass('fa-check-square').addClass('fa-square');   
-                }else{
-                  $select.find('i').removeClass('fa-square').addClass('fa-check-square');  
+                if (manager.selectAll) {
+                    $select.find('i').removeClass('fa-check-square').addClass('fa-square');
+                } else {
+                    $select.find('i').removeClass('fa-square').addClass('fa-check-square');
                 }
-            }           
+            }
             //modal
             function setConversations(html) {
                 $manager.find('#conversations').html(html);
@@ -442,27 +512,33 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
 
             //modal
             function openModal() {
-                //$modal.modal('show');
+                $modal.modal('show');
             }
             function closeModal() {
-                //$modal.modal('hide');
+                $modal.modal('hide');
+                setModalTitle('');
+                setModalContent('');
+                setModalFooter('');
             }
             function setModalTitle(html) {
-                //$modal.find('.modal-title').html(html);
+                $modal.find('.modal-title').html(html);
             }
             function setModalContent(html) {
-                //$modal.find('.modal-body').html(html);
+                $modal.find('.modal-body').html(html);
             }
             function setModalFooter(html) {
-                //$modal.find('.modal-footer').html(html);
+                $modal.find('.modal-footer').html(html);
             }
-            function setModalButtonSave(language_code) {
-                /*   var $buttonSave = $modal.find("button.save");
-                 $buttonSave.click(function (e) {
-                 e.preventDefault();
-                 manager.saveLanguage(language_code);
-                 });
-                 $buttonSave.removeClass('hide'); */
+            function addModalButton(text, cssClass, icon, callbackOptions, callback) {
+                var $icon = (icon === '') ? '' : '<i class="' + icon + '"> </i>';
+                var $button = $('<button type="button" class="btn ' + cssClass + 'hide" data-dismiss="modal">' + $icon + ' ' + text + '</button>');
+                $modal.find('.modal-footer').append($button);
+                $button.click(function () {
+                    if (typeof callback === "function") {
+                        callback(callbackOptions);
+                    }
+                });
+                $button.removeClass('hide');
             }
             //overlay
             function getOverlay() {
@@ -492,7 +568,7 @@ Zikula.Intercom.InboxManager = Zikula.Intercom.InboxManager || {};
                 setModalTitle: setModalTitle,
                 setModalContent: setModalContent,
                 setModalFooter: setModalFooter,
-                setModalButtonSave: setModalButtonSave,
+                addModalButton: addModalButton,
                 getDataFromView: getDataFromView,
                 showBusy: showBusy,
                 hideBusy: hideBusy,

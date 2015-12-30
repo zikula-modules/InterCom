@@ -22,6 +22,7 @@
 {% endblock %}
 {% block footer %}
     {{ parent() }}
+    {{ include('ZikulaIntercomModule:Base:modal.html.twig') }}
     {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
     <script>
     (function($) {
