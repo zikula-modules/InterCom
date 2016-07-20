@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * InterCom Module for Zikula
  *
  * @copyright  InterCom Team
@@ -11,52 +11,26 @@
  * Please see the CREDITS.txt file distributed with this source code for further
  * information regarding copyright.
  */
+
 /**
  * Intercom module installer.
  */
 
 namespace Zikula\IntercomModule;
 
-use Zikula\Core\AbstractBundle;
-use Zikula\Core\ExtensionInstallerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use DoctrineHelper;
+use Zikula\Core\AbstractExtensionInstaller;
 use Zikula\IntercomModule\Util\Settings;
 
-class IntercomModuleInstaller implements ExtensionInstallerInterface, ContainerAwareInterface {
-
-    /**
-     * @var \
-     */
-    private $request;
-
-    /**
-     * @var \
-     */
-    private $entityManager;
-
-    public function __construct() {
-        $this->request = \ServiceUtil::get('request');
-    }
-
-    public function setBundle(AbstractBundle $bundle) {
-        $this->bundle = $bundle;
-    }
-
-    public function setContainer(ContainerInterface $container = null) {
-        $this->container = $container;
-        $this->entityManager = $this->container->get('doctrine.entitymanager');
-    }
+class IntercomModuleInstaller extends AbstractExtensionInstaller {
 
     public function install() {
         try {
-            DoctrineHelper::createSchema($this->entityManager, array('Zikula\IntercomModule\Entity\MessageEntity'));
+            $this->schemaTool->create(['Zikula\IntercomModule\Entity\MessageEntity']);
         } catch (\Exception $e) {
-            $this->request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            $this->addFlash('error', $e->getMessage());
             return false;
         }
-        $this->container->get('zikula_extensions_module.api.variable')->setAll('ZikulaIntercomModule', self::getDefaultVars());
+        $this->setVars(self::getDefaultVars());
         return true;
     }
 
@@ -75,13 +49,13 @@ class IntercomModuleInstaller implements ExtensionInstallerInterface, ContainerA
 
     public function uninstall() {
         try {
-            DoctrineHelper::dropSchema($this->entityManager, array('Zikula\IntercomModule\Entity\MessageEntity'));
+            $this->schemaTool->drop(['Zikula\IntercomModule\Entity\MessageEntity']);
         } catch (\PDOException $e) {
-            $this->request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            $this->addFlash('error', $e->getMessage());
             return false;
         }
         // Delete any module variables
-        $this->container->get('zikula_extensions_module.api.variable')->delAll('ZikulaIntercomModule');
+        $this->delVars();
         return true;
     }
 
@@ -104,7 +78,7 @@ class IntercomModuleInstaller implements ExtensionInstallerInterface, ContainerA
         try {
             $stmt->execute();
         } catch (Exception $e) {
-            $this->request->getSession()->getFlashBag()->add('error', $e->getMessage() . $this->__('Intercom table not found'));
+            $this->addFlash('error', $e->getMessage() . $this->__('Intercom table not found'));
             return false;
         }
         // remove the legacy hooks
@@ -193,20 +167,20 @@ class IntercomModuleInstaller implements ExtensionInstallerInterface, ContainerA
         $stmt->execute();
 
         if (!$this->upgrade_to_3_0_0_renameColumns()) {
-            $this->request->getSession()->getFlashBag()->add('error', 'Renaming columns filed');
+            $this->addFlash('error', 'Renaming columns filed');
             return false;
         }
 
         if (!$this->upgrade_to_3_0_0_renameModuleVars()) {
-            $this->request->getSession()->getFlashBag()->add('error', 'Renaming module vars filed');
+            $this->addFlash('error', 'Renaming module vars filed');
             return false;
         }
 
         // update all the tables to 3.0.0
         try {
-            DoctrineHelper::updateSchema($this->entityManager, array('Zikula\IntercomModule\Entity\MessageEntity'));
+            $this->schemaTool->update(['Zikula\IntercomModule\Entity\MessageEntity']);
         } catch (Exception $e) {
-            $this->request->getSession()->getFlashBag()->add('error', $e);
+            $this->addFlash('error', $e);
             return false;
         }
 
@@ -244,7 +218,7 @@ class IntercomModuleInstaller implements ExtensionInstallerInterface, ContainerA
             try {
                 $stmt->execute();
             } catch (Exception $e) {
-                $this->request->getSession()->getFlashBag()->add('error', $e);
+                $this->addFlash('error', $e);
                 return false;
             }
         }
@@ -275,7 +249,7 @@ class IntercomModuleInstaller implements ExtensionInstallerInterface, ContainerA
           $this->setVars($mixed);
          * 
          */
-        $this->container->get('zikula_extensions_module.api.variable')->setAll('ZikulaIntercomModule', self::getDefaultVars());
+        $this->setVars(self::getDefaultVars());
         return true;
     }
 
