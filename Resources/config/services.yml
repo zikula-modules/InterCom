@@ -4,12 +4,6 @@ services:
         tags:
             - { name: form.type, alias: messageform }
         arguments: [@doctrine.entitymanager]           
-    zikula_intercom_module.link_container:
-        class: Zikula\IntercomModule\Container\LinkContainer
-        lazy: true
-        tags:
-            - { name: zikula.link_container }
-        arguments: [@router, @translator]
     zikula_intercom_module.access_manager:
         class: Zikula\IntercomModule\Security\AccessManager
     zikula_intercom_module.manager.messages:
@@ -22,3 +16,9 @@ services:
         tags:
             - { name: zikula.intercom.manager }
         arguments: [@doctrine.entitymanager]
+    zikula_intercom_module.link_container:
+        class: Zikula\IntercomModule\Container\LinkContainer
+        lazy: true
+        tags:
+            - { name: zikula.link_container }
+        arguments: [@translator.default, @router, @zikula_permissions_module.api.permission, @zikula_extensions_module.api.variable, @zikula_users_module.current_user]

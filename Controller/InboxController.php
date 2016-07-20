@@ -30,7 +30,7 @@ use Zikula\IntercomModule\Util\Messages;
 class InboxController extends AbstractController {
 
     /**
-     * @Route("/view/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 0})
+     * @Route("/view/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 5})
      *
      * @return Response symfony response object
      *
