@@ -27,10 +27,61 @@ use Symfony\Component\Routing\RouterInterface;
 use Zikula\IntercomModule\Entity\MessageEntity as Message;
 
 /**
- * @Route("/message")
+ * @Route("/messages")
  */
 class MessageController extends AbstractController {
 
+    
+   /**
+     * @Route("/{box}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 5})
+     *
+     * @return Response symfony response object
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     */
+    public function getMessagesAction(Request $request, $box , $page, $sortby, $sortorder, $limit) {
+        // Permission check
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+            throw new AccessDeniedException();
+        }
+        
+        
+        $filter = ['page' => $page,
+            'limit' => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
+            'sortorder' => $sortorder,
+            'sortby' => $sortby,
+            'recipient' => \UserUtil::getVar('uid'),
+            'deleted' => 'byrecipient'
+        ];
+
+        $messages = $this->get('zikula_intercom_module.manager.messages')->load($filter);
+
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData(array(
+                'filter' => $filter,
+                'pager' => $messages->getPager(),
+                'html' => $this->renderView('ZikulaIntercomModule:Inbox:list.html.twig', array(
+                    'messages' => $messages->getmessages()
+                ))
+            ));
+
+            return $response;
+        }
+
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme        
+        return $this->render('ZikulaIntercomModule:Inbox:index.html.twig', array(
+                    'filter' => $filter,
+                    'pager' => $messages->getPager(),
+                    'messages' => $messages->getmessages(),
+                    'settings' => $this->getVars()
+        ));
+    }
+    
+    
+    
+    
+    
     /**
      * @Route("/new" , options={"expose"=true})
      *
