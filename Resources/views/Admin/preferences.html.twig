@@ -1,4 +1,4 @@
-{{ render(controller('ZikulaAdminModule:Admin:adminheader')) }}
+{{ adminHeader() }}
 {% form_theme form with ['bootstrap_3_layout.html.twig',
     'ZikulaFormExtensionBundle:Form:bootstrap_3_zikula_admin_layout.html.twig',
     'ZikulaIntercomModule:Form:radio.html.twig'
@@ -152,4 +152,4 @@
         {{ form_end(form) }}
     </div>
 </div>
-{{ render(controller('ZikulaAdminModule:Admin:adminfooter')) }}                
+{{ adminFooter() }}               

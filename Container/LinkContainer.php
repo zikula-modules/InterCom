@@ -94,7 +94,7 @@ class LinkContainer implements LinkContainerInterface {
         $links = [];
         if ($this->permissionApi->hasPermission("ZikulaIntercomModule::", '::', ACCESS_ADMIN)) {
             $links[] = array(
-                'url' => $this->router->generate('zikulaintercommodule_admin_index'),
+                'url' => $this->router->generate('zikulaintercommodule_admin_status'),
                 'text' => $this->translator->__('Info'),
                 'title' => $this->translator->__('Display informations'),
                 'icon' => 'dashboard');
@@ -123,32 +123,32 @@ class LinkContainer implements LinkContainerInterface {
             return $links;
         }
 
-        //if ($this->variableApi->get('mode') == 0) {
+//        //if ($this->variableApi->get('mode') == 0) {
             $links[] = array(
-                'url' => $this->router->generate('zikulaintercommodule_inbox_view'),
+                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'inbox'] ),
                 'text' => $this->translator->__('Inbox'),
                 'icon' => 'inbox'
             );
             $links[] = array(
-                'url' => $this->router->generate('zikulaintercommodule_send_list'),
+                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'outbox'] ),
                 'text' => $this->translator->__('Outbox'),
                 'title' => $this->translator->__('Messages send by you'),
                 'icon' => 'upload'
             );
             $links[] = array(
-                'url' => $this->router->generate('zikulaintercommodule_archive_list'),
+                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'archive'] ),
                 'text' => $this->translator->__('Archive'),
                 'title' => $this->translator->__('Your saved messages'),
                 'icon' => 'archive'
             );
             $links[] = array(
-                'url' => $this->router->generate('zikulaintercommodule_user_preferences'),
+                'url' => $this->router->generate('zikulaintercommodule_messages_preferences'),
                 'text' => $this->translator->__('Display messages settings'),
                 'title' => $this->translator->__('Private messaging settings'),
                 'icon' => 'wrench'
             );
             $links[] = array(
-                'url' => $this->router->generate('zikulaintercommodule_message_new'),
+                'url' => $this->router->generate('zikulaintercommodule_messages_newmessage'),
                 'text' => $this->translator->__('New message'),
                 'title' => $this->translator->__('Click here to compose new message'),
                 'icon' => 'file'

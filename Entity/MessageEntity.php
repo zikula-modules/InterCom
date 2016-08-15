@@ -48,7 +48,7 @@ class MessageEntity extends EntityAccess
      * The sender user
      *     
      * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="Zikula\Module\UsersModule\Entity\UserEntity")
+     * @ORM\ManyToOne(targetEntity="Zikula\UsersModule\Entity\UserEntity")
      * @ORM\JoinColumn(name="sender", referencedColumnName="uid")
      */
     private $sender;
@@ -56,7 +56,7 @@ class MessageEntity extends EntityAccess
     /**
      * The recipient uid
      *     
-     * @ORM\ManyToOne(targetEntity="Zikula\Module\UsersModule\Entity\UserEntity")
+     * @ORM\ManyToOne(targetEntity="Zikula\UsersModule\Entity\UserEntity")
      * @ORM\JoinColumn(name="recipient", referencedColumnName="uid")
      */
     private $recipient;
@@ -184,7 +184,7 @@ class MessageEntity extends EntityAccess
      * @param UserEntity $sender
      * @return User
      */
-    public function setSender(\Zikula\Module\UsersModule\Entity\UserEntity $sender = null)
+    public function setSender(\Zikula\UsersModule\Entity\UserEntity $sender = null)
     {
         $this->sender = $sender;  
         return $this;
@@ -212,7 +212,7 @@ class MessageEntity extends EntityAccess
      * @param UserEntity $recipient
      * @return User
      */
-    public function setRecipient(\Zikula\Module\UsersModule\Entity\UserEntity $recipient = null)
+    public function setRecipient(\Zikula\UsersModule\Entity\UserEntity $recipient = null)
     {
         $this->recipient = $recipient;  
         return $this;

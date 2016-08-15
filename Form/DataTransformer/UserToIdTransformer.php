@@ -44,22 +44,22 @@ class UserToIdTransformer implements DataTransformerInterface
     /**
      * Transforms a string (uname) to an object (user).
      * 
-     * @param string $uname            
+     * @param string $name            
      * @return User|null
      * @throws TransformationFailedException if object (user) is not found.
      */
-    public function reverseTransform($uname)
+    public function reverseTransform($name)
     {
-        if (!$uname) {
+        if (!$name) {
             return null;
         }
         
-        $user = $this->om->getRepository('Zikula\Module\UsersModule\Entity\UserEntity')->findOneBy(array(
-            'uname' => $uname
+        $user = $this->om->getRepository('Zikula\UsersModule\Entity\UserEntity')->findOneBy(array(
+            'uname' => $name
         ));
-        
+            
         if (null === $user) {
-            throw new TransformationFailedException(sprintf('A user with uname "%s" does not exist!', $uname));
+            throw new TransformationFailedException(sprintf('A user with uname "%s" does not exist!', $name));
         }
         
         return $user;

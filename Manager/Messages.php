@@ -35,7 +35,33 @@ class Messages {
     /**
      *  load messages
      */
-    public function load($filters) {
+    public function load($box, $filters) {
+        
+//        $filters = 
+//            'recipient' => \UserUtil::getVar('uid'),
+//            'deleted' => 'byrecipient'
+//        '
+//            . '
+                
+        switch ($box) {
+            case 'inbox':
+                $filters['recipient'] = \UserUtil::getVar('uid');
+                $filters['deleted'] = 'byrecipient';
+                break;
+            case 'outbox':
+            
+                break;
+            case 'archive':
+                
+                break;
+            case 'admin':
+                
+                break;
+            default:
+                break;
+        }
+                
+                
         $this->messages = $this->entityManager
                 ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                 ->getAll($filters);

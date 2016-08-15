@@ -28,18 +28,18 @@ use Zikula\IntercomModule\Util\Tools;
 use Zikula\IntercomModule\Util\Settings;
 
 /**
- * @Route("/admin")
+ * @Route("messages/admin")
  */
 class AdminController extends AbstractController {
 
     /**
-     * @Route("")
+     * @Route("/status")
      *
      * the main administration function
      *
      * @return RedirectResponse
      */
-    public function indexAction(Request $request) {
+    public function statusAction(Request $request) {
         // Security check
         if (!\SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();

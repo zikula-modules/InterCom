@@ -34,14 +34,14 @@
 			],
 			"capabilities" : {
 				"message" : {
-					"route" : "zikulaintercommodule_message_new",
+					"route" : "zikulaintercommodule_messages_new",
 					"version": "1.0"
 				},
 				"user" : {
-					"route" : "zikulaintercommodule_inbox_view"
+					"route" : "zikulaintercommodule_admin_status"
 				},
 				"admin" : {
-					"route" : "zikulaintercommodule_admin_index"
+					"route" : "zikulaintercommodule_admin_status"
 				}
 			},
 			"securityschema" : {
