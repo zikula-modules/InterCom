@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\IntercomModule\Entity\MessageEntity as Message;
+use Zikula\IntercomModule\Entity\MessageEntity;
 
 /**
  * @Route("/messages")
@@ -44,7 +45,7 @@ class MessagesController extends AbstractController {
         }
 
         $form = $this->createFormBuilder($this->getVars())
-                //general settings        
+                //general settings
                 ->add('ic_note', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
                     'multiple' => false,
                     'expanded' => true,
@@ -75,7 +76,7 @@ class MessagesController extends AbstractController {
                     'modvars' => $this->getVars() // @todo temporary solution
         ));
     }
-    
+
     /**
      * @Route("/new" , options={"expose"=true})
      *
@@ -89,38 +90,40 @@ class MessagesController extends AbstractController {
             throw new AccessDeniedException();
         }
         $options = ['isXmlHttpRequest' => $request->isXmlHttpRequest()];
-        $message = $this->get('zikula_intercom_module.manager.message')->create();
-        $form = $this->createForm('messageform', $message, $options);
+//        $message = $this->get('zikula_intercom_module.manager.message')->create();
+        $form = $this->createForm('messageform', new MessageEntity(), $options);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->get('zikula_intercom_module.manager.message')->setNewData($form->getData());
-            $this->get('zikula_intercom_module.manager.message')->send();
+//            $this->get('zikula_intercom_module.manager.message')->setNewData($form->getData());
+//            $this->get('zikula_intercom_module.manager.message')->send();
+            $message = $form->getData();
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($message);
+            $em->flush();
             if ($request->isXmlHttpRequest()) {
                 return new JsonResponse(array('status' => true));
             } else {
-                $request->getSession()
-                        ->getFlashBag()
-                        ->add('status', "Message send!");
-                return $this->redirect($this->generateUrl('zikulaintercommodule_inbox_view'));
+                $this->addFlash('status', "Message sent!");
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
             }
         }
 
         if ($request->isXmlHttpRequest()) {
            return new JsonResponse(array('status' => true, 'html' => $this->renderView('ZikulaIntercomModule:Message:form.html.twig', array(
                     'form' => $form->createView(),
-                    'message' => $message,
+//                    'message' => $message,
                     'settings' => $this->getVars()
-        )))); 
+        ))));
         }
         $request->attributes->set('_legacy', true); // forces template to render inside old theme
         return $this->render('ZikulaIntercomModule:Message:new.html.twig', array(
                     'form' => $form->createView(),
-                    'message' => $message,
+//                    'message' => $message,
                     'settings' => $this->getVars()
         ));
-    }    
-    
+    }
+
    /**
      * @Route("/{box}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 5})
      *
@@ -132,7 +135,7 @@ class MessagesController extends AbstractController {
         if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
             throw new AccessDeniedException();
         }
-           
+
         $filter = ['page' => $page,
             'limit' => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
             'sortorder' => $sortorder,
@@ -154,9 +157,9 @@ class MessagesController extends AbstractController {
             return $response;
         }
 
-        $layout = $this->getVar('mode') == 0 ? 'Classic' : 'Conversation'; 
-        
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme        
+        $layout = $this->getVar('mode') == 0 ? 'Classic' : 'Conversation';
+
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme
         return $this->render("@ZikulaIntercomModule/$layout/index.html.twig", array(
                     'layout' => $layout,
                     'box' => $box,
@@ -166,10 +169,10 @@ class MessagesController extends AbstractController {
                     'settings' => $this->getVars()
         ));
     }
-    
 
-    
-    
+
+
+
 
 
     /**
