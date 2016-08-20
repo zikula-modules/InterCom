@@ -38,7 +38,7 @@
 					"version": "1.0"
 				},
 				"user" : {
-					"route" : "zikulaintercommodule_admin_status"
+					"route" : "zikulaintercommodule_messages_getmessages"
 				},
 				"admin" : {
 					"route" : "zikulaintercommodule_admin_status"
