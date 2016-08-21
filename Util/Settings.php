@@ -112,6 +112,8 @@ class Settings {
             'protection_time'=> '15',
             'protection_amount'=> '15',
             'protection_mail'=> false,
+            //layout
+            'layout' => 'Classic',
             //modes
             'mode'=> 0);    
     }
