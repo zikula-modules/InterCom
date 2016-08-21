@@ -110,11 +110,11 @@ class MessagesController extends AbstractController {
         }
 
         if ($request->isXmlHttpRequest()) {
-           return new JsonResponse(array('status' => true, 'html' => $this->renderView('ZikulaIntercomModule:Message:form.html.twig', array(
+            return new JsonResponse(array('status' => true, 'html' => $this->renderView('ZikulaIntercomModule:Message:form.html.twig', array(
                     'form' => $form->createView(),
 //                    'message' => $message,
                     'settings' => $this->getVars()
-        ))));
+            ))));
         }
         $request->attributes->set('_legacy', true); // forces template to render inside old theme
         return $this->render('ZikulaIntercomModule:Message:new.html.twig', array(
@@ -124,18 +124,68 @@ class MessagesController extends AbstractController {
         ));
     }
 
-   /**
-     * @Route("/{box}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 5})
+    /**
+     * @Route("/reply" , options={"expose"=true})
      *
      * @return Response symfony response object
+     *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
-    public function getMessagesAction(Request $request, $box , $page, $sortby, $sortorder, $limit) {
+    public function replyMessageAction(Request $request) {
         // Permission check
         if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
             throw new AccessDeniedException();
         }
+        $options = ['isXmlHttpRequest' => $request->isXmlHttpRequest()];
+//        $message = $this->get('zikula_intercom_module.manager.message')->create();
+        $form = $this->createForm('messageform', new MessageEntity(), $options);
+        $form->handleRequest($request);
 
+        if ($form->isValid()) {
+//            $this->get('zikula_intercom_module.manager.message')->setNewData($form->getData());
+//            $this->get('zikula_intercom_module.manager.message')->send();
+            $message = $form->getData();
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($message);
+            $em->flush();
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(array('status' => true));
+            } else {
+                $this->addFlash('status', "Message sent!");
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+            }
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(array('status' => true, 'html' => $this->renderView('ZikulaIntercomModule:Message:form.html.twig', array(
+                    'form' => $form->createView(),
+//                    'message' => $message,
+                    'settings' => $this->getVars()
+            ))));
+        }
+        $request->attributes->set('_legacy', true); // forces template to render inside old theme
+        return $this->render('ZikulaIntercomModule:Message:new.html.twig', array(
+                    'form' => $form->createView(),
+//                    'message' => $message,
+                    'settings' => $this->getVars()
+        ));
+    }    
+    
+    
+    /**
+     * @Route("/{box}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 10})
+     *
+     * @return Response symfony response object
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     */
+    public function getMessagesAction(Request $request, $box, $page, $sortby, $sortorder, $limit) {
+        // Permission check
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+            throw new AccessDeniedException();
+        }
+        
+        $mode = $this->getVar('mode');
+        
         $filter = ['page' => $page,
             'limit' => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
             'sortorder' => $sortorder,
@@ -145,11 +195,12 @@ class MessagesController extends AbstractController {
         $messages = $this->get('zikula_intercom_module.manager.messages')->load($box, $filter);
 
         if ($request->isXmlHttpRequest()) {
+            //@todo decode request content type - supply html or json 
             $response = new JsonResponse();
             $response->setData(array(
                 'filter' => $filter,
                 'pager' => $messages->getPager(),
-                'html' => $this->renderView('ZikulaIntercomModule:Inbox:list.html.twig', array(
+                'html' => $this->renderView("@ZikulaIntercomModule/Layouts/$layout/$box/conversation.list.html.twig", array(
                     'messages' => $messages->getmessages()
                 ))
             ));
@@ -157,10 +208,10 @@ class MessagesController extends AbstractController {
             return $response;
         }
 
-        $layout = $this->getVar('mode') == 0 ? 'Classic' : 'Conversation';
-
+        $layout = $this->getVar('layout');
         $request->attributes->set('_legacy', true); // forces template to render inside old theme
-        return $this->render("@ZikulaIntercomModule/$layout/index.html.twig", array(
+        return $this->render("@ZikulaIntercomModule/Layouts/$layout/messages.html.twig", array(
+                    'mode' => $mode,
                     'layout' => $layout,
                     'box' => $box,
                     'filter' => $filter,
@@ -169,11 +220,6 @@ class MessagesController extends AbstractController {
                     'settings' => $this->getVars()
         ));
     }
-
-
-
-
-
 
     /**
      * @Route("/markasread/{id}" , options={"expose"=true}, requirements={"id" = "\d*"})
@@ -184,5 +230,4 @@ class MessagesController extends AbstractController {
 //
 //        return true;
 //    }
-
 }

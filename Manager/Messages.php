@@ -14,9 +14,6 @@
 
 namespace Zikula\IntercomModule\Manager;
 
-//use Zikula\IntercomModule\Util\Validator;
-
-
 class Messages {
 
     private $name;
@@ -36,32 +33,29 @@ class Messages {
      *  load messages
      */
     public function load($box, $filters) {
-        
-//        $filters = 
-//            'recipient' => \UserUtil::getVar('uid'),
-//            'deleted' => 'byrecipient'
-//        '
-//            . '
-                
+
         switch ($box) {
             case 'inbox':
                 $filters['recipient'] = \UserUtil::getVar('uid');
                 $filters['deleted'] = 'byrecipient';
                 break;
             case 'outbox':
-            
+                $filters['sender'] = \UserUtil::getVar('uid');
+                $filters['deleted'] = 'bysender';
                 break;
             case 'archive':
-                
+                $filters['recipient'] = \UserUtil::getVar('uid');
+                $filters['deleted'] = 'byrecipient';
+                $filters['stored'] = 'byrecipient';
                 break;
             case 'admin':
-                
+
                 break;
             default:
                 break;
         }
-                
-                
+
+
         $this->messages = $this->entityManager
                 ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
                 ->getAll($filters);

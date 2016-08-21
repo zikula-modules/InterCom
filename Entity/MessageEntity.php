@@ -508,5 +508,26 @@ class MessageEntity extends EntityAccess
     public function setConversation($conversation)
     {
         $this->conversation = $conversation;
-    }    
+    }   
+    
+    /**
+     * get reply text
+     *
+     * @param array $conversation the child categories
+     */
+    public function getReplyText()
+    {
+        return '--------- ' . $this->text . ' ----------';  
+    } 
+    
+    /**
+     * get reply subject
+     *
+     * @param array $conversation the child categories
+     */
+    public function getReplySubject()
+    {
+        return 'Re: ' . $this->subject . '';
+        
+    } 
 }

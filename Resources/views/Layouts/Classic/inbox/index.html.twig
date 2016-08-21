@@ -1,0 +1,25 @@
+{% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
+{% block header %}
+    {% set settings=settings %}
+    {{ parent() }}
+    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/Layouts/Classic/inbox.css')) }}
+{% endblock %} 
+{% block title %}
+    {% set title_icon="<i class='fa fa-inbox'></i>" %}
+    {% set title=__(box|capitalize) %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <div id="intercom_inbox" class="col-md-12 clearfix">   
+        {{ include("@ZikulaIntercomModule/Layouts/Classic/inbox/header.html.twig") }}
+        {{ include("@ZikulaIntercomModule/Layouts/Classic/inbox/selected.html.twig") }}
+        <div id="conversations" class="conversations-list list-group clearfix"> 
+        {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.list.html.twig') }}
+        </div>    
+        {{ include("@ZikulaIntercomModule/Layouts/Classic/inbox/footer.html.twig") }}
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {#{ dump() }#}
+{% endblock %}
