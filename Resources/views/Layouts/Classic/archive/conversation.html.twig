@@ -1,6 +1,6 @@
 <div data-id="{{ message.id }}" class="conversation list-group-item clearfix" style="{% if message.seen %} background: #F2F8FF; {% else %} background: #D3E7FF; {% endif %}">
     <div class="recipient col-xs-9 col-md-2">
-        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ message.recipient.uname == '' ? 'Unknown' : message.recipient.uname }}      
+        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ message.sender.uname == '' ? 'Unknown' : message.sender.uname }}      
     </div>
     <div class="subject col-xs-12 col-md-5 {% if message.seen %} {% else %} text-info {% endif %}"><i class="fa fa-comment {% if message.seen %} text-muted {% else %} text-info {% endif %}"> </i> {{ message.subject }}</div>                 
     <div class="date col-xs-12 col-md-2 text-muted"><i class="fa fa-clock-o"> </i> {{ message.send|date("m/d/Y") }}</div>                       
