@@ -6,147 +6,246 @@
 <div class="container-fluid">
     <div class="row">
         <h3>
-	       <span class="fa fa-wrench"></span> {{ __('Preferences')}}
+            <span class="fa fa-wrench"></span> {{ __('Preferences')}}
         </h3>
         {{ showflashes() }}
         {{ form_start(form) }}
         {{ form_errors(form) }}
         <fieldset>
             <legend>{{ __('General settings') }}</legend>
-            <div class="col-xs-12 col-md-4">           
-                <div class="row">                 
-                {{ form_label(form.active,'Enable private messaging',{ 'label_attr': {'class': 'col-md-5'} }) }}
-                {{ form_errors(form.active) }}                  
-                {{ form_widget(form.active,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            <div class="form-group">       
+                {{ form_label(form.active,'Enable private messaging',{ 'label_attr': {'class': 'col-md-4'} }) }}                 
+                <div class="col-md-8">           
+                    {{ form_widget(form.active,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.active) }}
                 </div>
-                <div class="row"> 
-                {{ form_label(form.maintain,'Disabled reason message',{ 'label_attr': {'class': ''} }) }}
-                {{ form_errors(form.maintain) }}      
-                {{ form_widget(form.maintain,{ 'label_attr': {'class': ''} }) }}                         
-                </div>
-            </div>                        
-            <div class="col-xs-12 col-md-4">
-                <div class="row">            
-                {{ form_label(form.allowsmilies,'Allow smilies in messages',{ 'label_attr': {'class': 'col-md-5'} }) }}
-                {{ form_errors(form.allowsmilies) }}      
-                {{ form_widget(form.allowsmilies,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}     
-                </div>
-                <div class="row">        
-                {{ form_label(form.allowhtml,'Allow html in messages',{ 'label_attr': {'class': 'col-md-5'} }) }}
-                {{ form_errors(form.allowhtml) }}      
-                {{ form_widget(form.allowhtml,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}             
-                </div>
-                <div class="row">            
-                {{ form_label(form.disable_ajax,'Disable ajax functionality',{ 'label_attr': {'class': 'col-md-5'} }) }}
-                {{ form_errors(form.disable_ajax) }}      
-                {{ form_widget(form.disable_ajax,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}             
-    			</div>
-			</div>			            
-            <div class="col-xs-12 col-md-4">  
-                {{ form_label(form.mode,'View mode',{ 'label_attr': {'class': 'col-md-5'} }) }}
-                {{ form_errors(form.mode) }}      
-                {{ form_widget(form.mode,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}                
             </div>
+            <div class="form-group">       
+                {{ form_label(form.maintain,'Disabled reason message',{ 'label_attr': {'class': 'col-md-4'} }) }}                 
+                <div class="col-md-8">           
+                    {{ form_widget(form.maintain,{ 'label_attr': {'class': ''} }) }}
+                    {{ form_errors(form.maintain) }}  
+                </div>
+            </div>
+            <div class="form-group">       
+                {{ form_label(form.allowsmilies,'Allow smilies in messages',{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.allowsmilies,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.allowsmilies) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.allowhtml,'Allow html in messages',{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.allowhtml,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.allowhtml) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.disable_ajax,'Disable ajax functionality',{ 'label_attr': {'class': 'col-md-4'} }) }}     
+                <div class="col-md-8">
+                    {{ form_widget(form.disable_ajax,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.disable_ajax) }}
+                </div>
+            </div>                   
         </fieldset>
-        
+        <fieldset>
+            <legend>{{ __('Display settings') }}</legend>                
+            <div class="form-group">       
+                {{ form_label(form.mode,'View mode',{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">
+                    {{ form_widget(form.mode,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.mode) }}      
+                    <p class="col-md-12 help-block alert alert-warning pull-right">
+                        {{ __("Mode conversation is not available at the moment.")}}
+                    </p>  
+                </div>
+            </div>                
+            {#              layout      #}
+        </fieldset>
         <fieldset>
             <legend>{{ __('Limits') }}</legend>
-            {{ form_row(form.limitarchive,
-            {'label': 'Limit archive',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.limitoutbox,
-            {'label': 'Limit outbox',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.limitinbox, 
-            {'label': 'Limit inbox',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.perpage, 
-            {'label': 'Items per page',
-			'attr': {'class': '' }}) }}
+            <div class="form-group">       
+                {{ form_label(form.limitarchive, __('Limit archive') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.limitarchive, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.limitarchive) }} 
+                </div>
+            </div>
+            <div class="form-group">       
+                {{ form_label(form.limitoutbox, __('Limit outbox') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.limitoutbox, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.limitoutbox) }} 
+                </div>
+            </div>
+            <div class="form-group">       
+                {{ form_label(form.limitinbox, __('Limit inbox') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.limitinbox, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.limitinbox) }} 
+                </div>
+            </div>
+            <div class="form-group">       
+                {{ form_label(form.perpage, __('Items per page') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.perpage, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.perpage) }} 
+                </div>
+            </div>               
         </fieldset>
-        
         <fieldset>
             <legend>{{ __('Protection') }}</legend>
-            {{ form_row(form.protection_on,
-            {'label': 'Enable protection',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.protection_time,
-            {'label': 'Protection time',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.protection_amount, 
-            {'label': 'Protection amount',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.protection_mail, 
-            {'label': 'Protection email',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+            <div class="form-group">       
+                {{ form_label(form.protection_on, __('Enable protection') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.protection_on, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.protection_on) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.protection_time, __('Protection time') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.protection_time, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.protection_time) }} 
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.protection_amount, __('Protection amount') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.protection_amount, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.protection_amount) }} 
+                </div>
+            </div>                
+            <div class="form-group">
+                {{ form_label(form.protection_mail, __('Protection email') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.protection_mail, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.protection_mail) }} 
+                </div>
+            </div> 
         </fieldset>
-        
         <fieldset>
             <legend>{{ __('User prompt') }}</legend>
-            {{ form_row(form.userprompt_display,
-            {'label': 'Display message to all users',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.userprompt,
-            {'label': 'Message content',
-			'attr': {'class': '' }}) }}
+            <div class="form-group">
+                {{ form_label(form.userprompt_display, __('Display message to all users') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.userprompt_display, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.userprompt_display) }}
+                </div>
+            </div> 
+            <div class="form-group">
+                {{ form_label(form.userprompt, __('Message content') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.userprompt, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.userprompt) }}
+                </div>
+            </div>
         </fieldset>
-        
         <fieldset>
-            <legend>{{ __('Welcome') }}</legend>
-            {{ form_row(form.welcomemessage_send,
-            {'label': 'Enable welcome message',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.welcomemessagesender,
-            {'label': 'Sender name',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.welcomemessagesubject, 
-            {'label': 'Message subject',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.welcomemessage, 
-            {'label': 'Message content',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.intlwelcomemessage, 
-            {'label': 'International content',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.savewelcomemessage, 
-            {'label': 'Save welcome message to inbox',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-        </fieldset>  
-        
+            <legend>{{ __('Welcome message') }}</legend>
+            <div class="form-group">
+                {{ form_label(form.welcomemessage_send, __('Enable welcome message') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.welcomemessage_send, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.welcomemessage_send) }} 
+                </div>
+            </div>             
+            <div class="form-group">
+                {{ form_label(form.welcomemessagesender, __('Sender name') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.welcomemessagesender, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.welcomemessagesender) }} 
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.welcomemessagesubject, __('Message subject') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.welcomemessagesubject, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.welcomemessagesubject) }} 
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.welcomemessage, __('Message content') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.welcomemessage, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.welcomemessage) }} 
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.intlwelcomemessage, __('Message content') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.intlwelcomemessage, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.intlwelcomemessage) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.savewelcomemessage, __('Save welcome message to inbox') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.savewelcomemessage, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.savewelcomemessage) }}
+                </div>
+            </div>
+        </fieldset>
         <fieldset>
             <legend>{{ __('Email') }}</legend>
-            {{ form_row(form.allow_emailnotification,
-            {'label': 'Enable email notification',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.force_emailnotification,
-            {'label': 'Force email notification settings for all users',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-            {{ form_row(form.mailsender, 
-            {'label': 'Email sender',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.mailsubject, 
-            {'label': 'Email subject',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.fromname, 
-            {'label': 'Email from name',
-			'attr': {'class': '' }}) }}
-            {{ form_row(form.from_email, 
-            {'label': 'Email',
-			'attr': {'class': '' }}) }}
-        </fieldset>        
-                
+            <div class="form-group">
+                {{ form_label(form.allow_emailnotification, __('Enable email notification') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.allow_emailnotification, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.allow_emailnotification) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.force_emailnotification, __('Force email notification settings for all users') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.force_emailnotification, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.force_emailnotification) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.mailsender, __('Email sender') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.mailsender, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.mailsender) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.mailsubject, __('Email subject') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.mailsubject, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.mailsubject) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.fromname, __('Email from name') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.fromname, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.fromname) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.from_email, __('Email') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.from_email, {'attr': {'class': '' }}) }}
+                    {{ form_errors(form.from_email) }}
+                </div>
+            </div>
+        </fieldset>
         <fieldset>
             <legend>{{ __('Auto reply') }}</legend>
-            {{ form_row(form.allow_autoreply, 
-            {'label': 'Enable autoreply functionality',
-			'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-        </fieldset>          
-        
-                     
+            <div class="form-group">
+                {{ form_label(form.allow_autoreply, __('Enable autoreply functionality') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.allow_autoreply, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.allow_autoreply) }}
+                </div>
+            </div>
+        </fieldset>
         <div class="form-group">
-            <div class="col-lg-offset-3 col-lg-9">
-                {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}, 'icon':'fa-check'}) }}
+            <div class="col-md-offset-4 col-md-8">
                 {{ form_widget(form.cancel, {'attr': {'class': 'btn btn-default'}, icon:'fa-times'}) }}
+                {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}, 'icon':'fa-check'}) }}
             </div>
         </div>
         {{ form_end(form) }}

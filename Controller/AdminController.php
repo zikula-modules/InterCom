@@ -23,9 +23,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Validator\Constraints as Assert;
+
 use Zikula\IntercomModule\Util\Tools;
 use Zikula\IntercomModule\Util\Settings;
+use Zikula\IntercomModule\Form\Type\PreferencesType;
 
 /**
  * @Route("messages/admin")
@@ -74,98 +75,8 @@ class AdminController extends AbstractController {
             throw new AccessDeniedException();
         }
 
-        $form = $this->createFormBuilder(\ModUtil::getVar('ZikulaIntercomModule'))
-                //general settings
-                ->add('active', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('maintain', 'text', array('required' => false))
-                ->add('allowhtml', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('allowsmilies', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('disable_ajax', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                //Limitations
-                ->add('limitarchive', 'number', array(
-                    'constraints' => array(
-                        new Assert\GreaterThan(array('value' => 0)),
-            )))
-                ->add('limitoutbox', 'number', array(
-                    'constraints' => array(
-                        new Assert\GreaterThan(array('value' => 0)),
-            )))
-                ->add('limitinbox', 'number', array(
-                    'constraints' => array(
-                        new Assert\GreaterThan(array('value' => 0)),
-            )))
-                ->add('perpage', 'number', array(
-                    'constraints' => array(
-                        new Assert\GreaterThan(array('value' => 0)),
-            )))
-                //protection
-                ->add('protection_on', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('protection_time', 'text', array('required' => false))
-                ->add('protection_amount', 'text', array('required' => false))
-                ->add('protection_mail', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                //user prompt
-                ->add('userprompt', 'text', array('required' => false))
-                ->add('userprompt_display', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                //Welcome
-                ->add('welcomemessage_send', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('welcomemessagesender', 'text', array('required' => false))
-                ->add('welcomemessagesubject', 'text', array('required' => false))
-                ->add('welcomemessage', 'text', array('required' => false))
-                ->add('intlwelcomemessage', 'text', array('required' => false))
-                ->add('savewelcomemessage', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                //Email
-                ->add('allow_emailnotification', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('force_emailnotification', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('mailsender', 'text', array('required' => false))
-                ->add('mailsubject', 'text', array('required' => false))
-                ->add('fromname', 'text', array('required' => false))
-                ->add('from_email', 'email', array('required' => false))
-                //Autoreply
-                ->add('allow_autoreply', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                //Mode
-                ->add('mode', 'choice', array('choices' => array('0' => $this->__('Classic'), '1' => $this->__('Conversation')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('save', 'submit')
-                ->add('cancel', 'submit')
-                ->getForm();
+        $form = $this->createForm(new PreferencesType, $this->getVars(), []);
+        
         $form->handleRequest($request);
         if ($form->isValid()) {
             if ($form->get('save')->isClicked()) {
