@@ -3,6 +3,13 @@
     'ZikulaFormExtensionBundle:Form:bootstrap_3_zikula_admin_layout.html.twig',
     'ZikulaIntercomModule:Form:radio.html.twig'
 ] %}
+{# remove asterix after choice buttons #}
+<style>
+.required:after {
+    content: "";
+    color: red;
+}
+</style>
 <div class="container-fluid">
     <div class="row">
         <h3>
@@ -27,20 +34,6 @@
                     {{ form_errors(form.maintain) }}  
                 </div>
             </div>
-            <div class="form-group">       
-                {{ form_label(form.allowsmilies,'Allow smilies in messages',{ 'label_attr': {'class': 'col-md-4'} }) }}
-                <div class="col-md-8">
-                    {{ form_widget(form.allowsmilies,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-                    {{ form_errors(form.allowsmilies) }}
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form_label(form.allowhtml,'Allow html in messages',{ 'label_attr': {'class': 'col-md-4'} }) }}
-                <div class="col-md-8">
-                    {{ form_widget(form.allowhtml,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
-                    {{ form_errors(form.allowhtml) }}
-                </div>
-            </div>
             <div class="form-group">
                 {{ form_label(form.disable_ajax,'Disable ajax functionality',{ 'label_attr': {'class': 'col-md-4'} }) }}     
                 <div class="col-md-8">
@@ -50,7 +43,17 @@
             </div>                   
         </fieldset>
         <fieldset>
-            <legend>{{ __('Display settings') }}</legend>                
+            <legend>{{ __('Display settings') }}</legend>
+            <p class="col-md-12 help-block alert alert-info ">
+                {{ __("Because of new InterCom functionality view mode and layout setting is introduced.")}}
+                {{ __("Classic mode works only with classic layout and it works exactly like previous versions of InterCom.")}}
+                {{ __("While classic mode was like SMS in old phones where there was an inbox, outbox and archive conversation mode is more like Facebook messaging.")}}
+                {{ __("Conversation starts with first message which is a container for next messages in this conversation.")}}
+                
+            </p>
+            <p class="col-md-12 help-block alert alert-warning ">
+                {{ __("Switching between modes in production is not advised.")}}
+            </p>
             <div class="form-group">       
                 {{ form_label(form.mode,'View mode',{ 'label_attr': {'class': 'col-md-4'} }) }}                  
                 <div class="col-md-8">
@@ -61,7 +64,16 @@
                     </p>  
                 </div>
             </div>                
-            {#              layout      #}
+            <div class="form-group">       
+                {{ form_label(form.layout,'Layout',{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">
+                    {{ form_widget(form.layout,{'attr': {'class': '' }}) }}
+                    {{ form_errors(form.layout) }}      
+                    <p class="col-md-12 help-block alert alert-warning pull-right">
+                        {{ __("Layout conversation is not available at the moment.")}}
+                    </p>  
+                </div>
+            </div> 
         </fieldset>
         <fieldset>
             <legend>{{ __('Limits') }}</legend>
@@ -94,6 +106,49 @@
                 </div>
             </div>               
         </fieldset>
+        <fieldset>
+            <legend>{{ __('Support messages settings') }}</legend>
+            <p class="col-md-12 help-block alert alert-info ">
+                {{ __("This new option enables InterCom to be used as a way to contact the site support.")}}
+            </p>
+            <div class="form-group">       
+                {{ form_label(form.support_messages_enabled, __('Enable support messages') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.support_messages_enabled, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.support_messages_enabled) }}
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>{{ __('System notifications settings') }}</legend>
+            <p class="col-md-12 help-block alert alert-info ">
+                {{ __("This new option enables InterCom to be used as a way to notify users. This works only one way from admin to users or groups. Notified user cannot reply.")}}
+            </p>
+            <div class="form-group">
+                {{ form_label(form.system_notifications_enabled, __('Enable system notifications') ,{ 'label_attr': {'class': 'col-md-4'} }) }}                  
+                <div class="col-md-8">           
+                    {{ form_widget(form.system_notifications_enabled, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.system_notifications_enabled) }}
+                </div>
+            </div>
+        </fieldset>  
+        <fieldset>
+            <legend>{{ __('Message settings') }}</legend>
+            <div class="form-group">       
+                {{ form_label(form.allowsmilies,'Allow smilies in messages',{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.allowsmilies,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.allowsmilies) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.allowhtml,'Allow html in messages',{ 'label_attr': {'class': 'col-md-4'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.allowhtml,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    {{ form_errors(form.allowhtml) }}
+                </div>
+            </div>              
+        </fieldset>                
         <fieldset>
             <legend>{{ __('Protection') }}</legend>
             <div class="form-group">       

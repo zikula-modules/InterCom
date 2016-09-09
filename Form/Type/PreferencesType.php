@@ -97,7 +97,20 @@ class PreferencesType extends AbstractType {
                     'expanded' => true,
                     'required' => true])
                 //Mode
-                ->add('mode', 'choice', ['choices' => ['0' => 'Off', '1' => 'On'],
+                ->add('mode', 'choice', ['choices' => ['0' => 'Classic', '1' => 'Conversation'],
+                    'multiple' => false,
+                    'expanded' => true,
+                    'required' => true])
+                //Layout
+                ->add('layout', 'choice', ['choices' => ['classic' => 'Classic', 'conversation' => 'Conversation'],
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required' => true])
+                ->add('support_messages_enabled', 'choice', ['choices' => ['0' => 'Off', '1' => 'On'],
+                    'multiple' => false,
+                    'expanded' => true,
+                    'required' => true])
+                ->add('system_notifications_enabled', 'choice', ['choices' => ['0' => 'Off', '1' => 'On'],
                     'multiple' => false,
                     'expanded' => true,
                     'required' => true])

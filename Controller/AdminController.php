@@ -14,19 +14,17 @@
 
 namespace Zikula\IntercomModule\Controller;
 
+
+use Zikula\IntercomModule\Util\Tools;
+use Zikula\IntercomModule\Form\Type\PreferencesType;
+
 use Zikula\Core\Controller\AbstractController;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotations - do not remove
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
-
-use Zikula\IntercomModule\Util\Tools;
-use Zikula\IntercomModule\Util\Settings;
-use Zikula\IntercomModule\Form\Type\PreferencesType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotations - do not remove
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
 
 /**
  * @Route("messages/admin")
@@ -41,25 +39,22 @@ class AdminController extends AbstractController {
      * @return RedirectResponse
      */
     public function statusAction(Request $request) {
-        // Security check
-        if (!\SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+
+        if (!$this->hasPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
 
         $inbox = $this->get('doctrine.entitymanager')->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                ->getAll(array('deleted' => 'bysender'));
+                ->getAll(['deleted' => 'bysender']);
         $outbox = $this->get('doctrine.entitymanager')->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                ->getAll(array('deleted' => 'byrecipient'));
+                ->getAll(['deleted' => 'byrecipient']);
         $archive = $this->get('doctrine.entitymanager')->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-                ->getAll(array('stored' => 'bysender'));
+                ->getAll(['stored' => 'bysender']);
 
-
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
-
-        return $this->render('ZikulaIntercomModule:Admin:index.html.twig', array(
+        return $this->render('ZikulaIntercomModule:Admin:index.html.twig', [
                     'inbox' => $inbox->count(),
                     'outbox' => $outbox->count(),
-                    'archive' => $archive->count()));
+                    'archive' => $archive->count()]);
     }
 
     /**
@@ -70,17 +65,15 @@ class AdminController extends AbstractController {
      */
     public function preferencesAction(Request $request) {
 
-        // Security check
-        if (!\SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+        if (!$this->hasPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
 
         $form = $this->createForm(new PreferencesType, $this->getVars(), []);
-        
         $form->handleRequest($request);
         if ($form->isValid()) {
             if ($form->get('save')->isClicked()) {
-                \ModUtil::setVars('ZikulaIntercomModule', $form->getData());
+                $this->setVars($form->getData());
                 $this->addFlash('status', $this->__('Done! Module configuration updated.'));
             }
             if ($form->get('cancel')->isClicked()) {
@@ -88,10 +81,10 @@ class AdminController extends AbstractController {
             }
             return $this->redirect($this->generateUrl('zikulaintercommodule_admin_preferences'));
         }
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
-        return $this->render('ZikulaIntercomModule:Admin:preferences.html.twig', array(
+
+        return $this->render('ZikulaIntercomModule:Admin:preferences.html.twig', [
                     'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -102,10 +95,11 @@ class AdminController extends AbstractController {
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
     public function toolsAction(Request $request, $operation) {
-        // Security check
-        if (!\SecurityUtil::checkPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+
+        if (!$this->hasPermission($this->name . '::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
+        
         $tools = new Tools();
 
         switch ($operation) {
@@ -176,14 +170,13 @@ class AdminController extends AbstractController {
                 break;
         }
 
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
-        return $this->render('ZikulaIntercomModule:Admin:tools.html.twig', array(
+        return $this->render('ZikulaIntercomModule:Admin:tools.html.twig', [
                     'users_check' => $tools->checkIntegrityUsers(),
                     'orphaned' => $tools->checkIntegrityOrphaned(),
                     'inboxes' => $tools->checkIntegrityInbox(),
                     'outboxes' => $tools->checkIntegrityOutbox(),
                     'archives' => $tools->checkIntegrityArchive(),
-        ));
+        ]);
     }
 
 }
