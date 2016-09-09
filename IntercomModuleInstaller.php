@@ -19,7 +19,6 @@
 namespace Zikula\IntercomModule;
 
 use Zikula\Core\AbstractExtensionInstaller;
-use Zikula\IntercomModule\Util\Settings;
 
 class IntercomModuleInstaller extends AbstractExtensionInstaller {
 
@@ -57,15 +56,6 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller {
         // Delete any module variables
         $this->delVars();
         return true;
-    }
-
-    /**
-     * get the default module var values
-     *
-     * @return array
-     */
-    public static function getDefaultVars() {
-        return Settings::getDefault();
     }
 
     /**
@@ -193,7 +183,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller {
      */
     private function upgrade_to_3_0_0_renameColumns() {
         $connection = $this->entityManager->getConnection();
-        $sqls = array();
+        $sqls = [];
         // a list of column changes
         $sqls[] = 'ALTER TABLE intercom CHANGE msg_id id INT(11) NOT NULL';
         $sqls[] = 'ALTER TABLE intercom CHANGE from_userid sender INT(11) DEFAULT NULL';
@@ -251,6 +241,59 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller {
          */
         $this->setVars(self::getDefaultVars());
         return true;
+    }
+    
+    /**
+     * get the default module var values
+     *
+     * @return array
+     */
+    public static function getDefaultVars() {
+        return [
+            //General
+            'active'=> true,
+            'maintain'=> $this->__('Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.'),
+            'disable_ajax'=> false,
+            'allowhtml'=> false,
+            'allowsmilies'=> false,            
+            //Limitations
+            'limitarchive'=> '50',
+            'limitoutbox'=> '50',
+            'limitinbox'=> '50',
+            'perpage'=> '25',
+            //Email
+            'allow_emailnotification'=> true,            
+            'force_emailnotification'=> false,
+            'mailsubject'=> $this->__('You have a new private message'),
+            'fromname'=> '',
+            'from_email'=> '',            
+            'mailsender'=> '',
+            //Autoresponder
+            'allow_autoreply' => false,
+            //Users prompt
+            'userprompt'=> $this->__('Welcome to the private messaging system'),
+            'userprompt_display'=> false,
+            //Welcome
+            'welcomemessage_send' => false,
+            'welcomemessagesender'=> 'admin',
+            'welcomemessagesubject'=> $this->__('Welcome to the private messaging system on %sitename%'),  // quotes are important here!!
+            'welcomemessage'=> $this->__("Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin"), // quotes are important here!!!
+            'savewelcomemessage'=> false,
+            'intlwelcomemessage'=> '',            
+            //Protection
+            'protection_on'=> true,
+            'protection_time'=> '15',
+            'protection_amount'=> '15',
+            'protection_mail'=> false,
+            //layout
+            'layout' => 'classic',
+            //Mode
+            'mode'=> 0,
+            //System notifications
+            'system_notifications_enabled' => false,
+            //Support messages
+            'support_messages_enabled' => false
+            ];    
     }
 
 }
