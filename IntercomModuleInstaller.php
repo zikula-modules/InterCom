@@ -221,7 +221,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller {
      */
     private function upgrade_to_3_0_0_renameModuleVars() {
         /*
-         * old 
+         * old
           $mixed = array();
           // clear old modvars
           // use manual method because getVars() is not available during system upgrade
@@ -237,12 +237,12 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller {
           $mixed[$var_name]  = array_key_exists($old_var_key[$var_name], $old_vars) ? $old_vars[$old_var_key[$var_name]] : $var;
           }
           $this->setVars($mixed);
-         * 
+         *
          */
         $this->setVars(self::getDefaultVars());
         return true;
     }
-    
+
     /**
      * get the default module var values
      *
@@ -252,34 +252,34 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller {
         return [
             //General
             'active'=> true,
-            'maintain'=> $this->__('Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.'),
+            'maintain'=> 'Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.',
             'disable_ajax'=> false,
             'allowhtml'=> false,
-            'allowsmilies'=> false,            
+            'allowsmilies'=> false,
             //Limitations
             'limitarchive'=> '50',
             'limitoutbox'=> '50',
             'limitinbox'=> '50',
             'perpage'=> '25',
             //Email
-            'allow_emailnotification'=> true,            
+            'allow_emailnotification'=> true,
             'force_emailnotification'=> false,
-            'mailsubject'=> $this->__('You have a new private message'),
+            'mailsubject'=> 'You have a new private message',
             'fromname'=> '',
-            'from_email'=> '',            
+            'from_email'=> '',
             'mailsender'=> '',
             //Autoresponder
             'allow_autoreply' => false,
             //Users prompt
-            'userprompt'=> $this->__('Welcome to the private messaging system'),
+            'userprompt'=> 'Welcome to the private messaging system',
             'userprompt_display'=> false,
             //Welcome
             'welcomemessage_send' => false,
             'welcomemessagesender'=> 'admin',
-            'welcomemessagesubject'=> $this->__('Welcome to the private messaging system on %sitename%'),  // quotes are important here!!
-            'welcomemessage'=> $this->__("Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin"), // quotes are important here!!!
+            'welcomemessagesubject'=> 'Welcome to the private messaging system on %sitename%',  // quotes are important here!!
+            'welcomemessage'=> "Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin", // quotes are important here!!!
             'savewelcomemessage'=> false,
-            'intlwelcomemessage'=> '',            
+            'intlwelcomemessage'=> '',
             //Protection
             'protection_on'=> true,
             'protection_time'=> '15',
@@ -293,7 +293,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller {
             'system_notifications_enabled' => false,
             //Support messages
             'support_messages_enabled' => false
-            ];    
+            ];
     }
 
 }

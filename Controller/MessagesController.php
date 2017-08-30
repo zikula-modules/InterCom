@@ -169,9 +169,9 @@ class MessagesController extends AbstractController {
 //                    'message' => $message,
                     'settings' => $this->getVars()
         ));
-    }    
-    
-    
+    }
+
+
     /**
      * @Route("/{box}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 10})
      *
@@ -183,9 +183,9 @@ class MessagesController extends AbstractController {
         if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
             throw new AccessDeniedException();
         }
-        
+
         $mode = $this->getVar('mode');
-        
+
         $filter = ['page' => $page,
             'limit' => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
             'sortorder' => $sortorder,
@@ -195,7 +195,7 @@ class MessagesController extends AbstractController {
         $messages = $this->get('zikula_intercom_module.manager.messages')->load($box, $filter);
 
         if ($request->isXmlHttpRequest()) {
-            //@todo decode request content type - supply html or json 
+            //@todo decode request content type - supply html or json
             $response = new JsonResponse();
             $response->setData(array(
                 'filter' => $filter,
@@ -208,7 +208,7 @@ class MessagesController extends AbstractController {
             return $response;
         }
 
-        $layout = $this->getVar('layout');
+        $layout = ucfirst($this->getVar('layout'));
         $request->attributes->set('_legacy', true); // forces template to render inside old theme
         return $this->render("@ZikulaIntercomModule/Layouts/$layout/messages.html.twig", array(
                     'mode' => $mode,
