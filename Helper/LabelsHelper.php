@@ -12,7 +12,6 @@
 namespace Zikula\IntercomModule\Helper;
 
 use Doctrine\ORM\EntityManager;
-
 use Zikula\ExtensionsModule\Api\VariableApi;
 
 /**
