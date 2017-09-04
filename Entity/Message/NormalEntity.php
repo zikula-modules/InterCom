@@ -9,10 +9,17 @@
  * @see https://github.com/zikula-modules/InterCom
  */
 
-namespace Zikula\IntercomModule;
+namespace Zikula\IntercomModule\Entity\Message;
 
-use Zikula\Core\AbstractModule;
+use Doctrine\ORM\Mapping as ORM;
 
-class ZikulaIntercomModule extends AbstractModule
+/**
+ * NormalEntity
+ *
+ * @ORM\Entity()
+ *
+ * @author Kaik
+ */
+class NormalEntity extends AbstractMessageEntity
 {
 }

@@ -1,0 +1,72 @@
+{% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
+{% block header %}
+    {% set settings={} %}
+    {{ parent() }}
+    {#    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }} #}
+{% endblock %}
+{% block title %}
+    {% set title_icon="<i class='fa fa-wrench'></i>" %}
+    {% set title=__('Preferences') %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    {{ showflashes() }}
+    <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Under construction will be back soon.</div>
+    {#
+    {% form_theme form with ['bootstrap_3_layout.html.twig',
+        'ZikulaFormExtensionBundle:Form:bootstrap_3_zikula_admin_layout.html.twig',
+        'ZikulaIntercomModule:Form:radio.html.twig'
+    ] %}
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            <fieldset>
+                <legend>{{ __('Email notifications') }}</legend>
+                <div class="col-xs-12">
+                    <div class="row">
+                    {% if modvars.allow_emailnotification %}
+                    {% endif %}
+                    {{ form_label(form.ic_note,'Enable email notifications',{ 'label_attr': {'class': ''} }) }}
+                    {{ form_errors(form.ic_note) }}
+                    {{ form_widget(form.ic_note,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>{{ __('Autoreply') }}</legend>
+                <div class="col-xs-12">
+                    {% if modvars.allow_autoreply %}
+                    {% endif %}
+                    <div class="row">
+                    {{ form_label(form.ic_ar,'Enable autoreply',{ 'label_attr': {'class': ''} }) }}
+                    {{ form_errors(form.ic_ar) }}
+                    {{ form_widget(form.ic_ar,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                    </div>
+                    <div class="row">
+                    {{ form_label(form.ic_art,'Auto reply message',{ 'label_attr': {'class': ''} }) }}
+                    {{ form_errors(form.ic_art) }}
+                    {{ form_widget(form.ic_art,{ 'attr': {'class': 'col-md-7 text-inline'} }) }}
+                    </div>
+                </div>
+            </fieldset>
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}, 'icon':'fa-check'}) }}
+                        {{ form_widget(form.cancel, {'attr': {'class': 'btn btn-default'}, icon:'fa-times'}) }}
+                    </div>
+                </div>
+            {{ form_end(form) }}
+    #}
+    {#{{ dump() }}#}
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {#{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
+    <script>
+    (function($) {
+            $(function(){
+                Zikula.Intercom.InboxManager.init();
+            });
+    })(jQuery);
+    </script>
+    {#{ dump() }#}
+{% endblock %}

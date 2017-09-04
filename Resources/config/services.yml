@@ -1,0 +1,45 @@
+services:
+    zikula_intercom_module.bridge.message_module_bridge:
+        class: Zikula\IntercomModule\Bridge\MessageModuleBridge
+        tags:
+            - { name: zikula.message_module, bundleName: ZikulaIntercomModule }
+        arguments:
+          - "@router"
+          - "@request_stack"
+          - "@zikula_extensions_module.api.variable"
+          - "@zikula_users_module.current_user"
+          
+    zikula_intercom_module.link_container:
+        class: Zikula\IntercomModule\Container\LinkContainer
+        lazy: true
+        tags:
+            - { name: zikula.link_container }
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_users_module.current_user"
+            - "@zikula_intercom_module.labels_helper"
+            
+    zikula_intercom_module.user_manager:
+        class: Zikula\IntercomModule\Manager\UserManager
+        tags:
+            - { name: zikula.intercom.user_manager }
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@request_stack"
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_users_module.current_user"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+
+    zikula_intercom_module.labels_helper:
+        class: Zikula\IntercomModule\Helper\LabelsHelper
+        tags:
+            - { name: zikula.intercom.labels_helper }
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_extensions_module.api.variable"
+            

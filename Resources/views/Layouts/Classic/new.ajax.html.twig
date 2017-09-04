@@ -1,0 +1,38 @@
+{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig'] %}
+{{ form_start(form) }}
+{{ form_errors(form) }}
+<div class="row">
+    <div class="form-group col-xs-12 col-md-12">
+        {{ form_label(form.recipient,'Select recipient',{ 'label_attr': {'class': 'col-md-4'} }) }}
+        <div class="col-md-8">
+            {{ form_widget(form.recipient,{'attr': {'class': '' }}) }}
+            <p class="help-block">{{ __('Please enter username or') }}</p>
+            {{ form_widget(form.groups,{'attr': {'class': '' }}) }}
+            <p class="help-block">{{ __('Please enter groupname') }}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-xs-12 col-md-12">
+        {{ form_label(form.subject,'Subject',{ 'label_attr': {'class': 'col-md-4'} }) }}
+        <div class="col-md-8">
+            {{ form_widget(form.subject,{'attr': {'class': '' }}) }}
+            <p class="help-block">{{ __('Please enter message subject') }}</p>
+        </div>
+    </div>
+    <div class="form-group col-xs-12 col-md-12">
+        {{ form_label(form.text,'Text',{ 'label_attr': {'class': 'col-md-4'} }) }}
+        <div class="col-md-8">
+        {{ form_widget(form.text,{ 'attr': {'class': ''} }) }}
+        <p class="help-block">{{ __('Please enter message') }}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-12">
+        <div class="col-md-8 pull-right">
+            {{ form_widget(form.save, {'attr': {'class': 'btn col-md-12 btn-success'}}) }}
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

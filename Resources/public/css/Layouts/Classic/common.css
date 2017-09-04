@@ -1,5 +1,3 @@
-<?php
-
 /*
  * InterCom Module for Zikula
  *
@@ -7,12 +5,13 @@
  * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
  * @package    InterCom
  * @see https://github.com/zikula-modules/InterCom
- */
+*/
 
-namespace Zikula\IntercomModule;
+/* 
+    Created on : 21-Dec-2015, 22:12:25
+    Author     : Kaik
+*/
 
-use Zikula\Core\AbstractModule;
-
-class ZikulaIntercomModule extends AbstractModule
-{
+.pagination {
+    margin: 0px 0;
 }

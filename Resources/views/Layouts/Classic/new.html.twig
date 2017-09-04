@@ -1,0 +1,27 @@
+{% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
+{% block header %}
+    {% set settings={} %}
+    {{ parent() }}
+    {#    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }} #}
+{% endblock %} 
+{% block title %}
+    {% set title_icon="<i class='fa fa-file'></i>" %}
+    {% set title=__('Compose new message') %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    {{ showflashes() }}
+    <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Under construction will be back soon.</div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {#{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
+    <script>
+    (function($) {
+            $(function(){
+                Zikula.Intercom.InboxManager.init();  
+            });
+    })(jQuery);
+    </script>
+    {#{ dump() }#}
+{% endblock %}

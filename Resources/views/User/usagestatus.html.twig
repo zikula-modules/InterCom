@@ -1,0 +1,7 @@
+<div class="footer-status-bar col-xs-12 col-md-9">
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ total }}" aria-valuemin="0" aria-valuemax="{{ attribute(settings, 'limit' ~ box) }}" style="width: {{ total / attribute(settings, 'limit' ~ box) * 100 }}%;">
+            {{ total / attribute(settings, 'limit' ~ box) * 100 }}%
+        </div>
+    </div>
+</div>

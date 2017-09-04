@@ -1,3 +1,5 @@
 zikulaintercommodule:
     resource: "@ZikulaIntercomModule/Controller"
     type:     annotation
+    options:
+        zkNoBundlePrefix: true

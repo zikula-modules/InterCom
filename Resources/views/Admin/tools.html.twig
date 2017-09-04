@@ -1,0 +1,140 @@
+{{ adminHeader() }}
+<div class="container-fluid">
+    <h3>
+        <span class="fa fa-magic"></span> {{ __('Tools')}}
+    </h3>
+    {{ showflashes() }}
+    <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Under construction will be back soon.</div>
+    {#	<div class="row">
+                    <div class="col-md-3">
+                            <div class="alert alert-warning">
+                                    <h3>{{ __('Warning!')}}</h3>
+                                    {{ __('Use these utilities with extreme caution. They will affect
+                                    all site users. However, you will be prompted for confirmation
+                                    first.')}}
+                            </div>
+                    </div>
+                    <div class="col-md-9 pull-right">
+                            <div class="list-group">
+                                    <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'fix_integrity_users'}) }}"
+                                            class="list-group-item"> <i
+                                            class="fa fa-group fa-2x pull-right text-muted"></i>
+                                            <h4 class="list-group-item-heading">{{ __('Integrity users')}}</h4>
+                                            <p class="list-group-item-text">{{ __('This tool check sender and
+                                                    recipient integrity against users table and sets null for those
+                                                    users that are not present')}}</p>
+                                    </a> <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'fix_integrity_orphaned'}) }}"
+                                            class="list-group-item"> <i
+                                            class="fa fa-envelope fa-2x pull-right text-muted"></i>
+                                            <h4 class="list-group-item-heading">{{ __('Orphaned messages')}}</h4>
+                                            <p class="list-group-item-text">{{ __('This tool removes orphaned
+                                                    messages')}}</p>
+                                    </a> <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'fix_integrity_inbox'}) }}"
+                                            class="list-group-item"> <i
+                                            class="fa fa-inbox fa-2x pull-right text-muted"></i>
+                                            <h4 class="list-group-item-heading">{{ __('Check inboxes')}}</h4>
+                                            <p class="list-group-item-text">{{ __('This tool check inboxes
+                                                    integity')}}</p>
+                                    </a> <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'fix_integrity_outbox'}) }}"
+                                            class="list-group-item"> <i
+                                            class="fa fa-upload fa-2x pull-right text-muted"></i>
+                                            <h4 class="list-group-item-heading">{{ __('Check outboxes')}}</h4>
+                                            <p class="list-group-item-text">{{ __('This tool check outboxes
+                                                    integrity')}}</p>
+                                    </a> <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'reset_to_defaults'}) }}"
+                                            class="list-group-item"> <i
+                                            class="fa fa-refresh fa-2x pull-right text-muted"></i>
+                                            <h4 class="list-group-item-heading">{{ __('Reset all settings to
+                                                    default values')}}</h4>
+                                            <p class="list-group-item-text">{{ __('Notice: This resets all
+                                                    settings to their default values.')}}</p>
+                                    </a> <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'delete_inbox'}) }}"
+                                            class="list-group-item"> <span
+                                            class="fa-stack fa-lg pull-right fa-1x"> <i
+                                                    class="fa fa-eraser fa-stack-2x text-muted"></i> <i
+                                                    class="fa fa-exclamation fa-stack-1x text-danger text-left"></i>
+                                    </span>
+                                            <h4 class="list-group-item-heading">{{ __('Delete all messages from
+                                                    inboxes')}}</h4>
+                                            <p class="list-group-item-text">{{ __('Notice: This resets all
+                                                    settings to their default values.')}}</p>
+                                    </a> <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'delete_outbox'}) }}"
+                                            class="list-group-item"> <span
+                                            class="fa-stack fa-lg pull-right fa-1x"> <i
+                                                    class="fa fa-eraser fa-stack-2x text-muted"></i> <i
+                                                    class="fa fa-exclamation fa-stack-1x text-danger text-left"></i>
+                                    </span>
+                                            <h4 class="list-group-item-heading">{{ __('Delete all messages from
+                                                    outboxes')}}</h4>
+                                            <p class="list-group-item-text">{{ __('Notice: This resets all
+                                                    settings to their default values.')}}</p>
+                                    </a> <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'delete_stored'}) }}"
+                                            class="list-group-item"> <span
+                                            class="fa-stack fa-lg pull-right fa-1x"> <i
+                                                    class="fa fa-eraser fa-stack-2x text-muted"></i> <i
+                                                    class="fa fa-exclamation fa-stack-1x text-danger text-left"></i>
+                                    </span>
+                                            <h4 class="list-group-item-heading">{{ __('Delete all messages from
+                                                    archives')}}</h4>
+                                            <p class="list-group-item-text">{{ __('Notice: This resets all
+                                                    settings to their default values.')}}</p>
+                                    </a> <a
+                                            href="{{ path('zikulaintercommodule_admin_tools',{ 'operation':'delete_all'}) }}"
+                                            class="list-group-item"> <span
+                                            class="fa-stack fa-lg pull-right fa-1x"> <i
+                                                    class="fa fa-trash-o fa-stack-2x text-muted"></i> <i
+                                                    class="fa fa-adjust fa-exclamation fa-stack-1x text-danger text-left"></i>
+                                    </span>
+                                            <h4 class="list-group-item-heading">{{ __('Delete all messages in
+                                                    all inboxes, outboxes and archives')}}</h4>
+                                            <p class="list-group-item-text">{{ __('Notice: This resets all
+                                                    settings to their default values.')}}</p>
+                                    </a>
+                            </div>
+                    </div>
+                    <div class="col-md-3">
+                            <div class="alert alert-info">
+                                    <h3>{{ __('Integrity checks and status')}}</h3>
+                                    <p class="">
+                                            {{ __('Senders')}}: {% if users_check.sender > 0 %} {{
+                                            users_check.sender }} <i class="fa fa-warning text-danger"></i> {%
+                                            else %} <i class="fa fa-check text-success"></i> {% endif %}
+                                    </p>
+                                    <p class="">
+                                            {{ __('Recipients')}}: {% if users_check.recipient > 0 %} {{
+                                            users_check.recipient }} <i class="fa fa-warning text-danger"></i>
+                                            {% else %} <i class="fa fa-check text-success"></i> {% endif %}
+                                    </p>
+                                    <p class="">
+                                            {{ __('Orphaned')}}: {% if orphaned > 0 %} {{ orphaned }} <i
+                                                    class="fa fa-warning text-danger"></i> {% else %} <i
+                                                    class="fa fa-check text-success"></i>{% endif %}
+                                    </p>
+                                    <p class="">
+                                            {{ __('Inboxes')}}: {% if inboxes > 0 %} {{ inboxes }} <i
+                                                    class="fa fa-warning text-danger"></i> {% else %} <i
+                                                    class="fa fa-check text-success"></i>{% endif %}
+                                    </p>
+                                    <p class="">
+                                            {{ __('Outboxes')}}: {% if outboxes > 0 %} {{ outboxes }} <i
+                                                    class="fa fa-warning text-danger"></i> {% else %} <i
+                                                    class="fa fa-check text-success"></i> {% endif %}
+                                    </p>
+                                    <p class="">
+                                            {{ __('Archives')}}: {% if archives > 0 %} {{ archives }} <i
+                                                    class="fa fa-warning text-danger"></i> {% else %} <i
+                                                    class="fa fa-check text-success"></i> {% endif %}
+                                    </p>
+                            </div>
+                    </div>
+            </div>#}
+</div>
+{{ adminFooter() }}
