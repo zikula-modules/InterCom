@@ -45,6 +45,32 @@ services:
             - "@zikula_users_module.current_user"
             - "@zikula_permissions_module.api.permission"
             - "@zikula_extensions_module.api.variable"
+            
+    zikula_intercom_module.messenger:
+        class: Zikula\IntercomModule\Manager\Messenger
+        tags:
+            - { name: zikula.intercom.messenger }
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@request_stack"
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_users_module.current_user"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+
+    zikula_intercom_module.message_manager:
+        class: Zikula\IntercomModule\Manager\MessageManager
+        tags:
+            - { name: zikula.intercom.message_manager }
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@request_stack"
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_users_module.current_user"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
 
     zikula_intercom_module.import_helper:
         class: Zikula\IntercomModule\Helper\ImportHelper
