@@ -99,7 +99,7 @@ class AdminController extends AbstractController
         $importHelper = $this->get('zikula_intercom_module.import_helper');
 
         return $this->render('ZikulaIntercomModule:Admin:import.html.twig', [
-            'importHelper' =>   $importHelper,
+            'importHelper' => $importHelper,
         ]);
     }
 }

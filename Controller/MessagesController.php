@@ -190,7 +190,7 @@ class MessagesController extends AbstractController
         $filter = ['page' => $page,
             'limit'       => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
             'sortorder'   => $sortorder,
-            'sortby'      => $sortby
+            'sortby'      => $sortby,
         ];
 //
 //        $messages = $this->get('zikula_intercom_module.manager.messages')->load($box, $filter);

@@ -80,7 +80,6 @@ class AccessManager
     {
         // If not logged in, redirect to login screen
         if ($this->user <= 1) {
-
             return false;
         }
 
