@@ -34,11 +34,15 @@ class MessagesController extends AbstractController {
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function preferencesAction(Request $request) {
+
+
         // Permission check
 //        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
 //            throw new AccessDeniedException();
 //        }
-//
+
+        $currentUserManager = $this->get('zikula_intercom_module.user_manager')->getManager();
+
 //        $form = $this->createFormBuilder($this->getVars())
 //                //general settings
 //                ->add('ic_note', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
@@ -69,6 +73,7 @@ class MessagesController extends AbstractController {
         return $this->render('ZikulaIntercomModule:User:preferences.html.twig', [
 //                    'form' => $form->createView(),
 //                    'modvars' => $this->getVars() // @todo temporary solution
+                      'currentUserManager' => $currentUserManager,
         ]);
     }
 
@@ -80,6 +85,9 @@ class MessagesController extends AbstractController {
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
     public function newMessageAction(Request $request) {
+
+        $currentUserManager = $this->get('zikula_intercom_module.user_manager')->getManager();
+        $layout = ucfirst($this->getVar('layout'));
 //        // Permission check
 //        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
 //            throw new AccessDeniedException();
@@ -112,10 +120,11 @@ class MessagesController extends AbstractController {
 //            ))));
 //        }
 
-        return $this->render('ZikulaIntercomModule:Message:new.html.twig', [
+        return $this->render("@ZikulaIntercomModule/Layouts/$layout/new.html.twig", [
 //                    'form' => $form->createView(),
 ////                    'message' => $message,
 //                    'settings' => $this->getVars()
+                'currentUserManager' => $currentUserManager,
         ]);
     }
 

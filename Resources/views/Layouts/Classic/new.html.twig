@@ -1,18 +1,17 @@
 {% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
 {% block header %}
-    {% set settings=settings %}
+    {% set settings={} %}
     {{ parent() }}
-{#    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }} #}
+    {#    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }} #}
 {% endblock %} 
 {% block title %}
-    {% set title_icon="<i class='fa fa-sticky-note-o'></i>" %}
+    {% set title_icon="<i class='fa fa-file'></i>" %}
     {% set title=__('Compose new message') %}
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <div id="intercom_inbox" class="col-md-12 clearfix">   
-       {{ include('ZikulaIntercomModule:Message:form.html.twig') }}
-    </div>
+    {{ showflashes() }}
+    <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Under construction will be back soon.</div>
 {% endblock %}
 {% block footer %}
     {{ parent() }}

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * InterCom Module for Zikula
  *

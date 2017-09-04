@@ -16,6 +16,7 @@ use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\IntercomModule\Entity\Traits\IdTrait;
 use Zikula\IntercomModule\Entity\Traits\ExtraDataTrait;
 use Zikula\IntercomModule\Entity\Traits\NameTrait;
+use Zikula\IntercomModule\Entity\Traits\SortOrderTrait;
 use Zikula\IntercomModule\Entity\Traits\UserTrait;
 
 /**
@@ -31,6 +32,7 @@ class LabelEntity extends EntityAccess
     use NameTrait;
     use UserTrait;
     use ExtraDataTrait;
+    use SortOrderTrait;
 
     public function __construct()
     {

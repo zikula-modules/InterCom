@@ -1,7 +1,14 @@
 <?php
-/**
- * Copyright (c) KaikMedia.com 2014
+
+/*
+ * InterCom Module for Zikula
+ *
+ * @copyright  InterCom Team
+ * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
+ * @package    InterCom
+ * @see https://github.com/zikula-modules/InterCom
  */
+
 namespace Zikula\IntercomModule\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -14,18 +21,17 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class ZikulaIntercomExtension extends Extension
 {
-
     /**
      * Loads service definition file containing persistent event handlers.
      * Responds to the app.config configuration parameter.
-     * 
-     * @param array $configs            
-     * @param ContainerBuilder $container            
+     *
+     * @param array $configs
+     * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        
+
         $loader->load('services.yml');
     }
 }

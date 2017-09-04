@@ -1,29 +1,42 @@
 {{ adminHeader() }}
 <h3>
-	<span class="fa fa-bar-chart"></span> {{ __('Informations')}}
+    <span class="fa fa-bar-chart"></span> {{ __('Informations')}}
 </h3>
 <div class="container-fluid">
-<div class="row">
-<div class="col-sm-6">     
-<h4>{{ __('Number of messages')}}</h4>
-<ul class="list-group">
-  <li class="list-group-item">
-    <span class="badge">{{ inbox }}</span>
-    {{ __('Inbox')}}
-  </li>
-  <li class="list-group-item">
-    <span class="badge">{{ outbox }}</span>
-    {{ __('Outbox')}}
-  </li>
-  <li class="list-group-item">
-    <span class="badge">{{ archive }}</span>
-    {{ __('Archive')}}
-  </li>  
-</ul>
-</div>
-<div class="col-sm-6">
-       
-</div>    
-</div>
+    <div class="row">
+        <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Under construction will be back soon.</div>
+        <div class="col-sm-6">     
+            <h4>{{ __('Number of messages')}}</h4>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    {#                    <span class="badge">{{ inbox }}</span>#}
+                    {{ __('Inbox')}}
+                </li>
+                <li class="list-group-item">
+                    {#    <span class="badge">{{ outbox }}</span>#}
+                    {{ __('Sent')}}
+                </li>
+                <li class="list-group-item">
+                    {#                    <span class="badge">{{ archive }}</span>#}
+                    {{ __('Stored')}}
+                </li>
+                <li class="list-group-item">
+                    {#                    <span class="badge">{{ archive }}</span>#}
+                    {{ __('Deleted')}}
+                </li>
+                <li class="list-group-item">
+                    {#                    <span class="badge">{{ archive }}</span>#}
+                    {{ __('Notifications')}}
+                </li>
+                <li class="list-group-item">
+                    {#                    <span class="badge">{{ archive }}</span>#}
+                    {{ __('Helpdesk')}}
+                </li> 
+            </ul>
+        </div>
+        <div class="col-sm-6">
+
+        </div>    
+    </div>
 </div>
 {{ adminFooter() }}

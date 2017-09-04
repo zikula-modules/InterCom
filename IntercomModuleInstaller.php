@@ -59,7 +59,37 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             return false;
         }
         $this->setVars(self::getDefaultVars());
+
+        $this->setUpDefaultLabels();
+
         return true;
+    }
+
+    private function setUpDefaultLabels()
+    {
+        $labels = [
+            [   'name' => 'Important',
+                'user' => null,
+                'extraData' => null,
+                'sortorder' => 0
+            ],
+            [   'name' => 'Friends',
+                'user' => null,
+                'extraData' => null,
+                'sortorder' => 0
+            ],
+            [   'name' => 'Bussiness',
+                'user' => null,
+                'extraData' => null,
+                'sortorder' => 0
+            ],
+            ];
+        foreach ($labels as $label) {
+            $l = new LabelEntity();
+            $l->merge($label);
+            $this->entityManager->persist($l);
+        }
+        $this->entityManager->flush();
     }
 
     public function upgrade($oldversion)

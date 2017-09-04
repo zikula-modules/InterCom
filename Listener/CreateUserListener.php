@@ -1,25 +1,17 @@
 <?php
-/**
+
+/*
  * InterCom Module for Zikula
  *
  * @copyright  InterCom Team
  * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
  * @package    InterCom
- * @subpackage User
- *
- * Please see the CREDITS.txt file distributed with this source code for further
- * information regarding copyright.
+ * @see https://github.com/zikula-modules/InterCom
  */
 
 namespace Zikula\IntercomModule\Listener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use SecurityUtil;
-use ModUtil;
-use HookUtil;
-use System;
-use ZLanguage;
-use Zikula_View;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Event\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,7 +26,7 @@ abstract class CreateUserListener implements EventSubscriberInterface
      * Listens for the 'user.account.create' event.
      *
      * @param Zikula_Event $event Event.
-     
+
     public static function onCreateUser(Zikula_Event $event)
     {
         // If sending messages isn't enabled, just return.
@@ -42,7 +34,7 @@ abstract class CreateUserListener implements EventSubscriberInterface
         {
             return;
         }
-        
+
         $user = $event->getSubject();
         $welcomemessage        = ModUtil::getVar('InterCom', 'messages_welcomemessage');
         $welcomemessagesubject = ModUtil::getVar('InterCom', 'messages_welcomemessagesubject');

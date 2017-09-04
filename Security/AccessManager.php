@@ -14,7 +14,8 @@
 
 namespace Zikula\IntercomModule\Security;
 
-class AccessManager {
+class AccessManager
+{
     /*     * *
      * Do all user checks in one method:
      * Check if logged in, has correct access, and if site is disabled
@@ -23,8 +24,8 @@ class AccessManager {
      * Returns false if use has permissions.
      * On exit, $uid has the user's UID if logged in.
      */
-
-    public function hasPermission($access = ACCESS_READ) {
+    public function hasPermission($access = ACCESS_READ)
+    {
         // If not logged in, redirect to login screen
         if (!\UserUtil::isLoggedIn()) {
             return false;
@@ -45,7 +46,8 @@ class AccessManager {
         return $uid;
     }
 
-    public function hasPermissionRaw($component, $instance, $level) {
+    public function hasPermissionRaw($component, $instance, $level)
+    {
         return \SecurityUtil::checkPermission($component, $instance, $level);
     }
 

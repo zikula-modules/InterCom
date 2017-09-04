@@ -14,39 +14,39 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Description of SendTrait
+ * OrderTrait
  *
  * @author Kaik
  */
-trait SendTrait
+trait SortOrderTrait
 {
     /**
-     * send
+     * @var integer
      *
-     * @ORM\Column(type="datetime", nullable=true, options={"default":null})
+     * @ORM\Column(name="sortorder", type="smallint", nullable=false)
      */
-    private $send;
+    private $sortorder;
 
     /**
-     * Set message send
+     * Set sortorder
      *
-     * @param DateTime object $send
-     * @return $this
+     * @param integer $sortorder
+     * @return Entity
      */
-    public function setSend(\DateTime $send = null)
+    public function setSortorder($sortorder)
     {
-        $this->send = $send;
+        $this->sortorder = $sortorder;
 
         return $this;
     }
 
     /**
-     * Get message send
+     * Get sortorder
      *
-     * @return DateTime object
+     * @return integer
      */
-    public function getSend()
+    public function getSortorder()
     {
-        return $this->send;
+        return $this->sortorder;
     }
 }

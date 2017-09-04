@@ -5,10 +5,10 @@
 ] %}
 {# remove asterix after choice buttons #}
 <style>
-.required:after {
-    content: "";
-    color: red;
-}
+    .required:after {
+        content: "";
+        color: red;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -16,6 +16,7 @@
             <span class="fa fa-wrench"></span> {{ __('Preferences')}}
         </h3>
         {{ showflashes() }}
+        <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Under construction will be back soon.</div>
         {{ form_start(form) }}
         {{ form_errors(form) }}
         <fieldset>
@@ -49,7 +50,7 @@
                 {{ __("Classic mode works only with classic layout and it works exactly like previous versions of InterCom.")}}
                 {{ __("While classic mode was like SMS in old phones where there was an inbox, outbox and archive conversation mode is more like Facebook messaging.")}}
                 {{ __("Conversation starts with first message which is a container for next messages in this conversation.")}}
-                
+
             </p>
             <p class="col-md-12 help-block alert alert-warning ">
                 {{ __("Switching between modes in production is not advised.")}}
