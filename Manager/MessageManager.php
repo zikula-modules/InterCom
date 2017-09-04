@@ -12,18 +12,15 @@
 namespace Zikula\IntercomModule\Manager;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ExtensionsModule\Api\VariableApi;
-use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\PermissionsModule\Api\PermissionApi;
+use Zikula\UsersModule\Api\CurrentUserApi;
 
 /**
- * MessageManager
+ * MessageManager.
  *
  * @author Kaik
  */
@@ -52,16 +49,16 @@ class MessageManager
     protected $name;
 
     /**
-     * Construct the manager
+     * Construct the manager.
      *
      * @param TranslatorInterface $translator
-     * @param RouterInterface $router
-     * @param RequestStack $requestStack
-     * @param EntityManager $entityManager
-     * @param CurrentUserApi $userApi
-     * @param PermissionApi $permission
-     * @param VariableApi $variableApi
-     * @param RankHelper $ranksHelper
+     * @param RouterInterface     $router
+     * @param RequestStack        $requestStack
+     * @param EntityManager       $entityManager
+     * @param CurrentUserApi      $userApi
+     * @param PermissionApi       $permission
+     * @param VariableApi         $variableApi
+     * @param RankHelper          $ranksHelper
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -84,9 +81,9 @@ class MessageManager
     }
 
     /**
-     * Get manager
+     * Get manager.
      *
-     * @param int  $uid  user id (optional: defaults to current user)
+     * @param int $uid user id (optional: defaults to current user)
      */
     public function getManager()
     {
@@ -106,7 +103,7 @@ class MessageManager
 //            $this->_managedUser = null;
 //        }
 //        // $this
-////        return $this->checkLastVisit();
+//        return $this->checkLastVisit();
 
         return $this;
     }

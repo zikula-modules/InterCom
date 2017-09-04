@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ExtensionsModule\Api\VariableApi;
 
 /**
- * ImportHelper
+ * ImportHelper.
  *
  * @author Kaik
  */

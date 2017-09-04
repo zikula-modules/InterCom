@@ -18,7 +18,7 @@ use Zikula\ExtensionsModule\Api\VariableApi;
 use Zikula\PermissionsModule\Api\PermissionApi;
 
 /**
- * AccessManager
+ * AccessManager.
  *
  * @author Kaik
  */
@@ -57,7 +57,7 @@ class AccessManager
         TranslatorInterface $translator,
         PermissionApi $permissionApi,
         VariableApi $variableApi
-    ){
+    ) {
         $this->name = 'ZikulaDizkusModule';
         $this->requestStack = $requestStack;
         $this->request = $requestStack->getMasterRequest();
@@ -90,6 +90,6 @@ class AccessManager
 
     public function hasPermissionRaw($component, $instance, $level)
     {
-        return $this->permissionApi->hasPermission($this->name.'::',$component.'::'.$instance, $level);
+        return $this->permissionApi->hasPermission($this->name.'::', $component.'::'.$instance, $level);
     }
 }

@@ -42,7 +42,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
         SystemEntity::class,
         MessageUserDetailsEntity::class,
         GroupRecipientEntity::class,
-        UserRecipientEntity::class
+        UserRecipientEntity::class,
     ];
 
     //import
@@ -56,6 +56,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             $this->schemaTool->create($this->entities);
         } catch (\Exception $e) {
             $this->addFlash('error', $e->getMessage());
+
             return false;
         }
 
@@ -68,20 +69,20 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
     private function setUpDefaultLabels()
     {
         $labels = [
-            [   'name' => 'Important',
-                'user' => null,
+            ['name'         => 'Important',
+                'user'      => null,
                 'extraData' => null,
-                'sortorder' => 0
+                'sortorder' => 0,
             ],
-            [   'name' => 'Friends',
-                'user' => null,
+            ['name'         => 'Friends',
+                'user'      => null,
                 'extraData' => null,
-                'sortorder' => 0
+                'sortorder' => 0,
             ],
-            [   'name' => 'Bussiness',
-                'user' => null,
+            ['name'         => 'Bussiness',
+                'user'      => null,
                 'extraData' => null,
-                'sortorder' => 0
+                'sortorder' => 0,
             ],
             ];
         foreach ($labels as $label) {
@@ -105,7 +106,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
         }
         switch ($oldversion) {
             case '2.3.0':
-               if (!$this->upgrade_settings()) {
+                if (!$this->upgrade_settings()) {
                     return false;
                 }
 
@@ -123,7 +124,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
                     $this->removeTablePrefixes($prefix);
                 }
                 // mark tables for import
-                $upgrade_mark = str_replace('.', '_', $oldversion) . '_';
+                $upgrade_mark = str_replace('.', '_', $oldversion).'_';
                 $this->markTablesForImport($upgrade_mark);
                 // add upgrading info for later
                 $this->setVar('upgrading', str_replace('.', '_', $oldversion));
@@ -133,6 +134,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
                     $this->schemaTool->create($this->entities);
                 } catch (\Exception $e) {
                     $this->addFlash('error', $e->getMessage());
+
                     return false;
                 }
 
@@ -153,10 +155,12 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             $this->schemaTool->drop($this->entities);
         } catch (\PDOException $e) {
             $this->addFlash('error', $e->getMessage());
+
             return false;
         }
         // Delete any module variables
         $this->delVars();
+
         return true;
     }
 
@@ -168,7 +172,6 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
         $connection = $this->entityManager->getConnection();
         // remove table prefixes
         foreach ($this->importTables as $value) {
-
             $sql = 'RENAME TABLE '.$prefix.$value.' TO '.$value;
             $stmt = $connection->prepare($sql);
 
@@ -183,7 +186,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
     }
 
     /**
-     * Mark tables for import with import_ prefix
+     * Mark tables for import with import_ prefix.
      */
     public function markTablesForImport($prefix)
     {
@@ -203,7 +206,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
     }
 
     /**
-     * Upgrade settings to current version
+     * Upgrade settings to current version.
      */
     private function upgrade_settings()
     {
@@ -227,7 +230,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
     }
 
     /**
-     * get the default module var values
+     * get the default module var values.
      *
      * @return array
      */
@@ -235,40 +238,40 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
     {
         return [
             //General
-            'active' => true,
-            'maintain' => 'Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.',
-            'disable_ajax' => false,
-            'allowhtml' => false,
-            'allowsmilies' => false,
+            'active'        => true,
+            'maintain'      => 'Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.',
+            'disable_ajax'  => false,
+            'allowhtml'     => false,
+            'allowsmilies'  => false,
             //Limitations
-            'limitarchive' => '50',
-            'limitoutbox' => '50',
-            'limitinbox' => '50',
-            'perpage' => '25',
+            'limitarchive'  => '50',
+            'limitoutbox'   => '50',
+            'limitinbox'    => '50',
+            'perpage'       => '25',
             //Email
             'allow_emailnotification' => true,
             'force_emailnotification' => false,
-            'mailsubject' => 'You have a new private message',
-            'fromname' => '',
-            'from_email' => '',
-            'mailsender' => '',
+            'mailsubject'             => 'You have a new private message',
+            'fromname'                => '',
+            'from_email'              => '',
+            'mailsender'              => '',
             //Autoresponder
             'allow_autoreply' => false,
             //Users prompt
-            'userprompt' => 'Welcome to the private messaging system',
+            'userprompt'         => 'Welcome to the private messaging system',
             'userprompt_display' => false,
             //Welcome
-            'welcomemessage_send' => false,
-            'welcomemessagesender' => 'admin',
+            'welcomemessage_send'   => false,
+            'welcomemessagesender'  => 'admin',
             'welcomemessagesubject' => 'Welcome to the private messaging system on %sitename%', // quotes are important here!!
-            'welcomemessage' => "Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin", // quotes are important here!!!
-            'savewelcomemessage' => false,
-            'intlwelcomemessage' => '',
+            'welcomemessage'        => "Hello!' .'Welcome to the private messaging system on %sitename%. Please remember that use of the private messaging system is subject to the site\'s terms of use and privacy statement. If you have any questions or encounter any problems, please contact the site administrator. Site admin", // quotes are important here!!!
+            'savewelcomemessage'    => false,
+            'intlwelcomemessage'    => '',
             //Protection
-            'protection_on' => true,
-            'protection_time' => '15',
+            'protection_on'     => true,
+            'protection_time'   => '15',
             'protection_amount' => '15',
-            'protection_mail' => false,
+            'protection_mail'   => false,
             //layout
             'layout' => 'classic',
             //Mode
@@ -276,7 +279,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             //System notifications
             'system_notifications_enabled' => false,
             //Support messages
-            'support_messages_enabled' => false
+            'support_messages_enabled' => false,
         ];
     }
 }
