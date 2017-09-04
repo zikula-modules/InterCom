@@ -21,7 +21,7 @@ use Zikula\Core\Controller\AbstractController;
  */
 class MessagesController extends AbstractController
 {
-    /*
+    /**
      * @Route("/preferences")
      *
      * @param Request $request
@@ -70,7 +70,7 @@ class MessagesController extends AbstractController
         ]);
     }
 
-    /*
+    /**
      * @Route("/new" , options={"expose"=true})
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
@@ -123,7 +123,7 @@ class MessagesController extends AbstractController
         ]);
     }
 
-    /*
+    /**
      * @Route("/reply" , options={"expose"=true})
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
@@ -171,7 +171,7 @@ class MessagesController extends AbstractController
         ]);
     }
 
-    /*
+    /**
      * @Route("/{box}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 10})
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
@@ -221,14 +221,4 @@ class MessagesController extends AbstractController
 //                    'settings' => $this->getVars()
         ]);
     }
-
-    /*
-     * @Route("/markasread/{id}" , options={"expose"=true}, requirements={"id" = "\d*"})
-     * mark a message as read
-     *
-     */
-//    public function markmsgreadAction($id) {
-//
-//        return true;
-//    }
 }
