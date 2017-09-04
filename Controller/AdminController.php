@@ -190,7 +190,7 @@ class AdminController extends AbstractController
             throw new AccessDeniedException();
         }
 
-        $importHelper = $this->get('zikula_dizkus_module.import_helper');
+        $importHelper = $this->get('zikula_intercom_module.import_helper');
 
         return $this->render('ZikulaIntercomModule:Admin:import.html.twig', [
             'importHelper' =>  $importHelper

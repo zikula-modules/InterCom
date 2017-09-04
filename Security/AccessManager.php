@@ -1,22 +1,74 @@
 <?php
 
-/**
+/*
  * InterCom Module for Zikula
  *
  * @copyright  InterCom Team
  * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
  * @package    InterCom
- * @subpackage Util
- *
- * Please see the CREDITS.txt file distributed with this source code for further
- * information regarding copyright.
+ * @see https://github.com/zikula-modules/InterCom
  */
 
 namespace Zikula\IntercomModule\Security;
 
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\ExtensionsModule\Api\VariableApi;
+use Zikula\PermissionsModule\Api\PermissionApi;
+
+/**
+ * AccessManager
+ *
+ * @author Kaik
+ */
 class AccessManager
 {
-    /*     * *
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var PermissionApi
+     */
+    private $permissionApi;
+
+    /**
+     * @var VariableApi
+     */
+    private $variableApi;
+
+    private $user;
+
+    public function __construct(
+        RequestStack $requestStack,
+        EntityManager $entityManager,
+        TranslatorInterface $translator,
+        PermissionApi $permissionApi,
+        VariableApi $variableApi
+    ){
+        $this->name = 'ZikulaDizkusModule';
+        $this->requestStack = $requestStack;
+        $this->request = $requestStack->getMasterRequest();
+        $this->entityManager = $entityManager;
+        $this->translator = $translator;
+        $this->permissionApi = $permissionApi;
+        $this->variableApi = $variableApi;
+        $this->user = $this->request->getSession()->get('uid') > 1 ? $this->request->getSession()->get('uid') : 1;
+    }
+
+    /*
      * Do all user checks in one method:
      * Check if logged in, has correct access, and if site is disabled
      * Returns the appropriate error/return value if failed, which can be
@@ -27,28 +79,17 @@ class AccessManager
     public function hasPermission($access = ACCESS_READ)
     {
         // If not logged in, redirect to login screen
-        if (!\UserUtil::isLoggedIn()) {
-            return false;
-        }
-        // Perform access check
-        if (!$this->hasPermissionRaw('ZikulaIntercomModule::', '::', $access)) {
-            return false;
-        }
-        // Maintenance message
-        if (\ModUtil::getVar('ZikulaIntercomModule', 'active') == 0 && !\SecurityUtil::checkPermission('ZikulaIntercomModule::', '::', ACCESS_ADMIN)) {
-            return false;
-        }
+        if ($this->user <= 1) {
 
-        // Get the uid of the user
-        $uid = \UserUtil::getVar('uid');
+            return false;
+        }
 
         // Return user uid to signify everything is OK.
-        return $uid;
+        return $this->user;
     }
 
     public function hasPermissionRaw($component, $instance, $level)
     {
-        return \SecurityUtil::checkPermission($component, $instance, $level);
+        return $this->permissionApi->hasPermission($this->name.'::',$component.'::'.$instance, $level);
     }
-
 }
