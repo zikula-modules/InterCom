@@ -276,7 +276,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             //layout
             'layout' => 'classic',
             //labels
-            'labels_enabled' => true,
+            'labels_enabled'      => true,
             'user_labels_enabled' => true,
             //System notifications
             'notifications_enabled' => true,
@@ -288,7 +288,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             //Multiple user recipients
             'multiple_user_recipients_enabled' => true,
             //Group recipients
-            'group_recipient_enabled'          => true,
+            'group_recipient_enabled'           => true,
             'multiple_group_recipients_enabled' => true,
             //draft
             'drafts_enabled' => true,
