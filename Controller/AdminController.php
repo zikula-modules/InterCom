@@ -191,8 +191,7 @@ class AdminController extends AbstractController
         }
 
         $importHelper = $this->get('zikula_intercom_module.import_helper');
-        $ximportHelper = $this->get('zikula_intercom_module.messenger');
-        $yimportHelper = $this->get('zikula_intercom_module.message_manager');
+        
         return $this->render('ZikulaIntercomModule:Admin:import.html.twig', [
             'importHelper' =>  $importHelper
         ]);
