@@ -2,7 +2,7 @@
 {% block header %}
     {% set settings={} %}
     {{ parent() }}
-    {#    {{ pageAddAsset('stylesheet', zasset("@ZikulaIntercomModule:css/Layouts/Classic/#{box}.css")) }}#}
+    {{ pageAddAsset('stylesheet', zasset("@ZikulaIntercomModule:css/Layouts/Classic/#{box}.css")) }}
 {% endblock %}
 {% block title %}
     {% set title_icon="<i class='fa fa-#{box}'></i>" %}

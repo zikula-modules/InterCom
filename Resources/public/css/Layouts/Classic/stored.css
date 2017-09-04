@@ -6,3 +6,8 @@
  * @package    InterCom
  * @see https://github.com/zikula-modules/InterCom
 */
+
+.fa-stored:before {
+    font-family: FontAwesome;
+    content: "\f0c7";
+}

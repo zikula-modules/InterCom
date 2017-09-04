@@ -1,17 +1,12 @@
 <?php
 
-/**
- * Copyright InterCom Team 2015
+/*
+ * InterCom Module for Zikula
  *
- * This work is contributed to the Zikula Foundation under one or more
- * Contributor Agreements and licensed to You under the following license:
- *
- * @license GNU/LGPLv3 (or at your option, any later version).
- * @package InterCom
- * @link https://github.com/zikula-modules/Pages
- *
- * Please see the NOTICE file distributed with this source code for further
- * information regarding copyright and licensing.
+ * @copyright  InterCom Team
+ * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
+ * @package    InterCom
+ * @see https://github.com/zikula-modules/InterCom
  */
 
 namespace Zikula\IntercomModule\Container;
@@ -23,8 +18,8 @@ use Zikula\ExtensionsModule\Api\VariableApi;
 use Zikula\PermissionsModule\Api\PermissionApi;
 use Zikula\UsersModule\Api\CurrentUserApi;
 
-class LinkContainer implements LinkContainerInterface {
-
+class LinkContainer implements LinkContainerInterface
+{
     /**
      * @var TranslatorInterface
      */
@@ -60,8 +55,13 @@ class LinkContainer implements LinkContainerInterface {
      * @param CurrentUserApi $currentUserApi
      */
     public function __construct(
-    TranslatorInterface $translator, RouterInterface $router, PermissionApi $permissionApi, VariableApi $variableApi, CurrentUserApi $currentUserApi
-    ) {
+        TranslatorInterface $translator,
+        RouterInterface $router,
+        PermissionApi $permissionApi,
+        VariableApi $variableApi,
+        CurrentUserApi $currentUserApi
+    )
+    {
         $this->translator = $translator;
         $this->router = $router;
         $this->permissionApi = $permissionApi;
@@ -76,7 +76,8 @@ class LinkContainer implements LinkContainerInterface {
      * @param string $type
      * @return array
      */
-    public function getLinks($type = LinkContainerInterface::TYPE_ADMIN) {
+    public function getLinks($type = LinkContainerInterface::TYPE_ADMIN)
+    {
         $method = 'get' . ucfirst(strtolower($type));
         if (method_exists($this, $method)) {
             return $this->$method();
@@ -90,7 +91,8 @@ class LinkContainer implements LinkContainerInterface {
      *
      * @return array
      */
-    private function getAdmin() {
+    private function getAdmin()
+    {
         $links = [];
         if ($this->permissionApi->hasPermission("ZikulaIntercomModule::", '::', ACCESS_ADMIN)) {
             $links[] = [
@@ -117,60 +119,61 @@ class LinkContainer implements LinkContainerInterface {
      *
      * @return array
      */
-    private function getUser() {
+    private function getUser()
+    {
         $links = [];
         if (!$this->currentUser->isLoggedIn()) {
             return $links;
         }
 
 //        //if ($this->variableApi->get('mode') == 0) {
-            $links[] = [
-                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'inbox'] ),
-                'text' => $this->translator->__('Inbox'),
-                'icon' => 'inbox'
-            ];
-            $links[] = [
-                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'sent'] ),
-                'text' => $this->translator->__('Sent'),
-                'title' => $this->translator->__('Messages send by you'),
-                'icon' => 'upload'
-            ];
-            $links[] = [
-                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'draft'] ),
-                'text' => $this->translator->__('Draft'),
-                'title' => $this->translator->__('Messages send by you'),
-                'icon' => 'file'
-            ];
-            $links[] = [
-                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'stored'] ),
-                'text' => $this->translator->__('Stored'),
-                'title' => $this->translator->__('Your saved messages'),
-                'icon' => 'archive'
-            ];
-            $links[] = [
-                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'trash'] ),
-                'text' => $this->translator->__('Trash'),
-                'title' => $this->translator->__('Your saved messages'),
-                'icon' => 'trash'
-            ];
-            $links[] = [
-                'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'all'] ),
-                'text' => $this->translator->__('Label'),
-                'title' => $this->translator->__('Your saved messages'),
-                'icon' => 'tags'
-            ];
-            $links[] = [
-                'url' => $this->router->generate('zikulaintercommodule_messages_preferences'),
-                'text' => $this->translator->__('Display messages settings'),
-                'title' => $this->translator->__('Private messaging settings'),
-                'icon' => 'wrench'
-            ];
-            $links[] = [
-                'url' => $this->router->generate('zikulaintercommodule_messages_newmessage'),
-                'text' => $this->translator->__('New message'),
-                'title' => $this->translator->__('Click here to compose new message'),
-                'icon' => 'file'
-            ];
+        $links[] = [
+            'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'inbox']),
+            'text' => $this->translator->__('Inbox'),
+            'icon' => 'inbox'
+        ];
+        $links[] = [
+            'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'sent']),
+            'text' => $this->translator->__('Sent'),
+            'title' => $this->translator->__('Messages send by you'),
+            'icon' => 'envelope-o'
+        ];
+        $links[] = [
+            'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'draft']),
+            'text' => $this->translator->__('Draft'),
+            'title' => $this->translator->__('Messages send by you'),
+            'icon' => 'file-text'
+        ];
+        $links[] = [
+            'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'stored']),
+            'text' => $this->translator->__('Stored'),
+            'title' => $this->translator->__('Your saved messages'),
+            'icon' => 'floppy-o'
+        ];
+        $links[] = [
+            'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'trash']),
+            'text' => $this->translator->__('Trash'),
+            'title' => $this->translator->__('Your saved messages'),
+            'icon' => 'trash'
+        ];
+        $links[] = [
+            'url' => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels']),
+            'text' => $this->translator->__('Labels'),
+            'title' => $this->translator->__('Your saved messages'),
+            'icon' => 'tags'
+        ];
+        $links[] = [
+            'url' => $this->router->generate('zikulaintercommodule_messages_preferences'),
+            'text' => $this->translator->__('Display messages settings'),
+            'title' => $this->translator->__('Private messaging settings'),
+            'icon' => 'wrench'
+        ];
+        $links[] = [
+            'url' => $this->router->generate('zikulaintercommodule_messages_newmessage'),
+            'text' => $this->translator->__('New message'),
+            'title' => $this->translator->__('Click here to compose new message'),
+            'icon' => 'file'
+        ];
 //       // }
 //        if ($this->variableApi->get('mode') == 1) {
 //            $links[] = array(
@@ -202,7 +205,8 @@ class LinkContainer implements LinkContainerInterface {
         return $links;
     }
 
-    public function getBundleName() {
+    public function getBundleName()
+    {
         return 'ZikulaIntercomModule';
     }
 
