@@ -12,11 +12,10 @@
 namespace Zikula\IntercomModule\Helper;
 
 use Doctrine\ORM\EntityManager;
-
 use Zikula\ExtensionsModule\Api\VariableApi;
 
 /**
- * Description of LabelsHelper
+ * LabelsHelper.
  *
  * @author Kaik
  */
@@ -32,7 +31,6 @@ class LabelsHelper
      */
     private $variableApi;
 
-
     public function __construct(
             EntityManager $entityManager,
             VariableApi $variableApi
@@ -41,6 +39,7 @@ class LabelsHelper
         $this->entityManager = $entityManager;
         $this->variableApi = $variableApi;
 
+        return $this;
     }
 
     public function getAll()
@@ -78,5 +77,4 @@ class LabelsHelper
     {
         return $this->entityManager->getRepository('Zikula\IntercomModule\Entity\Label\LabelEntity')->findBy(['user' => $user]);
     }
-
 }
