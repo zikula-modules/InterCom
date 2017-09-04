@@ -68,6 +68,7 @@ class LinkContainer implements LinkContainerInterface
         CurrentUserApi      $currentUserApi,
         LabelsHelper        $labelsHelper
     ) {
+        $this->name = 'ZikulaIntercomModule';
         $this->translator = $translator;
         $this->router = $router;
         $this->permissionApi = $permissionApi;
@@ -137,6 +138,27 @@ class LinkContainer implements LinkContainerInterface
                 'text'  => $this->translator->__('Settings'),
                 'title' => $this->translator->__('Adjust module settings'),
                 'icon'  => 'wrench', ];
+            if ($this->variableApi->get($this->name, 'labels_enabled', false)) {
+                $links[] = [
+                    'url'   => $this->router->generate('zikulaintercommodule_labels_list'),
+                    'text'  => $this->translator->__('Labels'),
+                    'title' => $this->translator->__('Here you can import messages from older versions'),
+                    'icon'  => 'tags', ];
+            }
+            if ($this->variableApi->get($this->name, 'support_enabled', false)) {
+                $links[] = [
+                    'url'   => $this->router->generate('zikulaintercommodule_support_list'),
+                    'text'  => $this->translator->__('Support messages'),
+                    'title' => $this->translator->__('Here you can import messages from older versions'),
+                    'icon'  => 'life-buoy', ];
+            }
+            if ($this->variableApi->get($this->name, 'notifications_enabled', false)) {
+                $links[] = [
+                    'url'   => $this->router->generate('zikulaintercommodule_notifications_list'),
+                    'text'  => $this->translator->__('Notifications'),
+                    'title' => $this->translator->__('Here you can import messages from older versions'),
+                    'icon'  => 'bullhorn', ];
+            }
             $links[] = [
                 'url'   => $this->router->generate('zikulaintercommodule_admin_import'),
                 'text'  => $this->translator->__('Import'),

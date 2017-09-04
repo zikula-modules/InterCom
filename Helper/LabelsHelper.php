@@ -41,6 +41,7 @@ class LabelsHelper
         $this->entityManager = $entityManager;
         $this->variableApi = $variableApi;
 
+        return $this;
     }
 
     public function getAll()

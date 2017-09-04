@@ -84,6 +84,40 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/support")
+     *
+     * the main administration function
+     *
+     * @return RedirectResponse
+     */
+    public function supportAction(Request $request)
+    {
+        if (!$this->hasPermission($this->name.'::', '::', ACCESS_ADMIN)) {
+            throw new AccessDeniedException();
+        }
+        
+        return $this->render('ZikulaIntercomModule:Admin:support.html.twig', [
+        ]);
+    }
+
+    /**
+     * @Route("/notifications")
+     *
+     * the main administration function
+     *
+     * @return RedirectResponse
+     */
+    public function notificationsAction(Request $request)
+    {
+        if (!$this->hasPermission($this->name.'::', '::', ACCESS_ADMIN)) {
+            throw new AccessDeniedException();
+        }
+
+        return $this->render('ZikulaIntercomModule:Admin:notifications.html.twig', [
+        ]);
+    }
+
+    /**
      * @Route("/import")
      *
      * the main administration function

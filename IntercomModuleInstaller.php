@@ -241,6 +241,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             'active'        => true,
             'maintain'      => 'Sorry! The private messaging system is currently off-line for maintenance. Please check again later, or contact the site administrator.',
             'disable_ajax'  => false,
+            //Display message text settings
             'allowhtml'     => false,
             'allowsmilies'  => false,
             //Limitations
@@ -274,12 +275,23 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             'protection_mail'   => false,
             //layout
             'layout' => 'classic',
-            //Mode
-            'mode' => 0,
+            //labels
+            'labels_enabled' => true,
+            'user_labels_enabled' => true,
             //System notifications
-            'system_notifications_enabled' => false,
+            'notifications_enabled' => true,
             //Support messages
-            'support_messages_enabled' => false,
+            'support_enabled' => true,
+            //Group sender
+            'group_sender_enabled' => true,
+            'group_sender_type'    => 'owner',
+            //Multiple user recipients
+            'multiple_user_recipients_enabled' => true,
+            //Group recipients
+            'group_recipient_enabled'          => true,
+            'multiple_group_recipients_enabled' => true,
+            //draft
+            'drafts_enabled' => true,
         ];
     }
 }
