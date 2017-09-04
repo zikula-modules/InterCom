@@ -35,6 +35,15 @@ services:
             - "@zikula_permissions_module.api.permission"
             - "@zikula_extensions_module.api.variable"
 
+    zikula_intercom_module.import_helper:
+        class: Zikula\IntercomModule\Helper\ImportHelper
+        tags:
+            - { name: zikula.dizkus.import_helper }
+        arguments:
+            - "@request_stack"
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_extensions_module.api.variable"
+
     zikula_intercom_module.labels_helper:
         class: Zikula\IntercomModule\Helper\LabelsHelper
         tags:

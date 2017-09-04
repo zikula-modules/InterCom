@@ -142,6 +142,11 @@ class LinkContainer implements LinkContainerInterface
                 'text' => $this->translator->__('Settings'),
                 'title' => $this->translator->__('Adjust module settings'),
                 'icon' => 'wrench'];
+            $links[] = [
+                'url' => $this->router->generate('zikulaintercommodule_admin_import'),
+                'text' => $this->translator->__('Import'),
+                'title' => $this->translator->__('Here you can import messages from older versions'),
+                'icon' => 'cloud-download'];
         }
         return $links;
     }

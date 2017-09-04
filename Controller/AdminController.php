@@ -177,4 +177,23 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/import")
+     *
+     * the main administration function
+     *
+     * @return RedirectResponse
+     */
+    public function importAction(Request $request)
+    {
+        if (!$this->hasPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+            throw new AccessDeniedException();
+        }
+
+        $importHelper = $this->get('zikula_dizkus_module.import_helper');
+
+        return $this->render('ZikulaIntercomModule:Admin:import.html.twig', [
+            'importHelper' =>  $importHelper
+        ]);
+    }
 }

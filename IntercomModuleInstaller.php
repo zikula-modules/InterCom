@@ -58,8 +58,8 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             $this->addFlash('error', $e->getMessage());
             return false;
         }
-        $this->setVars(self::getDefaultVars());
 
+        $this->setVars(self::getDefaultVars());
         $this->setUpDefaultLabels();
 
         return true;
@@ -129,18 +129,17 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
                 $this->setVar('upgrading', str_replace('.', '_', $oldversion));
 
                 //install module now
-//                try {
-//                    $this->schemaTool->create($this->entities);
-//                } catch (\Exception $e) {
-//                    $this->addFlash('error', $e->getMessage());
-//
-//                    return false;
-//                }
+                try {
+                    $this->schemaTool->create($this->entities);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', $e->getMessage());
+                    return false;
+                }
 
-//                $this->hookApi->installSubscriberHooks($this->bundle->getMetaData());
-//                $this->hookApi->installProviderHooks($this->bundle->getMetaData());
+                $this->setVars(self::getDefaultVars());
+                $this->setUpDefaultLabels();
 
-                $this->addFlash('status', $this->__('Please go to Dizkus admin import to do full data import.'));
+                $this->addFlash('status', $this->__('Please go to Intercom admin import to do full data import.'));
 
                 break;
         }
