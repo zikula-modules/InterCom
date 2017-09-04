@@ -6,5 +6,4 @@ use Zikula\Core\AbstractModule;
 
 class ZikulaIntercomModule extends AbstractModule
 {
-
 }

@@ -1,6 +1,6 @@
 {# needed for ajax html output #}
-{% for message in messages %}
-    {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.html.twig') }}
-{% else %}
-    <div class="list-group-item col-md-12 alert alert-info">{{ __('You currently have no messages.') }}</div>               
-{% endfor %}
+{#{% for message in messages %}#}
+{{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.html.twig') }}
+{#{% else %}#}
+{#<div class="list-group-item list-group-item-warning col-md-12 alert alert-info">{{ __('You currently have no messages.') }}</div>#}
+{#{% endfor %}#}

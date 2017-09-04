@@ -1,15 +1,12 @@
 <?php
 
-/**
+/*
  * InterCom Module for Zikula
  *
  * @copyright  InterCom Team
  * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
  * @package    InterCom
- * @subpackage User
- *
- * Please see the CREDITS.txt file distributed with this source code for further
- * information regarding copyright.
+ * @see https://github.com/zikula-modules/InterCom
  */
 
 namespace Zikula\IntercomModule\Controller;
@@ -24,8 +21,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
-use Zikula\IntercomModule\Entity\MessageEntity as Message;
-use Zikula\IntercomModule\Entity\MessageEntity;
 
 /**
  * @Route("/messages")
@@ -40,41 +35,41 @@ class MessagesController extends AbstractController {
      */
     public function preferencesAction(Request $request) {
         // Permission check
-        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
-            throw new AccessDeniedException();
-        }
+//        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+//            throw new AccessDeniedException();
+//        }
+//
+//        $form = $this->createFormBuilder($this->getVars())
+//                //general settings
+//                ->add('ic_note', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
+//                    'multiple' => false,
+//                    'expanded' => true,
+//                    'required' => true))
+//                ->add('ic_ar', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
+//                    'multiple' => false,
+//                    'expanded' => true,
+//                    'required' => true))
+//                ->add('ic_art', 'textarea', array('required' => false))
+//                ->add('save', 'submit')
+//                ->add('cancel', 'submit')
+//                ->getForm();
+//
+//        $form->handleRequest($request);
+//        if ($form->isValid()) {
+//            if ($form->get('save')->isClicked()) {
+//                $this->setVars('ZikulaIntercomModule', $form->getData());
+//                $this->addFlash('status', $this->__('Done! preferences updated.'));
+//            }
+//            if ($form->get('cancel')->isClicked()) {
+//                $this->addFlash('status', $this->__('Operation cancelled.'));
+//            }
+//            return $this->redirect($this->generateUrl('zikulaintercommodule_user_preferences'));
+//        }
 
-        $form = $this->createFormBuilder($this->getVars())
-                //general settings
-                ->add('ic_note', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('ic_ar', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-                    'multiple' => false,
-                    'expanded' => true,
-                    'required' => true))
-                ->add('ic_art', 'textarea', array('required' => false))
-                ->add('save', 'submit')
-                ->add('cancel', 'submit')
-                ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            if ($form->get('save')->isClicked()) {
-                $this->setVars('ZikulaIntercomModule', $form->getData());
-                $this->addFlash('status', $this->__('Done! preferences updated.'));
-            }
-            if ($form->get('cancel')->isClicked()) {
-                $this->addFlash('status', $this->__('Operation cancelled.'));
-            }
-            return $this->redirect($this->generateUrl('zikulaintercommodule_user_preferences'));
-        }
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
-        return $this->render('ZikulaIntercomModule:User:preferences.html.twig', array(
-                    'form' => $form->createView(),
-                    'modvars' => $this->getVars() // @todo temporary solution
-        ));
+        return $this->render('ZikulaIntercomModule:User:preferences.html.twig', [
+//                    'form' => $form->createView(),
+//                    'modvars' => $this->getVars() // @todo temporary solution
+        ]);
     }
 
     /**
@@ -85,43 +80,43 @@ class MessagesController extends AbstractController {
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      */
     public function newMessageAction(Request $request) {
-        // Permission check
-        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
-            throw new AccessDeniedException();
-        }
-        $options = ['isXmlHttpRequest' => $request->isXmlHttpRequest()];
-//        $message = $this->get('zikula_intercom_module.manager.message')->create();
-        $form = $this->createForm('messageform', new MessageEntity(), $options);
-        $form->handleRequest($request);
+//        // Permission check
+//        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+//            throw new AccessDeniedException();
+//        }
+//        $options = ['isXmlHttpRequest' => $request->isXmlHttpRequest()];
+////        $message = $this->get('zikula_intercom_module.manager.message')->create();
+//        $form = $this->createForm('messageform', new MessageEntity(), $options);
+//        $form->handleRequest($request);
+//
+//        if ($form->isValid()) {
+////            $this->get('zikula_intercom_module.manager.message')->setNewData($form->getData());
+////            $this->get('zikula_intercom_module.manager.message')->send();
+//            $message = $form->getData();
+//            $em = $this->get('doctrine')->getManager();
+//            $em->persist($message);
+//            $em->flush();
+//            if ($request->isXmlHttpRequest()) {
+//                return new JsonResponse(array('status' => true));
+//            } else {
+//                $this->addFlash('status', "Message sent!");
+//                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+//            }
+//        }
+//
+//        if ($request->isXmlHttpRequest()) {
+//            return new JsonResponse(array('status' => true, 'html' => $this->renderView('ZikulaIntercomModule:Message:form.html.twig', array(
+//                    'form' => $form->createView(),
+////                    'message' => $message,
+//                    'settings' => $this->getVars()
+//            ))));
+//        }
 
-        if ($form->isValid()) {
-//            $this->get('zikula_intercom_module.manager.message')->setNewData($form->getData());
-//            $this->get('zikula_intercom_module.manager.message')->send();
-            $message = $form->getData();
-            $em = $this->get('doctrine')->getManager();
-            $em->persist($message);
-            $em->flush();
-            if ($request->isXmlHttpRequest()) {
-                return new JsonResponse(array('status' => true));
-            } else {
-                $this->addFlash('status', "Message sent!");
-                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
-            }
-        }
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(array('status' => true, 'html' => $this->renderView('ZikulaIntercomModule:Message:form.html.twig', array(
-                    'form' => $form->createView(),
-//                    'message' => $message,
-                    'settings' => $this->getVars()
-            ))));
-        }
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
-        return $this->render('ZikulaIntercomModule:Message:new.html.twig', array(
-                    'form' => $form->createView(),
-//                    'message' => $message,
-                    'settings' => $this->getVars()
-        ));
+        return $this->render('ZikulaIntercomModule:Message:new.html.twig', [
+//                    'form' => $form->createView(),
+////                    'message' => $message,
+//                    'settings' => $this->getVars()
+        ]);
     }
 
     /**
@@ -133,42 +128,42 @@ class MessagesController extends AbstractController {
      */
     public function replyMessageAction(Request $request) {
         // Permission check
-        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
-            throw new AccessDeniedException();
-        }
-        $options = ['isXmlHttpRequest' => $request->isXmlHttpRequest()];
-//        $message = $this->get('zikula_intercom_module.manager.message')->create();
-        $form = $this->createForm('messageform', new MessageEntity(), $options);
-        $form->handleRequest($request);
+//        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+//            throw new AccessDeniedException();
+//        }
+//        $options = ['isXmlHttpRequest' => $request->isXmlHttpRequest()];
+////        $message = $this->get('zikula_intercom_module.manager.message')->create();
+//        $form = $this->createForm('messageform', new MessageEntity(), $options);
+//        $form->handleRequest($request);
+//
+//        if ($form->isValid()) {
+////            $this->get('zikula_intercom_module.manager.message')->setNewData($form->getData());
+////            $this->get('zikula_intercom_module.manager.message')->send();
+//            $message = $form->getData();
+//            $em = $this->get('doctrine')->getManager();
+//            $em->persist($message);
+//            $em->flush();
+//            if ($request->isXmlHttpRequest()) {
+//                return new JsonResponse(['status' => true]);
+//            } else {
+//                $this->addFlash('status', "Message sent!");
+//                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+//            }
+//        }
+//
+//        if ($request->isXmlHttpRequest()) {
+//            return new JsonResponse(['status' => true, 'html' => $this->renderView('ZikulaIntercomModule:Message:form.html.twig', [
+//                    'form' => $form->createView(),
+////                    'message' => $message,
+//                    'settings' => $this->getVars()
+//            ])]);
+//        }
 
-        if ($form->isValid()) {
-//            $this->get('zikula_intercom_module.manager.message')->setNewData($form->getData());
-//            $this->get('zikula_intercom_module.manager.message')->send();
-            $message = $form->getData();
-            $em = $this->get('doctrine')->getManager();
-            $em->persist($message);
-            $em->flush();
-            if ($request->isXmlHttpRequest()) {
-                return new JsonResponse(array('status' => true));
-            } else {
-                $this->addFlash('status', "Message sent!");
-                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
-            }
-        }
-
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(array('status' => true, 'html' => $this->renderView('ZikulaIntercomModule:Message:form.html.twig', array(
-                    'form' => $form->createView(),
-//                    'message' => $message,
-                    'settings' => $this->getVars()
-            ))));
-        }
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
-        return $this->render('ZikulaIntercomModule:Message:new.html.twig', array(
-                    'form' => $form->createView(),
-//                    'message' => $message,
-                    'settings' => $this->getVars()
-        ));
+        return $this->render('ZikulaIntercomModule:Message:new.html.twig', [
+//                    'form' => $form->createView(),
+////                    'message' => $message,
+//                    'settings' => $this->getVars()
+        ]);
     }
 
 
@@ -180,45 +175,45 @@ class MessagesController extends AbstractController {
      */
     public function getMessagesAction(Request $request, $box, $page, $sortby, $sortorder, $limit) {
         // Permission check
-        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
-            throw new AccessDeniedException();
-        }
+//        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+//            throw new AccessDeniedException();
+//        }
 
-        $mode = $this->getVar('mode');
-
+//        $mode = $this->getVar('mode');
+//
         $filter = ['page' => $page,
             'limit' => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
             'sortorder' => $sortorder,
             'sortby' => $sortby
         ];
-
-        $messages = $this->get('zikula_intercom_module.manager.messages')->load($box, $filter);
-
-        if ($request->isXmlHttpRequest()) {
-            //@todo decode request content type - supply html or json
-            $response = new JsonResponse();
-            $response->setData(array(
-                'filter' => $filter,
-                'pager' => $messages->getPager(),
-                'html' => $this->renderView("@ZikulaIntercomModule/Layouts/$layout/$box/conversation.list.html.twig", array(
-                    'messages' => $messages->getmessages()
-                ))
-            ));
-
-            return $response;
-        }
+//
+//        $messages = $this->get('zikula_intercom_module.manager.messages')->load($box, $filter);
+//
+//        if ($request->isXmlHttpRequest()) {
+//            //@todo decode request content type - supply html or json
+//            $response = new JsonResponse();
+//            $response->setData([
+//                'filter' => $filter,
+//                'pager' => $messages->getPager(),
+//                'html' => $this->renderView("@ZikulaIntercomModule/Layouts/$layout/$box/conversation.list.html.twig", [
+//                    'messages' => $messages->getmessages()
+//                ])
+//            ]);
+//
+//            return $response;
+//        }
 
         $layout = ucfirst($this->getVar('layout'));
-        $request->attributes->set('_legacy', true); // forces template to render inside old theme
-        return $this->render("@ZikulaIntercomModule/Layouts/$layout/messages.html.twig", array(
-                    'mode' => $mode,
-                    'layout' => $layout,
+
+        return $this->render("@ZikulaIntercomModule/Layouts/$layout/index.html.twig", [
+//                    'mode' => $mode,
+//                    'layout' => $layout,
                     'box' => $box,
                     'filter' => $filter,
-                    'pager' => $messages->getPager(),
-                    'messages' => $messages->getmessages(),
-                    'settings' => $this->getVars()
-        ));
+//                    'pager' => $messages->getPager(),
+//                    'messages' => $messages->getmessages(),
+//                    'settings' => $this->getVars()
+        ]);
     }
 
     /**

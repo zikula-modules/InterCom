@@ -1,42 +1,42 @@
-<div data-id="{{ message.id }}" class="conversation list-group-item clearfix" style="{% if message.seen %} background: #F2F8FF; {% else %} background: #D3E7FF; {% endif %}">
+<div data-id="{#{{ message.id }}#}" class="conversation list-group-item clearfix" style="{#{% if message.seen %} background: #F2F8FF; {% else %} background: #D3E7FF; {% endif %}#}">
     <div class="sender col-xs-9 col-md-2">
-        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ message.sender.uname == '' ? message.recipient.uname : message.sender.uname }}      
+        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {#{{ message.sender.uname == '' ? message.recipient.uname : message.sender.uname }} #}
     </div>
-    <div class="subject col-xs-12 col-md-5 {% if message.seen %} {% else %} text-info {% endif %}"><i class="fa fa-comment {% if message.seen %} text-muted {% else %} text-info {% endif %}"> </i> {{ message.subject }}</div>                 
-    <div class="date col-xs-12 col-md-2 text-muted"><i class="fa fa-clock-o"> </i> {{ message.send|date("m/d/Y") }}</div>                       
-    <div class="statuses col-xs-12 col-md-3">{{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.statuses.html.twig') }}</div> 
+    <div class="subject col-xs-12 col-md-5 {#{% if message.seen %} {% else %} text-info {% endif %}#}"><i class="fa fa-comment {#{% if message.seen %} text-muted {% else %} text-info {% endif %}#}"> </i> {#{{ message.subject }}#}</div>
+    <div class="date col-xs-12 col-md-2 text-muted"><i class="fa fa-clock-o"> </i> {#{{ message.send|date("m/d/Y") }}#}</div>
+    {#    <div class="statuses col-xs-12 col-md-3">{{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.statuses.html.twig') }}</div> #}
 
     <div class="details col-md-12 clearfix" style="clear:both;">
-        <div id="conversation-body-{{ message.id }}" class="row collapse" >  
+        <div id="conversation-body-{#{{ message.id }}#}" class="row collapse" >
             <div class="col-md-12">                   
 
-                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.messages.first.html.twig') }}
-                <div class="conversation-actions row text-right">
-                    <div class="col-xs-12 col-md-12">
-                        <span class="small text-muted">{% if mode == 0 %}{{ __('Message options') }} {% else %} {{ __('Conversation options') }} {% endif %}</span>
-                        <div class="btn-group btn-group-sm text-center"> 
-                            <a data-id="{{ message.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>                    
-                            <a data-id="{{ message.id }}" class="forward-conversation btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
-                            <a data-id="{{ message.id }}" class="save-conversation btn text-success" role="button"  title="{{ __('Save') }}"><i class="fa fa-save"></i></a>
-                            <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a> 
-                        </div>
-                    </div>         
-                </div>    
-                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.messages.html.twig') }}
+                {#                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.messages.first.html.twig') }}#}
+                {#                <div class="conversation-actions row text-right">
+                                    <div class="col-xs-12 col-md-12">
+                                        <span class="small text-muted">{% if mode == 0 %}{{ __('Message options') }} {% else %} {{ __('Conversation options') }} {% endif %}</span>
+                                        <div class="btn-group btn-group-sm text-center"> 
+                                            <a data-id="{{ message.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>                    
+                                            <a data-id="{{ message.id }}" class="forward-conversation btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
+                                            <a data-id="{{ message.id }}" class="save-conversation btn text-success" role="button"  title="{{ __('Save') }}"><i class="fa fa-save"></i></a>
+                                            <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a> 
+                                        </div>
+                                    </div>         
+                                </div>   #}
+                {#                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.messages.html.twig') }}#}
 
                 <div class="conversation-reply-box row">
-                    <div class="col-md-12 text-right"> 
-                        <a class="btn " role="button" data-toggle="collapse" data-target="#conversation-{{ message.id }}-reply" aria-expanded="false" aria-controls="conversation-{{ message.id }}-reply"  title="{{ __('Reply') }}">{{ __('Reply') }} <i class="fa fa-reply"></i></a>
-                    </div>
-                    <div id="conversation-{{ message.id }}-reply" class="col-md-12 collapse">    
-                        <textarea class="form-control" rows="3"> {{ message.replyText }}  </textarea>
-                        <div class="col-xs-12 col-md-12">
-                            <div class="btn-group btn-group-sm pull-right"> 
-                                <a data-id="{{ message.id }}" class="cancel-reply btn text-danger" role="button" title="{{ __('Cancel') }}">{{ __('Cancel') }} <i class="fa fa-undo"></i></a>                            
-                                <a data-id="{{ message.id }}" class="send-reply btn text-success" role="button"  title="{{ __('Send') }}">{{ __('Send') }} <i class="fa fa-share-square"></i></a>
-                            </div>
-                        </div>                          
-                    </div>
+                    {#                   <div class="col-md-12 text-right">
+                                           <a class="btn " role="button" data-toggle="collapse" data-target="#conversation-{{ message.id }}-reply" aria-expanded="false" aria-controls="conversation-{{ message.id }}-reply"  title="{{ __('Reply') }}">{{ __('Reply') }} <i class="fa fa-reply"></i></a>
+                                       </div>
+                                       <div id="conversation-{{ message.id }}-reply" class="col-md-12 collapse">    
+                                           <textarea class="form-control" rows="3"> {{ message.replyText }}  </textarea>
+                                           <div class="col-xs-12 col-md-12">
+                                               <div class="btn-group btn-group-sm pull-right"> 
+                                                   <a data-id="{{ message.id }}" class="cancel-reply btn text-danger" role="button" title="{{ __('Cancel') }}">{{ __('Cancel') }} <i class="fa fa-undo"></i></a>                            
+                                                   <a data-id="{{ message.id }}" class="send-reply btn text-success" role="button"  title="{{ __('Send') }}">{{ __('Send') }} <i class="fa fa-share-square"></i></a>
+                                               </div>
+                                           </div>                          
+                                       </div>#}
                 </div>    
             </div>   
         </div> 
