@@ -11,14 +11,13 @@
 
 namespace Zikula\IntercomModule\Controller;
 
-use Zikula\IntercomModule\Form\Type\PreferencesType;
-use Zikula\Core\Controller\AbstractController;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotations - do not remove
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method; // used in annotations - do not remove
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zikula\Core\Controller\AbstractController;
+use Zikula\IntercomModule\Form\Type\PreferencesType;
 
 /**
  * @Route("messages/admin")
@@ -34,8 +33,7 @@ class AdminController extends AbstractController
      */
     public function statusAction(Request $request)
     {
-
-        if (!$this->hasPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+        if (!$this->hasPermission($this->name.'::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
 
@@ -57,16 +55,16 @@ class AdminController extends AbstractController
      * @Route("/preferences")
      *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function preferencesAction(Request $request)
     {
-
-        if (!$this->hasPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+        if (!$this->hasPermission($this->name.'::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
 
-        $form = $this->createForm(new PreferencesType, $this->getVars(), []);
+        $form = $this->createForm(PreferencesType::class, $this->getVars(), []);
         $form->handleRequest($request);
         if ($form->isValid()) {
             if ($form->get('save')->isClicked()) {
@@ -76,6 +74,7 @@ class AdminController extends AbstractController
             if ($form->get('cancel')->isClicked()) {
                 $this->addFlash('status', $this->__('Operation cancelled.'));
             }
+
             return $this->redirect($this->generateUrl('zikulaintercommodule_admin_preferences'));
         }
 
@@ -85,96 +84,22 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/tools/{operation}", defaults={"operation" = "status"})
+     * @Route("/import")
      *
-     * @return Response symfony response object
+     * the main administration function
      *
-     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     * @return RedirectResponse
      */
-    public function toolsAction(Request $request, $operation)
+    public function importAction(Request $request)
     {
-
-        if (!$this->hasPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+        if (!$this->hasPermission($this->name.'::', '::', ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
 
-//        $tools = new Tools();
-//
-//        switch ($operation) {
-//            case "fix_integrity_users":
-//                if ($tools->fixIntegrityUsers()) {
-//                    $this->addFlash('status', $this->__('Done! users integrity fixed.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not fix users data integrity.'));
-//                }
-//                break;
-//            case "fix_integrity_inbox":
-//                if ($tools->fixIntegrityInbox()) {
-//                    $this->addFlash('status', $this->__('Done! inboxes integrity fixed.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not fix inbox data integrity..'));
-//                }
-//                break;
-//            case "fix_integrity_outbox":
-//                if ($tools->fixIntegrityOutbox()) {
-//                    $this->addFlash('status', $this->__('Done! outboxes integrity fixed.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not fix outbox data integrity.'));
-//                }
-//                break;
-//            case "fix_integrity_archive":
-//                if ($tools->fixIntegrityArchive()) {
-//                    $this->addFlash('status', $this->__('Done! archives integrity fixed.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not fix users archive integrity.'));
-//                }
-//                break;
-//            case "reset_to_defaults":
-//                if ($tools->resetSettings()) {
-//                    $this->addFlash('status', $this->__('Done! Reset settings to default values.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not reset settings to default values.'));
-//                }
-//                break;
-//            case "delete_inboxes":
-//                if ($tools->deleteInboxes()) {
-//                    $this->addFlash('status', $this->__('Done! Emptied inboxes.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not empty inboxes.'));
-//                }
-//                break;
-//            case "delete_outboxes":
-//                if ($tools->deleteOutboxes()) {
-//                    $this->addFlash('status', $this->__('Done! Emptied outboxes.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not empty outboxes.'));
-//                }
-//                break;
-//            case "delete_archive":
-//                if ($tools->deleteArchive()) {
-//                    $this->addFlash('status', $this->__('Done! Emptied archives.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not empty archives.'));
-//                }
-//                break;
-//            case "delete_all":
-//                if ($tools->deleteAll()) {
-//                    $this->addFlash('status', $this->__('Done! Deleted all messages.'));
-//                } else {
-//                    $this->addFlash('error', $this->__('Error! Could not delete all messages.'));
-//                }
-//                break;
-//            default:
-//                break;
-//        }
+        $importHelper = $this->get('zikula_intercom_module.import_helper');
 
-        return $this->render('ZikulaIntercomModule:Admin:tools.html.twig', [
-//            'users_check' => $tools->checkIntegrityUsers(),
-//            'orphaned' => $tools->checkIntegrityOrphaned(),
-//            'inboxes' => $tools->checkIntegrityInbox(),
-//            'outboxes' => $tools->checkIntegrityOutbox(),
-//            'archives' => $tools->checkIntegrityArchive(),
+        return $this->render('ZikulaIntercomModule:Admin:import.html.twig', [
+            'importHelper' => $importHelper,
         ]);
     }
-
 }

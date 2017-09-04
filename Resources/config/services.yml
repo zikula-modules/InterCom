@@ -8,7 +8,7 @@ services:
           - "@request_stack"
           - "@zikula_extensions_module.api.variable"
           - "@zikula_users_module.current_user"
-          
+
     zikula_intercom_module.link_container:
         class: Zikula\IntercomModule\Container\LinkContainer
         lazy: true
@@ -21,7 +21,18 @@ services:
             - "@zikula_extensions_module.api.variable"
             - "@zikula_users_module.current_user"
             - "@zikula_intercom_module.labels_helper"
-            
+
+    zikula_intercom_module.access_manager:
+        class: Zikula\IntercomModule\Security\AccessManager
+        tags:
+            - { name: zikula.intercom.access_manager }
+        arguments: 
+            - "@request_stack"
+            - "@doctrine.orm.default_entity_manager"
+            - "@translator.default"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+
     zikula_intercom_module.user_manager:
         class: Zikula\IntercomModule\Manager\UserManager
         tags:
@@ -34,6 +45,41 @@ services:
             - "@zikula_users_module.current_user"
             - "@zikula_permissions_module.api.permission"
             - "@zikula_extensions_module.api.variable"
+            
+    zikula_intercom_module.messenger:
+        class: Zikula\IntercomModule\Manager\Messenger
+        tags:
+            - { name: zikula.intercom.messenger }
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@request_stack"
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_users_module.current_user"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+
+    zikula_intercom_module.message_manager:
+        class: Zikula\IntercomModule\Manager\MessageManager
+        tags:
+            - { name: zikula.intercom.message_manager }
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@request_stack"
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_users_module.current_user"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+
+    zikula_intercom_module.import_helper:
+        class: Zikula\IntercomModule\Helper\ImportHelper
+        tags:
+            - { name: zikula.dizkus.import_helper }
+        arguments:
+            - "@request_stack"
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_extensions_module.api.variable"
 
     zikula_intercom_module.labels_helper:
         class: Zikula\IntercomModule\Helper\LabelsHelper
@@ -42,4 +88,3 @@ services:
         arguments:
             - "@doctrine.orm.default_entity_manager"
             - "@zikula_extensions_module.api.variable"
-            
