@@ -58,7 +58,7 @@ class UserToIdTransformer implements DataTransformerInterface
     public function reverseTransform($name)
     {
         if (!$name) {
-            return null;
+            return;
         }
 
 //        $user = $this->om->getRepository('Zikula\UsersModule\Entity\UserEntity')->findOneBy(array(

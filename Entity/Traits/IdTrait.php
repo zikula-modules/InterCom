@@ -29,7 +29,7 @@ trait IdTrait
      * @Assert\NotNull()
      * @Assert\LessThan(value=1000000000, message="Length of field value must not be higher than 9."))
      *
-     * @var int $id.
+     * @var int.
      */
     protected $id = 0;
 

@@ -12,6 +12,7 @@
 namespace Zikula\IntercomModule\Listener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 //use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 //use Zikula\Core\Event\GenericEvent;
 //use Symfony\Component\HttpFoundation\RedirectResponse;

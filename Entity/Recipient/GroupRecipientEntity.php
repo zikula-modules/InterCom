@@ -13,8 +13,8 @@ namespace Zikula\IntercomModule\Entity\Recipient;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zikula\Core\Doctrine\EntityAccess;
-use Zikula\IntercomModule\Entity\Traits\IdTrait;
 use Zikula\IntercomModule\Entity\Traits\GroupTrait;
+use Zikula\IntercomModule\Entity\Traits\IdTrait;
 
 /**
  * UserRecipientEntity.

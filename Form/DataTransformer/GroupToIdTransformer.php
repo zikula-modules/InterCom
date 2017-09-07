@@ -58,10 +58,10 @@ class GroupToIdTransformer implements DataTransformerInterface
     public function reverseTransform($uname)
     {
         if (!$uname) {
-            return null;
+            return;
         }
 
-        return null;
+//        return null;
 //        $user = $this->om->getRepository('Zikula\Module\UsersModule\Entity\UserEntity')->findOneBy(array(
 //            'uname' => $uname
 //        ));
