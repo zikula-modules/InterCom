@@ -13,15 +13,15 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserTrait
+ * UserTrait.
  *
  * @author Kaik
  */
-trait UserTrait {
-
+trait UserTrait
+{
     /**
-     *  User field
-     * 
+     *  User field.
+     *
      * @ORM\ManyToOne(targetEntity="Zikula\UsersModule\Entity\UserEntity")
      * @ORM\JoinColumn(name="user", referencedColumnName="uid", nullable=true)
      */

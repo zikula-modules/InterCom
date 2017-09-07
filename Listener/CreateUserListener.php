@@ -12,15 +12,15 @@
 namespace Zikula\IntercomModule\Listener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Zikula\Core\Event\GenericEvent;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\ORM\EntityManager;
+//use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+//use Zikula\Core\Event\GenericEvent;
+//use Symfony\Component\HttpFoundation\RedirectResponse;
+//use Symfony\Component\HttpFoundation\RequestStack;
+//use Doctrine\ORM\EntityManager;
 
 abstract class CreateUserListener implements EventSubscriberInterface
 {
-    /**
+    /*
      * On an module remove hook call this listener
      *
      * Listens for the 'user.account.create' event.

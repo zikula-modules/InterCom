@@ -14,23 +14,24 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * OrderTrait
+ * OrderTrait.
  *
  * @author Kaik
  */
 trait SortOrderTrait
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="sortorder", type="smallint", nullable=false)
      */
     private $sortorder;
 
     /**
-     * Set sortorder
+     * Set sortorder.
      *
-     * @param integer $sortorder
+     * @param int $sortorder
+     *
      * @return Entity
      */
     public function setSortorder($sortorder)
@@ -41,9 +42,9 @@ trait SortOrderTrait
     }
 
     /**
-     * Get sortorder
+     * Get sortorder.
      *
-     * @return integer
+     * @return int
      */
     public function getSortorder()
     {

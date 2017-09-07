@@ -14,7 +14,7 @@ namespace Zikula\IntercomModule\Entity\Message;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * NormalEntity
+ * NormalEntity.
  *
  * @ORM\Entity()
  *

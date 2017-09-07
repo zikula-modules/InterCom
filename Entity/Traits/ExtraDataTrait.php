@@ -14,18 +14,16 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ExtraData Trait
+ * ExtraData Trait.
  *
  * @author Kaik
  */
 trait ExtraDataTrait
 {
     /**
-     *
      * @ORM\Column(type="array", nullable=true, options={"default":null})
      */
     private $extraData;
-
 
     public function getExtraData()
     {

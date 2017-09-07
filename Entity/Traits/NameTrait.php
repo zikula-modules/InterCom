@@ -14,20 +14,19 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * NameTrait
+ * NameTrait.
  *
  * @author Kaik
  */
-trait NameTrait {
-
+trait NameTrait
+{
     /**
-     *
      * @ORM\Column(type="string", length=100)
      */
     private $name;
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -37,7 +36,7 @@ trait NameTrait {
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @return $this
      */

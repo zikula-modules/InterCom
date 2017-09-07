@@ -14,23 +14,24 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TextTrait
+ * TextTrait.
  *
  * @author Kaik
  */
 trait TextTrait
 {
     /**
-     * text
+     * text.
      *
      * @ORM\Column(type="text", nullable=true, options={"default":null})
      */
     private $text;
 
     /**
-     * Set message text
+     * Set message text.
      *
      * @param string $text
+     *
      * @return $this
      */
     public function setText($text)
@@ -41,7 +42,7 @@ trait TextTrait
     }
 
     /**
-     * Get text
+     * Get text.
      *
      * @return string
      */
@@ -51,12 +52,12 @@ trait TextTrait
     }
 
     /**
-     * get reply text
+     * get reply text.
      *
      * @param array $conversation the child categories
      */
     public function getReplyText()
     {
-        return '--------- ' . $this->text . ' ----------';
+        return '--------- '.$this->text.' ----------';
     }
 }

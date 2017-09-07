@@ -14,23 +14,24 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SubjectTrait
+ * SubjectTrait.
  *
  * @author Kaik
  */
 trait SubjectTrait
 {
     /**
-     * subject
+     * subject.
      *
      * @ORM\Column(type="string", length=255, nullable=true, options={"default":null})
      */
     private $subject;
 
     /**
-     * Set subject
+     * Set subject.
      *
      * @param string $subject
+     *
      * @return $this
      */
     public function setSubject($subject)
@@ -41,7 +42,7 @@ trait SubjectTrait
     }
 
     /**
-     * Get message subject
+     * Get message subject.
      *
      * @return string
      */
@@ -51,13 +52,12 @@ trait SubjectTrait
     }
 
     /**
-     * get reply subject
+     * get reply subject.
      *
      * @param array $conversation the child categories
      */
     public function getReplySubject()
     {
-        return 'Re: ' . $this->subject . '';
-
+        return 'Re: '.$this->subject.' ';
     }
 }

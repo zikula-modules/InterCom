@@ -15,14 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Zikula\GroupsModule\Entity\GroupEntity as ZikulaGroup;
 
 /**
- * GroupTrait
+ * GroupTrait.
  *
  * @author Kaik
  */
 trait GroupTrait
 {
     /**
-     * Zikula Core Group Entity
+     * Zikula Core Group Entity.
      *
      * @ORM\ManyToOne(targetEntity="Zikula\GroupsModule\Entity\GroupEntity")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="gid")
@@ -30,7 +30,7 @@ trait GroupTrait
     private $group;
 
     /**
-     * get Core Group
+     * get Core Group.
      *
      * @return \Zikula\GroupsModule\Entity\GroupEntity
      */
@@ -40,11 +40,14 @@ trait GroupTrait
     }
 
     /**
-     * set group
+     * set group.
+     *
      * @param \Zikula\GroupsModule\Entity\GroupEntity $group
      */
     public function setGroup(ZikulaGroup $group)
     {
         $this->group = $group;
+
+        return $this;
     }
 }

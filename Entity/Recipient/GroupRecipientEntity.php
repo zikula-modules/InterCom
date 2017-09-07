@@ -17,7 +17,7 @@ use Zikula\IntercomModule\Entity\Traits\IdTrait;
 use Zikula\IntercomModule\Entity\Traits\GroupTrait;
 
 /**
- * UserRecipientEntity
+ * UserRecipientEntity.
  *
  * @ORM\Entity
  * @ORM\Table(name="intercom_message_recipient_groups")
@@ -27,7 +27,7 @@ class GroupRecipientEntity extends EntityAccess
     use IdTrait;
     use GroupTrait;
 
-   /**
+    /**
      * @ORM\ManyToOne(targetEntity="Zikula\IntercomModule\Entity\Message\AbstractMessageEntity", inversedBy="recipientGroups")
      * @ORM\JoinColumn(name="message", referencedColumnName="id", nullable=false)
      */
@@ -35,7 +35,6 @@ class GroupRecipientEntity extends EntityAccess
 
     public function __construct()
     {
-
     }
 
     public function getMessage()

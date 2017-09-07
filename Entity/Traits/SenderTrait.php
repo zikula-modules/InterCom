@@ -15,14 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * SenderTrait
+ * SenderTrait.
  *
  * @author Kaik
  */
 trait SenderTrait
 {
     /**
-     * The sender user
+     * The sender user.
      *
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="Zikula\UsersModule\Entity\UserEntity")
@@ -31,7 +31,7 @@ trait SenderTrait
     private $sender;
 
     /**
-     * The send as group
+     * The send as group.
      *
      * @ORM\ManyToOne(targetEntity="Zikula\GroupsModule\Entity\GroupEntity")
      * @ORM\JoinColumn(name="sendAsGroup", referencedColumnName="gid", nullable=true)
@@ -39,9 +39,10 @@ trait SenderTrait
     private $sendAsGroup;
 
     /**
-     * Set sender
+     * Set sender.
      *
      * @param UserEntity $sender
+     *
      * @return User
      */
     public function setSender(\Zikula\UsersModule\Entity\UserEntity $sender = null)
@@ -52,7 +53,7 @@ trait SenderTrait
     }
 
     /**
-     * Get sender
+     * Get sender.
      *
      * @return Sender user object
      */

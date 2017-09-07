@@ -15,40 +15,45 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * IdTrait
+ * IdTrait.
  *
  * @author Kaik
  */
-trait IdTrait {
-
+trait IdTrait
+{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", unique=true)
      * @Assert\Type(type="integer")
      * @Assert\NotNull()
-     * @Assert\LessThan(value=1000000000, message="Length of field value must not be higher than 9.")) {
-     * @var integer $id.
+     * @Assert\LessThan(value=1000000000, message="Length of field value must not be higher than 9."))
+     *
+     * @var int $id.
      */
     protected $id = 0;
 
     /**
      * Get id.
      *
-     * @return integer
+     * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * Set id.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return void
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
+
+        return $this;
     }
 }
