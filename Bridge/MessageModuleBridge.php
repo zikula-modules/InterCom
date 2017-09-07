@@ -19,7 +19,7 @@ use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\UsersModule\MessageModule\MessageModuleInterface;
 
 /**
- * MessagesModuleBridge
+ * MessagesModuleBridge.
  *
  * @author Kaik
  */
@@ -48,20 +48,19 @@ class MessageModuleBridge implements MessageModuleInterface
     /**
      * MessagesModuleBridge constructor.
      *
-     * @param RouterInterface $router
-     * @param RequestStack $requestStack
-     * @param VariableApiInterface $variableApi
-     * @param CurrentUserApi $currentUser
+     * @param RouterInterface         $router
+     * @param RequestStack            $requestStack
+     * @param VariableApiInterface    $variableApi
+     * @param CurrentUserApi          $currentUser
      * @param UserRepositoryInterface $userRepository
-     * @param string $prefix
+     * @param string                  $prefix
      */
     public function __construct(
         RouterInterface $router,
         RequestStack $requestStack,
         VariableApiInterface $variableApi,
         CurrentUserApi $currentUser
-    )
-    {
+    ) {
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->variableApi = $variableApi;
