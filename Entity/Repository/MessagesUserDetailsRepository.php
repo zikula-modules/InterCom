@@ -13,6 +13,6 @@ namespace Zikula\IntercomModule\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class MessagesRepository extends EntityRepository
+class MessagesUserDetailsRepository extends EntityRepository
 {
 }
