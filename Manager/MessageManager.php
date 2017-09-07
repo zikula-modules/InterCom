@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ExtensionsModule\Api\VariableApi;
+use Zikula\IntercomModule\Entity\Message\AbstractMessageEntity;
+use Zikula\IntercomModule\Entity\Message\NormalEntity;
+use Zikula\IntercomModule\Entity\MessageDetails\MessageUserDetailsEntity;
 use Zikula\PermissionsModule\Api\PermissionApi;
 use Zikula\UsersModule\Api\CurrentUserApi;
 
@@ -48,6 +51,10 @@ class MessageManager
 
     protected $name;
 
+    private $_message;
+
+    private $preview = false;
+
     /**
      * Construct the manager.
      *
@@ -69,7 +76,7 @@ class MessageManager
         PermissionApi $permission,
         VariableApi $variableApi
     ) {
-        $this->name = 'ZikulaDizkusModule';
+        $this->name = 'ZikulaIntercomModule';
         $this->translator = $translator;
         $this->router = $router;
         $this->requestStack = $requestStack;
@@ -82,448 +89,383 @@ class MessageManager
 
     /**
      * Get manager.
-     *
-     * @param int $uid user id (optional: defaults to current user)
      */
-    public function getManager()
+    public function getManager($message = null)
     {
-//        //current user id
-//        $current = $this->userApi->isLoggedIn() ? $this->request->getSession()->get('uid') : 1;
-//        if (!empty($user)) {
-//            if ($user instanceof UserEntity) {
-//                $this->_managedUser = $user;
-//            } else {
-//            //if uid instance of zikua user
-//                $this->_managedUser = $this->entityManager->find('Zikula\UsersModule\Entity\UserEntity', $uid);
-//            }
-//
-//        } elseif (empty($user)) {
-//            $this->_managedUser= $this->entityManager->find('Zikula\UsersModule\Entity\UserEntity', $current);
-//        } else {
-//            $this->_managedUser = null;
-//        }
-//        // $this
-//        return $this->checkLastVisit();
+        if ($message === null) {
+            return $this;
+        } elseif ($message instanceof AbstractMessageEntity) {
+            return $this->setMessage($message);
+        } elseif (is_int((int) $message)) {
+            return $this->load(['id' => $message]);
+        }
 
         return $this;
     }
-}
 
-//lass Messages {
-//
-//    private $name;
-//    public $entityManager;
-//    private $messages;
-//    private $filters;
-//
-//    /**
-//     * construct
-//     */
-//    public function __construct($entityManager) {
-//        $this->name = 'ZikulaIntercomModule';
-//        $this->entityManager = $entityManager;
-//    }
-//
-//    /**
-//     *  load messages
-//     */
-//    public function load($box, $filters) {
-//
-//        switch ($box) {
-//            case 'inbox':
-//                $filters['recipient'] = \UserUtil::getVar('uid');
-//                $filters['deleted'] = 'byrecipient';
-//                break;
-//            case 'outbox':
-//                $filters['sender'] = \UserUtil::getVar('uid');
-//                $filters['deleted'] = 'bysender';
-//                break;
-//            case 'archive':
-//                $filters['recipient'] = \UserUtil::getVar('uid');
-//                $filters['deleted'] = 'byrecipient';
-//                $filters['stored'] = 'byrecipient';
-//                break;
-//            case 'admin':
-//
-//                break;
-//            default:
-//                break;
-//        }
-//
-//
-//        $this->messages = $this->entityManager
-//                ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-//                ->getAll($filters);
-//
-//        $this->filters = $filters;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     *  get messages
-//     */
-//    public function getmessages() {
-//        return $this->messages;
-//    }
-//
-//    /**
-//     *  get messages
-//     */
-//    public function getmessages_array() {
-//        $messages_array = array();
-//        foreach ($this->messages as $key => $message) {
-//            $messages_array[$key] = $message;
-//        }
-//        return $messages_array;
-//    }
-//
-//    /**
-//     *  get messages count
-//     */
-//    public function getmessages_count() {
-//        return $this->messages->count();
-//    }
-//
-//    /**
-//     *  get messages count
-//     */
-//    public function getPager() {
-//        return ['page' => $this->filters['page'],
-//            'total' => ceil($this->getmessages_count() / $this->filters['limit'])];
-//    }
-//
-//    /**
-//     *  get user messages counts
-//     */
-//    public function count() {
-//        return $this->messages->count();
-//    }
-//
-//}
+    /**
+     * create new blank message.
+     */
+    public function create()
+    {
+        $this->_message = new NormalEntity();
 
-//class Message {
-//
-//    private $name;
-//    private $_message;
-//    private $_new;
-//    public $entityManager;
-//
-//    /**
-//     * construct
-//     */
-//    public function __construct($entityManager) {
-//        $this->name = 'ZikulaIntercomModule';
-//        $this->entityManager = $entityManager;
-//    }
-//
-//    /**
-//     * create new blank message
-//     *
-//     */
-//    public function create() {
-//        $this->_message = new MessageEntity();
-//    }
-//
-//    /**
-//     * load message from database
-//     *
-//     */
-//    public function load($p) {
-//        $this->_message = $this->entityManager
-//                ->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-//                ->getOneBy($p);
-//    }
-//
-//    /**
-//     * set new message array
-//     *
-//     * @return boolean
-//     */
-//    public function setNewData($p) {
-//        $this->_new = $p;
-//        return true;
-//    }
-//
-//    /**
-//     * return new message array
-//     *
-//     * @return boolean
-//     */
-//    public function getNewData() {
-//        return $this->_new;
-//    }
-//
-//    /**
-//     * return message id
-//     *
-//     * @return array
-//     */
-//    public function getId() {
-//        return $this->_message->getId();
-//    }
-//
-//    /**
-//     * return message as doctrine2 object
-//     *
-//     * @return object
-//     */
-//    public function get() {
-//        return $this->_message;
-//    }
-//
-//    /**
-//     * return message as array
-//     *
-//     * @return mixed array or false
-//     */
-//    public function toArray() {
-//        if (!$this->exist()) {
-//            return false;
-//        }
-//        return $this->_message->toArray();
-//    }
-//
-//    /**
-//     * return exist status
-//     *
-//     * @return boolean
-//     */
-//    public function exist() {
-//        return (!$this->_message) ? false : true;
-//    }
-//
-//    /**
-//     * return validation status
-//     *
-//     * @return boolean
-//     */
-//    public function isValid() {
-//        return true;//return $this->validator->isValid();
-//    }
-//
-//    /**
-//     * return errors array
-//     *
-//     * @return array
-//     */
-//    public function getErrors() {
-//        //return $this->validator->getErrors();
-//    }
-//
-//    /**
-//     * set seen status
-//     *
-//     * @return boolean
-//     */
-//    public function setSeen() {
-//        $this->_message->setSeen(new \DateTime('now'));
+        return $this;
+    }
+
+    /**
+     * start managing from entity.
+     *
+     * @return this
+     */
+    public function setMessage($message)
+    {
+        $this->_message = $message;
+
+        return $this;
+    }
+
+    /**
+     * load message from database.
+     */
+    public function load($p)
+    {
+        $this->_message = $this->entityManager
+        ->getRepository(AbstractMessageEntity::class)
+        ->findOneBy($p);
+
+        return $this;
+    }
+
+    /**
+     * return message id.
+     *
+     * @return array
+     */
+    public function getId()
+    {
+        return ($this->exists()) ? $this->_message->getId() : false;
+    }
+
+    /**
+     * return message as doctrine2 object.
+     *
+     * @return object
+     */
+    public function get()
+    {
+        return $this->_message;
+    }
+
+    /**
+     * return message as array.
+     *
+     * @return mixed array or false
+     */
+    public function toArray()
+    {
+        if (!$this->exists()) {
+            return false;
+        }
+
+        return $this->_message->toArray();
+    }
+
+    /**
+     * return exist status.
+     *
+     * @return bool
+     */
+    public function exists()
+    {
+        return (!$this->_message) ? false : true;
+    }
+
+    /**
+     * get new message.
+     *
+     * @return object NormalEntity
+     */
+    public function getNewMessage()
+    {
+        $this->create();
+
+        return $this->_message;
+    }
+
+    /**
+     * prepare preview.
+     *
+     * @return this
+     */
+    public function prepareForPreview()
+    {
+        $this->setPreview(true);
+
+        return $this;
+    }
+
+    /**
+     * set preview mode.
+     *
+     * @return this
+     */
+    public function setPreview($preview)
+    {
+        $this->preview = $preview;
+
+        return $this;
+    }
+
+    /**
+     * is preview mode.
+     *
+     * @return bool
+     */
+    public function isPreview()
+    {
+        return $this->preview;
+    }
+
+    /**
+     * perform save as draft.
+     *
+     * @return this
+     */
+    public function saveAsDraft()
+    {
+        return $this->store();
+    }
+
+    /**
+     * perform send.
+     *
+     * @return this
+     */
+    public function send()
+    {
+        $this->_message->setSent(new \DateTime('now'));
+
+        return $this->store();
+    }
+
+    /**
+     * return reply message array.
+     *
+     * @return array
+     */
+    public function getReplyPrepared()
+    {
+        $reply = new NormalEntity();
+        $reply->setParent($this->_message);
+        $reply->setSubject($this->translator->__('Re:').' '.$this->_message->getReplySubject());
+        $reply->setText($this->translator->__('Text:').' '.$this->_message->getReplyText());
+
+        return $reply;
+    }
+
+    /**
+     * perform reply.
+     *
+     * @return bool
+     */
+    public function reply()
+    {
+//        $this->_message->setReplied(new \DateTime('now'));
 //        $this->entityManager->persist($this->_message);
 //        $this->entityManager->flush();
-//        return true;
-//    }
+//        $this->create();
 //
-//    /**
-//     * return reply message array
-//     *
-//     * @return array
-//     */
-//    public function prepareForReply() {
-//        $reply = array();
-//        $reply['id'] = $this->_message->getId();
-//        $reply['sender'] = $this->_message->getRecipient()->toArray();
-//        $reply['recipient'] = $this->_message->getSender()->toArray();
-//        $reply['subject'] = __('Re:') . ' ' . $this->_message->getSubject();
-//        $reply['text'] = __('Text') . ' ' . $this->_message->getText();
-//        return $reply;
-//    }
-//
-//    /**
-//     * return forward message array
-//     *
-//     * @return array
-//     */
-//    public function prepareForForward() {
-//        $reply = array();
+//        return $this->save();
+    }
+
+    /**
+     * return forward message array.
+     *
+     * @return array
+     */
+    public function prepareForForward()
+    {
+//        $reply = [];
 //        $reply['id'] = $this->_message->getId();
 //        $reply['sender'] = $this->_message->getRecipient()->toArray();
 //        $reply['recipient'] = '';
 //        $reply['subject'] = __('Fwd:') . ' ' . $this->_message->getSubject();
 //        $reply['text'] = __('Text') . ' ' . $this->_message->getText();
+//
 //        return $reply;
-//    }
-//
-//    /**
-//     * perform send
-//     *
-//     * @return boolean
-//     */
-//    public function send() {
-//        $this->create();
-//        return $this->save();
-//    }
-//
-//    /**
-//     * perform reply
-//     *
-//     * @return boolean
-//     */
-//    public function reply() {
-//        $this->_message->setReplied(new \DateTime('now'));
-//        $this->entityManager->persist($this->_message);
-//        $this->entityManager->flush();
-//        $this->create();
-//        return $this->save();
-//    }
-//
-//    /**
-//     * perform store
-//     *
-//     * @return boolean
-//     *
-//     * @todo Implement new storage system
-//     */
-//    public function store() {
-//        $recipient = $this->_message->getRecipient()->getUid() == UserUtil::getVar('uid') ? $this->_message->setStoredbyrecipient(1) : 1;
-//        $sender = $this->_message->getSender()->getUid() == UserUtil::getVar('uid') ? $this->_message->setStoredbysender(1) : 1;
-//        $this->entityManager->persist($this->_message);
-//        $this->entityManager->flush();
-//        return ($recipient || $sender);
-//    }
-//
-//    /**
-//     * perform delete
-//     *
-//     * @return boolean
-//     */
-//    public function delete() {
-//        $recipient = $this->_message->getRecipient()->getUid() == UserUtil::getVar('uid') ? $this->_message->setDeletedbyrecipient(1) : 1;
-//        $sender = $this->_message->getSender()->getUid() == UserUtil::getVar('uid') ? $this->_message->setDeletedbysender(1) : 1;
-//        $this->entityManager->persist($this->_message);
-//        $this->entityManager->flush();
-//        return ($recipient || $sender);
-//    }
-//
-//    /**
-//     * perform forward
-//     *
-//     * @return boolean
-//     */
-//    public function forward() {
-//        $this->create();
-//        return $this->save();
-//    }
-//
-//    /**
-//     * prepare for save
-//     *
-//     * @return boolean
-//     */
-//    public function prepareForSave() {
-//        unset($this->_new['id']);
-//        unset($this->_new['recipients']);
-//        unset($this->_new['multiple']);
-//    }
-//
-//    /**
-//     * perform save
-//     *
-//     * @return boolean
-//     */
-//    public function save() {
-//        if (!$this->getId() && $this->_new && $this->isValid()) {
-//            $this->prepareForSave();
-//            $this->_message->merge($this->_new);
-//            $this->entityManager->persist($this->_message);
-//            $this->entityManager->flush();
-//            return true;
-//        }
-//        if ($this->getId() && $this->_new && $this->isValid()) {
-//            $this->prepareForSave();
-//            $this->_message->merge($this->_new);
-//            $this->entityManager->flush();
-//            return true;
-//        }
-//    }
-//
-//    /**
-//     * remove message compleatly
-//     *
-//     * @return boolean
-//     */
-//    public function remove() {
+    }
+
+    /**
+     * perform forward.
+     *
+     * @return bool
+     */
+    public function forward()
+    {
+    }
+
+    /**
+     * perform store.
+     *
+     * @return bool
+     *
+     * @todo Implement new storage system
+     */
+    public function store()
+    {
+        $this->entityManager->persist($this->_message);
+        $this->entityManager->flush();
+
+        return $this;
+    }
+
+    /**
+     * remove message.
+     *
+     * @return bool
+     */
+    public function remove()
+    {
 //        $this->entityManager->remove($this->_message);
 //        $this->entityManager->flush();
-//        return true;
-//    }
-//
-//    /**
-//     * remove message compleatly
-//     *
-//     * @return boolean
-//     */
-//    public function isMultiple() {
-//        if (is_array($this->_new['multiple'])) {
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    /**
-//     * remove message compleatly
-//     *
-//     * @return boolean
-//     */
-//    public function sendMultiple() {
-//        $multiple = $this->_new['multiple'];
-//        unset($this->_new['multiple']);
-//        unset($this->_new['recipients']);
-//        foreach ($multiple as $key => $recipient) {
-//            $this->_new['recipient'] = $recipient;
-//            $this->send();
-//        }
-//        return true;
-//    }
-//
-//    /**
-//     * Edit field.
-//     */
-//    public function editField($args) {
-//        if (!isset($args['id']) || !is_numeric($args['id'])) {
-//            throw new \InvalidArgumentException(__('Invalid arguments array received'));
-//        }
-//        if (!isset($args['field']) || !is_string($args['field'])) {
-//            throw new \InvalidArgumentException(__('Invalid arguments array received'));
-//        }
-//        $id = $args['id'];
-//        $field = $args['field'];
-//        $value = $args['value'];
-//
-//        $item = $this->entityManager->getRepository('Zikula\IntercomModule\Entity\MessageEntity')
-//                ->getOneBy(array('id' => $id));
-//
-//        if (!$item) {
-//            return false;
-//        }
-//        switch ($field) {
-//            case 'deletedbysender':
-//                $item->setInbox($value);
-//                break;
-//            case 'deletedbyrecipient':
-//                $item->setOutbox($value);
-//                break;
-//            case 'notified':
-//                $item->setNotified(new \DateTime());
-//                break;
-//            case 'seen':
-//                $item->setSeen(new \DateTime());
-//                break;
-//            case 'replied':
-//                $item->setReplied(new \DateTime());
-//                break;
-//        }
-//        $this->entityManager->flush();
-//        return true;
-//    }
-//
-//}
+
+        return true;
+    }
+
+    /**
+     * get message details.
+     *
+     * @return object NormalEntity
+     */
+    public function getMessageUserDetails()
+    {
+        if (!$this->userApi->isLoggedIn()) {
+            return $this;
+        }
+
+        $messageUserDetails = $this->entityManager->getRepository(MessageUserDetailsEntity::class)
+                ->findOneBy(['message' => $this->_message, 'user' => $this->userApi->get('uid')]);
+
+        if (!$messageUserDetails) {
+            $messageUserDetails = new MessageUserDetailsEntity();
+            $messageUserDetails->setMessage($this->_message);
+            $user = $this->entityManager->getRepository('Zikula\UsersModule\Entity\UserEntity')->findOneBy(['uid' => $this->userApi->get('uid')]);
+            $messageUserDetails->setUser($user);
+            // it should be seen by now or not?
+//            $messageUserDetails->setSeen(new \DateTime('now'));
+        }
+
+        return $messageUserDetails;
+    }
+
+    /**
+     * set label.
+     *
+     * @return object this
+     */
+    public function setlabel($label = null)
+    {
+        $messageUserDetails = $this->getMessageUserDetails();
+        $messageUserDetails->setLabel($label);
+        $this->entityManager->persist($messageUserDetails);
+        $this->entityManager->flush();
+
+        return $this;
+    }
+
+    /**
+     * set seen status.
+     *
+     * @return object this
+     */
+    public function setSeen()
+    {
+        $messageUserDetails = $this->getMessageUserDetails();
+        if ($messageUserDetails->getSeen()) {
+            return $this;
+        }
+
+        $messageUserDetails->setSeen(new \DateTime('now'));
+        $this->entityManager->persist($messageUserDetails);
+        $this->entityManager->flush();
+
+        return $this;
+    }
+
+    /**
+     * set replied status.
+     *
+     * @return object this
+     */
+    public function setReplied()
+    {
+        $messageUserDetails = $this->getMessageUserDetails();
+        if ($messageUserDetails->getReplied()) {
+            return $this;
+        }
+
+        $messageUserDetails->setReplied(new \DateTime('now'));
+        $this->entityManager->persist($messageUserDetails);
+        $this->entityManager->flush();
+
+        return $this;
+    }
+
+    /**
+     * set notified status.
+     *
+     * @return object this
+     */
+    public function setNotified()
+    {
+        $messageUserDetails = $this->getMessageUserDetails();
+        if ($messageUserDetails->getNotified()) {
+            return $this;
+        }
+
+        $messageUserDetails->setNotified(new \DateTime('now'));
+        $this->entityManager->persist($messageUserDetails);
+        $this->entityManager->flush();
+
+        return $this;
+    }
+
+    /**
+     * set seen status.
+     *
+     * @return bool
+     */
+    public function setStored()
+    {
+        $messageUserDetails = $this->getMessageUserDetails();
+        if ($messageUserDetails->getStored()) {
+            return $this;
+        }
+
+        $messageUserDetails->setStored(new \DateTime('now'));
+        $this->entityManager->persist($messageUserDetails);
+        $this->entityManager->flush();
+
+        return $this;
+    }
+
+    /**
+     * perform delete.
+     *
+     * @return bool
+     */
+    public function delete()
+    {
+        $messageUserDetails = $this->getMessageUserDetails();
+        if ($messageUserDetails->getDeleted()) {
+            return $this;
+        }
+
+        $messageUserDetails->setDeleted(new \DateTime('now'));
+        $this->entityManager->persist($messageUserDetails);
+        $this->entityManager->flush();
+
+        return $this;
+    }
+}

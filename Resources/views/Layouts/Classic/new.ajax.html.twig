@@ -2,36 +2,78 @@
 {{ form_start(form) }}
 {{ form_errors(form) }}
 <div class="row">
-    <div class="form-group col-xs-12 col-md-12">
-        {{ form_label(form.recipient,'Select recipient',{ 'label_attr': {'class': 'col-md-4'} }) }}
-        <div class="col-md-8">
-            {{ form_widget(form.recipient,{'attr': {'class': '' }}) }}
-            <p class="help-block">{{ __('Please enter username or') }}</p>
-            {{ form_widget(form.groups,{'attr': {'class': '' }}) }}
-            <p class="help-block">{{ __('Please enter groupname') }}</p>
+    <div class="form-group col-xs-12 col-sm-12">
+        {{ form_label(form.sendAsGroup, __('Sending as'), { 'label_attr': {'class': 'col-md-3'} }) }}
+        <!-- Single button -->
+        <div class="btn-group col-md-2">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img width="40px" height="40px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" />
+                {{ currentUserManager.getUserName() }}
+                {#                <span class="caret"></span>#}
+            </button>
+            {#            <ul class="dropdown-menu">
+                            <li><a href="#">{{ __('Groups')  }}</a></li>
+                        </ul>#}
+        </div>
+        <div id="sender_select" class="col-md-3">
+            {{ form_widget(form.sendAsGroup, {'attr': {'class': '' }}) }}
+            {#            <p class="help-block">{{ __('Click to change sender') }}</p>#}
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="form-group col-xs-12 col-md-12">
-        {{ form_label(form.subject,'Subject',{ 'label_attr': {'class': 'col-md-4'} }) }}
-        <div class="col-md-8">
-            {{ form_widget(form.subject,{'attr': {'class': '' }}) }}
+    <div class="form-group col-xs-12 col-sm-12">
+        {{ form_label(form.recipientUsers, __('Select recipient(s)'), { 'label_attr': {'class': 'col-md-3'} }) }}
+        <div id="auto_search" class="col-md-3 hide">
+            <div class="ui-widget">
+                <input id="recipients_search" placeholder="{{ __('Search...') }}" class="form-control user-success" size="50">
+            </div>
+        </div>
+        <div id="recipients_select" class="col-md-5">
+            {{ form_widget(form.recipientUsers, {'attr': {'class': '' }}) }}
+            <p class="help-block">{{ __('Please enter comma spearated usernames') }}</p>
+            {{ form_widget(form.recipientGroups, {'attr': {'class': '' }}) }}
+            <p class="help-block">{{ __('Please enter comma separated groups') }}</p>
+        </div>
+        <div id="recipients_selected" class="col-md-4">
+            {#            <p class="help-block">{{ __('No recipients selected') }}</p>#}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-xs-12 col-sm-12">
+        {{ form_label(form.subject, __('Subject'), { 'label_attr': {'class': 'col-md-3'} }) }}
+        <div class="col-md-9">
+            {{ form_widget(form.subject, {'attr': {'class': '' }}) }}
             <p class="help-block">{{ __('Please enter message subject') }}</p>
         </div>
     </div>
-    <div class="form-group col-xs-12 col-md-12">
-        {{ form_label(form.text,'Text',{ 'label_attr': {'class': 'col-md-4'} }) }}
-        <div class="col-md-8">
-        {{ form_widget(form.text,{ 'attr': {'class': ''} }) }}
-        <p class="help-block">{{ __('Please enter message') }}</p>
+    <div class="form-group col-xs-12 col-sm-12">
+        {{ form_label(form.text, __('Text'), { 'label_attr': {'class': 'col-md-3'} }) }}
+        <div class="col-md-9">
+            {{ form_widget(form.text, { 'attr': {'class': '', 'rows': 10} }) }}
+            <p class="help-block">{{ __('Please enter message') }}</p>
         </div>
     </div>
 </div>
+{% if managedMessage.isPreview() %}
+    <div id="message_preview" class="row">
+        <div class="alert alert-warning" role="alert">{{ __('Under construction!') }}</div>
+    </div>
+{% endif %}
 <div class="row">
-    <div class="form-group col-md-12">
-        <div class="col-md-8 pull-right">
-            {{ form_widget(form.save, {'attr': {'class': 'btn col-md-12 btn-success'}}) }}
+    <div class="form-group form-buttons">
+        <div class="col-md-2">
+            <a class="btn btn-sm btn-default" href="#" role="button">{{ __('Cancel and go to Inbox') }}</a>
+        </div>
+        <div class="col-md-2">
+            {{ form_widget(form.saveAsDraft, {'attr': {'class': 'btn btn-sm'}, 'label': __('Save message as draft')}) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_widget(form.preview, {'attr': {'class': 'btn btn-sm'}, 'label': __('Preview')}) }}
+        </div>
+        <div class="col-md-3 pull-right text-right">
+            {{ form_widget(form.send, {'attr': {'class': 'btn btn-sm btn-primary'}, 'label': __('Send message')}) }}
         </div>
     </div>
 </div>

@@ -1,0 +1,55 @@
+{% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
+{% block header %}
+    {% set settings={} %}
+    {{ parent() }}
+    {{ pageAddAsset('stylesheet', zasset('bootstrap-jqueryui/bootstrap-jqueryui.css')) }}
+    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/Layouts/Classic/autocomplete-recipients.css')) }}
+{% endblock %} 
+{% block title %}
+    {% set title_icon="<i class='fa fa-file'></i>" %}
+    {% set title=__('Reply message') %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    {{ showflashes() }}
+    <div data-id="{{ managedMessage.get.id }}" class="conversation list-group-item clearfix" style="background: #F2F8FF;{#{% if message.seen %} background: #F2F8FF; background: #D3E7FF; {% else %}  {% endif %}#}">
+        <div class="sender col-xs-9 col-md-5">
+            <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ managedMessage.get.sender.uname }}
+            <span class="subject">
+                <i class="fa fa-ellipsis-h text-info" aria-hidden="true"></i>
+                {{ managedMessage.get.subject }}
+            </span>
+        </div>
+        <div class="date col-xs-12 col-md-2 text-muted"><i class="fa fa-clock-o"> </i> {{ managedMessage.get.sent|date("m/d/Y") }}</div>
+        <div class="statuses col-xs-12 col-md-5">{{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.statuses.html.twig', {'message': managedMessage.get}) }}</div>
+        <div class="details col-md-12 clearfix" style="clear:both;">
+            <div class="col-md-12">
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.content.html.twig', {'message': managedMessage.get}) }}
+                <div class="conversation-actions row text-right">
+                    <div class="col-xs-12 col-md-12">
+                        <span class="small text-muted">{{ __('Message options') }}</span>
+                        <div class="btn-group btn-group-sm text-center">
+                            <a data-id="{{ managedMessage.get.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>
+                            <a data-id="{{ managedMessage.get.id }}" class="forward-conversation btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
+                            <a data-id="{{ managedMessage.get.id }}" class="save-conversation btn text-success" role="button"  title="{{ __('Save') }}"><i class="fa fa-save"></i></a>
+                            <a data-id="{{ managedMessage.get.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.conversation.html.twig', {'message': managedMessage.get}) }}
+            </div>
+            <div id="conversation-body-{{ managedMessage.get.id }}" class="row collapse" >
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-12">
+            {{ include("@ZikulaIntercomModule/Layouts/Classic/reply.ajax.html.twig") }}
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('jquery-ui/jquery-ui.js')) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.MessageManager.js')) }}
+{% endblock %}

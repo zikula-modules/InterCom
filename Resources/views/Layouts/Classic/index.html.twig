@@ -2,23 +2,34 @@
 {% block header %}
     {% set settings={} %}
     {{ parent() }}
+    {{ pageAddAsset('stylesheet', zasset("@ZikulaIntercomModule:css/Layouts/Classic/common.css")) }}
     {{ pageAddAsset('stylesheet', zasset("@ZikulaIntercomModule:css/Layouts/Classic/#{box}.css")) }}
 {% endblock %}
 {% block title %}
     {% set title_icon="<i class='fa fa-#{box}'></i>" %}
     {% set title=__(box|capitalize) %}
-    {{ parent() }}
+    {{ moduleHeader('user', __('Messages'), '', true) }}
+    {{ pageSetVar('title', title) }}
+    <div class="row">
+        <div id="intercom_title" class="col-md-5">
+            <h1>{{ title_icon|raw }} {{ title }}</h1>
+        </div>
+        <div id="intercom_search" class="col-md-5 pull-right">
+            <div class="input-group">
+                <span class="input-group-addon" id="box_{{ box }}_search">{{ title_icon|raw }}</span>
+                <input type="text" class="form-control" placeholder="{{ __('Search') }}" aria-describedby="box_{{ box }}_search">
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block content %}
-    {#    <div id="intercom_inbox" class="col-md-12 clearfix">#}
     {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/header.html.twig") }}
     {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/selected.html.twig") }}
+    {# @todo change naming to messages #}
     <div id="conversations" class="conversations-list list-group clearfix">
-        {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/conversation.list.html.twig") }}
+        {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/messages.html.twig") }}
     </div>
     {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/footer.html.twig") }}
-    {#</div>#}
-
 {% endblock %}
 {% block footer %}
     {{ parent() }}

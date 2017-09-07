@@ -1,120 +1,123 @@
 <?php
 
-/**
- * Copyright (c) KaikMedia.com 2014
+/*
+ * InterCom Module for Zikula
+ *
+ * @copyright  InterCom Team
+ * @license    GNU/GPL - http://www.gnu.org/copyleft/gpl.html
+ * @package    InterCom
+ * @see https://github.com/zikula-modules/InterCom
  */
 
 namespace Zikula\IntercomModule\Form\Type;
 
-//use Zikula\IntercomModule\Form\DataTransformer\GroupToIdTransformer;
-use Symfony\Component\Form\AbstractType as SymfonyAbstractType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Zikula\Common\I18n\TranslatableInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Zikula\IntercomModule\Form\DataTransformer\UserToIdTransformer;
-use Zikula\IntercomModule\Form\DataTransformer\GroupToIdTransformer;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\GroupsModule\Entity\GroupEntity;
+use Zikula\IntercomModule\Entity\Recipient\UserRecipientEntity;
 
-class MessageType extends SymfonyAbstractType implements TranslatableInterface {
-
-    protected $domain;
+class MessageType extends AbstractType
+{
     protected $entityManager;
 
-    public function __construct($entityManager) {
+    public function __construct($entityManager)
+    {
         $this->domain = 'zikulaintercommodule';
         $this->entityManager = $entityManager;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-
-        $builder->setMethod('POST')
-                ->add($builder->create('recipient', 'text', ['invalid_message' => $this->__('User not found.'),'attr' => ['class' => 'author_search']])
-                        ->addModelTransformer(new UserToIdTransformer($this->entityManager)))
-                ->add($builder->create('groups', 'text', ['mapped' => false,'required' => false,'invalid_message' => $this->__('Group not found.'), 'attr' => ['class' => 'author_search']])
-                        ->addModelTransformer(new GroupToIdTransformer($this->entityManager)))
-                ->add('subject', 'text', [
-                    'required' => false
-                ])
-                ->add('text', 'textarea', [
-                    'required' => true, 'attr' => [
-                        'class' => 'tinymce'
-                    ]
-                ]);
-   
-        if ($options['isXmlHttpRequest'] == false) {
-            $builder->add('save', 'submit', [
-                'label' => $this->__('Send'),
-                'attr' => [
-                    'class' => 'btn-success'
-                ]
-            ]);
-        }       
-
-    }
-
-    public function getName() {
-        return 'messageform';
-    }   
-    
-    /**
-     * OptionsResolverInterface is @deprecated and is supposed to be replaced by
-     * OptionsResolver but docs not clear on implementation
-     *
-     * @param OptionsResolver $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $resolver->setDefaults(array(
+        $builder->setMethod('POST')
+            ->add('sendAsGroup', EntityType::class, [
+                'class'         => GroupEntity::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.name', 'ASC');
+                },
+                'choice_label'  => 'name',
+                'required'      => false,
+            ])
+            ->add('recipientUsers', TextType::class, [
+                'mapped'    => false,
+                'required'  => false,
+            ])
+            ->add('recipientGroups', TextType::class, [
+                'mapped'    => false,
+                'required'  => false,
+            ])
+            ->add('subject', TextType::class, [
+                'required'  => false,
+            ])
+            ->add('text', TextareaType::class, [
+                'required'  => true,
+            ]);
+
+        $builder->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $form = $event->getForm();
+                // this would be your entity, i.e. SportMeetup
+                $data = $event->getData();
+                $recipients_string = $form->get('recipientUsers')->getData();
+                $unames_array = explode(',', $recipients_string);
+                foreach ($unames_array as $recipient_uname) {
+                    $recipient = $this->entityManager->getRepository('Zikula\UsersModule\Entity\UserEntity')->findOneBy(['uname' => $recipient_uname]);
+                    if (!$recipient) {
+                        continue;
+                    }
+                    $user_recipient = new UserRecipientEntity();
+                    $user_recipient->setUser($recipient);
+                    $user_recipient->setMessage($data);
+                    $data->getRecipientUsers()->add($user_recipient);
+                }
+                //Groups @todo
+//                $recipients_string = $form->get('recipientUsers')->getData();
+//                $unames_array = explode(',', $recipients_string);
+//                foreach ($unames_array as $recipient_uname) {
+//                    $recipient = $this->entityManager->getRepository('Zikula\UsersModule\Entity\UserEntity')->findOneBy(['uname' => $recipient_uname]);
+//                    if (!$recipient) {
+//
+//                        continue;
+//                    }
+//                    $user_recipient = new UserRecipientEntity();
+//                    $user_recipient->setUser($recipient);
+//                    $user_recipient->setMessage($data);
+//                    $data->getRecipientUsers()->add($user_recipient);
+//                }
+            }
+        );
+
+        if ($options['isXmlHttpRequest'] == false) {
+            $builder->add('send', SubmitType::class)
+                    ->add('saveAsDraft', SubmitType::class)
+                    ->add('preview', SubmitType::class);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'zikula_intercom_message_type';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
             'isXmlHttpRequest' => false,
-        ));
-    }
-
-    /**
-     * singular translation for modules.
-     *
-     * @param string $msg Message.
-     *
-     * @return string
-     */
-    public function __($msg) {
-        return __($msg, $this->domain);
-    }
-
-    /**
-     * Plural translations for modules.
-     *
-     * @param string $m1 Singular.
-     * @param string $m2 Plural.
-     * @param int    $n  Count.
-     *
-     * @return string
-     */
-    public function _n($m1, $m2, $n) {
-        return _n($m1, $m2, $n, $this->domain);
-    }
-
-    /**
-     * Format translations for modules.
-     *
-     * @param string       $msg   Message.
-     * @param string|array $param Format parameters.
-     *
-     * @return string
-     */
-    public function __f($msg, $param) {
-        return __f($msg, $param, $this->domain);
-    }
-
-    /**
-     * Format pural translations for modules.
-     *
-     * @param string       $m1    Singular.
-     * @param string       $m2    Plural.
-     * @param int          $n     Count.
-     * @param string|array $param Format parameters.
-     *
-     * @return string
-     */
-    public function _fn($m1, $m2, $n, $param) {
-        return _fn($m1, $m2, $n, $param, $this->domain);
+        ]);
     }
 }

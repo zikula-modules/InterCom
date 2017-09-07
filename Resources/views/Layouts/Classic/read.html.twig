@@ -1,0 +1,21 @@
+{% extends 'ZikulaIntercomModule:Base:user.html.twig' %}
+{% block header %}
+    {% set settings={} %}
+    {{ parent() }}
+    {#    {{ pageAddAsset('stylesheet', zasset('bootstrap-jqueryui/bootstrap-jqueryui.css')) }}
+        {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/Layouts/Classic/autocomplete-recipients.css')) }}#}
+{% endblock %} 
+{% block title %}
+    {% set title_icon="<i class='fa fa-file'></i>" %}
+    {% set title=__('Message') %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    {{ showflashes() }}
+    {{ include("@ZikulaIntercomModule/Layouts/Classic/read.ajax.html.twig") }}
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {#    {{ pageAddAsset('javascript', zasset('jquery-ui/jquery-ui.js')) }}
+        {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.MessageManager.js')) }}#}
+{% endblock %}

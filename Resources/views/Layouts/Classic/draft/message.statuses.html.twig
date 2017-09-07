@@ -1,0 +1,13 @@
+{% if message.getUserData() and message.getUserData().label %}
+    <span class="label label-info" title="{{ __('Label')}} {{ message.getUserData().label.name }}"> <i class="fa fa-tag"> </i> {{ message.getUserData().label.name }}</span>
+{% else %}
+{% endif %}
+<div class="btn-group btn-group-sm text-right pull-right">
+    {% if message.getUserData() and message.getUserData().stored %}
+        <a class="btn text-success" title="{{ __('Message is saved')}}"><i class='fa fa-save'></i> </a>
+    {% else %}
+        <a class="btn text-muted" title="{{ __('Message is not saved')}}"><i class='fa fa-save'></i> </a>
+    {% endif %}
+    <div class="btn"><input class="conversation-select" data-id="{{ message.id }}" name="selectable[{{ message.id }}]" type="checkbox"></div>
+    <a data-toggle="collapse" data-seen="{#{{ message.seen is empty ? "false" : "true" }}#}" data-id="{{ message.id }}" class="conversation-details" data-target="#conversation-body-{{ message.id }}" > <span class="fa fa-angle-down fa-2x" title="{{__('Read')}}"> </span></a>
+</div>

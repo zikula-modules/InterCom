@@ -1,0 +1,35 @@
+<div data-id="{{ message.id }}" class="conversation list-group-item clearfix" style="background: #F2F8FF;{#{% if message.seen %} background: #F2F8FF; background: #D3E7FF; {% else %}  {% endif %}#}">
+    <div class="sender col-xs-9 col-md-5">
+        {% for recipientUser in message.recipientUsers %}
+            <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ recipientUser.user.uname }}
+        {% endfor %}
+        {#    @todo group recipient    {% for recipientGroup in message.recipientGroups %}
+                    <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ recipientGroup.group.name }}
+                {% endfor %}#}
+        <span class="subject">
+            <i class="fa fa-ellipsis-h text-info" aria-hidden="true"></i>
+            {#            <i class="fa fa-comment"> </i>#}
+            {{ message.subject }}
+        </span>
+    </div>
+    <div class="date col-xs-12 col-md-2 text-muted"><i class="fa fa-clock-o"> </i> {{ message.send|date("m/d/Y") }}</div>
+    <div class="statuses col-xs-12 col-md-5">{{ include('@ZikulaIntercomModule/Layouts/Classic/draft/message.statuses.html.twig') }}</div>
+    <div class="details col-md-12 clearfix" style="clear:both;">
+        <div id="conversation-body-{{ message.id }}" class="row collapse" >
+            <div class="col-md-12">                   
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/draft/message.content.html.twig') }}
+                <div class="conversation-actions row text-right">
+                    <div class="col-xs-12 col-md-12">
+                        <span class="small text-muted">{{ __('Message options') }}</span>
+                        <div class="btn-group btn-group-sm text-center"> 
+                            <a data-id="{{ message.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>                    
+                            <a data-id="{{ message.id }}" class="forward-conversation btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
+                            <a data-id="{{ message.id }}" class="save-conversation btn text-success" role="button"  title="{{ __('Save') }}"><i class="fa fa-save"></i></a>
+                            <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a> 
+                        </div>
+                    </div>         
+                </div>  
+            </div>   
+        </div> 
+    </div> 
+</div>

@@ -1,0 +1,47 @@
+<div data-id="{{ message.id }}" class="conversation list-group-item clearfix" style="background: #F2F8FF;{#{% if message.seen %} background: #F2F8FF; background: #D3E7FF; {% else %}  {% endif %}#}">
+    <div class="sender col-xs-9 col-md-5">
+        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ message.sender.uname }}
+        <span class="subject">
+            <i class="fa fa-ellipsis-h text-info" aria-hidden="true"></i>
+            {#            <i class="fa fa-commenting text-muted" aria-hidden="true"></i>#}
+            {#            <i class="fa fa-comment "> </i>#}
+            <a data-toggle="collapse" data-seen="{#{{ message.seen is empty ? "false" : "true" }}#}" data-id="{{ message.id }}" class="conversation-details" data-target="#conversation-body-{{ message.id }}" >
+                {#<span class="fa fa-angle-down fa-2x" title="{{__('Read')}}"></span>#}
+                {{ message.subject }}
+            </a>
+        </span>
+    </div>
+    <div class="statuses col-xs-12 col-md-7">
+        {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.statuses.html.twig') }}
+    </div>
+    <div class="details col-md-12 clearfix" style="clear:both;">
+        <div id="conversation-body-{{ message.id }}" class="row collapse" >
+            <div class="col-md-12">                   
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.content.html.twig') }}
+                {#                <div class="conversation-actions row text-right">
+                                    <div class="col-xs-12 col-md-12">
+                                        <span class="small text-muted">{{ __('Message options') }}</span>
+                                        <div class="btn-group btn-group-sm text-center"> 
+                
+                                        </div>
+                                    </div>         
+                                </div>  #}
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.conversation.html.twig') }}
+                <div class="conversation-reply-box row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn " href="{{ path('zikulaintercommodule_messages_replymessage', {'message': message.id }) }}" role="button" data-toggle="collapse" data-target="#conversation-{{ message.id }}-reply" aria-expanded="false" aria-controls="conversation-{{ message.id }}-reply"  title="{{ __('Reply') }}">{{ __('Reply') }} <i class="fa fa-reply"></i></a>
+                    </div>
+                    <div id="conversation-{{ message.id }}-reply" class="col-md-12 collapse">    
+                        <textarea class="form-control" rows="3"> {{ message.replyText }}  </textarea>
+                        <div class="col-xs-12 col-md-12">
+                            <div class="btn-group btn-group-sm pull-right"> 
+                                <a data-id="{{ message.id }}" class="cancel-reply btn text-danger" role="button" title="{{ __('Cancel') }}">{{ __('Cancel') }} <i class="fa fa-undo"></i></a>                            
+                                <a data-id="{{ message.id }}" class="send-reply btn text-success" role="button"  title="{{ __('Send') }}">{{ __('Send') }} <i class="fa fa-share-square"></i></a>
+                            </div>
+                        </div>                          
+                    </div>
+                </div>    
+            </div>   
+        </div> 
+    </div> 
+</div>

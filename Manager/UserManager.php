@@ -12,19 +12,18 @@
 namespace Zikula\IntercomModule\Manager;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ExtensionsModule\Api\VariableApi;
+use Zikula\PermissionsModule\Api\PermissionApi;
 use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\UsersModule\Entity\UserEntity;
-use Zikula\PermissionsModule\Api\PermissionApi;
 
 /**
- * UserManager
+ * UserManager.
  *
  * @author Kaik
  */
@@ -51,7 +50,7 @@ class UserManager
     private $translator;
 
     /**
-     * Managed forum user
+     * Managed forum user.
      *
      * @var UserEntity
      */
@@ -64,16 +63,16 @@ class UserManager
     protected $name;
 
     /**
-     * Construct the manager
+     * Construct the manager.
      *
      * @param TranslatorInterface $translator
-     * @param RouterInterface $router
-     * @param RequestStack $requestStack
-     * @param EntityManager $entityManager
-     * @param CurrentUserApi $userApi
-     * @param PermissionApi $permission
-     * @param VariableApi $variableApi
-     * @param RankHelper $ranksHelper
+     * @param RouterInterface     $router
+     * @param RequestStack        $requestStack
+     * @param EntityManager       $entityManager
+     * @param CurrentUserApi      $userApi
+     * @param PermissionApi       $permission
+     * @param VariableApi         $variableApi
+     * @param RankHelper          $ranksHelper
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -84,7 +83,7 @@ class UserManager
         PermissionApi $permission,
         VariableApi $variableApi
     ) {
-        $this->name = 'ZikulaDizkusModule';
+        $this->name = 'ZikulaIntercomModule';
         $this->translator = $translator;
         $this->router = $router;
         $this->requestStack = $requestStack;
@@ -96,9 +95,9 @@ class UserManager
     }
 
     /**
-     * Get manager
+     * Get manager.
      *
-     * @param int  $uid  user id (optional: defaults to current user)
+     * @param int $user user id (optional: defaults to current user)
      */
     public function getManager($user = null)
     {
@@ -108,12 +107,11 @@ class UserManager
             if ($user instanceof UserEntity) {
                 $this->_managedUser = $user;
             } else {
-            //if uid instance of zikua user
-                $this->_managedUser = $this->entityManager->find('Zikula\UsersModule\Entity\UserEntity', $uid);
+                //if uid instance of zikua user
+                $this->_managedUser = $this->entityManager->find('Zikula\UsersModule\Entity\UserEntity', $user);
             }
-
         } elseif (empty($user)) {
-            $this->_managedUser= $this->entityManager->find('Zikula\UsersModule\Entity\UserEntity', $current);
+            $this->_managedUser = $this->entityManager->find('Zikula\UsersModule\Entity\UserEntity', $current);
         } else {
             $this->_managedUser = null;
         }
@@ -124,7 +122,7 @@ class UserManager
     }
 
     /**
-     * Check if user exists
+     * Get managed user by name.
      *
      * @return bool
      */
@@ -139,7 +137,7 @@ class UserManager
     }
 
     /**
-     * Check if user exists
+     * Check if user exists.
      *
      * @return bool
      */
@@ -149,7 +147,7 @@ class UserManager
     }
 
     /**
-     * Return forum user as doctrine2 object
+     * Return forum user as doctrine2 object.
      *
      * @return UserEntity
      */
@@ -159,17 +157,17 @@ class UserManager
     }
 
     /**
-     * Get user id
+     * Get user id.
      *
      * @return UserEntity
      */
     public function getId()
     {
-        return $this->exists() ? $this->_managedUser->getUserId() : false;
+        return $this->exists() ? $this->_managedUser->getUid() : false;
     }
 
     /**
-     * Return forum user as array
+     * Return forum user as array.
      *
      * @return array
      */
@@ -179,7 +177,7 @@ class UserManager
     }
 
     /**
-     * Return zikula user as doctrine2 object
+     * Return zikula user as doctrine2 object.
      *
      * @return serEntity
      */
@@ -189,17 +187,17 @@ class UserManager
     }
 
     /**
-     * Return username
+     * Return username.
      *
      * @return string
      */
     public function getUserName()
     {
-        return ($this->exists() && !$this->isAnonymous()) ? $this->_managedUser->getUser()->getUname() : 'Anonymous';
+        return ($this->exists() && !$this->isAnonymous()) ? $this->_managedUser->getUname() : 'Anonymous';
     }
 
     /**
-     * Return forum user logged in status
+     * Return forum user logged in status.
      *
      * @return ForumUserEntity
      */
@@ -209,9 +207,10 @@ class UserManager
     }
 
     /**
-     * Return forum user online in status
+     * Return forum user online in status.
      *
      * @todo remove this duplicate
+     *
      * @return ForumUserEntity
      */
     public function isOnline()
@@ -220,7 +219,7 @@ class UserManager
     }
 
     /**
-     * check to remove... or rename to isCurrent()
+     * @todo check to remove... or rename to isCurrent().
      *
      * @return string
      */
@@ -240,7 +239,7 @@ class UserManager
     }
 
     /**
-     * Return current user page
+     * Return current user page.
      *
      * @deprecated to remove
      *
@@ -252,9 +251,9 @@ class UserManager
     }
 
     /**
-     * Is user allowed to comment check
+     * Is user allowed to comment check.
      *
-     * @param object Object to chceck comment permissions for
+     * @param object Object to check comment permissions for
      *
      * @return bool
      */
@@ -268,9 +267,9 @@ class UserManager
     }
 
     /**
-     * Is user allowed to edit check
+     * Is user allowed to edit check.
      *
-     * @param object Object to chceck edit permissions for
+     * @param object Object to check edit permissions for
      *
      * @return bool
      */
@@ -288,9 +287,9 @@ class UserManager
     }
 
     /**
-     * Is user allowed to moderate check
+     * Is user allowed to moderate check.
      *
-     * @param object Object to chceck moderate permissions for
+     * @param object Object to check moderate permissions for
      *
      * @return bool
      */
@@ -304,7 +303,7 @@ class UserManager
     }
 
     /**
-     * Get user avatar
+     * Get user avatar.
      *
      * @todo - add deleted user and anonymous avatar image
      *
@@ -322,7 +321,7 @@ class UserManager
     }
 
     /**
-     * Get user signature
+     * Get user signature.
      *
      * @param string
      */
@@ -332,7 +331,7 @@ class UserManager
     }
 
     /**
-     * Set user signature
+     * Set user signature.
      *
      * @param string $signature
      */
@@ -345,8 +344,8 @@ class UserManager
     }
 
     /**
-     * Check last visit
-     * reads the cookie, updates it and returns the last visit date in unix timestamp
+     * Check last visit.
+     * reads the cookie, updates it and returns the last visit date in unix timestamp.
      *
      * @param none
      *
@@ -379,12 +378,22 @@ class UserManager
     }
 
     /**
-     * Get last visit
+     * Get last visit.
      *
      * @return unix timestamp last visit date
      */
     public function getLastVisit()
     {
         return $this->lastVisit;
+    }
+
+    /**
+     * Get last visit.
+     *
+     * @return unix timestamp last visit date
+     */
+    public function getSendAsGroups()
+    {
+        return [];
     }
 }

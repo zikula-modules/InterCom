@@ -13,12 +13,12 @@ namespace Zikula\IntercomModule\Entity\MessageDetails;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zikula\Core\Doctrine\EntityAccess;
-use Zikula\IntercomModule\Entity\Traits\IdTrait;
 use Zikula\IntercomModule\Entity\Traits\ExtraDataTrait;
+use Zikula\IntercomModule\Entity\Traits\IdTrait;
 use Zikula\IntercomModule\Entity\Traits\UserTrait;
 
 /**
- *  MessageUserDetails entity
+ *  MessageUserDetails entity.
  *
  * @ORM\Entity
  * @ORM\Table(name="intercom_message_user_details")
@@ -29,7 +29,7 @@ class MessageUserDetailsEntity extends EntityAccess
     use ExtraDataTrait;
     use UserTrait;
 
-   /**
+    /**
      * @ORM\ManyToOne(targetEntity="Zikula\IntercomModule\Entity\Message\AbstractMessageEntity", inversedBy="messageUserData")
      * @ORM\JoinColumn(name="message", referencedColumnName="id", nullable=false)
      */
@@ -42,40 +42,39 @@ class MessageUserDetailsEntity extends EntityAccess
     private $label;
 
     /**
-     * seen
+     * seen.
      *
      * @ORM\Column(type="datetime", nullable=true, options={"default":null})
      */
     private $seen;
 
     /**
-     * replied
+     * replied.
      *
      * @ORM\Column(type="datetime", nullable=true, options={"default":null})
      */
     private $replied;
 
     /**
-     * notified
+     * notified.
      *
      * @ORM\Column(type="datetime", nullable=true, options={"default":null})
      */
     private $notified;
 
     /**
-     * stored
+     * stored.
      *
      * @ORM\Column(type="datetime", nullable=true, options={"default":null})
      */
     private $stored;
 
     /**
-     * deleted
+     * deleted.
      *
      * @ORM\Column(type="datetime", nullable=true, options={"default":null})
      */
     private $deleted;
-
 
     public function __construct()
     {
@@ -84,9 +83,10 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Set seen status
+     * Set seen.
      *
-     * @param  DateTime/null $seen
+     * @param DateTime/null $seen
+     *
      * @return $this
      */
     public function setSeen(\DateTime $seen = null)
@@ -97,7 +97,7 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Get seen status
+     * Get seen.
      *
      * @return DateTime/null
      */
@@ -107,9 +107,10 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Set replied status
+     * Set replied.
      *
      * @param DateTime $replied
+     *
      * @return $this
      */
     public function setReplied(\DateTime $replied = null)
@@ -120,7 +121,7 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Get replied status
+     * Get replied.
      *
      * @return DateTime/null
      */
@@ -130,9 +131,10 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Set notified status
+     * Set notified.
      *
      * @param DateTime/null $notified
+     *
      * @return $this
      */
     public function setNotified(\DateTime $notified = null)
@@ -143,7 +145,7 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Get notified status
+     * Get notified.
      *
      * @return DateTime/null
      */
@@ -153,9 +155,10 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Set stored status
+     * Set stored.
      *
      * @param DateTime/null $stored
+     *
      * @return $this
      */
     public function setStored(\DateTime $stored = null)
@@ -166,19 +169,20 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Get stored status
+     * Get stored.
      *
-     * @return boolean
+     * @return bool
      */
     public function getStored()
     {
-        return $this->storedr;
+        return $this->stored;
     }
 
     /**
-     * Set deleted status
+     * Set deleted.
      *
      * @param DateTime/null $deleted
+     *
      * @return $this
      */
     public function setDeleted(\DateTime $deleted = null)
@@ -189,9 +193,9 @@ class MessageUserDetailsEntity extends EntityAccess
     }
 
     /**
-     * Get deleted status
+     * Get deleted.
      *
-     * @return boolean
+     * @return bool
      */
     public function getDeleted()
     {

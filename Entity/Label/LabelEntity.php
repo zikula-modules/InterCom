@@ -13,14 +13,14 @@ namespace Zikula\IntercomModule\Entity\Label;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zikula\Core\Doctrine\EntityAccess;
-use Zikula\IntercomModule\Entity\Traits\IdTrait;
 use Zikula\IntercomModule\Entity\Traits\ExtraDataTrait;
+use Zikula\IntercomModule\Entity\Traits\IdTrait;
 use Zikula\IntercomModule\Entity\Traits\NameTrait;
 use Zikula\IntercomModule\Entity\Traits\SortOrderTrait;
 use Zikula\IntercomModule\Entity\Traits\UserTrait;
 
 /**
- * Label entity class
+ * Label entity class.
  *
  * @ORM\Entity
  * @ORM\Table(name="intercom_labels")
@@ -36,5 +36,15 @@ class LabelEntity extends EntityAccess
 
     public function __construct()
     {
+    }
+
+    /**
+     * Get url name.
+     *
+     * @return string
+     */
+    public function getUrlName()
+    {
+        return urlencode(strtolower($this->name).'_'.$this->id);
     }
 }

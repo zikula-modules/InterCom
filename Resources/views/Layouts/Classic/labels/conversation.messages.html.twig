@@ -1,8 +1,0 @@
-<div class="conversation-list row">
-    <div class="col-md-12">
-            {% for messagex in message.conversation %}
-                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.messages.single.html.twig', {'message': messagex,'align': messagex.sender == message.sender ? '' : 'pull-right' }) }}
-                {% else %}             
-                {% endfor %}
-    </div>
-</div>

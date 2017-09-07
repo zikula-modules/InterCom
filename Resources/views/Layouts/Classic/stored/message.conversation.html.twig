@@ -1,0 +1,8 @@
+<div class="conversation-list row">
+    <div class="col-md-12">
+        {% for reply in message.conversation %}
+            {{ include('@ZikulaIntercomModule/Layouts/Classic/stored/conversation.reply.html.twig') }}
+        {% else %}             
+        {% endfor %}
+    </div>
+</div>

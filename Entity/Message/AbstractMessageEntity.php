@@ -11,19 +11,21 @@
 
 namespace Zikula\IntercomModule\Entity\Message;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping as ORM;
 use Zikula\Core\Doctrine\EntityAccess;
+use Zikula\IntercomModule\Entity\Traits\ConversationTrait;
+use Zikula\IntercomModule\Entity\Traits\CreatedAtTrait;
 use Zikula\IntercomModule\Entity\Traits\IdTrait;
+use Zikula\IntercomModule\Entity\Traits\RecipientsTrait;
+use Zikula\IntercomModule\Entity\Traits\SenderTrait;
+use Zikula\IntercomModule\Entity\Traits\SentTrait;
 use Zikula\IntercomModule\Entity\Traits\SubjectTrait;
 use Zikula\IntercomModule\Entity\Traits\TextTrait;
-use Zikula\IntercomModule\Entity\Traits\SendTrait;
-use Zikula\IntercomModule\Entity\Traits\SenderTrait;
-use Zikula\IntercomModule\Entity\Traits\RecipientsTrait;
-use Zikula\IntercomModule\Entity\Traits\ConversationTrait;
 
 /**
- * Message
+ * Message.
  *
  * @ORM\Table(name="intercom_messages")
  * @ORM\Entity(repositoryClass="Zikula\IntercomModule\Entity\Repository\MessagesRepository")
@@ -38,7 +40,7 @@ use Zikula\IntercomModule\Entity\Traits\ConversationTrait;
 abstract class AbstractMessageEntity extends EntityAccess
 {
     /**
-     * Module name
+     * Module name.
      *
      * @var string
      */
@@ -47,21 +49,24 @@ abstract class AbstractMessageEntity extends EntityAccess
     use IdTrait;
     use SubjectTrait;
     use TextTrait;
-    use SendTrait;
+    use SentTrait;
     use SenderTrait;
     //need to be constructed
     use RecipientsTrait;
     use ConversationTrait;
+    use CreatedAtTrait;
 
     /**
-     * Message details
+     * Message details.
      *
      * @ORM\OneToMany(targetEntity="Zikula\IntercomModule\Entity\MessageDetails\MessageUserDetailsEntity", mappedBy="message")
      */
     private $messageUserData;
 
+    private $userData;
+
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -86,5 +91,27 @@ abstract class AbstractMessageEntity extends EntityAccess
     public function getMtype()
     {
         return $this->mtype;
+    }
+
+    public function getUserData()
+    {
+        return $this->userData;
+    }
+
+    public function setUserData($userData)
+    {
+        $this->userData = $userData;
+
+        return $this;
+    }
+
+    public function getMessageDataByUser($user)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('user', $user));
+
+        $this->userData = $this->getMessageUserData()->matching($criteria)->first();
+
+        return $this;
     }
 }

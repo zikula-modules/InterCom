@@ -61,6 +61,7 @@ services:
 
     zikula_intercom_module.message_manager:
         class: Zikula\IntercomModule\Manager\MessageManager
+        shared: false
         tags:
             - { name: zikula.intercom.message_manager }
         arguments:
@@ -88,3 +89,10 @@ services:
         arguments:
             - "@doctrine.orm.default_entity_manager"
             - "@zikula_extensions_module.api.variable"
+
+    zikula_intercom_module.form.type.new_message:
+        class: Zikula\IntercomModule\Form\Type\MessageType
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+        tags:
+            - { name: form.type }

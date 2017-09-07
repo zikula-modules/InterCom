@@ -14,7 +14,7 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ConversationTrait
+ * ConversationTrait.
  *
  * @author Kaik
  */
@@ -27,8 +27,8 @@ trait ConversationTrait
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="Zikula\IntercomModule\Entity\Message\AbstractMessageEntity", mappedBy="parent")
-     * @ORM\OrderBy({"send" = "ASC"})
+     * @ORM\OneToMany(targetEntity="Zikula\IntercomModule\Entity\Message\AbstractMessageEntity", mappedBy="parent", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"sent" = "ASC"})
      **/
     private $conversation;
 
@@ -45,7 +45,7 @@ trait ConversationTrait
     }
 
     /**
-     * get the messages for conversation
+     * Get the messages for conversation.
      *
      * @return array the conversation messages
      */
@@ -55,7 +55,7 @@ trait ConversationTrait
     }
 
     /**
-     * set the messages for conversation
+     * Set the messages for conversation.
      *
      * @param array $conversation the child categories
      */

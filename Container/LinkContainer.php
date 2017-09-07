@@ -110,7 +110,7 @@ class LinkContainer implements LinkContainerInterface
         ];
 
         $links[] = [
-            'url'   => $this->router->generate('zikulaintercommodule_messages_preferences'),
+            'url'   => $this->router->generate('zikulaintercommodule_user_preferences'),
             'text'  => $this->translator->__('Messages settings'),
             'title' => $this->translator->__('Private messaging settings'),
             'icon'  => 'wrench',
@@ -181,7 +181,6 @@ class LinkContainer implements LinkContainerInterface
             return $links;
         }
 
-//        //if ($this->variableApi->get('mode') == 0) {
         $links[] = [
             'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'inbox']),
             'text'  => $this->translator->__('Inbox'),
@@ -191,7 +190,7 @@ class LinkContainer implements LinkContainerInterface
         $links[] = [
             'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'sent']),
             'text'  => $this->translator->__('Sent'),
-            'title' => $this->translator->__('Messages send by you'),
+            'title' => $this->translator->__('Messages sent by you'),
             'icon'  => 'envelope',
         ];
         $links[] = [
@@ -217,7 +216,7 @@ class LinkContainer implements LinkContainerInterface
         $labelsLinks = [];
         foreach ($defaultLabels as $dLabel) {
             $labelsLinks[] = [
-                        'url'   => $this->router->generate('zikulaintercommodule_messages_newmessage'),
+                        'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels', 'label' => $dLabel->getUrlName()]),
                         'text'  => $this->translator->__($dLabel->getName()),
                         'icon'  => 'tag',
                     ];
@@ -230,7 +229,7 @@ class LinkContainer implements LinkContainerInterface
             'links' => $labelsLinks,
             ];
         $links[] = [
-            'url'   => $this->router->generate('zikulaintercommodule_messages_preferences'),
+            'url'   => $this->router->generate('zikulaintercommodule_user_preferences'),
             'text'  => $this->translator->__('Settings'),
             'title' => $this->translator->__('Private messaging settings'),
             'icon'  => 'wrench',
@@ -241,33 +240,6 @@ class LinkContainer implements LinkContainerInterface
             'title' => $this->translator->__('Click here to compose new message'),
             'icon'  => 'file',
         ];
-//       // }
-//        if ($this->variableApi->get('mode') == 1) {
-//            $links[] = array(
-//                'url' => $this->router->generate('zikulaintercommodule_conversations_list'),
-//                'text' => $this->translator->__('Conversations'),
-//                'title' => $this->translator->__('See all of your conversations'),
-//                'icon' => 'coffee'
-//            );
-//            $links[] = array(
-//                'url' => $this->router->generate('zikulaintercommodule_archive_list'),
-//                'text' => $this->translator->__('Archive'),
-//                'title' => $this->translator->__('Your saved conversations'),
-//                'icon' => 'archive'
-//            );
-//            $links[] = array(
-//                'url' => $this->router->generate('zikulaintercommodule_user_preferences'),
-//                'text' => $this->translator->__('Display messages settings'),
-//                'title' => $this->translator->__('Private messaging settings'),
-//                'icon' => 'wrench'
-//            );
-//            $links[] = array(
-//                'url' => $this->router->generate('zikulaintercommodule_conversations_list'),
-//                'text' => $this->translator->__('Start new conversation'),
-//                'title' => $this->translator->__('New conversation'),
-//                'icon' => 'file'
-//            );
-//        }
 
         return $links;
     }

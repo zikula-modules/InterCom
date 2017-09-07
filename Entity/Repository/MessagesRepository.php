@@ -12,151 +12,242 @@
 namespace Zikula\IntercomModule\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class MessagesRepository extends EntityRepository
 {
-}
+    /**
+     * Paginator Helper.
+     *
+     * Pass through a query object, current page & limit
+     * the offset is calculated from the page and limit
+     * returns an `Paginator` instance, which you can call the following on:
+     *
+     *     $paginator->getIterator()->count() # Total fetched (ie: `5` posts)
+     *     $paginator->count() # Count of ALL posts (ie: `20` posts)
+     *     $paginator->getIterator() # ArrayIterator
+     *
+     * @param Doctrine\ORM\Query $dql   DQL Query Object
+     * @param int                $page  Current page (defaults to 1)
+     * @param int                $limit The total number per page (defaults to 5)
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    public function paginate($dql, $page = 1, $limit = 15)
+    {
+        $paginator = new Paginator($dql);
 
-//
-//
-//
-//use Doctrine\ORM\EntityRepository;
-//use Zikula\IntercomModule\Entity\MessagesQueryBuilder;
-//use Doctrine\ORM\Tools\Pagination\Paginator;
-//
-//class MessageRepository extends EntityRepository
-//{
-//
-//    /**
-//     * Helper function to build custom query builder
-//     *
-//     * @param MessagesQueryBuilder $qb
-//     */
-//    public function build()
-//    {
-//       $em = ServiceUtil::getService('doctrine.entitymanager');
-//       $qb = new MessagesQueryBuilder($em);
-//       return $qb;
-//    }
-//
-//    /**
-//     * Get all or count all function
-//     *
-//     * @param array
-//     */
-//    public function getOneOrAll($onlyone = false, $f, $s, $sortby, $sortorder, $page = 1, $limit)
-//    {
-//
-//        $qb = $this->build();
-//        $qb->select('m');
-//        $qb->from('Zikula\IntercomModule\Entity\MessageEntity', 'm');
-//        //filters
-//        $qb->addFilters($f);
-//        //search
-//        $qb->addSearch($s);
-//        //sort
-//        $qb->sort($sortby,$sortorder);
-//
-//        $query = $qb->getQuery();
-//
-//        if ($onlyone){
-//            $item = $query->getOneOrNullResult();
-//            return $item;
-//        }
-//        $paginator = $this->paginate($query, $page, $limit);
-//
-//        return $paginator;
-//    }
-//
-//    /**
-//     * Paginator Helper
-//     *
-//     * Pass through a query object, current page & limit
-//     * the offset is calculated from the page and limit
-//     * returns an `Paginator` instance, which you can call the following on:
-//     *
-//     *     $paginator->getIterator()->count() # Total fetched (ie: `5` posts)
-//     *     $paginator->count() # Count of ALL posts (ie: `20` posts)
-//     *     $paginator->getIterator() # ArrayIterator
-//     *
-//     * @param Doctrine\ORM\Query $dql   DQL Query Object
-//     * @param integer            $page  Current page (defaults to 1)
-//     * @param integer            $limit The total number per page (defaults to 5)
-//     *
-//     * @return \Doctrine\ORM\Tools\Pagination\Paginator
-//     */
-//    public function paginate($dql, $page = 1, $limit = 15)
-//    {
-//        $paginator = new Paginator($dql);
-//
-//        $paginator->getQuery()
-//            ->setFirstResult($limit * ($page - 1)) // Offset
-//            ->setMaxResults($limit); // Limit
-//
-//        return $paginator;
-//    }
-//
-//    /**
-//     * Get all in one function
-//     * @param array              $args
-//     * @param integer            $onlyone  Internal switch
-//     * @param integer            $page  Current page
-//     * @param integer            $limit The total number per page
-//     *
-//     * @return \Doctrine\ORM\Tools\Pagination\Paginator
-//     * or
-//     * object
-//     */
-//    public function getAll($args = array())
-//    {
-//        //internal
-//        $onlyone = isset($args['onlyone']) ? $args['onlyone'] : false;
-//        //pager
-//        $page = isset($args['page']) ? $args['page'] : 1;
-//        $page      = $page < 1 ? 1 : $page;
-//        $limit = isset($args['limit']) ? $args['limit'] : 25;
-//        //sort
-//        $sortby = isset($args['sortby']) ? $args['sortby'] : 'send';
-//        $sortorder = isset($args['sortorder']) ? $args['sortorder'] : 'DESC';
-//        //filter's
-//        $f['deleted'] = isset($args['deleted']) && $args['deleted'] !== '' ? $args['deleted'] : false;
-//        $f['stored'] = isset($args['stored']) && $args['stored'] !== '' ? $args['stored'] : false;
-//        $f['conversations'] = isset($args['conversations']) && $args['conversations'] !== '' ? $args['conversations'] : false;
-//        $f['notified'] = isset($args['notified']) && $args['notified'] !== '' ? $args['notified'] : false;
-//        $f['replied'] = isset($args['replied']) && $args['replied'] !== '' ? $args['replied'] : false;
-//        $f['seen'] = isset($args['seen']) && $args['seen'] !== '' ? $args['seen'] : false;
-//        $f['sender'] = isset($args['sender']) && $args['sender'] !== '' ? $args['sender'] : false;
-//        $f['recipient'] = isset($args['recipient']) && $args['recipient'] !== '' ? $args['recipient'] : false;
-//        $f['id'] = isset($args['id']) && $args['id'] !== '' ? $args['id'] : false;
-//        $f['subject'] = isset($args['subject']) && $args['subject'] !== '' ? $args['subject'] : false;
-//        $f['text'] = isset($args['text']) && $args['text'] !== '' ? $args['text'] : false;
-//        $f['mtype'] = isset($args['mtype']) && $args['mtype'] !== '' ? $args['mtype'] : 'normal';
-//        $f['send'] = isset($args['send']) && $args['send'] !== '' ? $args['send'] : false;
-//        //search
-//        $s['search'] = isset($args['search']) && $args['search'] !== '' ? $args['search'] : false;
-//        $s['search_field'] = isset($args['search_field']) && $args['search_field'] !== '' ? $args['search_field'] : false;
-//
-//        return $this
-//          ->getOneOrAll($onlyone, $f, $s, $sortby, $sortorder, $page, $limit);
-//    }
-//
-//    /**
-//     * Shortcut to get one item
-//     *
-//     * @param array              $args
-//     * @param integer            $onlyone  Internal switch
-//     * @param integer            $page  Current page
-//     * @param integer            $limit The total number per page
-//     *
-//     * @return \Doctrine\ORM\Tools\Pagination\Paginator
-//     * or
-//     * object
-//     */
-//    public function getOneBy($a){
-//        //set internal
-//        $a['onlyone'] = true;
-//        return $this
-//          ->getAll($a);
-//    }
-//}
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
+    }
+
+    public function getRecivedMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->leftJoin('m.recipientUsers', 'u')
+            ->where('m.id = u.message')
+            ->andWhere('u.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('m.parent IS NULL')
+            ->andWhere('m.sent IS NOT NULL');
+
+        switch ($sortby) {
+            case 'sent':
+                $qb->orderBy('m.sent', $sortorder);
+
+                break;
+            case 'subject':
+                $qb->orderBy('m.subject', $sortorder);
+
+                break;
+            default:
+                $qb->orderBy('m.sent', $sortorder);
+
+                break;
+        }
+
+        $query = $qb->getQuery();
+        $paginator = $this->paginate($query, $page, $limit);
+
+        return $paginator;
+    }
+
+    public function getSentMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->where('m.sender = :user')
+            ->setParameter('user', $user)
+            ->andWhere('m.parent IS NULL')
+            ->andWhere('m.sent IS NOT NULL');
+
+        switch ($sortby) {
+            case 'sent':
+                $qb->orderBy('m.sent', $sortorder);
+
+                break;
+            case 'subject':
+                $qb->orderBy('m.subject', $sortorder);
+
+                break;
+            default:
+                $qb->orderBy('m.sent', $sortorder);
+
+                break;
+        }
+
+        $query = $qb->getQuery();
+        $paginator = $this->paginate($query, $page, $limit);
+
+        return $paginator;
+    }
+
+    public function getDraftMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->where('m.sender = :user')
+            ->setParameter('user', $user)
+            ->andWhere('m.parent IS NULL')
+            ->andWhere('m.sent IS NULL');
+
+        switch ($sortby) {
+            case 'created':
+                $qb->orderBy('m.createdAt', $sortorder);
+
+                break;
+            case 'subject':
+                $qb->orderBy('m.subject', $sortorder);
+
+                break;
+            default:
+                $qb->orderBy('m.createdAt', $sortorder);
+
+                break;
+        }
+
+        $query = $qb->getQuery();
+        $paginator = $this->paginate($query, $page, $limit);
+
+        return $paginator;
+    }
+
+    public function getStoredMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->leftJoin('m.recipientUsers', 'u')
+            ->leftJoin('m.messageUserData', 'd')
+            ->where('m.id = u.message')
+            ->andWhere('m.id = d.message')
+            ->andWhere('m.parent IS NULL')
+            ->andWhere('m.sent IS NOT NULL')
+            ->andWhere('u.user = :user')
+            ->andWhere('d.user = :user')
+            ->andWhere('d.stored IS NOT NULL')
+            ->andWhere('d.deleted IS NULL')
+            ->setParameter('user', $user);
+
+        switch ($sortby) {
+            case 'created':
+                $qb->orderBy('m.createdAt', $sortorder);
+
+                break;
+            case 'subject':
+                $qb->orderBy('m.subject', $sortorder);
+
+                break;
+            default:
+                $qb->orderBy('m.createdAt', $sortorder);
+
+                break;
+        }
+
+        $query = $qb->getQuery();
+        $paginator = $this->paginate($query, $page, $limit);
+
+        return $paginator;
+    }
+
+    public function getDeletedMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->leftJoin('m.recipientUsers', 'u')
+            ->leftJoin('m.messageUserData', 'd')
+            ->where('m.id = u.message')
+            ->andWhere('m.id = d.message')
+            ->andWhere('m.parent IS NULL')
+            ->andWhere('m.sent IS NOT NULL')
+            ->andWhere('u.user = :user')
+            ->andWhere('d.user = :user')
+            ->andWhere('d.deleted IS NOT NULL')
+            ->setParameter('user', $user);
+
+        switch ($sortby) {
+            case 'created':
+                $qb->orderBy('m.createdAt', $sortorder);
+
+                break;
+            case 'subject':
+                $qb->orderBy('m.subject', $sortorder);
+
+                break;
+            default:
+                $qb->orderBy('m.createdAt', $sortorder);
+
+                break;
+        }
+
+        $query = $qb->getQuery();
+        $paginator = $this->paginate($query, $page, $limit);
+
+        return $paginator;
+    }
+
+    public function getLabeledMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1, $label = null)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->leftJoin('m.recipientUsers', 'u')
+            ->leftJoin('m.messageUserData', 'd')
+            ->where('m.id = u.message')
+            ->andWhere('m.id = d.message')
+//            ->andWhere('m.parent IS NULL')
+//            ->andWhere('m.sent IS NOT NULL')
+            ->andWhere('u.user = :user')
+            ->andWhere('d.user = :user')
+            ->andWhere('d.deleted IS NOT NULL')
+            ->andWhere('d.label IS NOT NULL')
+            ->setParameter('user', $user);
+
+        if ($label) {
+            $qb->andWhere('d.label = :label')
+            ->setParameter('label', $label);
+        }
+
+        switch ($sortby) {
+            case 'created':
+                $qb->orderBy('m.createdAt', $sortorder);
+
+                break;
+            case 'subject':
+                $qb->orderBy('m.subject', $sortorder);
+
+                break;
+            default:
+                $qb->orderBy('m.createdAt', $sortorder);
+
+                break;
+        }
+
+        $query = $qb->getQuery();
+        $paginator = $this->paginate($query, $page, $limit);
+
+        return $paginator;
+    }
+}

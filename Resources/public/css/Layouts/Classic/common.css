@@ -15,3 +15,22 @@
 .pagination {
     margin: 0px 0;
 }
+
+#intercom #intercom_title h1 {
+    margin-top: 0px;
+    margin-left: 2px;
+}
+
+#intercom #intercom_search {
+    margin-top: 5px;
+}
+
+#intercom #conversations {
+    margin-bottom: 0px;
+}
+
+#intercom .conversations-footer {
+/*    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;*/
+    border-top:0px;
+}

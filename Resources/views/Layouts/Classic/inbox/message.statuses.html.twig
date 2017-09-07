@@ -1,0 +1,32 @@
+{% if message.getUserData() and message.getUserData().label %}
+    <span class="label label-info" title="{{ __('Label')}} {{ message.getUserData().label.name }}"> <i class="fa fa-tag"> </i> {{ message.getUserData().label.name }}</span>
+{% else %}
+{% endif %} 
+<div class="btn-group btn-group-sm text-right pull-right">
+    <div class="date text-muted small pull-left"><i class="fa fa-clock-o"> </i> {{ message.sent|time_diff }}</div>
+    {% if message.getUserData() and message.getUserData().notified %}
+        <a class="btn text-muted" title="{{ __('Notified')}} {{ message.getUserData().notified|date("m/d/Y") }}"> <i class="fa fa-bell-o"> </i></a>
+    {% else %}
+        <a class="btn text-warning" title="{{ __('Notification not send.')}}"> <i class="fa fa-bell-o"> </i></a>
+    {% endif %} 
+    {% if message.getUserData() and message.getUserData().seen %}
+        <a class="btn text-muted" title="{{ __('Message seen')}} {{ message.getUserData().seen|date("m/d/Y") }}"> <i class="fa fa-eye"> </i></a>
+    {% else %}
+        <a class="btn text-warning" title="{{ __('Unread')}}"> <i class="fa fa-eye-slash"> </i></a>
+    {% endif %}
+    {# @todo add last visit check and bulk replied update #}
+    {% if message.getUserData() and message.getUserData().replied %}
+        <a class="btn text-warning" title="{{ __('Replied')}} {{ message.getUserData().replied|date("m/d/Y") }}"> <i class="fa fa-commenting-o"> </i>{{ message.conversation.length }}</a>
+    {% else %}
+        <a class="btn text-muted" title="{{ __('Not replied.')}}"> <i class="fa fa-comment-o"> </i> {{ message.conversation.count() }}</a>
+    {% endif %} 
+    {% if message.getUserData() and message.getUserData().stored %}
+        <a class="btn text-success" title="{{ __('Message is saved')}}"><i class='fa fa-save'></i> </a>  
+    {% else %}
+        <a class="btn text-muted" title="{{ __('Message is not saved')}}"><i class='fa fa-save'></i> </a> 
+    {% endif %}
+    <a data-id="{{ message.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>
+    <a data-id="{{ message.id }}" class="forward-conversation btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
+    <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a> 
+    <div class="btn"><input class="conversation-select" data-id="{{ message.id }}" name="selectable[{{ message.id }}]" type="checkbox"></div>
+</div>

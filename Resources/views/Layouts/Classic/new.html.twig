@@ -2,7 +2,8 @@
 {% block header %}
     {% set settings={} %}
     {{ parent() }}
-    {#    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/inbox.css')) }} #}
+    {{ pageAddAsset('stylesheet', zasset('bootstrap-jqueryui/bootstrap-jqueryui.css')) }}
+    {{ pageAddAsset('stylesheet', zasset('@ZikulaIntercomModule:css/Layouts/Classic/autocomplete-recipients.css')) }}
 {% endblock %} 
 {% block title %}
     {% set title_icon="<i class='fa fa-file'></i>" %}
@@ -11,17 +12,10 @@
 {% endblock %}
 {% block content %}
     {{ showflashes() }}
-    <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Under construction will be back soon.</div>
+    {{ include("@ZikulaIntercomModule/Layouts/Classic/new.ajax.html.twig") }}
 {% endblock %}
 {% block footer %}
     {{ parent() }}
-    {#{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.inbox.manager.js')) }}
-    <script>
-    (function($) {
-            $(function(){
-                Zikula.Intercom.InboxManager.init();  
-            });
-    })(jQuery);
-    </script>
-    {#{ dump() }#}
+    {{ pageAddAsset('javascript', zasset('jquery-ui/jquery-ui.js')) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.MessageManager.js')) }}
 {% endblock %}

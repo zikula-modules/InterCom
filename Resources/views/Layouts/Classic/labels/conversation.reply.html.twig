@@ -1,0 +1,7 @@
+<div id="message-{{ message.id }}" class="{#{% if align %} bg-warning{% endif %}#} clearfix">                                
+    <div class="col-xs-9 col-md-2 {#{{ align }}#}">
+        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ message.sender.uname }}      
+        <div class="text-muted "><i class="fa fa-clock-o"> </i> {{ message.sent|time_diff}}</div>
+    </div>      
+    <p class="">{{ message.text }}</p> 
+</div>

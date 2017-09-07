@@ -14,21 +14,21 @@ namespace Zikula\IntercomModule\Entity\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Recipients Trait
+ * Recipients Trait.
  *
  * @author Kaik
  */
 trait RecipientsTrait
 {
     /**
-     * The recipient users
+     * The recipient users.
      *
-     * @ORM\OneToMany(targetEntity="Zikula\IntercomModule\Entity\Recipient\UserRecipientEntity", mappedBy="message")
+     * @ORM\OneToMany(targetEntity="Zikula\IntercomModule\Entity\Recipient\UserRecipientEntity", mappedBy="message", cascade={"persist", "remove"})
      */
     private $recipientUsers;
 
     /**
-     * The recipient groups
+     * The recipient groups.
      *
      * @ORM\OneToMany(targetEntity="Zikula\IntercomModule\Entity\Recipient\GroupRecipientEntity", mappedBy="message")
      */
@@ -39,16 +39,31 @@ trait RecipientsTrait
         return $this->recipientUsers;
     }
 
-    public function getRecipientGroups()
-    {
-        return $this->recipientGroups;
-    }
-
     public function setRecipientUsers($recipientUsers)
     {
         $this->recipientUsers = $recipientUsers;
-        
+
         return $this;
+    }
+
+    public function addRecipientUser($recipientUser)
+    {
+        if ($this->recipientUsers->contains($recipientUser)) {
+            return;
+        }
+
+        $this->recipientUsers[] = $recipientUser;
+        $recipientUser->setMessage($this);
+    }
+
+    public function removeRecipientUser($recipientUser)
+    {
+        $this->recipientUsers->removeElement($recipientUser);
+    }
+
+    public function getRecipientGroups()
+    {
+        return $this->recipientGroups;
     }
 
     public function setRecipientGroups($recipientGroups)

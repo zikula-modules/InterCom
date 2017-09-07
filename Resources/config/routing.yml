@@ -1,5 +1,37 @@
-zikulaintercommodule:
-    resource: "@ZikulaIntercomModule/Controller"
+# please do not change order MessagesController need to be at the end
+
+zikulaintercommodule_admin:
+    resource: "@ZikulaIntercomModule/Controller/AdminController.php"
+    type:     annotation
+    options:
+        zkNoBundlePrefix: true
+        
+zikulaintercommodule_user:
+    resource: "@ZikulaIntercomModule/Controller/UserController.php"
+    type:     annotation
+    options:
+        zkNoBundlePrefix: true
+        
+zikulaintercommodule_labels:
+    resource: "@ZikulaIntercomModule/Controller/LabelsController.php"
+    type:     annotation
+    options:
+        zkNoBundlePrefix: true
+        
+zikulaintercommodule_notifications:
+    resource: "@ZikulaIntercomModule/Controller/NotificationsController.php"
+    type:     annotation
+    options:
+        zkNoBundlePrefix: true
+        
+zikulaintercommodule_support:
+    resource: "@ZikulaIntercomModule/Controller/SupportController.php"
+    type:     annotation
+    options:
+        zkNoBundlePrefix: true
+        
+zikulaintercommodule_messages:
+    resource: "@ZikulaIntercomModule/Controller/MessagesController.php"
     type:     annotation
     options:
         zkNoBundlePrefix: true
