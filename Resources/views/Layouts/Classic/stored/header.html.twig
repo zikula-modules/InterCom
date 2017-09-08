@@ -6,24 +6,24 @@
         {{ __('Subject') }}
         {%  if filter.sortby == 'subject' %}
             {%  if filter.sortorder == 'ASC' %}
-                <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {page:pager.page, 'sortby':'subject', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>             
+                <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>
                 {% else %}
-                <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>                
+                <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>
                 {% endif %}    
             {% else %}
-            <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>                
+            <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>
             {% endif %}  
     </div>
     <div class="col-md-2">
         {{ __('Date') }}
         {%  if filter.sortby == 'sent' %}
             {%  if filter.sortorder == 'ASC' %}
-                <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {page:pager.page, 'sortby':'sent', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>
+                <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>
                 {% else %}
-                <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {page:pager.page, 'sortby':'sent', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>
+                <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>
                 {% endif %}  
             {% else %}
-            <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {page:pager.page, 'sortby':'sent', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>
+            <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>
             {% endif %}  
     </div>    
     <div class="col-md-3 text-right pull-right">

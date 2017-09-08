@@ -109,36 +109,36 @@ class Messenger
             case 'inbox':
                 $this->messages = $this->entityManager
                 ->getRepository('Zikula\IntercomModule\Entity\Message\AbstractMessageEntity')
-                ->getRecivedMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page'] = 1);
+                ->getRecivedMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page']);
 
                 break;
             case 'sent':
                 $this->messages = $this->entityManager
                 ->getRepository('Zikula\IntercomModule\Entity\Message\AbstractMessageEntity')
-                ->getSentMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page'] = 1);
+                ->getSentMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page']);
 
                 break;
             case 'stored':
                 $this->messages = $this->entityManager
                 ->getRepository('Zikula\IntercomModule\Entity\Message\AbstractMessageEntity')
-                ->getStoredMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page'] = 1);
+                ->getStoredMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page']);
 
                 break;
             case 'draft':
                 $this->messages = $this->entityManager
                 ->getRepository('Zikula\IntercomModule\Entity\Message\AbstractMessageEntity')
-                ->getDraftMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page'] = 1);
+                ->getDraftMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page']);
                 break;
             case 'trash':
                 $this->messages = $this->entityManager
                 ->getRepository('Zikula\IntercomModule\Entity\Message\AbstractMessageEntity')
-                ->getDeletedMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page'] = 1);
+                ->getDeletedMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page']);
 
                 break;
             case 'labels':
                 $this->messages = $this->entityManager
                 ->getRepository('Zikula\IntercomModule\Entity\Message\AbstractMessageEntity')
-                ->getLabeledMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page'] = 1, $filters['label']);
+                ->getLabeledMessagesByUser($user, $filters['sortby'], $filters['sortorder'], $filters['limit'], $filters['page'], $filters['label']);
 
                 break;
             default:
