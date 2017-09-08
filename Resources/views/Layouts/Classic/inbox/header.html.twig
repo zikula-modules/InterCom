@@ -1,34 +1,43 @@
 <div class="list-header list-group-item list-group-item-info clearfix">
-    <div class="col-md-2">
-        {{ __('From') }}
-    </div>
-    <div class="col-md-3">
-        {{ __('Subject') }}
-        {%  if filter.sortby == 'subject' %}
-            {%  if filter.sortorder == 'ASC' %}
-                <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>
+    <div class="row">
+        <div class="col-xs-9 col-md-5">
+            <div class="row">
+                <div class="col-md-4">
+                    {{ __('From') }}
+                </div>
+                <span class="">
+                    {{ __('Subject') }}
+                    {%  if filter.sortby == 'subject' %}
+                        {%  if filter.sortorder == 'ASC' %}
+                            <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>
+                            {% else %}
+                            <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>
+                            {% endif %}
+                        {% else %}
+                        <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>
+                        {% endif %}  
+                </span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            {{ __('Date') }}
+            {%  if filter.sortby == 'sent' %}
+                {%  if filter.sortorder == 'ASC' %}
+                    <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>
+                    {% else %}
+                    <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>
+                    {% endif %}  
                 {% else %}
-                <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>
-                {% endif %}    
-            {% else %}
-            <a class="header-action orderby-subject" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'subject', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>
-            {% endif %}   
-    </div>             
-    <div class="col-md-2">
-        {{ __('Date') }}
-        {%  if filter.sortby == 'sent' %}
-            {%  if filter.sortorder == 'ASC' %}
-                <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'DESC'}) }}"><i class='fa fa-sort-desc'></i></a>
-                {% else %}
-                <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'ASC'}) }}"><i class='fa fa-sort-asc'></i></a>
-                {% endif %}  
-            {% else %}
-            <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>
-            {% endif %}                   
-    </div>    
-    <div class="col-md-3 text-right pull-right">
-        <div class="btn-group btn-group-sm pull-right">  
-            <a type="button" data-action="toggle-select" class="multi-toggle-select btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </a>
+                <a class="header-action orderby-sent" href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby':'sent', 'sortorder':'ASC'}) }}"><i class='fa fa-sort'></i></a>
+                {% endif %}                   
+        </div>
+        <div class="col-md-2">
+            {{ __('Label') }}
+        </div>
+        <div class="col-md-3 text-right pull-right">
+            <div class="btn-group btn-group-sm pull-right">  
+                <a type="button" data-action="toggle-select" class="multi-toggle-select btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </a>
+            </div>
         </div>
     </div>
 </div>

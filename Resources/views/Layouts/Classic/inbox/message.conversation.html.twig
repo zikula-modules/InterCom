@@ -1,8 +1,24 @@
-<div class="conversation-list row">
-    <div class="col-md-12">
-        {% for reply in message.conversation %}
-            {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.reply.html.twig', {'message': reply }) }}
-        {% else %}             
-        {% endfor %}
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <div class="conversation-list">
+            <div id="conversation-{{ message.id }}-list" class="collapse">
+                {% for reply in message.conversation %}
+                    {% if loop.first %}
+                    {% elseif loop.last %}
+                    {% else %}
+                    {% endif %}
+                    {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/conversation.reply.html.twig', {'message': reply }) }}
+                    {% if loop.first %}
+                        <hr>
+                    {% elseif loop.last %}
+                    {% else %}
+                        <hr>
+                    {% endif %}
+                {% else %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
+
+

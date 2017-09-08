@@ -1,0 +1,27 @@
+<div id="intercom_label_select" class="col-md-4">
+    <!-- Single button -->
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if filter.label|split('_')[0]|capitalize == '.*' %}
+                {{ __('Select label') }}
+            {% else %}
+                {{ __('Selected label') }} {{ filter.label|split('_')[0]|capitalize }}
+            {% endif %}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            {% for label in labelsHelper.getDefaultLabels() %}
+                <li><a href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby': filter.sortby, 'sortorder': filter.sortorder, 'label': label.getUrlName()}) }}">{{ label.name }}</a></li>
+                {% endfor %}
+            <li role="separator" class="divider"></li>
+            <li><a href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page:pager.page, 'sortby': filter.sortby, 'sortorder': filter.sortorder}) }}">{{ __('Show all labeled messages.') }}</a></li>
+
+        </ul>
+    </div>
+</div>
+<div id="intercom_search" class="col-md-3 pull-right">
+    <div class="input-group">
+        <span class="input-group-addon" id="box_{{ box }}_search">{{ title_icon|raw }}</span>
+        <input type="text" class="form-control" placeholder="{{ __('Search') }}" aria-describedby="box_{{ box }}_search">
+    </div>
+</div>

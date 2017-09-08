@@ -16,7 +16,7 @@
                         </ul>#}
         </div>
         <div id="sender_select" class="col-md-3">
-            {{ form_widget(form.sendAsGroup, {'attr': {'class': '' }}) }}
+            {{ form_widget(form.sendAsGroup, {'attr': {'class': 'hide' }}) }}
             {#            <p class="help-block">{{ __('Click to change sender') }}</p>#}
         </div>
     </div>
@@ -35,20 +35,12 @@
         <div class="alert alert-warning" role="alert">{{ __('Under construction!') }}</div>
     </div>
 {% endif %}
-<div class="row">
-    <div class="form-group form-buttons">
-        <div class="col-md-2">
-            <a class="btn btn-sm btn-default" href="#" role="button">{{ __('Cancel and go to Inbox') }}</a>
-        </div>
-        <div class="col-md-2">
-            {{ form_widget(form.saveAsDraft, {'attr': {'class': 'btn btn-sm'}, 'label': __('Save message as draft')}) }}
-        </div>
-        <div class="col-md-3">
-            {{ form_widget(form.preview, {'attr': {'class': 'btn btn-sm'}, 'label': __('Preview')}) }}
-        </div>
-        <div class="col-md-3 pull-right text-right">
-            {{ form_widget(form.send, {'attr': {'class': 'btn btn-sm btn-primary'}, 'label': __('Send message')}) }}
-        </div>
+<div class="form-group form-buttons">
+    <a class="btn btn-sm btn-default" href="#" role="button">{{ __('Cancel and go to Inbox') }}</a>
+    {{ form_widget(form.saveAsDraft, {'attr': {'class': 'btn btn-sm btn-success'}, 'label': __('Save message as draft')}) }}
+    {{ form_widget(form.preview, {'attr': {'class': 'btn btn-sm btn-default'}, 'label': __('Preview')}) }}
+    <div class="col-md-3 pull-right text-right">
+        {{ form_widget(form.send, {'attr': {'class': 'btn btn-sm btn-primary'}, 'label': __('Send message')}) }}
     </div>
 </div>
 {{ form_end(form) }}

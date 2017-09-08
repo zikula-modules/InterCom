@@ -1,0 +1,9 @@
+<span class="small">
+    {% for recipientUser in message.recipientUsers %}
+        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ recipientUser.user.uname|truncate(6, false, '..') }}
+    {% endfor %}
+    {#    @todo group recipient    {% for recipientGroup in message.recipientGroups %}
+                <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ recipientGroup.group.name }}
+            {% endfor %}#}
+
+</span>

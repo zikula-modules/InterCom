@@ -1,0 +1,9 @@
+<span>
+    {% if message.sendAsGroup %}
+        {# @todo add group identification #}
+    {% else %}
+        {# @todo connect with profile module #}
+        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" />
+        <span class="small">{{ message.sender.uname|truncate(6, false, '..') }}</span>
+    {% endif %}
+</span>

@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-md-offset-1 col-md-2">
+        <div class="btn-group btn-group-sm">
+            <a class="btn"
+               {#               href="{{ path('zikulaintercommodule_messages_replymessage', {'message': message.id }) }}"#}
+               role="button" data-toggle="collapse"
+               data-target="#conversation-{{ message.id }}-list"
+               aria-expanded="false"
+               aria-controls="conversation-{{ message.id }}-list"
+               title="{{ __('Conversation') }}">
+                <i class="fa fa-comments"></i>
+                {{ __('Conversation') }}
+            </a>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <hr/>
+    </div>
+    <div class="conversation-actions col-md-4">
+        <div class="btn-group btn-group-sm">
+            <a data-id="{{ message.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>
+            <a data-id="{{ message.id }}" class="forward-conversation btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
+            <a class="btn small text-muted">{{ __('Message options') }}</a>
+            <a data-id="{{ message.id }}" class="save-conversation btn text-success" role="button"  title="{{ __('Save') }}"><i class="fa fa-save"></i></a>
+            <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <hr/>
+    </div>
+    <div class="col-md-1 text-right">
+        <div class="btn-group btn-group-sm">
+            <a class="btn"
+               {#               href="{{ path('zikulaintercommodule_messages_replymessage', {'message': message.id }) }}"#}
+               role="button" data-toggle="collapse"
+               data-target="#conversation-{{ message.id }}-reply"
+               aria-expanded="false"
+               aria-controls="conversation-{{ message.id }}-reply"
+               title="{{ __('Reply') }}">
+                <i class="fa fa-reply"></i>
+                {{ __('Reply') }}
+            </a>
+        </div>
+    </div>
+</div>

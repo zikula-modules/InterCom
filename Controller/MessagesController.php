@@ -117,7 +117,7 @@ class MessagesController extends AbstractController
 
         $layout = ucfirst($this->getVar('layout'));
 
-        return $this->render("@ZikulaIntercomModule/Layouts/$layout/reply.html.twig", [
+        return $this->render("@ZikulaIntercomModule/Layouts/$layout/read.html.twig", [
             'form'               => $form->createView(),
             'managedMessage'     => $managedMessage,
             'settings'           => $this->getVars(),
@@ -179,7 +179,7 @@ class MessagesController extends AbstractController
     }
 
     /**
-     * @Route("/{box}/{label}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "label" = ".*", "page" = 1,"sortby" = "send", "sortorder" = "DESC", "limit" = 10})
+     * @Route("/{box}/{label}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "label" = ".*", "page" = 1,"sortby" = "sent", "sortorder" = "DESC", "limit" = 10})
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      *
@@ -193,11 +193,11 @@ class MessagesController extends AbstractController
         }
 
         $currentUserManager = $this->get('zikula_intercom_module.user_manager')->getManager();
-        $filter = ['page' => $page,
+        $filter = ['page' => $request->get('page') ? $request->get('page') : $page,
             'limit'       => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
             'sortorder'   => $sortorder,
-            'sortby'      => $sortby,
-            'label'       => $label,
+            'sortby'      => ($sortby == 'sent' && in_array($box, ['inbox', 'sent'])) ? $sortby : 'created',
+            'label'       => ($label !== '.*') ? (int) str_replace('_', '', strstr($label, '_')) : null,
         ];
         $layout = ucfirst($this->getVar('layout'));
         $messenger = $this->get('zikula_intercom_module.messenger')->load($box, $filter);
@@ -215,6 +215,7 @@ class MessagesController extends AbstractController
 
 //            return $response;
         }
+        $filter['label'] = $label;
 
         return $this->render("@ZikulaIntercomModule/Layouts/$layout/index.html.twig", [
             'box'                => $box,
@@ -223,6 +224,7 @@ class MessagesController extends AbstractController
             'messages'           => $messenger->getmessages(),
             'settings'           => $this->getVars(),
             'currentUserManager' => $currentUserManager,
+            'labelsHelper'       => $this->get('zikula_intercom_module.labels_helper'),
         ]);
     }
 }

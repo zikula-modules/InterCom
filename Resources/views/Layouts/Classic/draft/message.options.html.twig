@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-md-3 col-md-offset-1">
+        <hr/>
+    </div>
+    <div class="conversation-actions col-md-3">
+        <div class="btn-group btn-group-sm">
+            <a data-id="{{ message.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>
+            <a class="btn small text-muted">{{ __('Message options') }}</a>
+            <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <hr/>
+    </div>
+    <div class="col-md-1 text-right">
+        <a data-id="{{ message.id }}" class="save-conversation btn btn-sm text-success" role="button"  title="{{ __('Send') }}">{{ __('Send') }} <i class="fa fa-paper-plane-o"></i></a>
+    </div>
+</div>

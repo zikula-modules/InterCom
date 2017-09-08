@@ -145,11 +145,11 @@ class MessagesRepository extends EntityRepository
             ->where('m.id = u.message')
             ->andWhere('m.id = d.message')
             ->andWhere('m.parent IS NULL')
-            ->andWhere('m.sent IS NOT NULL')
+//            ->andWhere('m.sent IS NOT NULL')
             ->andWhere('u.user = :user')
             ->andWhere('d.user = :user')
             ->andWhere('d.stored IS NOT NULL')
-            ->andWhere('d.deleted IS NULL')
+//            ->andWhere('d.deleted IS NULL')
             ->setParameter('user', $user);
 
         switch ($sortby) {
@@ -209,7 +209,7 @@ class MessagesRepository extends EntityRepository
         return $paginator;
     }
 
-    public function getLabeledMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1, $label = null)
+    public function getLabeledMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1, $label = 1)
     {
         $qb = $this->createQueryBuilder('m')
             ->select('m')
@@ -217,14 +217,14 @@ class MessagesRepository extends EntityRepository
             ->leftJoin('m.messageUserData', 'd')
             ->where('m.id = u.message')
             ->andWhere('m.id = d.message')
-//            ->andWhere('m.parent IS NULL')
+            ->andWhere('m.parent IS NULL')
 //            ->andWhere('m.sent IS NOT NULL')
             ->andWhere('u.user = :user')
             ->andWhere('d.user = :user')
-            ->andWhere('d.deleted IS NOT NULL')
+            ->andWhere('d.deleted IS NULL')
             ->andWhere('d.label IS NOT NULL')
             ->setParameter('user', $user);
-
+        dump($label);
         if ($label) {
             $qb->andWhere('d.label = :label')
             ->setParameter('label', $label);

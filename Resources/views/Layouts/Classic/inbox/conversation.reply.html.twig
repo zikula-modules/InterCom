@@ -1,7 +1,7 @@
-<div id="message-{{ message.id }}" class="{#{% if align %} bg-warning{% endif %} #}clearfix">                                
-    <div class="col-xs-9 col-md-2 {#{{ align }}#}">
-        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ message.sender.uname }}      
-        <div class="text-muted "><i class="fa fa-clock-o"> </i> {{ message.sent|date("m/d/Y") }}</div>
-    </div>      
-    <p class="">{{ message.text }}</p> 
+<div id="message-{{ message.id }}" class="{#{% if align %} bg-warning{% endif %} #}clearfix">
+    <p class="reply_content">
+        {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.sender.html.twig') }}
+        <span class="reply_message_text">{{ message.text }}</span>
+        <span class="text-muted small text-right"><i class="fa fa-clock-o"> </i> {{ message.sent|time_diff }}</span>
+    </p>
 </div>

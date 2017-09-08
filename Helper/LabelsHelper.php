@@ -34,7 +34,7 @@ class LabelsHelper
     public function __construct(
             EntityManager $entityManager,
             VariableApi $variableApi
-         ) {
+    ) {
         $this->name = 'ZikulaIntercomModule';
         $this->entityManager = $entityManager;
         $this->variableApi = $variableApi;

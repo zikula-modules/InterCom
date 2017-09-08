@@ -19,3 +19,9 @@
     margin-left: -50px;
     color:#fff;
 }
+
+.form-control-inline {
+    min-width: 0;
+    width: auto;
+    display: inline;
+}

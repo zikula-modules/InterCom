@@ -1,0 +1,40 @@
+<nav>
+    {% if pager.total > 1 %}
+        <div class="pager-actions">
+            <div class="col-md-2">
+                <a class="btn btn-sm {{ pager.page == 1 ? 'disabled' }}"
+                   role="button"
+                   href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page: pager.page-1 < 1 ? 1 : pager.page-1, 'sortby': filter.sortby, 'sortorder': filter.sortorder }) }}">
+                    {% if filter.sortorder|lower == 'desc' %}
+                        <span aria-hidden="true">&larr;</span> {{ __('Newer') }}
+                    {% else %}
+                        <span aria-hidden="true">&larr;</span> {{ __('Older') }}
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-md-7 col-md-offset-1">
+                <form class="form-inline"
+                      action="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page: pager.page, 'sortby': filter.sortby, 'sortorder': filter.sortorder }) }}"
+                      method="get">
+
+                    <span class="small">{{ __('Page') }}</span>
+                    <input type="text" class="form-control-inline form-control input-sm" name="page" size="4" placeholder="" value="{{ pager.page }}">
+                    <span class="small">{{ __('of') }} {{pager.total}}</span>
+                    <button class="btn btn-sm" style="background: transparent;" title="{{__('Go to selected page.')}}" type="submit">&rarr;{#{{ __('go') }}#}</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2 pull-right text-right">
+            <a class="btn btn-sm {{ pager.page == pager.total ? 'disabled' }}"
+               role="button"
+               href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page: pager.page+1 <= pager.total ? pager.page+1 : pager.page, 'sortby': filter.sortby, 'sortorder': filter.sortorder}) }}">
+                {% if filter.sortorder|lower == 'desc' %}
+                    {{ __('Older') }} <span aria-hidden="true">&rarr;</span>
+                {% else %}
+                    {{ __('Newer') }} <span aria-hidden="true">&rarr;</span>
+                {% endif %}
+            </a>
+        </div>
+    </div>
+{% endif %}
+</nav>

@@ -1,45 +1,38 @@
-<div data-id="{{ message.id }}" class="conversation list-group-item clearfix" style="background: #F2F8FF;">
-    <div class="sender col-xs-9 col-md-5">
-        <img width="30px" height="30px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" /> {{ message.sender.uname }}
-        <span class="subject">
-            <i class="fa fa-ellipsis-h text-info" aria-hidden="true"></i>
-            {#            <i class="fa fa-comment "> </i>#}
-            {{ message.subject }}
-        </span>
+<div data-id="{{ message.id }}" class="conversation list-group-item clearfix">
+    <div class="row">
+        <div class="col-xs-9 col-md-5">
+            <div class="row">
+                <div class="col-md-4 date text-muted small"><i class="fa fa-clock-o"> </i> {{ message.createdAt|time_diff }}</div>
+                <span class="subject">
+                    {# @todo ajax version remove this and add data-toggle=collapse #}
+                    <a
+                        href="{{ path('zikulaintercommodule_messages_readmessage', {'message': message.id }) }}"
+                        data-toggle=""
+                        data-seen="{#{{ message.seen is empty ? "false" : "true" }}#}"
+                        data-id="{{ message.id }}"
+                        class="conversation-details"
+                        data-target="#conversation-body-{{ message.id }}">
+                        {{ message.subject|truncate(25, true, "...")|capitalize }}
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="sender col-md-2">
+            {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.sender.html.twig') }}
+        </div>
+        <div class="recipients col-xs-9 col-md-2">
+            {{ include('@ZikulaIntercomModule/Layouts/Classic/sent/recipients.html.twig') }}
+        </div>
+        <div class="statuses col-xs-12 col-md-3">
+            {{ include('@ZikulaIntercomModule/Layouts/Classic/stored/message.statuses.html.twig') }}
+        </div>
+        <div class="details col-md-12 clearfix" style="clear:both;">
+            <div id="conversation-body-{{ message.id }}" class="row collapse" >
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.content.html.twig') }}
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.options.html.twig') }}
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.conversation.html.twig') }}
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.reply.html.twig') }}
+            </div>
+        </div>
     </div>
-    <div class="date col-xs-12 col-md-2 text-muted"><i class="fa fa-clock-o"> </i> {{ message.send|date("m/d/Y") }}</div>
-    <div class="statuses col-xs-12 col-md-5">{{ include('@ZikulaIntercomModule/Layouts/Classic/stored/message.statuses.html.twig') }}</div>
-    <div class="details col-md-12 clearfix" style="clear:both;">
-        <div id="conversation-body-{{ message.id }}" class="row collapse" >
-            <div class="col-md-12">                   
-                {{ include('@ZikulaIntercomModule/Layouts/Classic/stored/message.content.html.twig') }}
-                <div class="conversation-actions row text-right">
-                    <div class="col-xs-12 col-md-12">
-                        <span class="small text-muted">{{ __('Message options') }}</span>
-                        <div class="btn-group btn-group-sm text-center"> 
-                            <a data-id="{{ message.id }}" class="delete-conversation btn text-danger" role="button" title="{{ __('Delete') }}"><i class="fa fa-trash"></i></a>                    
-                            <a data-id="{{ message.id }}" class="forward-conversation btn " role="button"  title="{{ __('Forward') }}"><i class="fa fa-share"></i></a>
-                            <a data-id="{{ message.id }}" class="save-conversation btn text-success" role="button"  title="{{ __('Save') }}"><i class="fa fa-save"></i></a>
-                            <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a> 
-                        </div>
-                    </div>         
-                </div>   
-                {{ include('@ZikulaIntercomModule/Layouts/Classic/stored/message.conversation.html.twig') }}
-                <div class="conversation-reply-box row">
-                    <div class="col-md-12 text-right">
-                        <a class="btn " role="button" data-toggle="collapse" data-target="#conversation-{{ message.id }}-reply" aria-expanded="false" aria-controls="conversation-{{ message.id }}-reply"  title="{{ __('Reply') }}">{{ __('Reply') }} <i class="fa fa-reply"></i></a>
-                    </div>
-                    <div id="conversation-{{ message.id }}-reply" class="col-md-12 collapse">    
-                        <textarea class="form-control" rows="3"> {{ message.replyText }}  </textarea>
-                        <div class="col-xs-12 col-md-12">
-                            <div class="btn-group btn-group-sm pull-right"> 
-                                <a data-id="{{ message.id }}" class="cancel-reply btn text-danger" role="button" title="{{ __('Cancel') }}">{{ __('Cancel') }} <i class="fa fa-undo"></i></a>                            
-                                <a data-id="{{ message.id }}" class="send-reply btn text-success" role="button"  title="{{ __('Send') }}">{{ __('Send') }} <i class="fa fa-share-square"></i></a>
-                            </div>
-                        </div>                          
-                    </div>
-                </div>    
-            </div>   
-        </div> 
-    </div> 
 </div>

@@ -1,30 +1,13 @@
 <div class="conversations-footer list-group-item list-group-item-info clearfix">
-    <div class="footer-actions  clearfix" >
-        <div class="pull-right col-xs-12 col-md-3" role="group" aria-label="...">
+    <div class="row">
+        <div class="footer-actions col-md-4 pull-right">
             <div class="btn-group btn-group-sm pull-right">
-                {#                <button type="button" class="multi-togglle-select btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </button>#}
-                <a type="button" data-action="toggle-select" class="multi-toggle-select btn text-default" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </a>
+                <a type="button" data-action="toggle-select" class="multi-toggle-select btn text-default hide" title="{{ __('Select all') }}"><i class='fa fa-check-square'></i> </a>
             </div>
         </div>
+        <div class="footer-pager col-md-8">
+            {{ include('@ZikulaIntercomModule/Layouts/Classic/sent/pager.html.twig') }}
+        </div>
         {#        {{ render(controller('ZikulaIntercomModule:User:usagestatus', {'box':'inbox'})) }}#}
-    </div>
-    <div class="footer-pager clearfix" >
-        <nav>
-            {% if pager.total > 1 %}
-                <ul class="pager-actions pagination pagination-sm">
-                    <li {{ pager.page == 1 ? 'class="disabled"' }}>
-                        <a href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page: pager.page-1 < 1 ? 1 : pager.page-1, 'sortby': filter.sortby, 'sortorder': filter.sortorder }) }}">«</a>
-                    </li>
-                    {% for i in 1..pager.total %}
-                        <li {{ pager.page == i ? 'class="active page-active"' }} data-page="{{ i }}">
-                            <a href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page: i, 'sortby': filter.sortby, 'sortorder': filter.sortorder}) }}">{{ i }}</a>
-                        </li>
-                    {% endfor %}
-                    <li {{ pager.page == pager.total ? 'class="disabled"' }}>
-                        <a href="{{ path('zikulaintercommodule_messages_getmessages', {'box': box, page: pager.page+1 <= pager.total ? pager.page+1 : pager.page, 'sortby': filter.sortby, 'sortorder': filter.sortorder}) }}">»</a>
-                    </li>
-                </ul>
-            {% endif %}
-        </nav>
     </div>
 </div>

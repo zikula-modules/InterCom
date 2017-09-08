@@ -1,1 +1,31 @@
-{{ dump() }}
+<div class="row">
+    <div class="col-xs-9 col-md-5">
+        <div class="row">
+            <div class="sender col-md-4">
+                {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.sender.html.twig') }}
+            </div>
+            <span class="subject">
+                {{ message.subject|truncate(15, true, "...")|capitalize }}
+            </span>
+        </div>
+    </div>
+    <div class="statuses col-xs-12 col-md-7">
+        {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.statuses.html.twig') }}
+    </div>
+    {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.content.html.twig') }}
+    {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.options.html.twig') }}
+    {{ include('@ZikulaIntercomModule/Layouts/Classic/inbox/message.conversation.html.twig') }}
+    <div id="conversation-{{ message.id }}-reply" class="collapse">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <a class="btn btn-sm small text-muted">{{ __('Reply to conversation') }}</a>
+                </div>
+                <div class="col-md-9">
+                    <hr/>
+                </div>
+            </div>
+        </div>
+        {{ include('@ZikulaIntercomModule/Layouts/Classic/reply.ajax.html.twig') }}
+    </div>
+</div>
