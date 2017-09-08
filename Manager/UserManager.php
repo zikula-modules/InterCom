@@ -303,6 +303,36 @@ class UserManager
     }
 
     /**
+     * Get user intercom preferences.
+     *
+     * @param array
+     */
+    public function getPreferences()
+    {
+        $preferences = [];
+        $preferences['ic_note'] = $this->_managedUser->getAttributes()->offsetExists('ic_note') ? $this->_managedUser->getAttributeValue('ic_note') : 0;
+        $preferences['ic_ar'] = $this->_managedUser->getAttributes()->offsetExists('ic_ar') ? $this->_managedUser->getAttributeValue('ic_ar') : 0;
+        $preferences['ic_art'] = $this->_managedUser->getAttributes()->offsetExists('ic_art') ? $this->_managedUser->getAttributeValue('ic_art') : '';
+
+        return $preferences;
+    }
+
+    /**
+     * Set user intercom preferences.
+     *
+     * @param this
+     */
+    public function setPreferences($preferences)
+    {
+        $this->_managedUser->setAttribute('ic_note', array_key_exists('ic_note', $preferences) ? $preferences['ic_note'] : false);
+        $this->_managedUser->setAttribute('ic_ar', array_key_exists('ic_ar', $preferences) ? $preferences['ic_ar'] : false);
+        $this->_managedUser->setAttribute('ic_art', array_key_exists('ic_art', $preferences) ? $preferences['ic_art'] : '');
+        $this->entityManager->flush();
+
+        return $this;
+    }
+
+    /**
      * Get user avatar.
      *
      * @todo - add deleted user and anonymous avatar image

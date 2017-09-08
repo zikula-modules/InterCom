@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
 use Zikula\Core\Response\PlainResponse;
+use Zikula\IntercomModule\Form\Type\UserPreferencesType;
 use Zikula\UsersModule\Constant as UsersConstant;
 
 /**
@@ -40,36 +41,24 @@ class UserController extends AbstractController
         }
 
         $currentUserManager = $this->get('zikula_intercom_module.user_manager')->getManager();
-//        $form = $this->createFormBuilder($this->getVars())
-//                //general settings
-//                ->add('ic_note', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-//                    'multiple' => false,
-//                    'expanded' => true,
-//                    'required' => true))
-//                ->add('ic_ar', 'choice', array('choices' => array('0' => $this->__('Off'), '1' => $this->__('On')),
-//                    'multiple' => false,
-//                    'expanded' => true,
-//                    'required' => true))
-//                ->add('ic_art', 'textarea', array('required' => false))
-//                ->add('save', 'submit')
-//                ->add('cancel', 'submit')
-//                ->getForm();
-//
-//        $form->handleRequest($request);
-//        if ($form->isValid()) {
-//            if ($form->get('save')->isClicked()) {
-//                $this->setVars('ZikulaIntercomModule', $form->getData());
-//                $this->addFlash('status', $this->__('Done! preferences updated.'));
-//            }
-//            if ($form->get('cancel')->isClicked()) {
-//                $this->addFlash('status', $this->__('Operation cancelled.'));
-//            }
-//            return $this->redirect($this->generateUrl('zikulaintercommodule_user_preferences'));
-//        }
+
+        $form = $this->createForm(UserPreferencesType::class, $currentUserManager->getPreferences(), ['isXmlHttpRequest' => $request->isXmlHttpRequest()]);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            if ($form->get('save')->isClicked()) {
+                $currentUserManager->setPreferences($form->getData());
+                $this->addFlash('status', $this->__('Done! preferences updated.'));
+            }
+            if ($form->get('cancel')->isClicked()) {
+                $this->addFlash('status', $this->__('Operation cancelled.'));
+            }
+
+            return $this->redirect($this->generateUrl('zikulaintercommodule_user_preferences'));
+        }
 
         return $this->render('ZikulaIntercomModule:User:preferences.html.twig', [
-//                    'form' => $form->createView(),
-//                    'modvars' => $this->getVars() // @todo temporary solution
+            'form'               => $form->createView(),
+            'settings'           => $this->getVars(),
             'currentUserManager' => $currentUserManager,
         ]);
     }

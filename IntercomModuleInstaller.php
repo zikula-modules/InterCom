@@ -252,7 +252,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             'limitinbox'    => '50',
             'perpage'       => '25',
             //Email
-            'allow_emailnotification' => true,
+            'allow_emailnotification' => false,
             'force_emailnotification' => false,
             'mailsubject'             => 'You have a new private message',
             'fromname'                => '',
