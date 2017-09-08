@@ -222,6 +222,8 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
 
                         break;
                 }
+            } else {
+                $var = $defVar;
             }
             $this->setVar($key, $var);
         }

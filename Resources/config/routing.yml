@@ -30,6 +30,12 @@ zikulaintercommodule_support:
     options:
         zkNoBundlePrefix: true
         
+zikulaintercommodule_import:
+    resource: "@ZikulaIntercomModule/Controller/ImportController.php"
+    type:     annotation
+    options:
+        zkNoBundlePrefix: true
+        
 zikulaintercommodule_messages:
     resource: "@ZikulaIntercomModule/Controller/MessagesController.php"
     type:     annotation

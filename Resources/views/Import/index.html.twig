@@ -1,0 +1,54 @@
+{{ adminHeader() }}
+<h3>
+    <span class="fa fa-cloud-download"></span> {{ __('Import')}}
+</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div id="import_box" class="well">
+            <input type="hidden" id="importing" value="{% if importHelper.isUpgrading() %}1{% else %}0{% endif %}">
+            <input type="hidden" id="messages_source" value="{{ importHelper.isUpgrading() }}">
+            <input type="hidden" id="messages_to_import" value="{{ importHelper.getTotal() }}">
+            <input type="hidden" id="current_data" value="{{ importHelper.getCurrentData() }}">
+            {% if importHelper.isUpgrading() %}
+                <div id="import_logs">
+                </div>
+                <div id="import_progress" class="progress hide">
+                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ importHelper.getTotal() }} {{ __('objects.') }}" style="width: 0%">
+                    </div>
+                </div>
+                <div id="start_import" class="btn-group hide" role="group" aria-label="...">
+                    <div class="col-md-6">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default">{{ __('Messages per page:') }}</button>
+                            </span>
+                            <input id="import_limit" type="integer" class="form-control" value="100">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default">{{ __('Ajax timeout:') }}</button>
+                            </span>
+                            <input id="import_ajax_timeout" type="integer" class="form-control" value="10000">
+                            <span class="input-group-btn">
+                                <button id="start_import_yes" type="button" class="btn btn-primary">{{ __('Start importing!') }}</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+                <div id="import_clear_data" class="hide">
+                    <p><br></p>
+                    <p class="text-muted"><i class="fa fa-exclamation-circle text-danger" aria-hidden="true"></i>
+                        {{ __('Content found!') }}</strong> {{ __('Module tables should be empty before import.') }}
+                        <button id="remove_current_data" type="button" class="btn btn-danger btn-xs">{{ __('Remove current data!') }}</button>
+                    </p>
+                </div>
+                <div id="import_rejected" class="hide">
+                    <p class="text-muted"><i class="fa fa-trash-o" aria-hidden="true"></i> {{ __('Rejected messages ids:') }}</p>
+                </div>
+            {% else %}
+                <p class="text-muted"><i class="fa fa-terminal" aria-hidden="true"></i> {{ __('Up to date!') }}</strong> {{ __('Module data is up to date with module version.') }} </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.import.js')) }}
+{{ adminFooter() }}
+{#{{ dump() }}#}

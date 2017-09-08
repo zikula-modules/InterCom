@@ -59,7 +59,7 @@ abstract class AbstractMessageEntity extends EntityAccess
     /**
      * Message details.
      *
-     * @ORM\OneToMany(targetEntity="Zikula\IntercomModule\Entity\MessageDetails\MessageUserDetailsEntity", mappedBy="message")
+     * @ORM\OneToMany(targetEntity="Zikula\IntercomModule\Entity\MessageDetails\MessageUserDetailsEntity", mappedBy="message", cascade={"persist"})
      */
     private $messageUserData;
 

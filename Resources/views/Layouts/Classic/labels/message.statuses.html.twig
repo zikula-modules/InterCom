@@ -13,9 +13,9 @@
     {% else %}
         <a class="btn text-warning" title="{{ __('Unread')}}"> <i class="fa fa-eye-slash"> </i></a>
     {% endif %}
-    {# @todo add last visit check and bulk replied update #}
+    {# @todo add last visit check and bulk replied update and case where replyed is set but conversatio length is 0 as replied in previous version... #}
     {% if message.getUserData() and message.getUserData().replied %}
-        <a class="btn text-warning" title="{{ __('Replied')}} {{ message.getUserData().replied|date("m/d/Y") }}"> <i class="fa fa-commenting-o"> </i>{{ message.conversation.length }}</a>
+        <a class="btn text-warning" title="{{ __('Replied')}} {{ message.getUserData().replied|date("m/d/Y") }}"> <i class="fa fa-commenting-o"> </i>{{ message.conversation|length }}</a>
     {% else %}
         <a class="btn text-muted" title="{{ __('Not replied.')}}"> <i class="fa fa-comment-o"> </i> {{ message.conversation.count() }}</a>
     {% endif %}

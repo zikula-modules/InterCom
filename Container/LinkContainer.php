@@ -160,7 +160,7 @@ class LinkContainer implements LinkContainerInterface
                     'icon'  => 'bullhorn', ];
             }
             $links[] = [
-                'url'   => $this->router->generate('zikulaintercommodule_admin_import'),
+                'url'   => $this->router->generate('zikulaintercommodule_import_status'),
                 'text'  => $this->translator->__('Import'),
                 'title' => $this->translator->__('Here you can import messages from older versions'),
                 'icon'  => 'cloud-download', ];
