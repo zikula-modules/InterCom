@@ -12,7 +12,7 @@
     {{ pageSetVar('title', title) }}
     <div class="row">
         <div id="intercom_title" class="col-md-5">
-            <h1>{{ title_icon|raw }} {{ title }}</h1>
+            <h1>{{ title_icon|raw }} {{ title }} {% if box == 'inbox' %}<small>&#64; {{ messenger.getMessageCount() }}</small>{% endif %}</h1>
         </div>
         {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/search.html.twig") }}
     </div>
@@ -20,7 +20,7 @@
 {% block content %}
     {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/header.html.twig") }}
     {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/selected.html.twig") }}
-    {# @todo change naming to messages #}
+    {# @todo change naming to messages? #}
     <div id="conversations" class="conversations-list list-group clearfix">
         {{ include("@ZikulaIntercomModule/Layouts/Classic/#{box}/messages.html.twig") }}
     </div>
@@ -28,7 +28,7 @@
 {% endblock %}
 {% block footer %}
     {{ parent() }}
-    {#{ dump() }#}
+    {#    {{ dump() }}#}
 {% endblock %}
 
 

@@ -8,6 +8,7 @@ services:
           - "@request_stack"
           - "@zikula_extensions_module.api.variable"
           - "@zikula_users_module.current_user"
+          - "@zikula_intercom_module.messenger"
 
     zikula_intercom_module.link_container:
         class: Zikula\IntercomModule\Container\LinkContainer
@@ -92,6 +93,13 @@ services:
 
     zikula_intercom_module.form.type.new_message:
         class: Zikula\IntercomModule\Form\Type\MessageType
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+        tags:
+            - { name: form.type }
+            
+    zikula_intercom_module.form.type.forward_message:
+        class: Zikula\IntercomModule\Form\Type\ForwardType
         arguments:
             - "@doctrine.orm.default_entity_manager"
         tags:

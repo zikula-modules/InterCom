@@ -2,6 +2,7 @@
 <h3>
     <span class="fa fa-cloud-download"></span> {{ __('Import')}}
 </h3>
+<div class="alert alert-warning" role="alert"><strong>{{ __('Warning!')}}</strong> {{ __('Module is in testing stage please report any bugs on github https://github.com/zikula-modules/InterCom/issues')}}</div>
 <div class="container-fluid">
     <div class="row">
         <div id="import_box" class="well">
@@ -51,4 +52,3 @@
 </div>
 {{ pageAddAsset('javascript', zasset('@ZikulaIntercomModule:js/Zikula.Intercom.import.js')) }}
 {{ adminFooter() }}
-{#{{ dump() }}#}

@@ -53,8 +53,8 @@ Zikula.Intercom = Zikula.Intercom || {};
         function initRecipients()
         {
             // real form text input comma separated
-            var $recipientUsers_select = $('#zikula_intercom_message_type_recipientUsers');
-            var $recipientGroups_select = $('#zikula_intercom_message_type_recipientGroups');
+            var $recipientUsers_select = $('#recipients_select .users_selected');
+            var $recipientGroups_select = $('#recipients_select .groups_selected');
             $recipientUsers_select.parent().addClass('hide');
             $('#auto_search').removeClass('hide');
             // selected

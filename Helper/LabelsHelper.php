@@ -42,6 +42,25 @@ class LabelsHelper
         return $this;
     }
 
+    public function get($label)
+    {
+        $labels = [];
+
+        return $labels;
+    }
+
+    public function getByReference($reference)
+    {
+        $label_id = (int) str_replace('_', '', strstr($reference, '_'));
+        if ($label_id > 0) {
+            $label = $this->entityManager->getRepository('Zikula\IntercomModule\Entity\Label\LabelEntity')->findOneBy(['id' => $label_id]);
+        } else {
+            $label = null;
+        }
+
+        return $label;
+    }
+
     public function getAll()
     {
         return $this->entityManager->getRepository('Zikula\IntercomModule\Entity\Label\LabelEntity')->findAll();

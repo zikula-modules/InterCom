@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // used in annotatio
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
+use Zikula\IntercomModule\Form\Type\ForwardType;
 use Zikula\IntercomModule\Form\Type\MessageType;
 use Zikula\IntercomModule\Form\Type\ReplyType;
 
@@ -50,13 +51,13 @@ class MessagesController extends AbstractController
                 $managedMessage->saveAsDraft();
                 $this->addFlash('status', $this->__('Message saved as draft.'));
 
-                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages', ['box' => 'draft']));
             }
             if ($form->get('send')->isClicked()) {
                 $managedMessage->send();
                 $this->addFlash('status', $this->__('Message sent.'));
 
-                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages', ['box' => 'sent']));
             }
         }
 
@@ -67,6 +68,7 @@ class MessagesController extends AbstractController
             'managedMessage'     => $managedMessage,
             'settings'           => $this->getVars(),
             'currentUserManager' => $currentUserManager,
+            'labelsHelper'       => $this->get('zikula_intercom_module.labels_helper'),
         ]);
     }
 
@@ -94,24 +96,25 @@ class MessagesController extends AbstractController
             return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
         }
 
-        $form = $this->createForm(ReplyType::class, $managedMessage->getReplyPrepared(), ['isXmlHttpRequest' => $request->isXmlHttpRequest()]);
+        $managedReplyMessage = $this->get('zikula_intercom_module.message_manager')->getManager($managedMessage->getReplyPrepared());
+        $form = $this->createForm(ReplyType::class, $managedReplyMessage->get(), ['isXmlHttpRequest' => $request->isXmlHttpRequest()]);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $managedMessage->setMessage($form->getData());
+            $managedReplyMessage->setMessage($form->getData());
             if ($form->get('preview')->isClicked()) {
-                $managedMessage->prepareForPreview();
+                $managedReplyMessage->prepareForPreview();
             }
             if ($form->get('saveAsDraft')->isClicked()) {
-                $managedMessage->saveAsDraft();
+                $managedReplyMessage->saveAsDraft();
                 $this->addFlash('status', $this->__('Reply saved.'));
 
-                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages', ['box' => 'draft']));
             }
             if ($form->get('send')->isClicked()) {
-                $managedMessage->send();
+                $managedReplyMessage->send();
                 $this->addFlash('status', $this->__('Reply sent.'));
 
-                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_readmessage', ['message' => $managedMessage->getId()]));
             }
         }
 
@@ -122,6 +125,7 @@ class MessagesController extends AbstractController
             'managedMessage'     => $managedMessage,
             'settings'           => $this->getVars(),
             'currentUserManager' => $currentUserManager,
+            'labelsHelper'       => $this->get('zikula_intercom_module.labels_helper'),
         ]);
     }
 
@@ -147,24 +151,25 @@ class MessagesController extends AbstractController
             return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
         }
 
-        $form = $this->createForm(ReplyType::class, $managedMessage->getReplyPrepared(), ['isXmlHttpRequest' => $request->isXmlHttpRequest()]);
+        $managedReplyMessage = $this->get('zikula_intercom_module.message_manager')->getManager($managedMessage->getReplyPrepared());
+        $form = $this->createForm(ReplyType::class, $managedReplyMessage->get(), ['isXmlHttpRequest' => $request->isXmlHttpRequest()]);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $managedMessage->setMessage($form->getData());
+            $managedReplyMessage->setMessage($form->getData());
             if ($form->get('preview')->isClicked()) {
-                $managedMessage->prepareForPreview();
+                $managedReplyMessage->prepareForPreview();
             }
             if ($form->get('saveAsDraft')->isClicked()) {
-                $managedMessage->saveAsDraft();
+                $managedReplyMessage->saveAsDraft();
                 $this->addFlash('status', $this->__('Reply saved.'));
 
-                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages', ['box' => 'draft']));
             }
             if ($form->get('send')->isClicked()) {
-                $managedMessage->send();
+                $managedReplyMessage->send();
                 $this->addFlash('status', $this->__('Reply sent.'));
 
-                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_readmessage', ['message' => $managedMessage->getId()]));
             }
         }
 
@@ -175,11 +180,159 @@ class MessagesController extends AbstractController
             'managedMessage'     => $managedMessage,
             'settings'           => $this->getVars(),
             'currentUserManager' => $currentUserManager,
+            'labelsHelper'       => $this->get('zikula_intercom_module.labels_helper'),
         ]);
     }
 
     /**
-     * @Route("/{box}/{label}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "label" = ".*", "page" = 1,"sortby" = "sent", "sortorder" = "DESC", "limit" = 10})
+     * @Route("/forward/{message}", options={"expose"=true}, requirements={"message" = "\d*"})
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     *
+     * @return Response symfony response object
+     */
+    public function forwardMessageAction(Request $request, $message)
+    {
+        // Permission check
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+            throw new AccessDeniedException();
+        }
+        $currentUserManager = $this->get('zikula_intercom_module.user_manager')->getManager();
+        $managedMessage = $this->get('zikula_intercom_module.message_manager')->getManager($message);
+
+        if (!$managedMessage->exists()) {
+            $this->addFlash('error', $this->__('Message does not exists!'));
+
+            return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+        }
+
+        $managedForwardMessage = $this->get('zikula_intercom_module.message_manager')->getManager($managedMessage->getForwardPrepared());
+        $form = $this->createForm(ForwardType::class, $managedForwardMessage->get(), ['isXmlHttpRequest' => $request->isXmlHttpRequest()]);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $managedForwardMessage->setMessage($form->getData());
+            if ($form->get('preview')->isClicked()) {
+                $managedForwardMessage->prepareForPreview();
+            }
+            if ($form->get('saveAsDraft')->isClicked()) {
+                $managedForwardMessage->saveAsDraft();
+                $this->addFlash('status', $this->__('Message saved as draft.'));
+
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages', ['box' => 'draft']));
+            }
+            if ($form->get('send')->isClicked()) {
+                $managedForwardMessage->send();
+                $this->addFlash('status', $this->__('Message forwarded.'));
+
+                return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages', ['box' => 'sent']));
+            }
+        }
+
+        $layout = ucfirst($this->getVar('layout'));
+
+        return $this->render("@ZikulaIntercomModule/Layouts/$layout/forward.html.twig", [
+            'form'               => $form->createView(),
+            'managedMessage'     => $managedForwardMessage,
+            'settings'           => $this->getVars(),
+            'currentUserManager' => $currentUserManager,
+            'labelsHelper'       => $this->get('zikula_intercom_module.labels_helper'),
+        ]);
+    }
+
+    /**
+     * @Route("/store/{message}", options={"expose"=true}, requirements={"message" = "\d*"})
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     *
+     * @return Response symfony response object
+     */
+    public function storeMessageAction(Request $request, $message)
+    {
+        // Permission check
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+            throw new AccessDeniedException();
+        }
+
+        $managedMessage = $this->get('zikula_intercom_module.message_manager')->getManager($message);
+
+        if (!$managedMessage->exists()) {
+            $this->addFlash('error', $this->__('Message does not exists!'));
+
+            return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+        }
+
+        $managedMessage->toggleStored();
+        if ($managedMessage->getMessageUserDetails()->getStored()) {
+            $this->addFlash('status', $this->__('Message stored.'));
+        } else {
+            $this->addFlash('status', $this->__('Message removed from storage.'));
+        }
+
+        return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages', ['box' => 'stored']));
+    }
+
+    /**
+     * @Route("/delete/{message}", options={"expose"=true}, requirements={"message" = "\d*"})
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     *
+     * @return Response symfony response object
+     */
+    public function deleteMessageAction(Request $request, $message)
+    {
+        // Permission check
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+            throw new AccessDeniedException();
+        }
+
+        $managedMessage = $this->get('zikula_intercom_module.message_manager')->getManager($message);
+
+        if (!$managedMessage->exists()) {
+            $this->addFlash('error', $this->__('Message does not exists!'));
+
+            return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+        }
+
+        $managedMessage->toggleDeleted();
+        if ($managedMessage->getMessageUserDetails()->getDeleted()) {
+            $this->addFlash('status', $this->__('Message moved to trash.'));
+        } else {
+            $this->addFlash('status', $this->__('Message removed from trash.'));
+        }
+
+        return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages', ['box' => 'trash']));
+    }
+
+    /**
+     * @Route("/label/{message}/{label}", options={"expose"=true}, requirements={"message" = "\d*"})
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
+     *
+     * @return Response symfony response object
+     */
+    public function labelMessageAction(Request $request, $message, $label = null)
+    {
+        // Permission check
+        if (!$this->get('zikula_intercom_module.access_manager')->hasPermission()) {
+            throw new AccessDeniedException();
+        }
+
+        $managedMessage = $this->get('zikula_intercom_module.message_manager')->getManager($message);
+        $lablesHelper = $this->get('zikula_intercom_module.labels_helper');
+        if (!$managedMessage->exists()) {
+            $this->addFlash('error', $this->__('Message does not exists!'));
+
+            return $this->redirect($this->generateUrl('zikulaintercommodule_messages_getmessages'));
+        }
+
+        $managedMessage->setLabel($lablesHelper->getByReference($label));
+        $this->addFlash('status', $this->__('Message label updated.'));
+
+        return $this->redirect($this->generateUrl('zikulaintercommodule_messages_readmessage', ['message' => $managedMessage->getId()]));
+    }
+
+    /**
+     * @Route("/{box}/{label}/{page}/{sortby}/{sortorder}/{limit}", options={"expose"=true}, requirements={"page" = "\d*"}, defaults={"box" = "inbox", "label" = ".*", "page" = 1,"sortby" = "sent", "sortorder" = "DESC", "limit" = 25})
      *
      * @throws AccessDeniedException Thrown if the user doesn't have admin access to the module
      *
@@ -194,26 +347,18 @@ class MessagesController extends AbstractController
 
         $currentUserManager = $this->get('zikula_intercom_module.user_manager')->getManager();
         $filter = ['page' => $request->get('page') ? $request->get('page') : $page,
-            'limit'       => $limit > 0 ? $limit : $this->getVar('messages_perpage'),
+            'limit'       => $limit == 25 ? $this->getVar('perpage') : $limit,
             'sortorder'   => $sortorder,
             'sortby'      => ($sortby == 'sent' && in_array($box, ['inbox', 'sent'])) ? $sortby : 'created',
             'label'       => ($label !== '.*') ? (int) str_replace('_', '', strstr($label, '_')) : null,
         ];
         $layout = ucfirst($this->getVar('layout'));
-        $messenger = $this->get('zikula_intercom_module.messenger')->load($box, $filter);
-        $messenger->loadUserData();
+        $messenger = $this->get('zikula_intercom_module.messenger')
+            ->getMessenger($currentUserManager->get())
+            ->load($box, $filter)
+            ->loadUserData();
         if ($request->isXmlHttpRequest()) {
             //@todo decode request content type - supply html or json
-//            $response = new JsonResponse();
-//            $response->setData([
-//                'filter' => $filter,
-//                'pager' => $messenger->getPager(),
-//                'html' => $this->renderView("@ZikulaIntercomModule/Layouts/$layout/$box/conversation.list.html.twig", [
-//                    'messages' => $messenger->getmessages()
-//                ])
-//            ]);
-
-//            return $response;
         }
         $filter['label'] = $label;
 
@@ -221,7 +366,7 @@ class MessagesController extends AbstractController
             'box'                => $box,
             'filter'             => $filter,
             'pager'              => $messenger->getPager(),
-            'messages'           => $messenger->getmessages(),
+            'messenger'          => $messenger,
             'settings'           => $this->getVars(),
             'currentUserManager' => $currentUserManager,
             'labelsHelper'       => $this->get('zikula_intercom_module.labels_helper'),

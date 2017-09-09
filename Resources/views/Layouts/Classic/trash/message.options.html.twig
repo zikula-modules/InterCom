@@ -5,13 +5,13 @@
     <div class="conversation-actions col-md-3">
         <div class="btn-group btn-group-sm">
             <a class="btn small text-muted">{{ __('Message options') }}</a>
-            <a data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a>
+            <a href="{{ path('zikulaintercommodule_messages_readmessage', {'message': message.id }) }}" data-id="{{ message.id }}" class="print-conversation btn " role="button" title="{{ __('Print') }}"><i class="fa fa-print"></i></a>
         </div>
     </div>
     <div class="col-md-2">
         <hr/>
     </div>
     <div class="col-md-1 text-right">
-        <a data-id="{{ message.id }}" class="delete-conversation btn btn-sm text-success" role="button" title="{{ __('Un delete') }}">{{ __('Restore') }} <i class="fa fa-undo"></i></a>
+        <a href="{{ path('zikulaintercommodule_messages_deletemessage', {'message': message.id }) }}" data-id="{{ message.id }}" class="delete-conversation btn btn-sm text-success" role="button" title="{{ __('Un delete') }}">{{ __('Restore') }} <i class="fa fa-undo"></i></a>
     </div>
 </div>

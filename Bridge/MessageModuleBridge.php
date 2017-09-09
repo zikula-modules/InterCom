@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ExtensionsModule\Api\VariableApi;
+use Zikula\IntercomModule\Manager\Messenger;
 use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\UsersModule\MessageModule\MessageModuleInterface;
 
@@ -46,6 +47,11 @@ class MessageModuleBridge implements MessageModuleInterface
     private $currentUser;
 
     /**
+     * @var Messenger
+     */
+    private $messenger;
+
+    /**
      * MessagesModuleBridge constructor.
      *
      * @param RouterInterface         $router
@@ -53,29 +59,34 @@ class MessageModuleBridge implements MessageModuleInterface
      * @param VariableApiInterface    $variableApi
      * @param CurrentUserApi          $currentUser
      * @param UserRepositoryInterface $userRepository
-     * @param string                  $prefix
+     * @param Messenger               $messenger
      */
     public function __construct(
         RouterInterface $router,
         RequestStack $requestStack,
         VariableApiInterface $variableApi,
-        CurrentUserApi $currentUser
+        CurrentUserApi $currentUser,
+        Messenger $messanger
     ) {
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->variableApi = $variableApi;
         $this->currentUser = $currentUser;
+        $this->messenger = $messanger;
     }
 
     public function getInboxUrl($uid = null)
     {
+        return $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'inbox']);
     }
 
     public function getMessageCount($uid = null, $unreadOnly = false)
     {
+        return $this->messenger->getMessenger($uid)->getMessagesCount($unreadOnly);
     }
 
     public function getSendMessageUrl($uid = null)
     {
+        return $this->router->generate('zikulaintercommodule_messages_newmessage');
     }
 }

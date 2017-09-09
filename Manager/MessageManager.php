@@ -271,29 +271,21 @@ class MessageManager
      */
     public function reply()
     {
-//        $this->_message->setReplied(new \DateTime('now'));
-//        $this->entityManager->persist($this->_message);
-//        $this->entityManager->flush();
-//        $this->create();
-//
-//        return $this->save();
+        //unused
     }
 
     /**
-     * return forward message array.
+     * return forward message.
      *
-     * @return array
+     * @return object
      */
-    public function prepareForForward()
+    public function getForwardPrepared()
     {
-//        $reply = [];
-//        $reply['id'] = $this->_message->getId();
-//        $reply['sender'] = $this->_message->getRecipient()->toArray();
-//        $reply['recipient'] = '';
-//        $reply['subject'] = __('Fwd:') . ' ' . $this->_message->getSubject();
-//        $reply['text'] = __('Text') . ' ' . $this->_message->getText();
-//
-//        return $reply;
+        $forward = new NormalEntity();
+        $forward->setSubject($this->translator->__('Fwd:').' '.$this->_message->getSubject());
+        $forward->setText($this->translator->__('Text:').' '.$this->_message->getText());
+
+        return $forward;
     }
 
     /**
@@ -401,10 +393,6 @@ class MessageManager
     public function setReplied()
     {
         $messageUserDetails = $this->getMessageUserDetails();
-        if ($messageUserDetails->getReplied()) {
-            return $this;
-        }
-
         $messageUserDetails->setReplied(new \DateTime('now'));
         $this->entityManager->persist($messageUserDetails);
         $this->entityManager->flush();
@@ -432,18 +420,19 @@ class MessageManager
     }
 
     /**
-     * set seen status.
+     * toggle stored status.
      *
      * @return bool
      */
-    public function setStored()
+    public function toggleStored()
     {
         $messageUserDetails = $this->getMessageUserDetails();
         if ($messageUserDetails->getStored()) {
-            return $this;
+            $messageUserDetails->setStored(null);
+        } else {
+            $messageUserDetails->setStored(new \DateTime('now'));
         }
 
-        $messageUserDetails->setStored(new \DateTime('now'));
         $this->entityManager->persist($messageUserDetails);
         $this->entityManager->flush();
 
@@ -455,14 +444,15 @@ class MessageManager
      *
      * @return bool
      */
-    public function delete()
+    public function toggleDeleted()
     {
         $messageUserDetails = $this->getMessageUserDetails();
         if ($messageUserDetails->getDeleted()) {
-            return $this;
+            $messageUserDetails->setDeleted(null);
+        } else {
+            $messageUserDetails->setDeleted(new \DateTime('now'));
         }
 
-        $messageUserDetails->setDeleted(new \DateTime('now'));
         $this->entityManager->persist($messageUserDetails);
         $this->entityManager->flush();
 

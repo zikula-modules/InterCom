@@ -1,7 +1,4 @@
-{% if message.getUserData() and message.getUserData().label %}
-    <span class="label label-info" title="{{ __('Label')}} {{ message.getUserData().label.name }}"> <i class="fa fa-tag"> </i> {{ message.getUserData().label.name }}</span>
-{% else %}
-{% endif %}
+{{ include('@ZikulaIntercomModule/Layouts/Classic/label.choser.html.twig', {'message': message, 'labelsHelper': labelsHelper, 'label': message.getUserData() ? message.getUserData().label : null }) }}
 <div class="btn-group btn-group-sm text-right pull-right">
     {% if message.getUserData() and message.getUserData().notified %}
         <a class="btn text-muted" title="{{ __('Notified')}} {{ message.getUserData().notified|date("m/d/Y") }}"> <i class="fa fa-bell-o"> </i></a>

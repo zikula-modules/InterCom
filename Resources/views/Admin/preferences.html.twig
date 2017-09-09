@@ -13,12 +13,12 @@
 <div class="container-fluid">
     <div class="row">
         <h3>
-            <span class="fa fa-wrench"></span> {{ __('Preferences')}}
+            <span class="fa fa-wrench"></span> {{ __('Settings')}}
         </h3>
         {{ showflashes() }}
-        <div class="alert alert-warning" role="alert"><strong>Warning!</strong> Under construction will be back soon.</div>
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
+        <div class="alert alert-warning" role="alert"><strong>{{ __('Warning!')}}</strong> {{ __('Module is in testing stage please report any bugs on github https://github.com/zikula-modules/InterCom/issues')}}</div>
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">{{ __('General') }}</a></li>
             <li role="presentation"><a href="#display" aria-controls="display" role="tab" data-toggle="tab">{{ __('Display') }}</a></li>

@@ -1,46 +1,38 @@
 {% form_theme form with ['bootstrap_3_horizontal_layout.html.twig'] %}
 {{ form_start(form) }}
 {{ form_errors(form) }}
-<div class="row">
-    <div class="form-group col-xs-12 col-sm-12">
-        {{ form_label(form.sendAsGroup, __('Sending as'), { 'label_attr': {'class': 'col-md-2'} }) }}
-        <!-- Single button -->
-        <div class="btn-group col-md-2">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img width="40px" height="40px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" />
-                {{ currentUserManager.getUserName() }}
-                {#                <span class="caret"></span>#}
-            </button>
-            {#            <ul class="dropdown-menu">
-                            <li><a href="#">{{ __('Groups')  }}</a></li>
-                        </ul>#}
-        </div>
-        <div id="sender_select" class="col-md-3">
-            {{ form_widget(form.sendAsGroup, {'attr': {'class': 'hide' }}) }}
-            {#            <p class="help-block">{{ __('Click to change sender') }}</p>#}
-        </div>
+<div class="form-group col-xs-12 col-md-2">
+    {#            {{ form_label(form.sendAsGroup, __('Sending as'), { 'label_attr': {'class': 'col-md-12'} }) }}#}
+    <!-- Single button -->
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img width="40px" height="40px" src="/images/avatar/gravatar.jpg" alt="..." class="img-circle" />
+            {{ currentUserManager.getUserName() }}
+            {#                <span class="caret"></span>#}
+        </button>
+        {#            <ul class="dropdown-menu">
+                        <li><a href="#">{{ __('Groups')  }}</a></li>
+                    </ul>#}
+    </div>
+    <div id="sender_select" class="col-md-3">
+        {{ form_widget(form.sendAsGroup, {'attr': {'class': 'hide' }}) }}
+        {#            <p class="help-block">{{ __('Click to change sender') }}</p>#}
     </div>
 </div>
-<div class="row">
-    <div class="form-group col-xs-12 col-sm-12">
-        {{ form_label(form.text, __('Text'), { 'label_attr': {'class': 'col-md-2'} }) }}
-        <div class="col-md-9">
-            {{ form_widget(form.text, { 'attr': {'class': '', 'rows': 10} }) }}
-            <p class="help-block">{{ __('Please enter message') }}</p>
-        </div>
-    </div>
+<div class="form-group col-xs-12 col-md-10">
+    {#    {{ form_label(form.text, __('Text'), { 'label_attr': {'class': 'text-left col-md-12'} }) }}#}
+    {{ form_widget(form.text, { 'attr': {'class': 'message_ajax_reply', 'rows': 10} }) }}
+    <p class="help-block">{{ __('Please enter message') }}</p>
 </div>
 {% if managedMessage.isPreview() %}
-    <div id="message_preview" class="row">
-        <div class="alert alert-warning" role="alert">{{ __('Under construction!') }}</div>
-    </div>
+    {{ include("@ZikulaIntercomModule/Layouts/Classic/message.preview.html.twig") }}
 {% endif %}
-<div class="form-group form-buttons">
-    <a class="btn btn-sm btn-default" href="#" role="button">{{ __('Cancel and go to Inbox') }}</a>
-    {{ form_widget(form.saveAsDraft, {'attr': {'class': 'btn btn-sm btn-success'}, 'label': __('Save message as draft')}) }}
+<div class="form-group col-xs-12 col-md-12 form-buttons">
+    <a class="btn btn-sm btn-default" href="{{ path('zikulaintercommodule_messages_getmessages') }}" role="button">{{ __('Cancel and go to Inbox') }}</a>
+    {{ form_widget(form.saveAsDraft, {'attr': {'class': 'btn btn-sm btn-success'}, 'label': __('Save reply message as draft')}) }}
     {{ form_widget(form.preview, {'attr': {'class': 'btn btn-sm btn-default'}, 'label': __('Preview')}) }}
     <div class="col-md-3 pull-right text-right">
-        {{ form_widget(form.send, {'attr': {'class': 'btn btn-sm btn-primary'}, 'label': __('Send message')}) }}
+        {{ form_widget(form.send, {'attr': {'class': 'btn btn-sm btn-primary'}, 'label': __('Send reply message')}) }}
     </div>
 </div>
 {{ form_end(form) }}

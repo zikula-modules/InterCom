@@ -1,0 +1,30 @@
+{# values used labelsHelper and label #}
+{% if labelsHelper is defined and not null %}
+    <div class="btn-group">
+        <button type="button"
+                class="btn {% if label %}btn-info{% else %}btn-default{% endif %} btn-xs dropdown-toggle"
+                title="{% if label %}{{ __('Label')}}{{ label.name }}{% else %}{{ __('Add label') }}{% endif %}"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+            {% if label %} <i class="fa fa-tag"> </i> {{ label.name }}
+            {% else %} <i class="fa fa-tag"> </i> {#{{ __('Add label') }}#}
+            {% endif %}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            {% for l in labelsHelper.getDefaultLabels() %}
+                {% if label == l %}
+                    <li class="disabled"><a href="">{{ l.name }}</a></li>
+                    {% else %}
+                    <li><a href="{{ path('zikulaintercommodule_messages_labelmessage', {'message': message.id, 'label': l.getUrlName()}) }}">{{ l.name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if label %}
+                <li role="separator" class="divider"></li>
+                <li><a href="{{ path('zikulaintercommodule_messages_labelmessage', {'message': message.id}) }}">{{ __('Remove label') }} {{ label.name }}</a></li>
+                {% else %}
+                {% endif %}
+        </ul>
+    </div>
+{% endif %}

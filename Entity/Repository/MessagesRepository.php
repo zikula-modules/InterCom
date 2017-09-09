@@ -49,11 +49,15 @@ class MessagesRepository extends EntityRepository
         $qb = $this->createQueryBuilder('m')
             ->select('m')
             ->leftJoin('m.recipientUsers', 'u')
+            ->leftJoin('m.messageUserData', 'd')
             ->where('m.id = u.message')
-            ->andWhere('u.user = :user')
-            ->setParameter('user', $user)
+            ->andWhere('m.id = d.message')
             ->andWhere('m.parent IS NULL')
-            ->andWhere('m.sent IS NOT NULL');
+            ->andWhere('m.sent IS NOT NULL')
+            ->andWhere('u.user = :user')
+            ->andWhere('d.user = :user')
+            ->andWhere('d.deleted IS NULL')
+            ->setParameter('user', $user);
 
         switch ($sortby) {
             case 'sent':
@@ -80,10 +84,14 @@ class MessagesRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('m')
             ->select('m')
+            ->leftJoin('m.messageUserData', 'd')
             ->where('m.sender = :user')
-            ->setParameter('user', $user)
+            ->andWhere('m.id = d.message')
             ->andWhere('m.parent IS NULL')
-            ->andWhere('m.sent IS NOT NULL');
+            ->andWhere('m.sent IS NOT NULL')
+            ->andWhere('d.user = :user')
+            ->andWhere('d.deleted IS NULL')
+            ->setParameter('user', $user);
 
         switch ($sortby) {
             case 'sent':
@@ -149,7 +157,7 @@ class MessagesRepository extends EntityRepository
             ->andWhere('u.user = :user')
             ->andWhere('d.user = :user')
             ->andWhere('d.stored IS NOT NULL')
-//            ->andWhere('d.deleted IS NULL')
+            ->andWhere('d.deleted IS NULL')
             ->setParameter('user', $user);
 
         switch ($sortby) {
@@ -249,5 +257,30 @@ class MessagesRepository extends EntityRepository
         $paginator = $this->paginate($query, $page, $limit);
 
         return $paginator;
+    }
+
+    public function getMessagesCountByUser($user, $notSeen = false)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('count(m.id)')
+            ->leftJoin('m.recipientUsers', 'u')
+            ->leftJoin('m.messageUserData', 'd')
+            ->where('m.id = u.message')
+            ->andWhere('m.id = d.message')
+            ->andWhere('m.parent IS NULL') // only parents
+            ->andWhere('m.sent IS NOT NULL') // only inbox recived pessages
+            ->andWhere('u.user = :user')
+            ->andWhere('d.user = :user')
+            ->andWhere('d.deleted IS NULL') // not deleted
+            ->setParameter('user', $user);
+
+        if ($notSeen) {
+            $qb->andWhere('d.seen IS NULL'); // not seen
+        }
+
+        return $qb->getQuery()
+                ->useQueryCache(true)
+                ->useResultCache(true, 3600)
+                ->getSingleScalarResult();
     }
 }
