@@ -7,7 +7,7 @@
 {% endblock %}
 {% block title %}
     {% set title_icon="<i class='fa fa-#{box}'></i>" %}
-    {% set title=__(box|capitalize) %}
+    {% set title=box|capitalize|trans %}
     {{ moduleHeader('user', __('Messages'), '', true) }}
     {{ pageSetVar('title', title) }}
     <div class="row">

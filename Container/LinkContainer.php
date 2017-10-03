@@ -220,7 +220,7 @@ class LinkContainer implements LinkContainerInterface
         foreach ($defaultLabels as $dLabel) {
             $labelsLinks[] = [
                         'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels', 'label' => $dLabel->getUrlName()]),
-                        'text'  => $this->translator->__($dLabel->getName()),
+                        'text'  => $this->translator->__f('%s', $dLabel->getName()), // @todo is this a proper way?
                         'icon'  => 'tag',
                     ];
         }
