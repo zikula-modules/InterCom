@@ -44,28 +44,28 @@ class MessageUserDetailsEntity extends EntityAccess
     /**
      * seen.
      *
-     * @ORM\Column(type="datetime", nullable=true, options={"default":null})
+     * @ORM\Column(name="seen_date",type="datetime", nullable=true, options={"default":null})
      */
     private $seen;
 
     /**
      * replied.
      *
-     * @ORM\Column(type="datetime", nullable=true, options={"default":null})
+     * @ORM\Column(name="replied_date",type="datetime", nullable=true, options={"default":null})
      */
     private $replied;
 
     /**
      * notified.
      *
-     * @ORM\Column(type="datetime", nullable=true, options={"default":null})
+     * @ORM\Column(name="notified_date",type="datetime", nullable=true, options={"default":null})
      */
     private $notified;
 
     /**
      * stored.
      *
-     * @ORM\Column(type="datetime", nullable=true, options={"default":null})
+     * @ORM\Column(name="stored_date", type="datetime", nullable=true, options={"default":null})
      */
     private $stored;
 

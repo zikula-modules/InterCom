@@ -23,7 +23,7 @@ trait UserTrait
      *  User field.
      *
      * @ORM\ManyToOne(targetEntity="Zikula\UsersModule\Entity\UserEntity")
-     * @ORM\JoinColumn(name="user", referencedColumnName="uid", nullable=true)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="uid", nullable=true)
      */
     private $user;
 
