@@ -51,11 +51,13 @@ class MessagesRepository extends EntityRepository
             ->leftJoin('m.recipientUsers', 'u')
             ->leftJoin('m.messageUserData', 'd')
             ->where('m.id = u.message')
-            ->andWhere('m.id = d.message')
             ->andWhere('m.parent IS NULL')
             ->andWhere('m.sent IS NOT NULL')
             ->andWhere('u.user = :user')
+            ->andWhere('m.id = d.message')
+            ->orWhere('d.message IS NULL')
             ->andWhere('d.user = :user')
+            ->orWhere('d.user IS NULL')
             ->andWhere('d.deleted IS NULL')
             ->setParameter('user', $user);
 
@@ -86,10 +88,12 @@ class MessagesRepository extends EntityRepository
             ->select('m')
             ->leftJoin('m.messageUserData', 'd')
             ->where('m.sender = :user')
-            ->andWhere('m.id = d.message')
             ->andWhere('m.parent IS NULL')
             ->andWhere('m.sent IS NOT NULL')
+            ->andWhere('m.id = d.message')
+            ->orWhere('d.message IS NULL')
             ->andWhere('d.user = :user')
+            ->orWhere('d.user IS NULL')
             ->andWhere('d.deleted IS NULL')
             ->setParameter('user', $user);
 
