@@ -46,19 +46,28 @@ class MessagesRepository extends EntityRepository
 
     public function getRecivedMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
     {
-        $qb = $this->createQueryBuilder('m')
-            ->select('m')
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('m')
             ->leftJoin('m.recipientUsers', 'u')
             ->leftJoin('m.messageUserData', 'd')
-            ->where('m.id = u.message')
-            ->andWhere('m.parent IS NULL')
-            ->andWhere('m.sent IS NOT NULL')
-            ->andWhere('u.user = :user')
-            ->andWhere('m.id = d.message')
-            ->orWhere('d.message IS NULL')
-            ->andWhere('d.user = :user')
-            ->orWhere('d.user IS NULL')
-            ->andWhere('d.deleted IS NULL')
+            ->andWhere(
+                $qb->expr()->andX(
+                    'm.id = u.message',
+                    'u.user = :user',
+                    $qb->expr()->isNull('m.parent'),
+                    $qb->expr()->isNotNull('m.sent')
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->andX(
+                        'm.id = d.message',
+                        'd.user = :user',
+                        $qb->expr()->isNull('d.deleted')
+                    ),
+                    $qb->expr()->isNull('d.message')
+                )
+            )
             ->setParameter('user', $user);
 
         switch ($sortby) {
@@ -84,17 +93,26 @@ class MessagesRepository extends EntityRepository
 
     public function getSentMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
     {
-        $qb = $this->createQueryBuilder('m')
-            ->select('m')
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('m')
             ->leftJoin('m.messageUserData', 'd')
-            ->where('m.sender = :user')
-            ->andWhere('m.parent IS NULL')
-            ->andWhere('m.sent IS NOT NULL')
-            ->andWhere('m.id = d.message')
-            ->orWhere('d.message IS NULL')
-            ->andWhere('d.user = :user')
-            ->orWhere('d.user IS NULL')
-            ->andWhere('d.deleted IS NULL')
+            ->andWhere(
+                $qb->expr()->andX(
+                    'm.sender = :user',
+                    $qb->expr()->isNull('m.parent'),
+                    $qb->expr()->isNotNull('m.sent')
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->andX(
+                            'm.id = d.message',
+                            'd.user = :user',
+                            $qb->expr()->isNull('d.deleted')
+                        ),
+                    $qb->expr()->isNull('d.message')
+                )
+            )
             ->setParameter('user', $user);
 
         switch ($sortby) {
@@ -120,12 +138,16 @@ class MessagesRepository extends EntityRepository
 
     public function getDraftMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
     {
-        $qb = $this->createQueryBuilder('m')
-            ->select('m')
-            ->where('m.sender = :user')
-            ->setParameter('user', $user)
-            ->andWhere('m.parent IS NULL')
-            ->andWhere('m.sent IS NULL');
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('m')
+            ->andWhere(
+                $qb->expr()->andX(
+                    'm.sender = :user',
+                    $qb->expr()->isNull('m.parent'),
+                    $qb->expr()->isNull('m.sent')
+                )
+            )
+            ->setParameter('user', $user);
 
         switch ($sortby) {
             case 'created':
@@ -150,18 +172,22 @@ class MessagesRepository extends EntityRepository
 
     public function getStoredMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
     {
-        $qb = $this->createQueryBuilder('m')
-            ->select('m')
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('m')
             ->leftJoin('m.recipientUsers', 'u')
             ->leftJoin('m.messageUserData', 'd')
-            ->where('m.id = u.message')
-            ->andWhere('m.id = d.message')
-            ->andWhere('m.parent IS NULL')
-//            ->andWhere('m.sent IS NOT NULL')
-            ->andWhere('u.user = :user')
-            ->andWhere('d.user = :user')
-            ->andWhere('d.stored IS NOT NULL')
-            ->andWhere('d.deleted IS NULL')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->isNull('m.parent'),
+                    $qb->expr()->isNotNull('m.sent'),
+                    'm.id = u.message',
+                    'u.user = :user',
+                    'm.id = d.message',
+                    'd.user = :user',
+                    $qb->expr()->isNotNull('d.stored'),
+                    $qb->expr()->isNull('d.deleted')
+                )
+            )
             ->setParameter('user', $user);
 
         switch ($sortby) {
@@ -187,17 +213,21 @@ class MessagesRepository extends EntityRepository
 
     public function getDeletedMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1)
     {
-        $qb = $this->createQueryBuilder('m')
-            ->select('m')
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('m')
             ->leftJoin('m.recipientUsers', 'u')
             ->leftJoin('m.messageUserData', 'd')
-            ->where('m.id = u.message')
-            ->andWhere('m.id = d.message')
-            ->andWhere('m.parent IS NULL')
-            ->andWhere('m.sent IS NOT NULL')
-            ->andWhere('u.user = :user')
-            ->andWhere('d.user = :user')
-            ->andWhere('d.deleted IS NOT NULL')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->isNull('m.parent'),
+                    $qb->expr()->isNotNull('m.sent'),
+                    'm.id = u.message',
+                    'u.user = :user',
+                    'm.id = d.message',
+                    'd.user = :user',
+                    $qb->expr()->isNotNull('d.deleted')
+                )
+            )
             ->setParameter('user', $user);
 
         switch ($sortby) {
@@ -221,22 +251,26 @@ class MessagesRepository extends EntityRepository
         return $paginator;
     }
 
-    public function getLabeledMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1, $label = 1)
+    public function getLabeledMessagesByUser($user, $sortby, $sortorder, $limit, $page = 1, $label = false)
     {
-        $qb = $this->createQueryBuilder('m')
-            ->select('m')
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('m')
             ->leftJoin('m.recipientUsers', 'u')
             ->leftJoin('m.messageUserData', 'd')
-            ->where('m.id = u.message')
-            ->andWhere('m.id = d.message')
-            ->andWhere('m.parent IS NULL')
-//            ->andWhere('m.sent IS NOT NULL')
-            ->andWhere('u.user = :user')
-            ->andWhere('d.user = :user')
-            ->andWhere('d.deleted IS NULL')
-            ->andWhere('d.label IS NOT NULL')
+            ->andWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->isNull('m.parent'),
+                    $qb->expr()->isNotNull('m.sent'),
+                    'm.id = u.message',
+                    'u.user = :user',
+                    'm.id = d.message',
+                    'd.user = :user',
+                    $qb->expr()->isNotNull('d.label'),
+                    $qb->expr()->isNull('d.deleted')
+                )
+            )
             ->setParameter('user', $user);
-        dump($label);
+
         if ($label) {
             $qb->andWhere('d.label = :label')
             ->setParameter('label', $label);
@@ -265,21 +299,42 @@ class MessagesRepository extends EntityRepository
 
     public function getMessagesCountByUser($user, $notSeen = false)
     {
-        $qb = $this->createQueryBuilder('m')
-            ->select('count(m.id)')
+        $qb = $this->createQueryBuilder('m');
+        $qb->select('count(m.id)')
             ->leftJoin('m.recipientUsers', 'u')
             ->leftJoin('m.messageUserData', 'd')
-            ->where('m.id = u.message')
-            ->andWhere('m.id = d.message')
-            ->andWhere('m.parent IS NULL') // only parents
-            ->andWhere('m.sent IS NOT NULL') // only inbox recived pessages
-            ->andWhere('u.user = :user')
-            ->andWhere('d.user = :user')
-            ->andWhere('d.deleted IS NULL') // not deleted
+            ->andWhere(
+                $qb->expr()->andX(
+                    'm.id = u.message',
+                    'u.user = :user',
+                    $qb->expr()->isNull('m.parent'),
+                    $qb->expr()->isNotNull('m.sent')
+                )
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->andX(
+                        'm.id = d.message',
+                        'd.user = :user',
+                        $qb->expr()->isNull('d.deleted')
+                    ),
+                    $qb->expr()->isNull('d.message')
+                )
+            )
             ->setParameter('user', $user);
 
         if ($notSeen) {
-            $qb->andWhere('d.seen IS NULL'); // not seen
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->andX(
+                        'm.id = d.message',
+                        'd.user = :user',
+                        $qb->expr()->isNull('d.seen'),
+                        $qb->expr()->isNull('d.deleted')
+                    ),
+                    $qb->expr()->isNull('d.message')
+                )
+            );
         }
 
         return $qb->getQuery()
