@@ -233,7 +233,27 @@ class PreferencesType extends AbstractType
             'expanded' => true,
             'required' => true,
             ])
-
+        //Stored
+        ->add('stored_enabled', ChoiceType::class, [
+            'choices'  => ['0' => 'Off', '1' => 'On'],
+            'multiple' => false,
+            'expanded' => true,
+            'required' => true,
+            ])
+        //Trash
+        ->add('trash_enabled', ChoiceType::class, [
+            'choices'  => ['0' => 'Off', '1' => 'On'],
+            'multiple' => false,
+            'expanded' => true,
+            'required' => true,
+            ])
+        //Drafts
+        ->add('user_preferences_enabled', ChoiceType::class, [
+            'choices'  => ['0' => 'Off', '1' => 'On'],
+            'multiple' => false,
+            'expanded' => true,
+            'required' => true,
+            ])
         ->add('save', SubmitType::class)
         ->add('cancel', SubmitType::class);
     }

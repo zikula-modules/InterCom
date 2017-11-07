@@ -29,10 +29,10 @@
 {% endif %}
 <div class="form-group col-xs-12 col-md-12 form-buttons">
     <a class="btn btn-sm btn-default" href="{{ path('zikulaintercommodule_messages_getmessages') }}" role="button">{{ __('Cancel and go to Inbox') }}</a>
-    {{ form_widget(form.saveAsDraft, {'attr': {'class': 'btn btn-sm btn-success'}, 'label': __('Save reply message as draft')}) }}
-    {{ form_widget(form.preview, {'attr': {'class': 'btn btn-sm btn-default'}, 'label': __('Preview')}) }}
+    {{ form_widget(form.saveAsDraft, {'attr': {'class': settings.drafts_enabled ? 'btn btn-sm btn-success' : 'hide'}, 'label': __('Save reply message as draft')}) }}
+    {{ form_widget(form.preview, {'attr': {'class': 'btn btn-sm btn-default hide'}, 'label': __('Preview')}) }} {# @todo preview #}
     <div class="col-md-3 pull-right text-right">
-        {{ form_widget(form.send, {'attr': {'class': 'btn btn-sm btn-primary'}, 'label': __('Send reply message')}) }}
+        {{ form_widget(form.send, {'attr': {'class': 'btn btn-sm btn-primary'}, 'label': __('Send reply message')})}}
     </div>
 </div>
-{{ form_end(form) }}
+{{ form_end(form)}}

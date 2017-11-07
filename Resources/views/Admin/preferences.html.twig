@@ -63,6 +63,13 @@
                             {{ form_errors(form.disable_ajax) }}
                         </div>
                     </div>
+                    <div class="form-group">
+                        {{ form_label(form.user_preferences_enabled,'Enable users preferences',{ 'label_attr': {'class': 'col-md-4'} }) }}
+                        <div class="col-md-8">
+                            {{ form_widget(form.user_preferences_enabled,{'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                            {{ form_errors(form.user_preferences_enabled) }}
+                        </div>
+                    </div>
                 </fieldset>
                 <fieldset>
                     <legend>{{ __('Limits') }}</legend>
@@ -272,13 +279,39 @@
                 <fieldset>
                     <legend>{{ __('Drafts') }}</legend>
                     <p class="col-md-12 help-block alert alert-info ">
-                        {{ __("This new option enables InterCom to be used as a way to contact the site support.")}}
+                        {{ __("This new option enables InterCom drafts folder.")}}
                     </p>
                     <div class="form-group">
                         {{ form_label(form.drafts_enabled, __('Enable Drafts') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
                         <div class="col-md-8">
                             {{ form_widget(form.drafts_enabled, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
                             {{ form_errors(form.drafts_enabled) }}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>{{ __('Stored') }}</legend>
+                    <p class="col-md-12 help-block alert alert-info ">
+                        {{ __("This new option enables InterCom stored folder.")}}
+                    </p>
+                    <div class="form-group">
+                        {{ form_label(form.stored_enabled, __('Enable Stored') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                        <div class="col-md-8">
+                            {{ form_widget(form.stored_enabled, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                            {{ form_errors(form.stored_enabled) }}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>{{ __('Trash') }}</legend>
+                    <p class="col-md-12 help-block alert alert-info ">
+                        {{ __("This new option enables InterCom trash folder.")}}
+                    </p>
+                    <div class="form-group">
+                        {{ form_label(form.trash_enabled, __('Enable Stored') ,{ 'label_attr': {'class': 'col-md-4'} }) }}
+                        <div class="col-md-8">
+                            {{ form_widget(form.trash_enabled, {'attr': {'class': 'btn btn-primary radio-inline' }}) }}
+                            {{ form_errors(form.trash_enabled) }}
                         </div>
                     </div>
                 </fieldset>

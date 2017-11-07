@@ -271,29 +271,35 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             'savewelcomemessage'    => false,
             'intlwelcomemessage'    => '',
             //Protection
-            'protection_on'     => true,
+            'protection_on'     => false,
             'protection_time'   => '15',
             'protection_amount' => '15',
             'protection_mail'   => false,
             //layout
             'layout' => 'classic',
             //labels
-            'labels_enabled'      => true,
-            'user_labels_enabled' => true,
+            'labels_enabled'      => false,
+            'user_labels_enabled' => false,
             //System notifications
-            'notifications_enabled' => true,
+            'notifications_enabled' => false,
             //Support messages
-            'support_enabled' => true,
+            'support_enabled' => false,
             //Group sender
-            'group_sender_enabled' => true,
+            'group_sender_enabled' => false,
             'group_sender_type'    => 'owner',
             //Multiple user recipients
-            'multiple_user_recipients_enabled' => true,
+            'multiple_user_recipients_enabled' => false,
             //Group recipients
-            'group_recipient_enabled'           => true,
-            'multiple_group_recipients_enabled' => true,
+            'group_recipient_enabled'           => false,
+            'multiple_group_recipients_enabled' => false,
             //draft
-            'drafts_enabled' => true,
+            'drafts_enabled' => false,
+            //stored
+            'stored_enabled' => false,
+            //trash
+            'trash_enabled' => false,
+            // user preferences
+            'user_preferences_enabled' => false
         ];
     }
 }

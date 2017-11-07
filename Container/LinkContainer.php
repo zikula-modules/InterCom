@@ -108,16 +108,15 @@ class LinkContainer implements LinkContainerInterface
             'title' => $this->translator->__('Recived messages'),
             'icon'  => 'inbox',
         ];
-        //@todo add something more general to disable user preferences even if this and future features are enabled
-        // disable till preferences are actually used
-//        if ($this->variableApi->get($this->name, 'allow_emailnotification', false) && $this->variableApi->get($this->name, 'allow_autoreply', false)) {
-//            $links[] = [
-//                'url'   => $this->router->generate('zikulaintercommodule_user_preferences'),
-//                'text'  => $this->translator->__('Messages settings'),
-//                'title' => $this->translator->__('Private messaging settings'),
-//                'icon'  => 'wrench',
-//            ];
-//        }
+
+        if ($this->variableApi->get($this->name, 'user_preferences_enabled', false)) {
+            $links[] = [
+                'url'   => $this->router->generate('zikulaintercommodule_user_preferences'),
+                'text'  => $this->translator->__('Messages settings'),
+                'title' => $this->translator->__('Private messaging settings'),
+                'icon'  => 'wrench',
+            ];
+        }
 
         return $links;
     }
@@ -141,27 +140,27 @@ class LinkContainer implements LinkContainerInterface
                 'text'  => $this->translator->__('Settings'),
                 'title' => $this->translator->__('Adjust module settings'),
                 'icon'  => 'wrench', ];
-//            if ($this->variableApi->get($this->name, 'labels_enabled', false)) {
-//                $links[] = [
-//                    'url'   => $this->router->generate('zikulaintercommodule_labels_list'),
-//                    'text'  => $this->translator->__('Labels'),
-//                    'title' => $this->translator->__('Here you can import messages from older versions'),
-//                    'icon'  => 'tags', ];
-//            }
-//            if ($this->variableApi->get($this->name, 'support_enabled', false)) {
-//                $links[] = [
-//                    'url'   => $this->router->generate('zikulaintercommodule_support_list'),
-//                    'text'  => $this->translator->__('Support messages'),
-//                    'title' => $this->translator->__('Here you can import messages from older versions'),
-//                    'icon'  => 'life-buoy', ];
-//            }
-//            if ($this->variableApi->get($this->name, 'notifications_enabled', false)) {
-//                $links[] = [
-//                    'url'   => $this->router->generate('zikulaintercommodule_notifications_list'),
-//                    'text'  => $this->translator->__('Notifications'),
-//                    'title' => $this->translator->__('Here you can import messages from older versions'),
-//                    'icon'  => 'bullhorn', ];
-//            }
+            if ($this->variableApi->get($this->name, 'labels_enabled', false)) {
+                $links[] = [
+                    'url'   => $this->router->generate('zikulaintercommodule_labels_list'),
+                    'text'  => $this->translator->__('Labels'),
+                    'title' => $this->translator->__('Here you can import messages from older versions'),
+                    'icon'  => 'tags', ];
+            }
+            if ($this->variableApi->get($this->name, 'support_enabled', false)) {
+                $links[] = [
+                    'url'   => $this->router->generate('zikulaintercommodule_support_list'),
+                    'text'  => $this->translator->__('Support messages'),
+                    'title' => $this->translator->__('Here you can import messages from older versions'),
+                    'icon'  => 'life-buoy', ];
+            }
+            if ($this->variableApi->get($this->name, 'notifications_enabled', false)) {
+                $links[] = [
+                    'url'   => $this->router->generate('zikulaintercommodule_notifications_list'),
+                    'text'  => $this->translator->__('Notifications'),
+                    'title' => $this->translator->__('Here you can import messages from older versions'),
+                    'icon'  => 'bullhorn', ];
+            }
             $links[] = [
                 'url'   => $this->router->generate('zikulaintercommodule_import_status'),
                 'text'  => $this->translator->__('Import'),
@@ -196,50 +195,58 @@ class LinkContainer implements LinkContainerInterface
             'title' => $this->translator->__('Messages sent by you'),
             'icon'  => 'envelope',
         ];
-        $links[] = [
-            'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'draft']),
-            'text'  => $this->translator->__('Draft'),
-            'title' => $this->translator->__('Draft messages'),
-            'icon'  => 'file-text',
-        ];
-        $links[] = [
-            'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'stored']),
-            'text'  => $this->translator->__('Stored'),
-            'title' => $this->translator->__('Saved messages'),
-            'icon'  => 'floppy-o',
-        ];
-        $links[] = [
-            'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'trash']),
-            'text'  => $this->translator->__('Trash'),
-            'title' => $this->translator->__('Deleted messages'),
-            'icon'  => 'trash',
-        ];
 
-        $defaultLabels = $this->labelsHelper->getDefaultLabels();
-        $labelsLinks = [];
-        foreach ($defaultLabels as $dLabel) {
-            $labelsLinks[] = [
-                        'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels', 'label' => $dLabel->getUrlName()]),
-                        'text'  => $this->translator->__f('%s', ['%s' => $dLabel->getName()]), // @todo is this a proper way?
-                        'icon'  => 'tag',
-                    ];
-        }
-        $links[] = [
-            'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels']),
-            'text'  => $this->translator->__('Labels'),
-            'title' => $this->translator->__('Messages by label'),
-            'icon'  => 'tags',
-            'links' => $labelsLinks,
+        if ($this->variableApi->get($this->name, 'drafts_enabled', false)) {
+            $links[] = [
+                'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'draft']),
+                'text'  => $this->translator->__('Draft'),
+                'title' => $this->translator->__('Draft messages'),
+                'icon'  => 'file-text',
             ];
-        //@todo add something more general to disable user preferences even if this and future features are enabled
-//        if ($this->variableApi->get($this->name, 'allow_emailnotification', false) && $this->variableApi->get($this->name, 'allow_autoreply', false)) {
-//            $links[] = [
-//                'url'   => $this->router->generate('zikulaintercommodule_user_preferences'),
-//                'text'  => $this->translator->__('Settings'),
-//                'title' => $this->translator->__('Private messaging settings'),
-//                'icon'  => 'wrench',
-//            ];
-//        }
+        }
+
+        if ($this->variableApi->get($this->name, 'stored_enabled', false)) {
+            $links[] = [
+                'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'stored']),
+                'text'  => $this->translator->__('Stored'),
+                'title' => $this->translator->__('Saved messages'),
+                'icon'  => 'floppy-o',
+            ];
+        }
+        if ($this->variableApi->get($this->name, 'trash_enabled', false)) {
+            $links[] = [
+                'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'trash']),
+                'text'  => $this->translator->__('Trash'),
+                'title' => $this->translator->__('Deleted messages'),
+                'icon'  => 'trash',
+            ];
+        }
+        if ($this->variableApi->get($this->name, 'labels_enabled', false)) {
+            $defaultLabels = $this->labelsHelper->getDefaultLabels();
+            $labelsLinks = [];
+            foreach ($defaultLabels as $dLabel) {
+                $labelsLinks[] = [
+                            'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels', 'label' => $dLabel->getUrlName()]),
+                            'text'  => $this->translator->__f('%s', ['%s' => $dLabel->getName()]), // @todo is this a proper way?
+                            'icon'  => 'tag',
+                        ];
+            }
+            $links[] = [
+                'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels']),
+                'text'  => $this->translator->__('Labels'),
+                'title' => $this->translator->__('Messages by label'),
+                'icon'  => 'tags',
+                'links' => $labelsLinks,
+                ];
+        }
+        if ($this->variableApi->get($this->name, 'user_preferences_enabled', false)) {
+            $links[] = [
+                'url'   => $this->router->generate('zikulaintercommodule_user_preferences'),
+                'text'  => $this->translator->__('Settings'),
+                'title' => $this->translator->__('Private messaging settings'),
+                'icon'  => 'wrench',
+            ];
+        }
         $links[] = [
             'url'   => $this->router->generate('zikulaintercommodule_messages_newmessage'),
             'text'  => $this->translator->__('New message'),
