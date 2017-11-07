@@ -16,10 +16,12 @@
     {% else %}
         <a class="btn text-muted" title="{{ __('Not replied.')}}"> <i class="fa fa-comments"> </i> {{ message.conversation.count() }}</a>
     {% endif %}
-    {% if message.getUserData() and message.getUserData().stored %}
-        <a class="btn text-success" title="{{ __('Message is saved')}}"><i class='fa fa-save'></i> </a>
-    {% else %}
-        <a class="btn text-muted" title="{{ __('Message is not saved')}}"><i class='fa fa-save'></i> </a>
+    {% if settings.stored_enabled %}
+        {% if message.getUserData() and message.getUserData().stored %}
+            <a class="btn text-success" title="{{ __('Message is saved')}}"><i class='fa fa-save'></i> </a>
+        {% else %}
+            <a class="btn text-muted" title="{{ __('Message is not saved')}}"><i class='fa fa-save'></i> </a>
+        {% endif %}
     {% endif %}
     <div class="btn hide"><input class="conversation-select" data-id="{{ message.id }}" name="selectable[{{ message.id }}]" type="checkbox"></div>
 </div>

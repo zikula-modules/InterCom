@@ -1,5 +1,5 @@
 {# values used labelsHelper and label #}
-{% if labelsHelper is defined and not null %}
+{% if labelsHelper is defined and not null and settings.labels_enabled %}
     <div class="btn-group">
         <button type="button"
                 class="btn {% if label %}btn-info{% else %}btn-default{% endif %} btn-xs dropdown-toggle"

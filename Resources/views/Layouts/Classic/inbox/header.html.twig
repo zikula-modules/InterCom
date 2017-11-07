@@ -32,7 +32,7 @@
                 {% endif %}                   
         </div>
         <div class="col-md-2">
-            {{ __('Label') }}
+            {% if settings.labels_enabled %} {{ __('Label') }} {% endif %}
         </div>
         <div class="col-md-3 text-right pull-right">
             <div class="btn-group btn-group-sm pull-right">  

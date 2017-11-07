@@ -64,10 +64,10 @@
         <div class="col-md-2">
             <a class="btn btn-sm btn-default" href="{{ path('zikulaintercommodule_messages_getmessages') }}" role="button">{{ __('Cancel and go to Inbox') }}</a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 {% if settings.drafts_enabled %} {% else %} hide {% endif %}">
             {{ form_widget(form.saveAsDraft, {'attr': {'class': 'btn btn-sm btn-success'}, 'label': __('Save message as draft')}) }}
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 hide">
             {{ form_widget(form.preview, {'attr': {'class': 'btn btn-sm btn-default'}, 'label': __('Preview')}) }}
         </div>
         <div class="col-md-3 pull-right text-right">
