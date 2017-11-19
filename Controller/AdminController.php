@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
 use Zikula\IntercomModule\Form\Type\PreferencesType;
+use Zikula\ThemeModule\Engine\Annotation\Theme;
 
 /**
  * @Route("messages/admin")
@@ -26,6 +27,8 @@ class AdminController extends AbstractController
 {
     /**
      * @Route("/status")
+     *
+     * @Theme("admin")
      *
      * the main administration function
      *
@@ -53,6 +56,8 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/preferences")
+     *
+     * @Theme("admin")
      *
      * @param Request $request
      *
@@ -85,6 +90,8 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/import")
+     *
+     * @Theme("admin")
      *
      * the main administration function
      *

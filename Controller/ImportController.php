@@ -27,6 +27,7 @@ class ImportController extends AbstractController
 {
     /**
      * @Route("/status", options={"expose"=true})
+     *
      * @Theme("admin")
      *
      * the main administration function
@@ -41,9 +42,8 @@ class ImportController extends AbstractController
 
         $importHelper = $this->get('zikula_intercom_module.import_helper');
 
-        $data = [];
         if (0 === strpos($request->headers->get('Accept'), 'application/json')) {
-            return new Response(json_encode($data));
+            return new Response(json_encode([]));
         }
 
         return $this->render('ZikulaIntercomModule:Import:index.html.twig', [
@@ -53,6 +53,7 @@ class ImportController extends AbstractController
 
     /**
      * @Route("/import", options={"expose"=true})
+     *
      * @Theme("admin")
      *
      * the main administration function
