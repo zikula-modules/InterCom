@@ -65,7 +65,7 @@ class ImportHelper
     public function getCurrentData()
     {
         if (!$this->isUpgrading()) {
-            return [];
+            return 0;
         }
 
         $connection = $this->entityManager->getConnection();
@@ -98,7 +98,7 @@ class ImportHelper
     public function getTotal()
     {
         if (!$this->isUpgrading()) {
-            return [];
+            return 0;
         }
 
         $connection = $this->entityManager->getConnection();
