@@ -1,6 +1,6 @@
 {
     "name": "zikula/intercom-module",
-    "version": "3.0.0",
+    "version": "4.0.0",
     "description": "Provides a private messaging system with an individual mailbox for each user, incorporating integration with the user account panel and with various other modules and blocks.",
     "type": "zikula-module",
     "license": "LGPL-3.0+",
