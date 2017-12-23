@@ -58,7 +58,7 @@ class AccessManager
         PermissionApi $permissionApi,
         VariableApi $variableApi
     ) {
-        $this->name = 'ZikulaDizkusModule';
+        $this->name = 'ZikulaIntercomModule';
         $this->requestStack = $requestStack;
         $this->request = $requestStack->getMasterRequest();
         $this->entityManager = $entityManager;
