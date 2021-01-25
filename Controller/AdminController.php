@@ -48,9 +48,9 @@ class AdminController extends AbstractController
 //        ->getAll(['stored' => 'bysender']);
 
         return $this->render('ZikulaIntercomModule:Admin:index.html.twig', [
-//            'inbox' => $inbox->count(),
-//            'outbox' => $outbox->count(),
-//            'archive' => $archive->count()
+            //            'inbox' => $inbox->count(),
+            //            'outbox' => $outbox->count(),
+            //            'archive' => $archive->count()
         ]);
     }
 

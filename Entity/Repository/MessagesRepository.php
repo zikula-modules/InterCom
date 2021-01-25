@@ -106,10 +106,10 @@ class MessagesRepository extends EntityRepository
             ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->andX(
-                            'm.id = d.message',
-                            'd.user = :user',
-                            $qb->expr()->isNull('d.deleted')
-                        ),
+                        'm.id = d.message',
+                        'd.user = :user',
+                        $qb->expr()->isNull('d.deleted')
+                    ),
                     $qb->expr()->isNull('d.message')
                 )
             )

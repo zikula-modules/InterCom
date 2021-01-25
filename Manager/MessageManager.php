@@ -116,7 +116,7 @@ class MessageManager
     /**
      * start managing from entity.
      *
-     * @return this
+     * @return $this
      */
     public function setMessage($message)
     {
@@ -196,7 +196,7 @@ class MessageManager
     /**
      * prepare preview.
      *
-     * @return this
+     * @return $this
      */
     public function prepareForPreview()
     {
@@ -208,7 +208,7 @@ class MessageManager
     /**
      * set preview mode.
      *
-     * @return this
+     * @return $this
      */
     public function setPreview($preview)
     {
@@ -230,7 +230,7 @@ class MessageManager
     /**
      * perform save as draft.
      *
-     * @return this
+     * @return $this
      */
     public function saveAsDraft()
     {
@@ -240,7 +240,7 @@ class MessageManager
     /**
      * perform send.
      *
-     * @return this
+     * @return $this
      */
     public function send()
     {

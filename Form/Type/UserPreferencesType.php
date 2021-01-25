@@ -30,16 +30,16 @@ class UserPreferencesType extends AbstractType
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('ic_ar', ChoiceType::class, [
             'choices'  => ['0' => 'Off', '1' => 'On'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('ic_art', TextareaType::class, [
             'required' => false,
-            ])
+        ])
         ->add('save', SubmitType::class)
         ->add('cancel', SubmitType::class);
     }
