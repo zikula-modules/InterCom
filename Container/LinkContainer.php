@@ -62,11 +62,11 @@ class LinkContainer implements LinkContainerInterface
      */
     public function __construct(
         TranslatorInterface $translator,
-        RouterInterface     $router,
-        PermissionApi       $permissionApi,
-        VariableApi         $variableApi,
-        CurrentUserApi      $currentUserApi,
-        LabelsHelper        $labelsHelper
+        RouterInterface $router,
+        PermissionApi $permissionApi,
+        VariableApi $variableApi,
+        CurrentUserApi $currentUserApi,
+        LabelsHelper $labelsHelper
     ) {
         $this->name = 'ZikulaIntercomModule';
         $this->translator = $translator;
@@ -226,10 +226,10 @@ class LinkContainer implements LinkContainerInterface
             $labelsLinks = [];
             foreach ($defaultLabels as $dLabel) {
                 $labelsLinks[] = [
-                            'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels', 'label' => $dLabel->getUrlName()]),
-                            'text'  => $this->translator->__f('%s', ['%s' => $dLabel->getName()]), // @todo is this a proper way?
-                            'icon'  => 'tag',
-                        ];
+                    'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels', 'label' => $dLabel->getUrlName()]),
+                    'text'  => $this->translator->__f('%s', ['%s' => $dLabel->getName()]), // @todo is this a proper way?
+                    'icon'  => 'tag',
+                ];
             }
             $links[] = [
                 'url'   => $this->router->generate('zikulaintercommodule_messages_getmessages', ['box' => 'labels']),
@@ -237,7 +237,7 @@ class LinkContainer implements LinkContainerInterface
                 'title' => $this->translator->__('Messages by label'),
                 'icon'  => 'tags',
                 'links' => $labelsLinks,
-                ];
+            ];
         }
         if ($this->variableApi->get($this->name, 'user_preferences_enabled', false)) {
             $links[] = [

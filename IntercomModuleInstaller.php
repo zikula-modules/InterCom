@@ -47,7 +47,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
 
     //import
     private $importTables = [
-            'intercom',
+        'intercom',
     ];
 
     public function install()
@@ -84,7 +84,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
                 'extraData' => null,
                 'sortorder' => 0,
             ],
-            ];
+        ];
         foreach ($labels as $label) {
             $l = new LabelEntity();
             $l->merge($label);
@@ -299,7 +299,7 @@ class IntercomModuleInstaller extends AbstractExtensionInstaller
             //trash
             'trash_enabled' => false,
             // user preferences
-            'user_preferences_enabled' => false
+            'user_preferences_enabled' => false,
         ];
     }
 }

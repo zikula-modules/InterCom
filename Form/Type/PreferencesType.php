@@ -33,227 +33,227 @@ class PreferencesType extends AbstractType
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('maintain', TextareaType::class, [
             'required' => false,
-            ])
+        ])
         ->add('allowhtml', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('allowsmilies', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('disable_ajax', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // Limitations
         ->add('limitarchive', IntegerType::class, [
             'constraints' => [
                 new Assert\GreaterThan(['value' => 0]),
             ],
-            ])
+        ])
         ->add('limitoutbox', IntegerType::class, [
             'constraints' => [
                 new Assert\GreaterThan(['value' => 0]),
             ],
-            ])
+        ])
         ->add('limitinbox', IntegerType::class, [
             'constraints' => [
                 new Assert\GreaterThan(['value' => 0]),
             ],
-            ])
+        ])
         ->add('perpage', IntegerType::class, [
             'constraints' => [
                 new Assert\GreaterThan(['value' => 0]),
             ],
-            ])
+        ])
         // protection
         ->add('protection_on', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('protection_time', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('protection_amount', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('protection_mail', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // user prompt
         ->add('userprompt', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('userprompt_display', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // Welcome
         ->add('welcomemessage_send', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('welcomemessagesender', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('welcomemessagesubject', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('welcomemessage', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('intlwelcomemessage', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('savewelcomemessage', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // Email
         ->add('allow_emailnotification', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('force_emailnotification', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('mailsender', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('mailsubject', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('fromname', TextType::class, [
             'required' => false,
-            ])
+        ])
         ->add('from_email', TextType::class, [
             'required' => false,
-            ])
+        ])
         // Autoreply
         ->add('allow_autoreply', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // Layout
         ->add('layout', ChoiceType::class, [
             'choices'  => ['Classic' => 'classic', 'Conversation' => 'conversation'],
             'multiple' => false,
             'expanded' => false,
             'required' => true,
-            ])
+        ])
         // Labels
         ->add('labels_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('user_labels_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // notifications
         ->add('notifications_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // Support messages
         ->add('support_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // Group sender
         ->add('group_sender_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('group_sender_type', TextType::class, [
             'required' => true,
-            ])
+        ])
         // Multiple recipients
         ->add('multiple_user_recipients_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         // Group recipients
         ->add('group_recipient_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('multiple_group_recipients_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         //Drafts
         ->add('drafts_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         //Stored
         ->add('stored_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         //Trash
         ->add('trash_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         //Drafts
         ->add('user_preferences_enabled', ChoiceType::class, [
             'choices'  => ['Off' => '0', 'On' => '1'],
             'multiple' => false,
             'expanded' => true,
             'required' => true,
-            ])
+        ])
         ->add('save', SubmitType::class)
         ->add('cancel', SubmitType::class);
     }

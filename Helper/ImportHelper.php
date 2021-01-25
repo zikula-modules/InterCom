@@ -43,10 +43,10 @@ class ImportHelper
     private $variableApi;
 
     public function __construct(
-            RequestStack $requestStack,
-            EntityManager $entityManager,
-            VariableApi $variableApi
-         ) {
+        RequestStack $requestStack,
+        EntityManager $entityManager,
+        VariableApi $variableApi
+    ) {
         $this->name = 'ZikulaIntercomModule';
         $this->requestStack = $requestStack;
         $this->request = $requestStack->getMasterRequest();
